@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="source\Archiver.cpp" />
+    <ClCompile Include="source\Document.cpp" />
+    <ClCompile Include="source\SoundArchiver.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\GameFileLibrary.h" />
+    <ClInclude Include="..\include\SoundArchiver.h" />
+    <ClInclude Include="..\include\Archiver.h" />
+    <ClInclude Include="..\include\Document.h" />
+  </ItemGroup>
+</Project>

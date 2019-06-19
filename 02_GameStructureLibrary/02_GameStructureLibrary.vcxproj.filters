@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="source\GameState.cpp" />
+    <ClCompile Include="source\GameTask.cpp" />
+    <ClCompile Include="source\GameParam.cpp" />
+    <ClCompile Include="source\GameScene.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\GameTask.h" />
+    <ClInclude Include="..\include\GameParam.h" />
+    <ClInclude Include="..\include\GameScene.h" />
+    <ClInclude Include="..\include\GameState.h" />
+    <ClInclude Include="..\include\GameStructureLibrary.h" />
+  </ItemGroup>
+</Project>

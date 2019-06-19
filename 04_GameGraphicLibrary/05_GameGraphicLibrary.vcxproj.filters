@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="source\GamePrimitive.cpp" />
+    <ClCompile Include="source\GameTexture.cpp" />
+    <ClCompile Include="source\GameGraphic.cpp" />
+    <ClCompile Include="source\GameMatrix.cpp" />
+    <ClCompile Include="source\GameObject.cpp" />
+    <ClCompile Include="source\GameGraphicArray.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\GameGraphic.h" />
+    <ClInclude Include="..\include\GameGraphicLibrary.h" />
+    <ClInclude Include="..\include\GameMatrix.h" />
+    <ClInclude Include="..\include\GamePrimitive.h" />
+    <ClInclude Include="..\include\GameTexture.h" />
+    <ClInclude Include="..\include\GameObject.h" />
+    <ClInclude Include="..\include\GameGraphicArray.h" />
+  </ItemGroup>
+</Project>
