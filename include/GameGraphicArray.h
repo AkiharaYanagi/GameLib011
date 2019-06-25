@@ -43,7 +43,7 @@ namespace GAME
 
 	using GrpAry = GameGraphicArray;
 	using P_GrpAry = unique_ptr < GrpAry >;
-
+#define		GRPARY_INSERT	GrpAry::instance()->InsertByZ
 
 }	//namespace GAME
 
