@@ -12,6 +12,7 @@
 #include "GameSystem.h"
 #include "DebugOutGameWindow.h"
 #include "SettingFile.h"
+#include "GameGraphicArray.h"
 
 //-------------------------------------------------------------------------------------------------
 // 定義
@@ -19,8 +20,8 @@
 namespace GAME
 {
 
-	//読込
-	void GameSystem::Load ()
+	//シングルトンのクリエイトなど1回のみの初期化
+	void GameSystem::SystemLoad ()
 	{
 		//設定からウィンドウサイズの取得
 		UINT window_x = SettingFile::instance ()->GetWindowX ();
@@ -31,6 +32,9 @@ namespace GAME
 		Dx3D::instance()->SetWindowSize ( window_x, window_y );
 		Dx3D::instance()->Load ();
 
+		//Graphic配列の初期化
+		GameGraphicArray::Create ();
+		
 		//ゲームテキスト初期化
 		GameText::Create();
 		GameText::instance()->Load ( Dx3D::instance()->GetDevice() );
@@ -51,7 +55,6 @@ namespace GAME
 		//キー入力の初期化
 		KeyInput::Create();
 
-
 		//アーカイバの初期化
 		Archiver::Create ();
 #if	_DEBUG
@@ -65,8 +68,12 @@ namespace GAME
 		SoundArchiver::instance()->Make ();		//デバッグ時のみアーカイブファイルを生成する
 #endif	//_DEBUG
 		SoundArchiver::instance()->Open ();		//アーカイブファイルの読込
+	}
 
 
+	//読込
+	void GameSystem::Load ()
+	{
 		//ゲームメインの読込
 		assert ( m_pGameMain );
 		m_pGameMain->Load ();
@@ -76,12 +83,12 @@ namespace GAME
 	//解放
 	void GameSystem::Rele ()
 	{
-		//　※　デストラクタで派生クラスの仮想関数を呼ぶと、基底クラスの仮想関数が呼ばれる
-		//　　　このことより、純粋仮想関数のときはPurecallとなる可能性があるので注意。
-		//		→　デストラクタで仮想関数を呼ばない
-		//ex.		if ( m_pGameMain ) m_pGameMain->Rele ();		//ゲームオブジェクトの解放
-		//		→　持っているポインタの仮想関数を呼ぶのではなく、
-		//			自分のデストラクタで自分の終了処理関数を呼ぶ
+//　※　デストラクタで派生クラスの仮想関数を呼ぶと、基底クラスの仮想関数が呼ばれる
+//　　　このことより、純粋仮想関数のときはPurecallとなる可能性があるので注意。
+//		→　デストラクタで仮想関数を呼ばない
+//ex.		if ( m_pGameMain ) m_pGameMain->Rele ();		//ゲームオブジェクトの解放
+//		→　持っているポインタの仮想関数を呼ぶのではなく、
+//			自分のデストラクタで自分の終了処理関数を呼ぶ
 	}
 
 
@@ -151,6 +158,10 @@ namespace GAME
 	void GameSystem::SetGameMain ( UP_GameMainBase pGameMain )
 	{
 		m_pGameMain = ::move ( pGameMain ); 
+
+		//Graphic配列をゲームメインに設定
+		P_TASK_VEC pGrpAry = GrpAry::instance()->GetpInstance ();
+		m_pGameMain->AddpTask ( pGrpAry );
 	}
 
 

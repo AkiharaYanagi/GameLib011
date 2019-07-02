@@ -97,7 +97,7 @@ namespace GAME
 
 		//タスクの追加（サイズの変更も自動的に行う）
 		//	※実体のある変数から&でスマートポインタを直接扱わない
-		void AddTask ( P_Task pTask );
+		void AddpTask ( P_Task pTask );
 
 		//タスクの取得（サイズの変更も自動的に行う）
 		P_Task GetpTask ( UINT index );
@@ -122,6 +122,7 @@ namespace GAME
 	};
 
 	using TASK_VEC = GameTaskVector;
+	using P_TASK_VEC = shared_ptr < TASK_VEC >;
 
 #if 0
 	//-------------------------------------------------------------------------------------------------

@@ -9,14 +9,13 @@
 //-------------------------------------------------------------------------------------------------
 #include "FrameControl.h"
 
-
-//-------------------------------------------------------------------------------------------------
 // ƒ‰ƒCƒuƒ‰ƒŠ“à•”‚Ì‚İ‚ÅQÆ‚·‚éƒwƒbƒ_ƒtƒ@ƒCƒ‹
-//-------------------------------------------------------------------------------------------------
 #include "GameSystem.h"		//ƒQ[ƒ€ƒVƒXƒeƒ€(DirectX,ƒQ[ƒ€ƒƒCƒ“)
 #include "DebugOutGameWindow.h"
 
-
+//-------------------------------------------------------------------------------------------------
+// ’è‹`
+//-------------------------------------------------------------------------------------------------
 namespace GAME
 {
 
@@ -30,11 +29,10 @@ const DWORD FrameControl::waitOneFrameTime = 1000 * 0x10000 / dwFps;		//1ƒtƒŒ[ƒ
 	//------------------------------------------
 	//	ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 	//------------------------------------------
-	FrameControl::FrameControl() : m_gameSystem (nullptr)
+	FrameControl::FrameControl() : m_gameSystem ( nullptr )
 	{
 		::timeBeginPeriod(1);		//ƒ^ƒCƒ}[‚Ì•ª‰ğ”\‚ğ1[ms]‚Éİ’è
 
-//		m_gameSystem = new GameSystem;
 		m_gameSystem = make_unique < GameSystem > ();
 	}
 
@@ -43,10 +41,15 @@ const DWORD FrameControl::waitOneFrameTime = 1000 * 0x10000 / dwFps;		//1ƒtƒŒ[ƒ
 	//------------------------------------------
 	FrameControl::~FrameControl()
 	{
-//		if ( m_gameSystem ) { delete m_gameSystem; }
-//		m_gameSystem = nullptr;
-
 		::timeEndPeriod(1);		//ƒ^ƒCƒ}[‚Ì•ª‰ğ”\‚ğŒ³‚É–ß‚·
+	}
+
+	//------------------------------------------
+	//	ƒQ[ƒ€ƒVƒXƒeƒ€‰Šú‰»
+	//------------------------------------------
+	void FrameControl::SystemLoad ()
+	{
+		m_gameSystem->SystemLoad ();
 	}
 
 	//------------------------------------------

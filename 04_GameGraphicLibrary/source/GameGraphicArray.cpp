@@ -9,13 +9,11 @@
 //-------------------------------------------------------------------------------------------------
 #include "GameGraphicArray.h"
 
-
 //-------------------------------------------------------------------------------------------------
 // 定義
 //-------------------------------------------------------------------------------------------------
 namespace GAME
 {
-
 	//----------------------------------------------------------------------------------------
 	//@info
 	//		SetSpritePostion ( VEC3 ) での設定で
@@ -31,18 +29,24 @@ namespace GAME
 	//	Static実体
 	//------------------------------------------
 	// シングルトンオブジェクト
-	P_GrpAry	GrpAry::m_inst;
+	UP_GrpAry	GrpAry::m_inst;
+
+	//コンストラクタ
+	GameGraphicArray::GameGraphicArray ()
+	{
+		m_pTaskVec = make_shared < GameTaskVector > ();
+	}
 
 	//Z値で降順ソートされた位置に挿入
 	void GameGraphicArray::InsertByZ ( P_GrpBs pTask )
 	{
 		//一つも無いとき通常の追加
-		if ( 0 == GetSize () ) { AddTask ( pTask ); return; }
+		if ( 0 == m_pTaskVec->GetSize () ) { m_pTaskVec->AddpTask ( pTask ); return; }
 
 		//Z値をチェックして指定位置に挿入
 		float z = pTask->GetZ ();
 
-		PVP_Task pvpVec = GetpvpTask ();
+		PVP_Task pvpVec = m_pTaskVec->GetpvpTask ();
 
 		int i = 0;
 		for ( auto p : (*pvpVec) )
@@ -53,14 +57,14 @@ namespace GAME
 			//Z値が対象より大きいとき、その前に挿入して終了
 			if ( z > gz )
 			{
-				InsertTask ( pTask, i );
+				m_pTaskVec->InsertTask ( pTask, i );
 				return;
 			}
 			++i;
 		}
 
 		//すべての値より小さい場合、末尾に追加
-		AddTask ( pTask );
+		m_pTaskVec->AddpTask ( pTask );
 	}
 
 

@@ -42,7 +42,7 @@ namespace GAME
 	}
 
 	//タスクの追加（サイズの変更も自動的に行う）
-	void GameTaskVector::AddTask ( P_Task pTask )
+	void GameTaskVector::AddpTask ( P_Task pTask )
 	{
 		m_pvpTask->push_back ( pTask );
 	}

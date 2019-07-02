@@ -116,7 +116,8 @@ namespace GAME
 #endif // 0
 		DX3D->CreateTextureFromMem ( file.filePointer, file.fileSize, & m_lpTexture );
 
-		////DebugOutTrace::instance()->DebugOutf ( _T(": テクスチャ作成　成功\n") );
+		TRACE_F ( m_strFileName.c_str() );
+		TRACE_F ( _T(" : テクスチャ作成　成功\n") );
 
 		//テクスチャの設定
 		GameTextureBase::SetTexture ( m_lpTexture );

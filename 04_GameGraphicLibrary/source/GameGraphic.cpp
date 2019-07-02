@@ -36,8 +36,8 @@ namespace GAME
 		//特にゲームグラフィック　アプロブドテクスチャはテクスチャは０のみ
 
 		//----------------------------------------------
-		m_pCenter = make_shared < VEC3 > ();
-		m_pPosition = make_shared < VEC3 > ();
+		m_pCenter = make_shared < VEC3 > ( 0, 0, 0 );
+		m_pPosition = make_shared < VEC3 > ( 0, 0, 0 );
 		m_pPosition->z = 0.5f; 
 }
 
@@ -183,6 +183,8 @@ namespace GAME
 			UINT indexTexture = m_pvpObject->at ( i )->GetIndexTexture ();
 
 			if ( ! m_pvpTexture->at ( indexTexture ) ) { continue; }
+
+			P_Object po = m_pvpObject->at ( i );
 
 			Dx3D::instance()->DrawSprite
 			(

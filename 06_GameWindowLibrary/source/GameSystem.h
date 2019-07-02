@@ -17,7 +17,6 @@
 #include "SoundArchiver.h"
 #include "GameMainBase.h"
 
-
 //-------------------------------------------------------------------------------------------------
 // 宣言
 //-------------------------------------------------------------------------------------------------
@@ -35,6 +34,8 @@ namespace GAME
 		GameSystem () : m_pGameMain ( nullptr ) {}
 		GameSystem ( const GameSystem& rhs ) = delete;
 		~GameSystem () { Rele(); }
+
+		void SystemLoad ();		//シングルトンのクリエイトなど初期化
 
 		void Load ();	//読込
 		void Rele ();	//解放
