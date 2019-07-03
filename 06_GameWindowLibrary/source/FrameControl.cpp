@@ -105,7 +105,7 @@ const DWORD FrameControl::waitOneFrameTime = 1000 * 0x10000 / dwFps;		//1ƒtƒŒ[ƒ
 #if	THREAD
 			if ( ! m_bPermi )	//ƒXƒŒƒbƒh‹–‰Âƒtƒ‰ƒO‚Å‘±s‚ğŠm”F‚·‚é
 			{
-				////DebugOutTrace::instance()->DebugOutf ( TEXT("ƒtƒŒ[ƒ€§Œä‚Ìƒ‹[ƒv’†‚Å‚µ‚½‚ªAm_bPermi‚ªfalse‚Ì‚½‚ßbreak‚µ‚Ü‚µ‚½B\n") );
+				////TRACE_F ( TEXT("ƒtƒŒ[ƒ€§Œä‚Ìƒ‹[ƒv’†‚Å‚µ‚½‚ªAm_bPermi‚ªfalse‚Ì‚½‚ßbreak‚µ‚Ü‚µ‚½B\n") );
 				break;
 			}
 #endif	//THREAD

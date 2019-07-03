@@ -112,7 +112,7 @@ namespace GAME
 			}
 		}
 
-		////DebugOutTrace::instance()->DebugOutf(TEXT(" ...OK\n"));
+		////TRACE_F(TEXT(" ...OK\n"));
 		fstrm.close();
 	}
 

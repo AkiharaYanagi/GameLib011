@@ -51,7 +51,7 @@ namespace GAME
 
 	//純粋仮想デストラクタ
 	inline GameMainBase::~GameMainBase() {
-//		DebugOutTrace::instance()->DebugOutf(TEXT("ゲームメインインターフェースピュアバーチャルデストラクタ\n"));
+//		TRACE_F(TEXT("ゲームメインインターフェースピュアバーチャルデストラクタ\n"));
 	}
 
 
@@ -79,7 +79,7 @@ namespace GAME
 	};
 
 	inline GameMainTest::~GameMainTest() {
-		//DebugOutTrace::instance()->DebugOutf(TEXT("ゲームメインテストデストラクタ\n"));
+		//TRACE_F(TEXT("ゲームメインテストデストラクタ\n"));
 	}
 
 

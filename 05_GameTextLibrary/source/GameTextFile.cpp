@@ -37,7 +37,7 @@ namespace GAME
 		m_ifstrm.open ( TEXT("textdata.txt") );
 		if ( ! m_ifstrm )
 		{
-			////DebugOutTrace::instance()->DebugOutf ( TEXT("file open error.\n") );
+			////TRACE_F ( TEXT("file open error.\n") );
 			return;
 		}
 

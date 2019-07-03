@@ -268,7 +268,7 @@ namespace GAME
 		m_hMap = CreateFileMapping ( m_hFile, nullptr, PAGE_READONLY, 0, 0, nullptr );
 		if ( m_hMap == nullptr )
 		{
-			////DebugOutTrace::instance()->DebugOutf( TEXT("ファイルマッピングに失敗") );
+			////TRACE_F( TEXT("ファイルマッピングに失敗") );
 			return;
 		}
 		m_pFile = MapViewOfFile ( m_hMap, FILE_MAP_READ, 0, 0, 0 );
@@ -295,7 +295,7 @@ namespace GAME
 		str.append ( fileName );
 		if ( m_map.find ( str ) == m_map.end() ) 
 		{
-			////DebugOutTrace::instance()->DebugOutf ( TEXT("%s, アーカイブの中に対象のファイルが見つかりませんでした\n"), fileName );
+			////TRACE_F ( TEXT("%s, アーカイブの中に対象のファイルが見つかりませんでした\n"), fileName );
 			return ret; 
 		}
 

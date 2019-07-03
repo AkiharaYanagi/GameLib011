@@ -48,7 +48,7 @@ namespace GAME
 		//Œ»ÝƒvƒƒZƒXID‚Æ“¯ˆê‚Ì‚à‚Ì‚ª‚ ‚Á‚½‚ç•Û‘¶
 		if ( pid == GetCurrentProcessId() )
 		{
-			////DebugOutTrace::instance()->DebugOutf(TEXT("process = %d, hwnd = %d\n"), GetCurrentProcessId(), hWnd );
+			////TRACE_F(TEXT("process = %d, hwnd = %d\n"), GetCurrentProcessId(), hWnd );
 
 			*phWnd = hWnd;
 //			return FALSE;

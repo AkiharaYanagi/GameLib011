@@ -79,7 +79,7 @@ namespace GAME
 	//-------------------------------------------------------------------------------------------------
 	Application::~Application ()
 	{
-//		DebugOutTrace::instance()->DebugOutf ( TEXT("Applicationのデストラクタ\n") );
+//		TRACE_F ( TEXT("Applicationのデストラクタ\n") );
 		Rele ();
 
 		//フレーム制御(ゲームメインを含む)
@@ -153,7 +153,7 @@ namespace GAME
 	{
 #if APP_THREAD
 		//スレッド解放
-		//////DebugOutTrace::instance()->DebugOutf ( TEXT("フレーム制御スレッド：解放\n") );
+		//////TRACE_F ( TEXT("フレーム制御スレッド：解放\n") );
 		m_bActive = false;	//スレッド終了をフラグに設定
 #endif // APP_THREAD
 
@@ -259,7 +259,7 @@ namespace GAME
 		//TRACE_F ( _T("windowRect = ( %d, %d, %d, %d ) \n"), windowRect.left, windowRect.top, windowRect.right, windowRect.bottom );
 		//TRACE_F ( _T("clientRect = ( %d, %d, %d, %d ) \n"), clientRect.left, clientRect.top, clientRect.right, clientRect.bottom );
 		
-		DebugOutTrace::instance()->DebugOutf ( _T("■ ApplicationManager:: hWnd = %d\n"), m_hWnd );
+		TRACE_F ( _T("■ ApplicationManager:: hWnd = %d\n"), m_hWnd );
 
 		return true;
 	}
@@ -273,30 +273,30 @@ namespace GAME
 		switch ( uMsg )
 		{
 		case WM_DESTROY:	//ウィンドウ終了メッセージ
-			//////DebugOutTrace::instance()->DebugOutf(TEXT("WM_DESTROY\n"));
+			//////TRACE_F(TEXT("WM_DESTROY\n"));
 //			pThis->m_bPermi = false;	//スレッド許可フラグをfalseにする
 			PostQuitMessage(0);
 			return 0;
 
 		case WM_PAINT:
-			//////DebugOutTrace::instance()->DebugOutf(TEXT("WM_PAINT\n"));
+			//////TRACE_F(TEXT("WM_PAINT\n"));
 			break;
 
 		case WM_ACTIVATE:		//ウィンドウのアクティブ状態が変化
-			//////DebugOutTrace::instance()->DebugOutf(TEXT("WM_ACTIVATE : "));
+			//////TRACE_F(TEXT("WM_ACTIVATE : "));
 			switch ( LOWORD ( wParam ) )
 			{
 			case WA_INACTIVE:		//非アクティブになった
-				//////DebugOutTrace::instance()->DebugOutf(TEXT("WA_INACTIVE\n"));
+				//////TRACE_F(TEXT("WA_INACTIVE\n"));
 				break;
 
 			case WA_ACTIVE:		//マウス以外でアクティブになった
-				//////DebugOutTrace::instance()->DebugOutf(TEXT("WA_ACTIVE\n"));
+				//////TRACE_F(TEXT("WA_ACTIVE\n"));
 				Reset ();	//再設定
 				break;
 
 			case WA_CLICKACTIVE:	//マウスクリックでアクティブになった
-				//////DebugOutTrace::instance()->DebugOutf(TEXT("WA_CLICKACTIVE\n"));
+				//////TRACE_F(TEXT("WA_CLICKACTIVE\n"));
 				Reset ();	//再設定
 				break;
 			}
@@ -304,7 +304,7 @@ namespace GAME
 
 #if	0
 		case WM_ACTIVATEAPP:	//アクティブウィンドウではないアプリケーションに属するウィンドウがアクティブになった
-			//////DebugOutTrace::instance()->DebugOutf(TEXT("WM_ACTIVATEAPP\n"));
+			//////TRACE_F(TEXT("WM_ACTIVATEAPP\n"));
 			break;
 #endif	//0
 

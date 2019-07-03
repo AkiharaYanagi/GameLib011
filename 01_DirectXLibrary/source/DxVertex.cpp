@@ -125,7 +125,7 @@ namespace GAME
 		catch ( LPCTSTR str )
 		{
 			OutputDebugString ( str );
-			////DebugOutTrace::instance()->DebugOutf ( str );
+			////TRACE_F ( str );
 			Rele ();
 			return;
 		}
@@ -155,7 +155,7 @@ namespace GAME
 		catch ( LPCTSTR str )
 		{
 			OutputDebugString ( str );
-			////DebugOutTrace::instance()->DebugOutf ( str );
+			////TRACE_F ( str );
 			Rele ();
 			return;
 		}

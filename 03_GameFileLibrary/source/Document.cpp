@@ -30,22 +30,10 @@ namespace GAME
 
 	void Element::Clear ()
 	{
-#if 0
-		for ( P_Attribute attribute : (*m_attributes) )
-		{
-			attribute->Clear ();
-			delete attribute;
-		}
-#endif // 0
+		for ( P_Attribute attr : (*m_attributes) ) { attr->Clear (); }
 		m_attributes->clear ();
 
-#if 0
-		for ( Element* element : m_elements )
-		{
-			element->Clear ();
-			delete element;
-		}
-#endif // 0
+		for ( P_Element elem : (*m_elements) ) { elem->Clear (); }
 		m_elements->clear();
 	}
 
@@ -82,6 +70,7 @@ namespace GAME
 	//ドキュメントファイル名から読込
 	Document::Document ( tstring fileName )
 	{
+		root = make_shared < Element > ();
 		root->SetName (_T("root") );
 
 		//ファイルストリームを作成
@@ -96,6 +85,7 @@ namespace GAME
 	//テキストストリームから読込
 	Document::Document ( tistringstream& tiss )
 	{
+		root = make_shared < Element > ();
 		root->SetName (_T("root") );
 		DocumentFromStream ( tiss );
 	}
@@ -259,6 +249,7 @@ namespace GAME
 	//バイナリデータから読込
 	Document::Document ( char* buf, UINT size )
 	{
+		root = make_shared < Element > ();
 		UINT pos = 0;
 
 		tstring str = _T("");
@@ -271,15 +262,10 @@ namespace GAME
 
 		while ( pos != size )
 		{
-			if ( 0 == pos % 10000 )
-			{
-				int i = 0;
-			}
-
 			//一文字ずつ解析
 			char c = buf[pos++];
 
-//			////DebugOutTrace::instance()->DebugOutf ( _T("%c"), c );
+//			TRACE_F ( _T("%c"), c );
 
 			switch ( mode )
 			{

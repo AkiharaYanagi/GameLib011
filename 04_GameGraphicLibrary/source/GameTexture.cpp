@@ -50,8 +50,8 @@ namespace GAME
 
 		TCHAR curDir [ MAX_PATH ];
 		::GetCurrentDirectory( MAX_PATH, curDir );
-		////DebugOutTrace::instance()->DebugOutf ( curDir );
-		////DebugOutTrace::instance()->DebugOutf ( _T(": %s : ") , m_strFilename.c_str() );
+		////TRACE_F ( curDir );
+		////TRACE_F ( _T(": %s : ") , m_strFilename.c_str() );
 
 		//ファイル読込
 		HRESULT hr = D3DXCreateTextureFromFile ( Dx3D::instance ()->GetDevice(), m_strFilename.c_str(), &m_lpTexture );
@@ -96,14 +96,14 @@ namespace GAME
 		ARCHIVE_FILE_USE file = Archiver::instance()->GetFilePointer ( m_strFileName.c_str() );
 		if ( file.filePointer == nullptr )
 		{
-			////DebugOutTrace::instance()->DebugOutf ( TEXT("アーカイブにファイルが見つかりませんでした\n") );
+			////TRACE_F ( TEXT("アーカイブにファイルが見つかりませんでした\n") );
 			return;
 		}
 
 		TCHAR curDir [ MAX_PATH ];
 		::GetCurrentDirectory( MAX_PATH, curDir );
 //		TRACE->DebugOutf ( curDir );
-		////DebugOutTrace::instance()->DebugOutf ( _T(": %s : ") , m_strFileName.c_str() );
+		////TRACE_F ( _T(": %s : ") , m_strFileName.c_str() );
 
 		//メモリからテクスチャの作成
 #if 0

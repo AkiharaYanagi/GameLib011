@@ -62,9 +62,9 @@ namespace GAME
 
 	class Element
 	{
-		tstring			m_name;
-		PVP_Attribute	m_attributes;
-		PVP_Element		m_elements;
+		tstring			m_name;			//名前
+		PVP_Attribute	m_attributes;	//自身のアトリビュート配列
+		PVP_Element		m_elements;		//自身のエレメント配列
 		P_Element		m_pParent;		//親エレメントのポインタ
 
 	public:

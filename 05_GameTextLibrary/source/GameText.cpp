@@ -219,7 +219,7 @@ namespace GAME
 		catch ( LPCTSTR str )
 		{
 			OutputDebugString ( str );
-			////DebugOutTrace::instance()->DebugOutf ( str );
+			////TRACE_F ( str );
 			DeleteGlyph ( size, pBmpArray, gmArray );
 			PostQuitMessage ( 0 );
 		}
@@ -270,7 +270,7 @@ namespace GAME
 		catch ( LPCTSTR str )
 		{
 			OutputDebugString ( str );
-			////DebugOutTrace::instance()->DebugOutf ( str );
+			////TRACE_F ( str );
 		}
 	}
 
