@@ -69,18 +69,10 @@ namespace GAME
 		GameSceneManager ( const GameSceneManager & rhs ) = delete;
 		virtual ~GameSceneManager ();
 
-		void Load();		//読込
-		void Rele();		//解放
-		void Reset ();
-
-		void Init();		//初期化
-		void Move ();
-		void Draw ();
-		void DrawVertex ();
+		void Move ();		//フレーム毎動作と遷移チェック
 
 		//シーンの設定
-		void SetScene ( P_GameScene p ) { m_pScene = p; }
-//		P_GameScene GetScene () { return m_pScene; }
+		void SetScene ( P_GameScene p ) { m_pScene = p; AddpTask ( m_pScene ); }
 
 		//遷移
 		virtual void Transit ();

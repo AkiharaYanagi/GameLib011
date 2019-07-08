@@ -35,48 +35,13 @@ namespace GAME
 	{
 	}
 
-	void GameSceneManager::Load ()
-	{
-		if ( m_pScene ) { m_pScene->Load (); }
-		GameTaskVector::Load ();
-	}
-
-	void GameSceneManager::Rele ()
-	{
-		if ( m_pScene ) { m_pScene->Rele (); }
-		GameTaskVector::Rele ();
-	}
-
-	void GameSceneManager::Reset ()
-	{
-		if ( m_pScene ) { m_pScene->Reset (); }
-		GameTaskVector::Reset ();
-	}
-
-	void GameSceneManager::Init ()
-	{
-		if ( m_pScene ) { m_pScene->Init (); }
-		GameTaskVector::Init ();
-	}
-
+	//フレーム毎動作と遷移チェック
 	void GameSceneManager::Move ()
 	{
 		Transit ();	//遷移条件確認
 
 		if ( m_pScene ) { m_pScene->Move (); }
 		GameTaskVector::Move ();
-	}
-
-	void GameSceneManager::Draw ()
-	{
-		if ( m_pScene ) { m_pScene->Draw (); }
-		GameTaskVector::Draw ();
-	}
-
-	void GameSceneManager::DrawVertex ()
-	{
-		if ( m_pScene ) { m_pScene->DrawVertex (); }
-		GameTaskVector::DrawVertex ();
 	}
 
 	void GameSceneManager::Transit ()
@@ -88,6 +53,9 @@ namespace GAME
 		{
 			//パラメータの移譲
 			next->SetpParam ( m_pScene->GetpParam () );
+
+			//明示的開放
+			m_pScene.reset ();
 
 			//新規シーンを設定
 			m_pScene = next;

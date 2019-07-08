@@ -21,6 +21,7 @@
 //-------------------------------------------------------------------------------------------------
 #include "Define.h"
 #include "GameKey.h"
+#include "GameInput.h"
 #include "Fade.h"
 #include "GrpEf.h"
 #include "GrpDemo.h"

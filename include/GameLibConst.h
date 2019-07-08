@@ -25,11 +25,11 @@ namespace GAME
 	const int WINDOW_WIDTH = 1280;
 	const int WINDOW_HEIGHT = 960;
 
-	//プレイヤ番号
-	enum PLAYER_NUM
+	//プレイヤーID
+	enum PLAYER_ID
 	{
-		PLAYER1,
-		PLAYER2,
+		PLAYER_ID_1 = 1,
+		PLAYER_ID_2 = 2,
 		_PLAYER_NUM,	//人数
 	};
 

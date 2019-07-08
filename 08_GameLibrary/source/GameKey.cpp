@@ -225,7 +225,7 @@ namespace GAME
 		if ( bWild_button[2] ) { ret &= b_button[2]; }
 		if ( bWild_button[3] ) { ret &= b_button[3]; }
 
-		//否定の場合は反転して返す（排他的論理輪）
+		//否定の場合は反転して返す（排他的論理和）
 		return ret ^ gk.m_not;
 	}
 

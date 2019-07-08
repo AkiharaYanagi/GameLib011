@@ -41,9 +41,9 @@ namespace GAME
 
 		//------------------------------------------------------------------
 		//個別 入力の保存
-		void _SetInput ( PLAYER_NUM playerNum, KEY_NAME keyName, int key );
+		void _SetInput ( PLAYER_ID playerNum, KEY_NAME keyName, int key );
 
-		void _SetInputCPU ( int percent, PLAYER_NUM playerNum, KEY_NAME keyName, int key );
+		void _SetInputCPU ( int percent, PLAYER_ID playerNum, KEY_NAME keyName, int key );
 		//------------------------------------------------------------------
 		//プレイヤ別 入力の保存
 		void _SetP1Input ();
@@ -77,9 +77,9 @@ namespace GAME
 
 		//------------------------------------------------------------------
 		//ゲーム内利用：キーの状態
-		bool IsKey ( PLAYER_NUM playerNum, byte bt );
+		bool IsKey ( PLAYER_ID playerNum, byte bt );
 		bool IsKey ( KEY_NAME keyName );
-		bool PushKey ( PLAYER_NUM playerNum, byte bt );
+		bool PushKey ( PLAYER_ID playerNum, byte bt );
 		bool PushKey ( KEY_NAME keyName );
 	};
 

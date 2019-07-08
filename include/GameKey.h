@@ -96,9 +96,9 @@ namespace GAME
 		//比較
 //		bool operator == ( const GameKey& rhs );
 
-		//比較		this		入力
-		//引数：	rhs			コマンド条件
-		//			bDirRight	向き
+		//比較	this	入力
+		//引数：	rhs		コマンド条件
+		//		bDirRight	向き
 		bool Compare ( const GameKey & rhs, bool bDirRight ) const;
 
 		//方向キー
