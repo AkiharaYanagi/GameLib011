@@ -34,10 +34,11 @@ namespace GAME
 	};
 
 	//ƒvƒŒƒCƒ„Ží—Þ
-	enum PLAYER_TYPE
+	enum PLAYER_MODE
 	{
-		PLAYER,
-		CPU,
+		MODE_PLAYER,
+		MODE_CPU,
+		MODE_NETWORK,
 	};
 
 

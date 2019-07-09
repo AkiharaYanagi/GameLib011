@@ -22,7 +22,7 @@ namespace GAME
 	//	ゲームシーン
 	//		TaskArrayを継承し、再帰的にタスク処理ができるようにしたGameState
 	//		・多量のデータを持って移項する単位
-	//		・シーンの移動時にオブジェクトの全開放、全確保
+	//		・シーンの移動時にオブジェクトの全解放、全確保。ただしm_pParamは次のシーンへ移譲
 	//		※thisの取得のため、enable_shared_from_this < GameScene >を多重継承
 	//		shared_from_thisを用いるのでunique_ptrにはしない
 	//------------------------------------------------------------------
@@ -32,13 +32,12 @@ namespace GAME
 		P_GameParam		m_pParam;
 
 	public:
-//		GameScene () : m_pParam ( nullptr ) {}
-		GameScene () {}
-		GameScene ( const GameScene& rhs ) = delete;
+		GameScene () = default;
+		GameScene ( const GameScene & rhs ) = delete;
 		~GameScene () = default;
 
 		//パラメータを用いた初期化インターフェース
-		//パラメータの取得のあとの呼出1回保証
+		//パラメータの取得のあとの呼出1回保証 ( ParamInit(), Load(), Init() の順番 )
 		//Load()とは異なりデバイスリセットでも呼ばれない
 		//Init()は複数回呼ばれる可能性がある
 		virtual void ParamInit () = 0;

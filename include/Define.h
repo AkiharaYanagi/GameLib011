@@ -53,5 +53,11 @@ namespace GAME
 	using tistringstream =	std::basic_istringstream< TCHAR >;
 	using tostringstream =	std::basic_ostringstream< TCHAR >;
 
+	//-------------------------------------------------------------------------------------------------
+	// TRUE, FALSE
+	//-------------------------------------------------------------------------------------------------
+	constexpr bool T = true;;
+	constexpr bool F = false;;
+
 }	//namespace GAME
 

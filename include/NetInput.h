@@ -35,7 +35,7 @@ namespace GAME
 	//--------------------------------------------------
 
 	private:
-		GAME_MODE	m_mode;
+		GAME_NET_MODE	m_mode;
 		UINT		m_frame;
 		NET_GAME_INPUT	m_netInput [ _PLAYER_NUM ];
 
@@ -63,7 +63,7 @@ namespace GAME
 
 	public:
 
-		void SetMode ( GAME_MODE mode ) { m_mode = mode; }
+		void SetMode ( GAME_NET_MODE mode ) { m_mode = mode; }
 		void KeyReset ();
 
 		//入力の保存

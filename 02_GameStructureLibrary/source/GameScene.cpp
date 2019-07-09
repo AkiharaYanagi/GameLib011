@@ -54,7 +54,7 @@ namespace GAME
 			//パラメータの移譲
 			next->SetpParam ( m_pScene->GetpParam () );
 
-			//明示的開放
+			//明示的解放
 			m_pScene.reset ();
 
 			//新規シーンを設定
