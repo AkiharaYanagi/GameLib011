@@ -18,7 +18,7 @@ namespace GAME
 	//	Static実体
 	//------------------------------------------
 	// シングルトンオブジェクト
-	SettingFile::P_SettingFile	SettingFile::m_inst;
+	SettingFile::_UP_StgFl	SettingFile::m_inst;
 
 	SettingFile::SettingFile ()
 	{

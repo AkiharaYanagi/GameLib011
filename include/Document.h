@@ -73,10 +73,10 @@ namespace GAME
 		~Element () { Clear (); }
 
 		//アトリビュート配列の先頭を取得
-		const PVP_Attribute GetpAttributeVector () const { return m_attributes; }
+		const PVP_Attribute GetpvpAttribute () const { return m_attributes; }
 
 		//エレメント配列の先頭を取得
-		const PVP_Element GetpElementVector () const { return m_elements; }
+		const PVP_Element GetpvpElement () const { return m_elements; }
 
 		//親エレメントのポインタ
 		void SetpParent ( P_Element pElement ) { m_pParent = pElement; }

@@ -23,13 +23,14 @@ namespace GAME
 	//---------------------------------------------------------------------
 	//シングルトンパターン
 	private:
-		using P_SettingFile = unique_ptr < SettingFile >;
-		static P_SettingFile		m_inst;		//シングルトンインスタンス
+		using _StgFl = SettingFile;
+		using _UP_StgFl = unique_ptr < _StgFl >;
+		static _UP_StgFl	m_inst;		//シングルトンインスタンス
 		SettingFile ();		//private コンストラクタで通常の実体化は禁止
 	public:
-		~SettingFile ();		//デストラクタはunique_ptrのためpublic
-		static void Create () { if ( ! m_inst ) { m_inst = P_SettingFile ( new SettingFile () ); } }
-		static unique_ptr < SettingFile >& instance () { return m_inst; }	//インスタンス取得
+		~SettingFile ();	//デストラクタはunique_ptrのためpublic
+		static void Create () { if ( ! m_inst ) { m_inst = _UP_StgFl ( new _StgFl () ); } }
+		static _UP_StgFl & instance () { return m_inst; }	//インスタンス取得
 	//---------------------------------------------------------------------
 		bool	m_bFullscreen;
 		UINT	m_window_x;
@@ -44,6 +45,8 @@ namespace GAME
 		UINT GetWindowX () const { return m_window_x; }
 		UINT GetWindowY () const { return m_window_y; }
 	};
+
+	using P_SettingFile = unique_ptr < SettingFile >;
 
 }	//namespace GAME
 

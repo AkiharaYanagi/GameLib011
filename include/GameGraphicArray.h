@@ -10,7 +10,6 @@
 //-------------------------------------------------------------------------------------------------
 // ヘッダファイルのインクルード
 //-------------------------------------------------------------------------------------------------
-//#include "../Const.h"
 #include "GameTask.h"
 #include "GameGraphic.h"
 
@@ -19,7 +18,16 @@
 //-------------------------------------------------------------------------------------------------
 namespace GAME
 {
+//--------------------------------------
+//		【Z値(0.0f～0.9f)】
+//		Z_BG	0.1f	背景
+//		Z_EFB	0.4f	エフェクト後
+//		Z_CH	0.5f	キャラ基本位置
+//		Z_EF	0.6f	エフェクト前
+//		Z_SYS	0.9f	システム表示
+//--------------------------------------
 
+//クラス
 	class GameGraphicArray
 	{
 	//---------------------------------------------------------------------
@@ -34,13 +42,16 @@ namespace GAME
 		static void Create() { if ( ! m_inst ) { m_inst = _P_GrpAry ( new _GrpAry () ); } }
 		static _P_GrpAry & instance () { return m_inst; }	//インスタンス取得
 	//---------------------------------------------------------------------
+	
 	private:
-		P_TASK_VEC		m_pTaskVec;
+		P_TASK_VEC		m_pTaskVec;		//大元となるタスクベクタ
 
 	public:
-
 		//Z値で降順ソートされた位置に挿入
 		void InsertByZ ( P_GrpBs pTask );
+
+		//対象タスクを取外
+		void Erase ( P_Task pTask ) { m_pTaskVec->EraseTask ( pTask ); }
 
 		//対象タスク配列のポインタ
 		P_TASK_VEC GetpInstance () { return m_pTaskVec; }
@@ -50,6 +61,7 @@ namespace GAME
 	using GrpAry = GameGraphicArray;
 	using UP_GrpAry = unique_ptr < GrpAry >;
 #define		GRPARY_INSERT	GrpAry::instance()->InsertByZ
+#define		GRPARY_ERASE	GrpAry::instance()->Erase
 
 }	//namespace GAME
 
