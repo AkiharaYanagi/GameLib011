@@ -117,11 +117,51 @@ namespace GAME
 	//フレーム毎動作
 	void GameSystem::Move ()
 	{
+		//ESCで終了
+		if ( ::GetAsyncKeyState ( VK_ESCAPE ) & 0x0001 ) 
+		{ 
+			::PostQuitMessage( 0 );
+		}
+
 		DxSound::instance ()->Move ();	//サウンドの更新
 		KeyInput::instance()->Update ();	//入力の更新
 
-		assert ( m_pGameMain );
-		m_pGameMain->Move ();		//フレーム毎の動作
+#ifdef	_DEBUG
+#endif	// _DEBUG
+
+		//----------------------------------------------
+		// 'T'キーでタイマー表示切替
+		static bool bTimer = true;
+		static int time = 0;
+		if( ::GetAsyncKeyState('T') & 0x0001 )
+		{
+			bTimer ^= true; 
+		}
+		if( bTimer )
+		{
+			DBGOUT_WND_F ( 0, _T("time = %d"), time );
+		}
+		else
+		{
+			DBGOUT_WND_F ( 0, _T("") );
+		}
+
+		//----------------------------------------------
+		// 'W'キーでスタート/ストップのトグル切替
+		static bool bStop = false;
+		if( ::GetAsyncKeyState('W') & 0x0001 )
+		{
+			bStop ^= true; 
+		}
+		//----------------------------------------------
+		// ストップ時、'Q'キーで 1 フレームずつ進ませる
+		if( ! bStop || ::GetAsyncKeyState('Q') & 0x0001 )
+		{
+			assert ( m_pGameMain );
+			m_pGameMain->Move ();		//フレーム毎の動作
+			++ time;
+		}
+		//----------------------------------------------
 
 		//ゲーム画面におけるデバッグ表示の動作
 		DebugOutGameWindow::instance()->Move ();
