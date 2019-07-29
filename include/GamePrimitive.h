@@ -110,6 +110,7 @@ namespace GAME
 		}
 
 		//ˆÊ’u‚Ìİ’è
+		void SetZero () { m_vertex.SetRect ( 0, 0, 0, 0 ); }
 		void SetRect ( float x, float y, float w, float h ) { m_vertex.SetRect ( x, y, w, h ); }
 		void SetWidth ( float w ) { m_vertex.SetWidth ( w ); }
 		void SetHeight ( float h ) { m_vertex.SetHeight ( h ); }

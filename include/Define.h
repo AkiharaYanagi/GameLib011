@@ -38,8 +38,10 @@ namespace GAME
 	//-------------------------------------------------------------------------------------------------
 	using V_RECT = vector < RECT >;
 	using PV_RECT = shared_ptr < V_RECT >;
-	using SP_RECT = shared_ptr < RECT >;
-	using VSP_RECT = vector < SP_RECT >;
+
+	using P_RECT = shared_ptr < RECT >;
+	using VP_RECT = vector < P_RECT >;
+	using PVP_RECT = shared_ptr < VP_RECT >;
 
 	//-------------------------------------------------------------------------------------------------
 	// TCAHR‘Î‰ž
