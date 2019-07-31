@@ -23,13 +23,15 @@ namespace GAME
 	//シングルトンのクリエイトなど1回のみの初期化
 	void GameSystem::SystemLoad ()
 	{
-		//設定からウィンドウサイズの取得
+		//設定からウィンドウ状態の取得
 		UINT window_x = SettingFile::instance ()->GetWindowX ();
 		UINT window_y = SettingFile::instance ()->GetWindowY ();
+		bool bFullScreen = SettingFile::instance ()->GetbFullscreen ();
 
 		// Direct3Dの初期化
 		Dx3D::Create ();
 		Dx3D::instance()->SetWindowSize ( window_x, window_y );
+		Dx3D::instance()->SetFullscreen ( bFullScreen );
 		Dx3D::instance()->Load ();
 
 		//Graphic配列の初期化

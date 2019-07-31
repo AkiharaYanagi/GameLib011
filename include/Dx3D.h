@@ -86,7 +86,10 @@ namespace GAME
 		//ウィンドウサイズ
 		void SetWindowSize ( UINT x, UINT y ) { m_window_x = x; m_window_y = y; }
 
-		//デバイスの取得
+		//フルスクリーン
+		void SetFullscreen ( bool b ) { m_fullscreen = b; }
+
+		//デバイスの取得 
 		LPDIRECT3DDEVICE9		GetDevice() { return m_lpD3DDevice; }
 		//スプライトの取得
 		LPD3DXSPRITE			GetSprite() { return m_lpSprite; }

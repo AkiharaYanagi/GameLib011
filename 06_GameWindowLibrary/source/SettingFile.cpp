@@ -29,7 +29,7 @@ namespace GAME
 			TRACE_F ( path );
 
 			//入力ストリームを生成
-			ifstream ifstrm( _T("Setting.dat"), ios::in );
+			ifstream ifstrm( _T("GameSetting.dat"), ios::in );
 			
 			//見つからないときデフォルトの値を設定して終了
 			if ( ! ifstrm )
@@ -59,7 +59,7 @@ namespace GAME
 	{
 		m_bFullscreen = false;
 		m_window_x = 640;
-		m_window_x = 480;
+		m_window_y = 480;
 	}
 
 
