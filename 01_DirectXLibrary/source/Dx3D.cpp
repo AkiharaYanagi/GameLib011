@@ -143,20 +143,20 @@ namespace GAME
 		hr = m_lpBackBuffer->GetDesc( &desc );
 		FAILED_DXTRACE_THROW ( hr, _T("サーフェスデスクリプションの取得") );
 
-		//テクスチャの作成
-//			hr = m_lpD3DDevice->CreateTexture ( 640, 480, 1, D3DUSAGE_RENDERTARGET, desc.Format, D3DPOOL_DEFAULT, &m_lpTexture, nullptr );
+		//書込用一時テクスチャの作成
+		hr = m_lpD3DDevice->CreateTexture ( 640, 480, 1, D3DUSAGE_RENDERTARGET, desc.Format, D3DPOOL_DEFAULT, &m_lpTexture, nullptr );
 		FAILED_DXTRACE_THROW ( hr, _T("テクスチャの作成") );
 
-		//テクスチャからサーフェスへのポインタを取得する
-//			hr = m_lpTexture->GetSurfaceLevel ( 0, &m_lpTextureSurface );
-		FAILED_DXTRACE_THROW ( hr, _T("テクスチャからサーフェスへのポインタを取得する") );
+		//テクスチャにおけるサーフェスへのポインタを取得する
+		hr = m_lpTexture->GetSurfaceLevel ( 0, &m_lpTextureSurface );
+		FAILED_DXTRACE_THROW ( hr, _T("テクスチャにおけるサーフェスへのポインタを取得する") );
 
 		//テクスチャサーフェスのバックバッファ状態を取得
-//			hr = m_lpTextureSurface->GetDesc( &desc );
+		hr = m_lpTextureSurface->GetDesc( &desc );
 		FAILED_DXTRACE_THROW ( hr, _T("テクスチャサーフェスのバックバッファ状態を取得") );
 
 		//サーフェスの作成
-//			hr = m_lpD3DDevice->CreateOffscreenPlainSurface( 640, 480, desc.Format, D3DPOOL_DEFAULT, &m_lpSurface, nullptr );
+		hr = m_lpD3DDevice->CreateOffscreenPlainSurface( 640, 480, desc.Format, D3DPOOL_DEFAULT, &m_lpSurface, nullptr );
 		FAILED_DXTRACE_THROW ( hr, _T("サーフェスの作成") );
 #endif // 0
 	}
@@ -166,9 +166,9 @@ namespace GAME
 	//-------------------------------------------------------------------------------------------------
 	void Dx3D::Rele()
 	{
-//		RELEASE( m_lpTextureSurface );
-//		RELEASE( m_lpTexture );
-//		RELEASE( m_lpBackBuffer );
+		RELEASE( m_lpTextureSurface );
+		RELEASE( m_lpTexture );
+		RELEASE( m_lpBackBuffer );
 
 		RELEASE( m_lpSprite );
 		RELEASE( m_lpD3DDevice );
@@ -226,13 +226,14 @@ namespace GAME
 #if	0
 		//書き込みをバックバッファサーフェスに変更
 		m_lpD3DDevice->SetRenderTarget ( 0, m_lpBackBuffer );
+#endif	//0
 
 		//拡大縮小のテスト
 		RECT rectSrc, rectDest;
-		SetRect( &rectSrc, 0+(int)m_zoom, 0+(int)(m_zoom * 0.67), 640-(int)m_zoom, 480-(int)(m_zoom * 0.67) );
+//		SetRect( &rectSrc, 0+(int)m_zoom, 0+(int)(m_zoom * 0.67), 640-(int)m_zoom, 480-(int)(m_zoom * 0.67) );
+		SetRect( &rectSrc, 0, 0, 1280, 960 );
 		SetRect( &rectDest, 0, 0, 640, 480 );
 		m_lpD3DDevice->StretchRect ( m_lpTextureSurface, &rectSrc, m_lpBackBuffer, &rectDest, D3DTEXF_NONE );
-#endif	//0
 
 		//バックバッファを表示
 		m_lpD3DDevice->Present ( nullptr, nullptr, nullptr, nullptr );
