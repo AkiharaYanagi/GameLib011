@@ -26,6 +26,7 @@
     <ClInclude Include="..\include\GameLibrary.h" />
     <ClInclude Include="..\include\GrpDemo.h" />
     <ClInclude Include="..\include\GrpEf.h" />
+    <ClInclude Include="..\include\Rect.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Fade.cpp" />
@@ -33,6 +34,7 @@
     <ClCompile Include="source\GameKey.cpp" />
     <ClCompile Include="source\GrpDemo.cpp" />
     <ClCompile Include="source\GrpEf.cpp" />
+    <ClCompile Include="source\Rect.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

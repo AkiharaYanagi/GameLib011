@@ -204,6 +204,7 @@ namespace GAME
 		//Graphic”z—ñ‚ðƒQ[ƒ€ƒƒCƒ“‚ÉÝ’è
 		P_TASK_VEC pGrpAry = GrpAry::instance()->GetpInstance ();
 		m_pGameMain->AddpTask ( pGrpAry );
+			TRACE_F(_T("GameSystem::SetGameMain\n"));
 	}
 
 
