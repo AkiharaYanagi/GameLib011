@@ -25,4 +25,5 @@
 #include "Fade.h"
 #include "GrpEf.h"
 #include "GrpDemo.h"
+#include "Rect.h"
 
