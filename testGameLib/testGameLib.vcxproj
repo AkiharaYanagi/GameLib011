@@ -134,13 +134,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\GameMain.cpp" />
-    <ClCompile Include="Source\testKeyConfig.cpp" />
+    <ClCompile Include="Source\testStretch.cpp" />
     <ClCompile Include="Source\WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\GameMain.h" />
     <ClInclude Include="Source\resource.h" />
-    <ClInclude Include="Source\testKeyConfig.h" />
+    <ClInclude Include="Source\testStretch.h" />
     <ClInclude Include="Source\WinMain.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

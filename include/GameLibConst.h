@@ -21,9 +21,13 @@ namespace GAME
 	// 定数宣言
 	//------------------------------------------
 	
-	//ウィンドウサイズ
+	//ウィンドウサイズ(変更可能)
 	const int WINDOW_WIDTH = 1280;
 	const int WINDOW_HEIGHT = 960;
+
+	//ゲームウィンドウサイズ(書込対象)
+	const int GAME_WINDOW_WIDTH = 1280;
+	const int GAME_WINDOW_HEIGHT = 960;
 
 	//プレイヤーID
 	enum PLAYER_ID

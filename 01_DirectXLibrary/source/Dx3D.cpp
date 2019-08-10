@@ -96,9 +96,18 @@ namespace GAME
 		FAILED_DXTRACE_THROW ( hr, _T("デバイスフォーマットのテスト") );
 #endif	//0
 		
-		//D3Dデバイスパラメータの設定	// [フルスクリーン] / [ウィンドウ]
+		//D3Dデバイスパラメータの設定	
+		// [フルスクリーン] / [ウィンドウ]の選択
 		D3DPRESENT_PARAMETERS preParam;
-		preParam = m_fullscreen ? GetParamFullscreen ( displayMode ) : GetParamWindow ( displayMode );
+		if ( m_fullscreen )
+		{
+			preParam = GetParamFullscreen ( displayMode );
+		}
+		else
+		{
+			preParam = GetParamWindow ( displayMode );
+		}
+
 
 		//デバイスの作成
 		_CreateDeviceSequentially ( & preParam );
@@ -133,7 +142,11 @@ namespace GAME
 		hr = D3DXCreateSprite ( m_lpD3DDevice, &m_lpSprite );
 		FAILED_DXTRACE_THROW ( hr, _T("スプライトの作成") );
 
+
 #if 0
+		//-----------------------------------
+		//1280*960に書き込み、640*480に縮小
+
 		//バックバッファの取得
 		hr = m_lpD3DDevice->GetBackBuffer ( 0, 0, D3DBACKBUFFER_TYPE_MONO, &m_lpBackBuffer );
 		FAILED_DXTRACE_THROW ( hr, _T("バックバッファの取得") );
@@ -144,7 +157,7 @@ namespace GAME
 		FAILED_DXTRACE_THROW ( hr, _T("サーフェスデスクリプションの取得") );
 
 		//書込用一時テクスチャの作成
-		hr = m_lpD3DDevice->CreateTexture ( 640, 480, 1, D3DUSAGE_RENDERTARGET, desc.Format, D3DPOOL_DEFAULT, &m_lpTexture, nullptr );
+		hr = m_lpD3DDevice->CreateTexture ( 1280, 960, 1, D3DUSAGE_RENDERTARGET, desc.Format, D3DPOOL_DEFAULT, &m_lpTexture, nullptr );
 		FAILED_DXTRACE_THROW ( hr, _T("テクスチャの作成") );
 
 		//テクスチャにおけるサーフェスへのポインタを取得する
@@ -156,7 +169,7 @@ namespace GAME
 		FAILED_DXTRACE_THROW ( hr, _T("テクスチャサーフェスのバックバッファ状態を取得") );
 
 		//サーフェスの作成
-		hr = m_lpD3DDevice->CreateOffscreenPlainSurface( 640, 480, desc.Format, D3DPOOL_DEFAULT, &m_lpSurface, nullptr );
+		hr = m_lpD3DDevice->CreateOffscreenPlainSurface( 1280, 960, desc.Format, D3DPOOL_DEFAULT, &m_lpSurface, nullptr );
 		FAILED_DXTRACE_THROW ( hr, _T("サーフェスの作成") );
 #endif // 0
 	}
@@ -197,10 +210,8 @@ namespace GAME
 	{
 		if ( ! m_lpD3DDevice ) { return; }
 
-#if	0
-		//書き込みバックバッファをテクスチャサーフェスに変更
-		m_lpD3DDevice->SetRenderTarget ( 0, m_lpTextureSurface );
-#endif	//0
+		//書き込み対象を一時テクスチャサーフェスに変更
+//		m_lpD3DDevice->SetRenderTarget ( 0, m_lpTextureSurface );
 
 		//バックバッファをクリア
 //		m_lpD3DDevice->Clear ( 0, nullptr, D3DCLEAR_TARGET, D3DCOLOR_XRGB ( 210, 250, 250 ), 0, 0 );
@@ -223,17 +234,15 @@ namespace GAME
 		//描画終了
 		m_lpD3DDevice->EndScene ();
 
-#if	0
-		//書き込みをバックバッファサーフェスに変更
-		m_lpD3DDevice->SetRenderTarget ( 0, m_lpBackBuffer );
-#endif	//0
+		//書き込みをバックバッファサーフェスに戻す
+//		m_lpD3DDevice->SetRenderTarget ( 0, m_lpBackBuffer );
 
 		//拡大縮小のテスト
 		RECT rectSrc, rectDest;
 //		SetRect( &rectSrc, 0+(int)m_zoom, 0+(int)(m_zoom * 0.67), 640-(int)m_zoom, 480-(int)(m_zoom * 0.67) );
 		SetRect( &rectSrc, 0, 0, 1280, 960 );
 		SetRect( &rectDest, 0, 0, 640, 480 );
-		m_lpD3DDevice->StretchRect ( m_lpTextureSurface, &rectSrc, m_lpBackBuffer, &rectDest, D3DTEXF_NONE );
+//		m_lpD3DDevice->StretchRect ( m_lpTextureSurface, &rectSrc, m_lpBackBuffer, &rectDest, D3DTEXF_NONE );
 
 		//バックバッファを表示
 		m_lpD3DDevice->Present ( nullptr, nullptr, nullptr, nullptr );
@@ -333,8 +342,10 @@ namespace GAME
 		D3DPRESENT_PARAMETERS param;
 		ZeroMemory( & param, sizeof ( param ) );
 
-		param.BackBufferWidth	= m_window_x;
-		param.BackBufferHeight	= m_window_y;
+//		param.BackBufferWidth	= m_window_x;
+//		param.BackBufferHeight	= m_window_y;
+		param.BackBufferWidth	= GAME_WINDOW_WIDTH;
+		param.BackBufferHeight	= GAME_WINDOW_HEIGHT;
 		param.BackBufferFormat	= dm.Format;	//バックバッファのピクセルフォーマット(デフォルトアダプタと同一にする)
 		param.BackBufferCount	= 1;
 		param.SwapEffect		= D3DSWAPEFFECT_DISCARD;

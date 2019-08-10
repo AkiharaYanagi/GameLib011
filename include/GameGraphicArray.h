@@ -27,6 +27,8 @@ namespace GAME
 //		Z_SYS	0.9f	システム表示
 //--------------------------------------
 
+	//@todo Ef関連で生成と破棄が多数回にわたるのでListの検討
+
 //クラス
 	class GameGraphicArray
 	{

@@ -73,7 +73,8 @@ namespace GAME
 		VP_Task::iterator it = begin ( *m_pvpTask );
 		for ( ; it != end ( *m_pvpTask ); ++it )
 		{
-			if ( (*it) == pTask ) { m_pvpTask->erase ( it ); }
+			if ( (*it) == pTask )
+			{ m_pvpTask->erase ( it ); }
 			break;
 		}
 	}
