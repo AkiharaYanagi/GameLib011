@@ -42,6 +42,8 @@ namespace GAME
 			UINT size = sizeof ( UINT );
 			ifstrm.read ( (char*)& m_window_x, sizeof ( UINT ) );
 			ifstrm.read ( (char*)& m_window_y, sizeof ( UINT ) );
+			ifstrm.read ( (char*)& m_input1pPlayer, sizeof(bool) );
+			ifstrm.read ( (char*)& m_input2pPlayer, sizeof(bool) );
 
 			//èIóπ
 			ifstrm.close ();
@@ -58,8 +60,10 @@ namespace GAME
 	void SettingFile::SetDefault ()
 	{
 		m_bFullscreen = false;
-		m_window_x = 640;
-		m_window_y = 480;
+		m_window_x = 1280;
+		m_window_y = 960;
+		m_input1pPlayer = true;
+		m_input2pPlayer = true;
 	}
 
 

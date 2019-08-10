@@ -36,17 +36,25 @@ namespace GAME
 		UINT	m_window_x;
 		UINT	m_window_y;
 
+		bool	m_input1pPlayer;
+		bool	m_input2pPlayer;
+
 		void	SetDefault ();
 
 	public:
 
 		//値の取得
-		bool GetbFullscreen () { return m_bFullscreen; }
+		bool GetbFullscreen () const { return m_bFullscreen; }
 		UINT GetWindowX () const { return m_window_x; }
 		UINT GetWindowY () const { return m_window_y; }
+		bool GetbInput1pPlayer () const { return m_input1pPlayer; }
+		bool GetbInput2pPlayer () const { return m_input2pPlayer; }
 	};
 
 	using P_SettingFile = unique_ptr < SettingFile >;
+
+//シングルトンアクセス用
+#define SETTING	SettingFile::instance()
 
 }	//namespace GAME
 
