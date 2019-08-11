@@ -45,12 +45,13 @@ namespace GAME
 		MODE_NETWORK,
 	};
 
-	//ï`âÊZà íu
-	constexpr float Z_BG  = 0.1f;
-	constexpr float Z_EFB = 0.6f;
-	constexpr float Z_CH  = 0.6f;
-	constexpr float Z_EFF = 0.6f;
-	constexpr float Z_SYS = 0.6f;
+	//ï`âÊZà íu(å„:1.f Å` 0.0f:ëO)
+	constexpr float Z_BG  = 0.9f;
+	constexpr float Z_SHADOW = 0.8f;
+	constexpr float Z_EFB = 0.7f;
+	constexpr float Z_CH  = 0.5f;
+	constexpr float Z_EFF = 0.4f;
+	constexpr float Z_SYS = 0.3f;
 
 }
 
