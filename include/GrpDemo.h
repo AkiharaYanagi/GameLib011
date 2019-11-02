@@ -43,6 +43,8 @@ namespace GAME
 		void SetSecondVel ( VEC2 vec ) { m_secondVel = vec; }
 	};
 
+	using P_GrpDemo = shared_ptr < GrpDemo >;
+
 
 }	//namespace GAME
 

@@ -79,6 +79,8 @@ namespace GAME
 		void SetCenterOfTexture ( UINT index );
 	};
 
+	using P_GrpEf = shared_ptr < GrpEf >;
+
 
 }	//namespace GAME
 

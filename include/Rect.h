@@ -43,7 +43,7 @@ namespace GAME
 	//矩形をrhsからlhsにコピーする
 	void CopyRect ( RECT & lhs, const RECT & rhs );
 
-	//枠配列をゼロ初期化する
+	//枠配列の値をゼロ初期化する(配列サイズは固定)
 	void ZeroVecRect ( PV_RECT pvRect );
 
 	//-------------------------------------
@@ -59,7 +59,6 @@ namespace GAME
 	VEC2 GetOverlayCenterRects ( const RECT & rect1, const RECT & rect2 );
 
 	//枠配列に行う重なり判定(重なりの中心付き)
-//	bool OverlapAryRect_Center ( RECT rect1[], RECT rect2[], VEC2 & center );	//中心も求める
 	bool OverlapAryRect_Center ( PV_RECT pvRect1, PV_RECT pvRect2, VEC2 & center );	//中心も求める
 
 
