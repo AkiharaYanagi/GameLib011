@@ -75,7 +75,12 @@ namespace GAME
 
 	void GameGraphicList::Reset ()
 	{
-		m_pTaskList->Reset ();
+		if ( nullptr == m_pTaskList ) { return;  }
+
+		for ( auto p : *(m_pTaskList->GetplpTask ()) )
+		{
+			p->Reset ();
+		}
 	}
 
 	void GameGraphicList::Clear ()
