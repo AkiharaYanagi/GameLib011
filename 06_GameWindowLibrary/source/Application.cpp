@@ -259,7 +259,7 @@ namespace GAME
 		//TRACE_F ( _T("windowRect = ( %d, %d, %d, %d ) \n"), windowRect.left, windowRect.top, windowRect.right, windowRect.bottom );
 		//TRACE_F ( _T("clientRect = ( %d, %d, %d, %d ) \n"), clientRect.left, clientRect.top, clientRect.right, clientRect.bottom );
 		
-		TRACE_F ( _T("Å° ApplicationManager:: hWnd = %d\n"), m_hWnd );
+		TRACE_F ( _T("ApplicationManager:: hWnd = %d\n"), m_hWnd );
 
 		return true;
 	}

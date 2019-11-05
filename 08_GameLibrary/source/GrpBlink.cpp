@@ -1,57 +1,64 @@
 //=================================================================================================
 //
-// GrpDemo ソースファイル
+// GrpEf ソースファイル
 //
 //=================================================================================================
 
 //-------------------------------------------------------------------------------------------------
 // ヘッダファイルのインクルード
 //-------------------------------------------------------------------------------------------------
-#include "GrpDemo.h"
+#include "GrpBlink.h"
 
 //-------------------------------------------------------------------------------------------------
 // 定義
 //-------------------------------------------------------------------------------------------------
 namespace GAME
 {
-
-	GrpDemo::GrpDemo () : 
-		m_timer ( 0 ), 
-		m_startScaling ( VEC2 ( 1.8f, 1.8f ) ), 
-		m_targetScaling ( VEC2 ( 1.2f, 1.2f ) ), 
-		m_mag ( VEC2 ( 0.f, 0.f ) ), 
-		m_vel ( VEC2 ( 0.f, 0.f ) ), m_acc ( VEC2 ( -0.01f, -0.01f ) ), 
-		m_secondVel ( VEC2 ( 0.f, 0.f ) )
+	GrpBlink::GrpBlink ()
+	 :	m_blink ( true ), m_timer ( 0 ), m_blinkTime ( 30 )
 	{
 	}
 
-	GrpDemo::~GrpDemo ()
+	GrpBlink::~GrpBlink ()
 	{
 	}
 
-	void GrpDemo::Init ()
+	void GrpBlink::Move ()
 	{
-		m_vel = VEC2 ( 0, 0 );
-		m_mag = m_startScaling;
-		GrpAcv::Init ();
-	}
-
-	void GrpDemo::Move ()
-	{
-		//目標値に達したら終了
-		if ( m_mag.x > m_targetScaling.x || m_mag.y > m_targetScaling.y )
+		//--------------------------------------------------
+		//点滅
+		if ( m_blink )
 		{
-			m_vel += m_acc;
-			m_mag += m_vel;
+			if ( m_timer == m_blinkTime )
+			{
+				m_blink = false;
+			}
+			else
+			{
+				++m_timer;
+			}
 		}
 		else
 		{
-			m_mag += m_secondVel;
+			if ( m_timer == 0 )
+			{
+				m_blink = true;
+			}
+			else
+			{
+				--m_timer;
+			}
 		}
 
-		GrpAcv::SetScaling ( m_mag );
+		//α値を算出して設定
+		UINT alpha = 0x80 + (0xff / m_blinkTime) / 2 * m_timer;
+		_CLR color = _CLR ( alpha << 24 ^ 0x00ffffff );
+		SetAllColor ( color );
+		//--------------------------------------------------
+
 		GrpAcv::Move ();
 	}
+
 
 
 

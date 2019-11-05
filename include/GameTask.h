@@ -17,6 +17,7 @@
 // ヘッダファイル　インクルード
 //-------------------------------------------------------------------------------------------------
 #include <vector>
+#include <list>
 #include <memory>
 using namespace std;
 
@@ -59,10 +60,12 @@ namespace GAME
 	};
 
 	//型定義
-	typedef shared_ptr < GameTask > P_Task;
-	typedef vector < P_Task >		VP_Task;
-	typedef shared_ptr < VP_Task >	PVP_Task;
-	
+	using P_Task = shared_ptr < GameTask >;
+	using VP_Task = vector < P_Task >;
+	using PVP_Task = shared_ptr < VP_Task >;
+	using LP_Task = list < P_Task >;
+	using PLP_Task = shared_ptr < LP_Task >;
+
 
 	//=========================================================================
 	// ゲームタスクベクタ
@@ -123,6 +126,62 @@ namespace GAME
 
 	using TASK_VEC = GameTaskVector;
 	using P_TASK_VEC = shared_ptr < TASK_VEC >;
+
+
+	//=========================================================================
+	// ゲームタスクリスト
+	//	ゲームタスクの基本インターフェースを一括して行う
+	//	生成・削除が多いときに用いる
+	//=========================================================================
+	class GameTaskList : public GameTask
+	{
+		PLP_Task	m_plpTask;
+
+	public:
+		GameTaskList ();
+		GameTaskList ( const GameTaskList & rhs ) = delete;
+		virtual ~GameTaskList ();
+
+		virtual void Load ();		//読込(初回、または再設定時などの解放後１回のみ)
+		virtual void Rele ();		//動的な一時領域の解放(恒常的なメモリ確保はコンストラクタ～デストラクタで行う)
+		virtual void Reset ();		//再設定( Rele(); Load(); Init(); )
+
+		virtual void Init ();		//初期化(繰り返してもよい)※再設定時(フォーカスの変更など)に毎回行う
+		virtual void Move ();		//フレーム毎動作
+		virtual void Draw ();		//フレーム毎描画(スプライト)
+		virtual void DrawVertex ();		//フレーム毎描画(頂点)
+
+		//初期化
+		void Clear ();
+
+		//配列サイズの取得
+		size_t GetSize () { return m_plpTask->size (); }
+
+		//配列ポインタの取得
+		PLP_Task GetplpTask () { return m_plpTask; }
+
+		//タスクの追加
+		void AddpTask ( P_Task pTask );
+
+		//タスクの挿入
+		void InsertTask ( LP_Task::iterator it, P_Task pTask );
+
+		//タスクの取外
+		void EraseTask ( P_Task pTask );
+		void EraseTask ( const LP_Task::iterator it );
+
+		//指定オブジェクトを最前列描画にする
+		//	指定したオブジェクトが無い場合なにもしない
+		void Top ( P_Task pTask );
+
+		//指定オブジェクトを最背列描画にする
+		//	指定したオブジェクトが無い場合なにもしない
+		void End ( P_Task pTask );
+	};
+
+	using TASK_LST = GameTaskList;
+	using P_TASK_LST = shared_ptr < TASK_LST >;
+
 
 #if 0
 	//-------------------------------------------------------------------------------------------------

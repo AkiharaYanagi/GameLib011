@@ -36,8 +36,8 @@ namespace GAME
 		//特にゲームグラフィック　アプロブドテクスチャはテクスチャは０のみ
 
 		//----------------------------------------------
-		m_pCenter = make_shared < VEC3 > ( 0, 0, 0 );
-		m_pPosition = make_shared < VEC3 > ( 0, 0, 0 );
+		m_pCenter = make_shared < VEC3 > ( 0.f, 0.f, 0.f );
+		m_pPosition = make_shared < VEC3 > ( 0.f, 0.f, 0.f );
 		m_pPosition->z = 0.5f; 
 }
 
@@ -65,6 +65,7 @@ namespace GAME
 		{
 			m_pvpObject->at ( i )->SetValid ( b );
 		}
+		m_valid = b;
 	}
 
 	//すべてのオブジェクトへの操作：位置指定
@@ -99,6 +100,7 @@ namespace GAME
 			{
 				m_pvpObject->at ( i )->SetValid ( true );
 			}
+			m_valid = true;
 		}
 	}
 
@@ -126,6 +128,7 @@ namespace GAME
 					{
 						m_pvpObject->at ( i )->SetValid ( false );
 					}
+					m_valid = false;
 					m_fadeOut = 0;
 				}
 			}
@@ -153,6 +156,7 @@ namespace GAME
 				{
 					m_pvpObject->at ( i )->SetValid ( false );
 				}
+				m_valid = false;
 			}
 			else
 			{

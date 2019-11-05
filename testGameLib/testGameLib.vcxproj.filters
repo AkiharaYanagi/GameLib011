@@ -1,14 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Source\GameMain.cpp" />
     <ClCompile Include="Source\WinMain.cpp" />
-    <ClCompile Include="Source\testStretch.cpp" />
+    <ClCompile Include="Source\testGrpLst.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\GameMain.h" />
     <ClInclude Include="Source\resource.h" />
     <ClInclude Include="Source\WinMain.h" />
-    <ClInclude Include="Source\testStretch.h" />
+    <ClInclude Include="Source\testGrpLst.h" />
   </ItemGroup>
 </Project>
