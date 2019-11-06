@@ -30,11 +30,11 @@ namespace GAME
 	//コンストラクタ
 	P_TASK_LST GameGraphicList::NewTaskList ()
 	{
-		TRACE_F ( _T ( "■ GameGraphicList : m_pTaskList.use_count = %d\n" ), m_pTaskList.use_count () );
-		TRACE_F ( _T( "NewTaskList : %x -> "), m_pTaskList );
+//		TRACE_F ( _T ( "■ GameGraphicList : m_pTaskList.use_count = %d\n" ), m_pTaskList.use_count () );
+//		TRACE_F ( _T( "NewTaskList : %x -> "), m_pTaskList );
 		m_pTaskList = make_shared < GameTaskList > ();
-		TRACE_F ( _T ( "%x\n" ), m_pTaskList );
-		TRACE_F ( _T ( "■ GameGraphicList : m_pTaskList.use_count = %d\n" ), m_pTaskList.use_count () );
+//		TRACE_F ( _T ( "%x\n" ), m_pTaskList );
+//		TRACE_F ( _T ( "■ GameGraphicList : m_pTaskList.use_count = %d\n" ), m_pTaskList.use_count () );
 		return m_pTaskList;
 	}
 
