@@ -259,4 +259,13 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
-library/
+library/00_DebugLibrary_debug.lib
+library/01_DirectXLibrary_debug.lib
+library/02_GameStructureLibrary_debug.lib
+library/03_GameFileLibrary_debug.lib
+library/04_GameGraphicLibrary_debug.lib
+library/05_GameTextLibrary_debug.lib
+library/06_GameWindowLibrary_debug.lib
+library/07_GameNetworkLibrary_debug.lib
+library/08_GameLibrary_debug.lib
+testGameLib/GameSettings.exe
