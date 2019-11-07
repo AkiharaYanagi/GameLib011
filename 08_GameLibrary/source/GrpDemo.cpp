@@ -19,7 +19,7 @@ namespace GAME
 		m_timer ( 0 ), 
 		m_startScaling ( VEC2 ( 1.8f, 1.8f ) ), 
 		m_targetScaling ( VEC2 ( 1.2f, 1.2f ) ), 
-		m_vec ( VEC2 ( 0.f, 0.f ) ), 
+		m_mag ( VEC2 ( 0.f, 0.f ) ), 
 		m_vel ( VEC2 ( 0.f, 0.f ) ), m_acc ( VEC2 ( -0.01f, -0.01f ) ), 
 		m_secondVel ( VEC2 ( 0.f, 0.f ) )
 	{
@@ -31,24 +31,25 @@ namespace GAME
 
 	void GrpDemo::Init ()
 	{
-		m_vec = m_startScaling;
+		m_vel = VEC2 ( 0, 0 );
+		m_mag = m_startScaling;
 		GrpAcv::Init ();
 	}
 
 	void GrpDemo::Move ()
 	{
 		//目標値に達したら終了
-		if ( m_vec.x > m_targetScaling.x || m_vec.y > m_targetScaling.y )
+		if ( m_mag.x > m_targetScaling.x || m_mag.y > m_targetScaling.y )
 		{
 			m_vel += m_acc;
-			m_vec += m_vel;
+			m_mag += m_vel;
 		}
 		else
 		{
-			m_vec += m_secondVel;
+			m_mag += m_secondVel;
 		}
 
-		GrpAcv::SetScaling ( m_vec );
+		GrpAcv::SetScaling ( m_mag );
 		GrpAcv::Move ();
 	}
 

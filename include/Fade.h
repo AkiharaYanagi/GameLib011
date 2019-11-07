@@ -32,6 +32,7 @@ namespace GAME
 		void Move ();
 		bool IsActive () { return ( 0 != m_timer ); }
 
+		//フェード(ホワイト)アウト( 0x00ffffff → 0xffffffff )
 		void SetWhiteOut ( UINT time )
 		{
 			PrmRect::SetValid ( true );
@@ -39,6 +40,7 @@ namespace GAME
 			m_timer = 1; 
 		}
 
+		//ダークイン ( 0xff000000 → 0x00000000 )
 		void SetDarkIn ( UINT time )
 		{
 			PrmRect::SetValid ( true );
@@ -46,6 +48,7 @@ namespace GAME
 			m_timer = 1; 
 		}
 
+		//ダークアウト( 0x00000000 → 0xff000000 )
 		void SetDarkOut ( UINT time )
 		{
 			PrmRect::SetValid ( true );

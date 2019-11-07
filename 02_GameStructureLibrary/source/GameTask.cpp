@@ -23,7 +23,6 @@ namespace GAME
 
 	//=========================================================================
 	// ゲームタスクベクタ
-	//	ゲームタスクの基本インターフェースを一括して行う配列
 	//=========================================================================
 	GameTaskVector::GameTaskVector ()
 	{
@@ -32,7 +31,7 @@ namespace GAME
 
 	GameTaskVector::~GameTaskVector ()
 	{
-		Clear();
+		Clear ();
 	}
 
 	//初期化
@@ -50,13 +49,13 @@ namespace GAME
 	//タスクの取得
 	P_Task GameTaskVector::GetpTask ( UINT index )
 	{
-		return m_pvpTask->at ( index ); 
+		return m_pvpTask->at ( index );
 	}
 
 	//アクセサ
 	P_Task GameTaskVector::operator [] ( UINT index )
 	{
-		return m_pvpTask->at ( index ); 
+		return m_pvpTask->at ( index );
 	}
 
 	//タスクの挿入
@@ -74,7 +73,9 @@ namespace GAME
 		for ( ; it != end ( *m_pvpTask ); ++it )
 		{
 			if ( (*it) == pTask )
-			{ m_pvpTask->erase ( it ); }
+			{
+				m_pvpTask->erase ( it );
+			}
 			break;
 		}
 	}
@@ -93,7 +94,7 @@ namespace GAME
 	void GameTaskVector::Move () { for ( auto p : (*m_pvpTask) ) { p->Move (); } }
 	void GameTaskVector::Draw () { for ( auto p : (*m_pvpTask) ) { p->Draw (); } }
 	void GameTaskVector::DrawVertex () { for ( auto p : (*m_pvpTask) ) { p->DrawVertex (); } }
-	
+
 
 	//指定オブジェクトを最前列描画(末尾)にする
 	//	指定したオブジェクトが無い場合なにもしない
@@ -104,12 +105,12 @@ namespace GAME
 			if ( p == pTask )
 			{
 				//該当オブジェクトポインタと末尾を入れ替える
-				p.swap ( * end ( *m_pvpTask ) );
+				p.swap ( *end ( *m_pvpTask ) );
 				break;
 			}
 		}
 	}
-	
+
 	//指定オブジェクトを最背列描画(先頭)にする
 	//	指定したオブジェクトが無い場合なにもしない
 	void GameTaskVector::End ( P_Task pTask )
@@ -119,7 +120,101 @@ namespace GAME
 			if ( p == pTask )
 			{
 				//該当オブジェクトポインタと先頭を入れ替える
-				p.swap ( * begin ( *m_pvpTask ) );
+				p.swap ( *begin ( *m_pvpTask ) );
+				break;
+			}
+		}
+	}
+
+
+	//=========================================================================
+	// ゲームタスクリスト
+	//=========================================================================
+	GameTaskList::GameTaskList ()
+	{
+		m_plpTask = make_shared < LP_Task > ();
+	}
+
+	GameTaskList::~GameTaskList ()
+	{
+		TRACE_F (_T("TaskList:~\n"));
+		Clear ();
+	}
+
+	//初期化
+	void GameTaskList::Clear ()
+	{
+		if ( m_plpTask ) { m_plpTask->clear (); }
+	}
+
+	//タスクを末尾に追加
+	void GameTaskList::AddpTask ( P_Task pTask )
+	{
+		m_plpTask->push_back ( pTask );
+	}
+
+	//タスクの挿入
+	void GameTaskList::InsertTask ( LP_Task::iterator it, P_Task pTask )
+	{
+		m_plpTask->insert ( it, pTask );
+	}
+
+	//タスクの取外
+	void GameTaskList::EraseTask ( P_Task pTask )
+	{
+		//削除にはforeachは使わない
+		LP_Task::iterator it = begin ( * m_plpTask );
+		while ( it != end ( * m_plpTask ) )
+		{
+			if ( (*it) == pTask )
+			{
+				it = m_plpTask->erase ( it );
+			}
+			++ it;
+		}
+	}
+	void GameTaskList::EraseTask ( const LP_Task::iterator it )
+	{
+		m_plpTask->erase ( it );
+	}
+
+	//----------------------------------------------------------------------------------------
+	//	各種インターフェースの実行
+	//----------------------------------------------------------------------------------------
+	void GameTaskList::Init ()	{ for ( auto p : (*m_plpTask) ) { p->Init (); } }
+	void GameTaskList::Rele ()	{ for ( auto p : (*m_plpTask) ) { p->Rele (); } }
+	void GameTaskList::Load ()	{ for ( auto p : (*m_plpTask) ) { p->Load (); } }
+	void GameTaskList::Reset ()	{ for ( auto p : (*m_plpTask) ) { p->Reset (); } }
+	void GameTaskList::Move ()	{ for ( auto p : (*m_plpTask) ) { p->Move (); } }
+	void GameTaskList::Draw ()	{ for ( auto p : (*m_plpTask) ) { p->Draw (); } }
+	void GameTaskList::DrawVertex () { for ( auto p : (*m_plpTask) ) { p->DrawVertex (); } }
+
+
+	//指定オブジェクトを最前列描画(末尾)にする
+	//	指定したオブジェクトが無い場合なにもしない
+	void GameTaskList::Top ( P_Task pTask )
+	{
+		for ( auto p : (*m_plpTask) )
+		{
+			if ( p == pTask )
+			{
+				//該当オブジェクトポインタと末尾を入れ替える
+				p.swap ( *end ( *m_plpTask ) );
+				break;
+			}
+		}
+	}
+
+	//指定オブジェクトを最背列描画(先頭)にする
+	//	指定したオブジェクトが無い場合なにもしない
+	void GameTaskList::End ( P_Task pTask )
+	{
+		for ( auto p : (*m_plpTask) )
+		{
+			if ( p == pTask )
+			{
+				//該当オブジェクトポインタと先頭を入れ替える
+				p.swap ( *begin ( *m_plpTask ) );
 				break;
 			}
 		}

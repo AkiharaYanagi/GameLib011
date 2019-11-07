@@ -21,9 +21,9 @@ namespace GAME
 		UINT		m_timer;
 		VEC2		m_startScaling;		//ŠJŽn
 		VEC2		m_targetScaling;	//–Ú•W
-		VEC2		m_vec;
-		VEC2		m_vel;
-		VEC2		m_acc;
+		VEC2		m_mag;		//”{—¦
+		VEC2		m_vel;		//”{—¦•Ï‰»‘¬“x
+		VEC2		m_acc;		//”{—¦•Ï‰»‰Á‘¬“x
 
 		VEC2		m_secondVel;	//‘æ2‘¬“x
 
@@ -39,6 +39,7 @@ namespace GAME
 		void SetStartScaling ( VEC2 vec ) { m_startScaling = vec; }
 		void SetTargetScaling ( VEC2 vec ) { m_targetScaling = vec; }
 
+		void SetVel ( VEC2 vec ) { m_vel = vec; }
 		void SetAcc ( VEC2 vec ) { m_acc = vec; }
 		void SetSecondVel ( VEC2 vec ) { m_secondVel = vec; }
 	};

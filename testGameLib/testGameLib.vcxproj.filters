@@ -1,14 +1,105 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Source\GameMain.cpp" />
     <ClCompile Include="Source\WinMain.cpp" />
-    <ClCompile Include="Source\testStretch.cpp" />
+    <ClCompile Include="Source\TestLoadChara.cpp" />
+    <ClCompile Include="Source\CharaData\Action.cpp">
+      <Filter>CharaData</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CharaData\Behavior.cpp">
+      <Filter>CharaData</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CharaData\Branch.cpp">
+      <Filter>CharaData</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CharaData\Chara.cpp">
+      <Filter>CharaData</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CharaData\Command.cpp">
+      <Filter>CharaData</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CharaData\Effect.cpp">
+      <Filter>CharaData</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CharaData\EffectGenerate.cpp">
+      <Filter>CharaData</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CharaData\Script.cpp">
+      <Filter>CharaData</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CharaData\Sequence.cpp">
+      <Filter>CharaData</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CharaData\IO\IOChara.cpp">
+      <Filter>CharaData\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CharaData\IO\IOCharaDefine.cpp">
+      <Filter>CharaData\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CharaData\IO\LoadChara.cpp">
+      <Filter>CharaData\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CharaData\IO\LoadCharaUtl.cpp">
+      <Filter>CharaData\IO</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\GameMain.h" />
     <ClInclude Include="Source\resource.h" />
     <ClInclude Include="Source\WinMain.h" />
-    <ClInclude Include="Source\testStretch.h" />
+    <ClInclude Include="Source\TestLoadChara.h" />
+    <ClInclude Include="Source\CharaData\Action.h">
+      <Filter>CharaData</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CharaData\Behavior.h">
+      <Filter>CharaData</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CharaData\Branch.h">
+      <Filter>CharaData</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CharaData\Chara.h">
+      <Filter>CharaData</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CharaData\Command.h">
+      <Filter>CharaData</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CharaData\Effect.h">
+      <Filter>CharaData</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CharaData\EffectGenerate.h">
+      <Filter>CharaData</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CharaData\Script.h">
+      <Filter>CharaData</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CharaData\Sequence.h">
+      <Filter>CharaData</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameMain\GameConst.h">
+      <Filter>GameMain</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CharaData\IO\IOChara.h">
+      <Filter>CharaData\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CharaData\IO\IOCharaDefine.h">
+      <Filter>CharaData\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CharaData\IO\LoadChara.h">
+      <Filter>CharaData\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CharaData\IO\LoadCharaUtl.h">
+      <Filter>CharaData\IO</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CharaData">
+      <UniqueIdentifier>{09324d91-cbcf-4592-b6ae-99a78ef7b55b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameMain">
+      <UniqueIdentifier>{e1ee9bf7-b786-40cf-ab43-94870392ef1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CharaData\IO">
+      <UniqueIdentifier>{c70f0d70-d11b-4ab8-9f50-15a73f6324a3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

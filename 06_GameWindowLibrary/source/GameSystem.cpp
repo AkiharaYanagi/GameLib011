@@ -13,6 +13,7 @@
 #include "DebugOutGameWindow.h"
 #include "SettingFile.h"
 #include "GameGraphicArray.h"
+#include "GameGraphicList.h"
 
 //-------------------------------------------------------------------------------------------------
 // 定義
@@ -35,8 +36,9 @@ namespace GAME
 		Dx3D::instance()->Load ();
 
 		//Graphic配列の初期化
-		GameGraphicArray::Create ();
-		
+//		GameGraphicArray::Create ();
+		GameGraphicList::Create ();
+
 		//ゲームテキスト初期化
 		GameText::Create();
 		GameText::instance()->Load ( Dx3D::instance()->GetDevice() );
@@ -97,8 +99,10 @@ namespace GAME
 	//再設定
 	void GameSystem::Reset()
 	{
-		//DirectXの再設定
+		//DirectX関連の再設定
 		Dx3D::instance()->Reset();
+//		GRPARY_RESET ();
+		GRPLST_RESET ();
 		GameText::instance()->Reset ( Dx3D::instance()->GetDevice() );
 		DebugOutGameWindow::instance()->Reset( Dx3D::instance()->GetDevice() );
 		KeyInput::instance()->Reset ();
@@ -133,7 +137,7 @@ namespace GAME
 
 		//----------------------------------------------
 		// 'T'キーでタイマー表示切替
-		static bool bTimer = true;
+		static bool bTimer = false;
 		static int time = 0;
 		if( ::GetAsyncKeyState('T') & 0x0001 )
 		{
@@ -201,10 +205,12 @@ namespace GAME
 	{
 		m_pGameMain = ::move ( pGameMain ); 
 
+#if 0
 		//Graphic配列をゲームメインに設定
 		P_TASK_VEC pGrpAry = GrpAry::instance()->GetpInstance ();
 		m_pGameMain->AddpTask ( pGrpAry );
-			TRACE_F(_T("GameSystem::SetGameMain\n"));
+//		TRACE_F(_T("GameSystem::SetGameMain\n"));
+#endif // 0
 	}
 
 

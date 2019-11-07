@@ -34,7 +34,7 @@ namespace GAME
 	{
 		PLAYER_ID_1 = 1,
 		PLAYER_ID_2 = 2,
-		_PLAYER_NUM,	//人数
+		_PLAYER_NUM,	//人数+1
 	};
 
 	//プレイヤ種類
@@ -45,13 +45,15 @@ namespace GAME
 		MODE_NETWORK,
 	};
 
-	//描画Z位置(後:1.f ～ 0.0f:前)
-	constexpr float Z_BG  = 0.9f;
-	constexpr float Z_SHADOW = 0.8f;
-	constexpr float Z_EFB = 0.7f;
-	constexpr float Z_CH  = 0.5f;
-	constexpr float Z_EFF = 0.4f;
-	constexpr float Z_SYS = 0.3f;
+	//対戦種類
+	enum MUTCH_MODE
+	{
+		MODE_PLAYER_PLAYER,
+		MODE_PLAYER_CPU,
+		MODE_CPU_PLAYER,
+		MODE_CPU_CPU,
+		MODE_PLAYER_NETWORK,
+	};
 
 }
 

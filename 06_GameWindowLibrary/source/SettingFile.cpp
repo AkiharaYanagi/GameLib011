@@ -27,6 +27,7 @@ namespace GAME
 			TCHAR path [ MAX_PATH ];
 			::GetCurrentDirectory ( MAX_PATH, path );
 			TRACE_F ( path );
+			TRACE_F ( _T("\n") );
 
 			//“ü—ÍƒXƒgƒŠ[ƒ€‚ğ¶¬
 			ifstream ifstrm( _T("GameSetting.dat"), ios::in );

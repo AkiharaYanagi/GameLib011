@@ -2,7 +2,8 @@
 //
 // GameGraphicArray ヘッダファイル
 //		Z値を用いてソートするGameGpraphicの配列
-//		オブジェクトを保持してシングルトンから設定する
+//		【シングルトン】グローバルかつ単一なオブジェクトを保持
+//		シーンをまたぐときにリセット
 //
 //=================================================================================================
 #pragma once
@@ -18,18 +19,6 @@
 //-------------------------------------------------------------------------------------------------
 namespace GAME
 {
-//--------------------------------------
-//		【Z値(0.0f～0.9f)】
-//		Z_BG	0.1f	背景
-//		Z_EFB	0.4f	エフェクト後
-//		Z_CH	0.5f	キャラ基本位置
-//		Z_EF	0.6f	エフェクト前
-//		Z_SYS	0.9f	システム表示
-//--------------------------------------
-
-	//@todo Ef関連で生成と破棄が多数回にわたるのでListの検討
-
-//クラス
 	class GameGraphicArray
 	{
 	//---------------------------------------------------------------------
@@ -56,14 +45,23 @@ namespace GAME
 		void Erase ( P_Task pTask ) { m_pTaskVec->EraseTask ( pTask ); }
 
 		//対象タスク配列のポインタ
-		P_TASK_VEC GetpInstance () { return m_pTaskVec; }
+		P_TASK_VEC GetpTaskVec () { return m_pTaskVec; }
+
+		//再設定
+		void Reset ();
+
+		//全消去
+		void Clear ();
 	};
 
 
 	using GrpAry = GameGraphicArray;
 	using UP_GrpAry = unique_ptr < GrpAry >;
+
 #define		GRPARY_INSERT	GrpAry::instance()->InsertByZ
 #define		GRPARY_ERASE	GrpAry::instance()->Erase
+#define		GRPARY_RESET	GrpAry::instance()->Reset
+#define		GRPARY_CLEAR	GrpAry::instance()->Clear
 
 }	//namespace GAME
 

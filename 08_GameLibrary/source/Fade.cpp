@@ -22,6 +22,7 @@ namespace GAME
 		PrmRect::SetValid ( false );
 		PrmRect::SetRect ( 0, 0, 1.f * WINDOW_WIDTH, 1.f * WINDOW_HEIGHT );
 		PrmRect::SetAllColor ( _CLR ( 0xff000000 ) );
+		SetAllZ ( Z_FADE );
 	}
 
 	Fade::~Fade ()
