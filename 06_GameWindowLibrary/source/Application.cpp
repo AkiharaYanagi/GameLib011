@@ -70,7 +70,7 @@ namespace GAME
 		m_pFrameControl = make_unique < FrameControl > ();
 
 		//設定ファイルの初期化と読込
-		SettingFile::Create ();
+		AppSettingFile::Create ();
 	}
 
 
@@ -202,8 +202,8 @@ namespace GAME
 		ATOM atom = RegisterClassExW ( &wcex );
 
 		//設定からウィンドウサイズの指定
-		UINT window_x = SettingFile::instance()->GetWindowX ();
-		UINT window_y = SettingFile::instance()->GetWindowY ();
+		UINT window_x = AppSettingFile::Inst()->GetWindowX ();
+		UINT window_y = AppSettingFile::Inst()->GetWindowY ();
 
 		//ウィンドウの作成
 		m_hWnd = CreateWindowW ( 

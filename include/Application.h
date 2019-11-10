@@ -15,7 +15,7 @@
 #include "DirectX_Library.h"	//DirectX利用
 #include "HWnd.h"				//ウィンドウハンドルオブジェクトの利用
 #include "GameMainBase.h"		//ゲームメイン基底
-#include "SettingFile.h"		//設定ファイル
+#include "AppSettingFile.h"		//設定ファイル
 
 //-------------------------------------------------------------------------------------------------
 // 宣言
@@ -66,7 +66,7 @@ namespace GAME
 
 		//------------------------------------------------------------------------
 		//設定ファイル
-		shared_ptr < SettingFile >	m_settingFile;
+		shared_ptr < AppSettingFile >	m_settingFile;
 
 
 	public:

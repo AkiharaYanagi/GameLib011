@@ -1,6 +1,6 @@
 ﻿//=================================================================================================
 //
-// 設定ファイル
+// アプリケーション設定ファイル
 //
 //=================================================================================================
 #pragma once
@@ -9,7 +9,7 @@
 // ヘッダのインクルード
 //-------------------------------------------------------------------------------------------------
 #include "Define.h"
-#include <windows.h>
+//#include <windows.h>
 #include "DebugLibrary.h"
 
 //-------------------------------------------------------------------------------------------------
@@ -17,20 +17,19 @@
 //-------------------------------------------------------------------------------------------------
 namespace GAME 
 {
-
-	class SettingFile
+	class AppSettingFile
 	{
 	//---------------------------------------------------------------------
 	//シングルトンパターン
 	private:
-		using _StgFl = SettingFile;
+		using _StgFl = AppSettingFile;
 		using _UP_StgFl = unique_ptr < _StgFl >;
 		static _UP_StgFl	m_inst;		//シングルトンインスタンス
-		SettingFile ();		//private コンストラクタで通常の実体化は禁止
+		AppSettingFile ();		//private コンストラクタで通常の実体化は禁止
 	public:
-		~SettingFile ();	//デストラクタはunique_ptrのためpublic
+		~AppSettingFile ();	//デストラクタはunique_ptrのためpublic
 		static void Create () { if ( ! m_inst ) { m_inst = _UP_StgFl ( new _StgFl () ); } }
-		static _UP_StgFl & instance () { return m_inst; }	//インスタンス取得
+		static _UP_StgFl & Inst () { return m_inst; }	//インスタンス取得
 	//---------------------------------------------------------------------
 		bool	m_bFullscreen;
 		UINT	m_window_x;
@@ -51,10 +50,10 @@ namespace GAME
 		bool GetbInput2pPlayer () const { return m_input2pPlayer; }
 	};
 
-	using P_SettingFile = unique_ptr < SettingFile >;
+	using P_SettingFile = unique_ptr < AppSettingFile >;
 
 //シングルトンアクセス用
-#define SETTING	SettingFile::instance()
+#define APP_STG	AppSettingFile::Inst()
 
 }	//namespace GAME
 

@@ -11,7 +11,7 @@
 //-------------------------------------------------------------------------------------------------
 #include "GameSystem.h"
 #include "DebugOutGameWindow.h"
-#include "SettingFile.h"
+#include "AppSettingFile.h"
 #include "GameGraphicArray.h"
 #include "GameGraphicList.h"
 
@@ -25,9 +25,9 @@ namespace GAME
 	void GameSystem::SystemLoad ()
 	{
 		//設定からウィンドウ状態の取得
-		UINT window_x = SettingFile::instance ()->GetWindowX ();
-		UINT window_y = SettingFile::instance ()->GetWindowY ();
-		bool bFullScreen = SettingFile::instance ()->GetbFullscreen ();
+		UINT window_x = AppSettingFile::Inst ()->GetWindowX ();
+		UINT window_y = AppSettingFile::Inst ()->GetWindowY ();
+		bool bFullScreen = AppSettingFile::Inst ()->GetbFullscreen ();
 
 		// Direct3Dの初期化
 		Dx3D::Create ();

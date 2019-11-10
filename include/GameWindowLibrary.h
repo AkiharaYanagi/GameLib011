@@ -23,5 +23,5 @@
 #include "Application.h"
 #include "KeyInput.h"
 #include "DebugOutGameWindow.h"
-#include "SettingFile.h"
+#include "AppSettingFile.h"
 
