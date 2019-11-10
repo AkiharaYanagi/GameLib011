@@ -15,7 +15,7 @@
 namespace GAME
 {
 	Timer::Timer ()
-	: m_active ( true ), m_time ( 0 ), m_targetTime ( 0 )
+	: m_active ( false ), m_time ( 0 ), m_targetTime ( 0 )
 	{
 	}
 
@@ -30,6 +30,7 @@ namespace GAME
 		if ( ++ m_time == m_targetTime )
 		{
 			m_time = 0;
+			m_active = false;
 		}
 
 		GameTask::Move ();
