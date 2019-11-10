@@ -123,12 +123,6 @@ namespace GAME
 	//フレーム毎動作
 	void GameSystem::Move ()
 	{
-		//ESCで終了
-		if ( ::GetAsyncKeyState ( VK_ESCAPE ) & 0x0001 ) 
-		{ 
-			::PostQuitMessage( 0 );
-		}
-
 		DxSound::instance ()->Move ();	//サウンドの更新
 		KeyInput::instance()->Update ();	//入力の更新
 
