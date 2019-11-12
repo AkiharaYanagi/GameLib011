@@ -27,7 +27,7 @@ namespace GAME
 //		m_pTasklst = make_shared < GameTaskList > ();
 	}
 
-	//コンストラクタ
+	//新規リストを作成
 	P_TASK_LST GameGraphicList::NewTaskList ()
 	{
 //		TRACE_F ( _T ( "■ GameGraphicList : m_pTaskList.use_count = %d\n" ), m_pTaskList.use_count () );
@@ -41,8 +41,8 @@ namespace GAME
 	//Z値で降順ソートされた位置に挿入
 	void GameGraphicList::InsertByZ ( P_GrpBs pTask )
 	{
-//		TRACE_F ( _T ( "InsertByZ : %x -> " ), m_pTaskList );
-//		TRACE_F ( _T ( "%d\n" ), m_pTaskList->GetSize () );
+		TRACE_F ( _T ( "InsertByZ : %x -> " ), m_pTaskList );
+		TRACE_F ( _T ( "%d\n" ), m_pTaskList->GetSize () );
 
 		//一つも無いとき通常の追加
 		if ( 0 == m_pTaskList->GetSize () ) { m_pTaskList->AddpTask ( pTask ); return; }
