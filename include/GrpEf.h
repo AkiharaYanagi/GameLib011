@@ -16,11 +16,8 @@
 //-------------------------------------------------------------------------------------------------
 namespace GAME
 {
-
 	class GrpEf : public GrpAcv
 	{
-		P_VEC2	m_pDispGameBase;	//外部からの画面補正量
-
 		UINT	m_timer;
 		VEC2	m_base;
 		VEC2	m_pos;
@@ -30,10 +27,11 @@ namespace GAME
 		VEC2	m_vel;
 		VEC2	m_acc;
 		V_VEC2	m_vPosMatrix;		//複数マトリックス使用時の補正位置
+		VEC2	m_dispBase;
 
 	public:
 		//引数：外部からの画面補正量
-		GrpEf ( P_VEC2 pDispGameBase );
+		GrpEf ();
 		GrpEf ( const GrpEf & rhs ) = delete;
 		~GrpEf ();
 
@@ -43,7 +41,7 @@ namespace GAME
 		void On ();
 
 		//キャラ位置による画面補正
-		void SetpDispGameBase ( P_VEC2 pVec ) { m_pDispGameBase = pVec; }
+		void SetpDispBase ( VEC2 v ) { m_dispBase = v; }
 
 		void SetBase ( VEC2 vec ) { m_base = vec; }
 		void SetPos ( VEC2 vec ) { m_pos = vec; }
@@ -71,7 +69,7 @@ namespace GAME
 		VEC2 GetCalcPos ( UINT i )
 		{
 			//基準位置 + 補正位置 + 外部補正位置 + 個別位置
-			return m_base + m_pos + *m_pDispGameBase + m_vPosMatrix[i];
+			return m_base + m_pos + m_dispBase + m_vPosMatrix[i];
 
 		}
 
