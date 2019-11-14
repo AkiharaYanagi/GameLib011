@@ -52,9 +52,9 @@ namespace GAME
 		//対象タスクを取外
 		void Erase ( P_Task pTask )
 		{
-			TRACE_F ( _T ( "Erase : %x -> " ), m_pTaskList );
+//			TRACE_F ( _T ( "Erase : %x -> " ), m_pTaskList );
 			m_pTaskList->EraseTask ( pTask );
-			TRACE_F ( _T ( "%d\n" ), m_pTaskList->GetSize () );
+//			TRACE_F ( _T ( "%d\n" ), m_pTaskList->GetSize () );
 		}
 
 		//再設定

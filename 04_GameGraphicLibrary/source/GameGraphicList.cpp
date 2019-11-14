@@ -41,8 +41,8 @@ namespace GAME
 	//Z値で降順ソートされた位置に挿入
 	void GameGraphicList::InsertByZ ( P_GrpBs pTask )
 	{
-		TRACE_F ( _T ( "InsertByZ : %x -> " ), m_pTaskList );
-		TRACE_F ( _T ( "%d\n" ), m_pTaskList->GetSize () );
+//		TRACE_F ( _T ( "InsertByZ : %x -> " ), m_pTaskList );
+//		TRACE_F ( _T ( "%d\n" ), m_pTaskList->GetSize () );
 
 		//一つも無いとき通常の追加
 		if ( 0 == m_pTaskList->GetSize () ) { m_pTaskList->AddpTask ( pTask ); return; }

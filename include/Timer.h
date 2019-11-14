@@ -28,7 +28,11 @@ namespace GAME
 
 		void Move ();
 
-		bool IsActive () { return m_active; }
+		//可動状態
+		bool IsActive () const { return m_active; }
+
+		//最終状態(同値になったらリセットされるので( 1 + m_time )で判定する)
+		bool IsLast () const { return (m_targetTime == 1 + m_time); }
 
 		void SetTime ( UINT i ) { m_time = 0; }
 		UINT GetTime () const { return m_time; }

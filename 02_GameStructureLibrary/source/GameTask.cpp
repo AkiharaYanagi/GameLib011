@@ -159,9 +159,16 @@ namespace GAME
 		m_plpTask->insert ( it, pTask );
 	}
 
+	bool Pred ( P_Task p )
+	{
+
+		return false;
+	}
+
 	//タスクの取外
 	void GameTaskList::EraseTask ( P_Task pTask )
 	{
+
 		//削除にはforeachは使わない
 		LP_Task::iterator it = begin ( * m_plpTask );
 		while ( it != end ( * m_plpTask ) )
@@ -169,10 +176,16 @@ namespace GAME
 			if ( (*it) == pTask )
 			{
 				it = m_plpTask->erase ( it );
+				break;
 			}
 			++ it;
 		}
+#if 0
+
+		remove_if ( begin ( *m_plpTask ), end ( *m_plpTask ), Pred );
+#endif // 0
 	}
+
 	void GameTaskList::EraseTask ( const LP_Task::iterator it )
 	{
 		m_plpTask->erase ( it );

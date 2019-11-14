@@ -19,6 +19,7 @@
 #include <vector>
 #include <list>
 #include <memory>
+#include <algorithm>
 using namespace std;
 
 #include "DebugManager.h"
