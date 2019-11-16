@@ -25,7 +25,16 @@ namespace GAME
 
 	void GrpBlink::Move ()
 	{
-		//--------------------------------------------------
+		if ( m_active )
+		{
+			//“_–Å
+			Blink ();
+		}
+		GrpAcv::Move ();
+	}
+
+	void GrpBlink::Blink ()
+	{
 		//“_–Å
 		if ( m_blink )
 		{
@@ -54,11 +63,18 @@ namespace GAME
 		UINT alpha = 0x80 + (0xff / m_blinkTime) / 2 * m_timer;
 		_CLR color = _CLR ( alpha << 24 ^ 0x00ffffff );
 		SetAllColor ( color );
-		//--------------------------------------------------
-
-		GrpAcv::Move ();
 	}
 
+	void GrpBlink::Stop ()
+	{
+		m_active = false;
+		SetAllColor ( 0xffffffff );
+	}
+
+	void GrpBlink::Start ()
+	{
+		m_active = true;
+	}
 
 
 

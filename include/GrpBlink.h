@@ -20,6 +20,9 @@ namespace GAME
 		bool	m_blink;
 		UINT	m_timer;
 		UINT	m_blinkTime;
+		bool	m_active;
+
+		void Blink ();
 
 	public:
 		GrpBlink ();
@@ -30,6 +33,8 @@ namespace GAME
 
 		void SetTimer ( UINT n ) { m_timer = n; }
 		void SetBlinkTime ( UINT n ) { m_blinkTime = n; }
+		void Stop ();
+		void Start ();
 	};
 
 	using P_GrpBlink = shared_ptr < GrpBlink >;
