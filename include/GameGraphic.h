@@ -22,7 +22,7 @@ using namespace std;
 
 namespace GAME
 {
-	//=======================================================================
+	//■=======================================================================
 	// ゲームグラフィック　ベース
 	//		・グラフィック機能の基本
 	//		・純粋仮想関数を持つので実体化は不可
@@ -34,7 +34,7 @@ namespace GAME
 	//		・テクスチャとオブジェクトのvectorを持つ
 	//		・追加、削除、動作などの管理をする
 	//		・テクスチャが指定されていないときは何もしない
-	//=======================================================================
+	//■=======================================================================
 	class GameGraphicBase	: public GameTask
 	{
 		UINT		m_wait;			//表示時間（０なら常時）
@@ -49,7 +49,7 @@ namespace GAME
 		PVP_Object	m_pvpObject;
 		UINT		m_indexObject;
 
-		//テクスチャ配列
+		//テクスチャ配列(インデックスはオブジェクトが持つ)
 		PVP_TxBs	m_pvpTexture;
 
 		//全体表示切替
@@ -73,8 +73,8 @@ namespace GAME
 		UINT GetTimer () const { return m_timer; }
 
 		//フェード時間
-		void SetFadeIn ( UINT n ) { if ( 0 != n ) { m_fadeIn = n; } }
-		void SetFadeOut ( UINT n ) { if ( 0 != n ) { m_fadeOut = n; } }
+		void SetFadeIn ( UINT n ) { if ( 0 != n ) { m_fadeIn = n; m_timer = n; } }
+		void SetFadeOut ( UINT n ) { if ( 0 != n ) { m_fadeOut = n; m_timer = n; } }
 
 		//スプライト中心位置
 		void SetSpriteCenter ( VEC3 center ) { (* m_pCenter) = center; }
@@ -111,7 +111,7 @@ namespace GAME
 		void SetAllColor ( D3DXCOLOR color );
 
 		//---------------------------------------------------------------------
-		//マトリックス直接先頭制御
+		//オブジェクト直接先頭制御
 		void SetPos ( VEC2 v ) { m_pvpObject->at ( 0 )->SetPos ( v ); }
 		void SetPos ( float x, float y ) { m_pvpObject->at ( 0 )->SetPos ( x, y ); }
 		VEC2 GetPos () const { return m_pvpObject->at ( 0 )->GetPos (); }
@@ -123,11 +123,8 @@ namespace GAME
 		void SetRotationCenter ( VEC2 v ) { m_pvpObject->at ( 0 )->SetRotationCenter ( v ); }
 		void SetRadian ( float f ) { m_pvpObject->at ( 0 )->SetRadian ( f ); }
 
-		//マトリックス指定
-		void SetiPos ( UINT i, VEC2 v )
-		{
-			m_pvpObject->at ( i )->SetPos ( v );
-		}
+		//オブジェクト指定
+		void SetiPos ( UINT i, VEC2 v ) { m_pvpObject->at ( i )->SetPos ( v ); }
 
 		//---------------------------------------------------------------------
 		//テクスチャの設定
@@ -147,17 +144,6 @@ namespace GAME
 		//テクスチャ配列ポインタを返す
 		PVP_TxBs GetpvpTexture () { return m_pvpTexture; }
 
-		//インデックス
-		// <-インデックスはオブジェクトで管理するように変更
-#if 0
-
-		UINT GetSizeTexture () const { return m_pvpTexture->size (); }
-		UINT GetIndexTexture () const { return m_indexTexture; }
-
-		//テクスチャを次のインデックスに進める
-		//末尾のときは何もしない
-		void NextTexture ();
-#endif // 0
 		//先頭のみ指定
 		void SetIndexTexture ( UINT i )
 		{
@@ -175,12 +161,12 @@ namespace GAME
 	typedef		shared_ptr < GrpBs >	P_GrpBs;
 
 
-	//=======================================================================
+	//■=======================================================================
 	// ゲームグラフィック フロムファイル
 	// (画像ファイル指定)
 	//		GameTextureFromFileを用いて名前を指定して直接画像ファイルから読込
 	//		１つのテクスチャを保持し、管理する
-	//=======================================================================
+	//■=======================================================================
 	class GameGraphicFromFile : public GrpBs
 	{
 		VP_TxBs	m_vpTexture;
@@ -205,12 +191,12 @@ namespace GAME
 	typedef		shared_ptr < GrpFl >	P_GrpFl;
 
 
-	//=======================================================================
+	//■=======================================================================
 	// ゲームグラフィック フロムアーカイブ
 	// (アーカイブ利用)
 	//		GameTextureFromArchiveを用いて名前を指定してアーカイブから読込
 	//		GameGraphicBaseがテクスチャとマトリクスのvectorを持つ
-	//=======================================================================
+	//■=======================================================================
 	class GameGraphicFromArchive : public GrpBs
 	{
 		VP_TxBs	m_vpTexture;
@@ -232,14 +218,14 @@ namespace GAME
 	typedef		shared_ptr < GrpAcv >	P_GrpAcv;
 
 
-	//=======================================================================
+	//■=======================================================================
 	// ゲームグラフィック　アプロブドテクスチャ
 	//		既に読み込んであるテクスチャを指定する
 	//		GameGraphicBaseがテクスチャとマトリクスのvectorを持つ
-	//=======================================================================
+	//■=======================================================================
 	class GameGraphicApprovedTexture	: public GrpBs
 	{
-		shared_ptr < GameTextureBase >	m_pTexture;		//読込済みテクスチャ(解放・再設定は設定元で行う)
+		P_TxBs	m_pTexture;		//読込済みテクスチャ(解放・再設定は設定元で行う)
 
 	public:
 		GameGraphicApprovedTexture ();

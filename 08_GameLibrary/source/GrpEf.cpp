@@ -37,7 +37,7 @@ namespace GAME
 	{
 		GrpAcv::Load ();
 
-		//Load 後
+		//読み込んだテクスチャのサイズによるので Load() 後
 		SetCenterOfTexture ( 0 );
 	}
 
