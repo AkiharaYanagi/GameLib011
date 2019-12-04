@@ -48,8 +48,8 @@ namespace GAME
 	//-------------------------------------------------------------------------------------------------
 	// TRUE, FALSE
 	//-------------------------------------------------------------------------------------------------
-	constexpr bool T = true;;
-	constexpr bool F = false;;
+	constexpr bool T = true;
+	constexpr bool F = false;
 
 }	//namespace GAME
 

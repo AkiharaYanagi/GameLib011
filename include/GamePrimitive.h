@@ -53,7 +53,7 @@ namespace GAME
 		bool GetValid () { return m_valid; }
 
 		//’¸“_F‚ÌÝ’è
-		void SetAllColor ( D3DXCOLOR color ) { m_vertex->SetAllColor ( color ); m_vertex->SetVertexBuffer (); }
+		void SetAllColor ( _CLR color ) { m_vertex->SetAllColor ( color ); m_vertex->SetVertexBuffer (); }
 
 		void SetAllZ ( float z ) { m_vertex->SetAllZ ( z ); m_vertex->SetVertexBuffer (); }
 

@@ -23,9 +23,9 @@
 #include "GameKey.h"
 #include "GameInput.h"
 #include "Fade.h"
-#include "Timer.h"
 #include "GrpEf.h"
 #include "GrpDemo.h"
 #include "GrpBlink.h"
 #include "Rect.h"
+#include "Timer.h"
 

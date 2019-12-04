@@ -3,16 +3,13 @@
 // DirectX‚É‚¨‚¯‚é’¸“_‚Ì’è‹`
 //
 //=================================================================================================
-
 #include "DxVertex.h"
-
 
 //-------------------------------------------------------------------------------------------------
 // ’è‹`
 //-------------------------------------------------------------------------------------------------
 namespace GAME
 {
-
 	DxVertex::DxVertex () 
 		: m_lpVertexBuffer ( nullptr ), m_vertex ( nullptr ), m_vertexNum ( 0 ), m_update ( true )
 			, m_color ( 0xffffffff ), m_z ( 0.5f )
@@ -161,7 +158,7 @@ namespace GAME
 		}
 	}
 
-	void DxVertex::SetVertex ( UINT index, float x, float y, float z, float rhw, DWORD color, float u, float v )
+	void DxVertex::SetVertex ( UINT index, float x, float y, float z, float rhw, _CLR color, float u, float v )
 	{
 		assert ( index < m_vertexNum );
 		m_vertex[index].x = x;
@@ -193,13 +190,13 @@ namespace GAME
 		for ( UINT i = 0; i < m_vertexNum; i++ ) { m_vertex[i].z = z; }
 	}
 
-	void DxVertex::SetAllColor ( D3DXCOLOR color )
+	void DxVertex::SetAllColor ( _CLR color )
 	{
 		m_color = color;
 		for ( UINT i = 0; i < m_vertexNum; i++ ) { m_vertex[i].color = color; }
 	}
 
-	void DxVertex::SetColor ( UINT index, D3DXCOLOR color )
+	void DxVertex::SetColor ( UINT index, _CLR color )
 	{
 		assert ( index < m_vertexNum );
 		m_vertex[index].color = color;

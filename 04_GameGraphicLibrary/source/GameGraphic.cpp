@@ -63,48 +63,53 @@ namespace GAME
 	//すべてのオブジェクトへの操作：表示状態
 	void GameGraphicBase::SetValid ( bool b )
 	{
+#if 0
 		UINT sizeObject = m_pvpObject->size();
 		for ( UINT i = 0; i < sizeObject; ++i )
 		{
 			m_pvpObject->at ( i )->SetValid ( b );
 		}
+#endif // 0
+		for ( P_Object pOb : *m_pvpObject ) { pOb->SetValid ( b ); }
 		m_valid = b;
 	}
 
 	//すべてのオブジェクトへの操作：位置指定
 	void GameGraphicBase::SetAllPos ( VEC2 vec )
 	{
+#if 0
 		UINT sizeMatrix = m_pvpObject->size ();
 		for ( UINT i = 0; i < sizeMatrix; ++i )
 		{
 			m_pvpObject->at ( i )->GetpMatrix ()->SetPos ( vec );
 		}
+#endif // 0
+		for ( P_Object pOb : *m_pvpObject ) { pOb->GetpMatrix ()->SetPos ( vec ); }
 	}
 
 	//すべてのオブジェクトへの操作：色指定
 	void GameGraphicBase::SetAllColor ( D3DXCOLOR color )
 	{
-		for ( P_Object p : (*m_pvpObject ) )
-		{
-			p->SetColor ( color );
-		}
+		for ( P_Object p : (*m_pvpObject ) ) { p->SetColor ( color ); }
 	}
 
 	//表示時間（０なら常時）
 	void GameGraphicBase::SetWait ( UINT n )
 	{
-		if ( 0 != n )
-		{
-			m_wait = n;
-			m_timer = 0;
+		m_wait = n;
+		m_timer = 0;
 
-			UINT sizeMatrix = m_pvpObject->size();
-			for ( UINT i = 0; i < sizeMatrix; ++i )
-			{
-				m_pvpObject->at ( i )->SetValid ( true );
-			}
-			m_valid = true;
+		if ( 0 == n ) { return; }
+		
+#if 0
+		UINT sizeMatrix = m_pvpObject->size();
+		for ( UINT i = 0; i < sizeMatrix; ++i )
+		{
+			m_pvpObject->at ( i )->SetValid ( true );
 		}
+		for ( P_Object p : (*m_pvpObject) ) { p->SetValid ( true ); }
+#endif // 0
+		m_valid = true;
 	}
 
 	//フレーム毎動作
@@ -113,58 +118,7 @@ namespace GAME
 		//タイマ
 		if ( 0 != m_wait )
 		{
-			//フェード
-			if ( 0 < m_fadeOut )			//フェードアウト優先
-			{
-				if ( m_fadeOut > m_timer )
-				{
-					//α値を算出
-					UINT alpha = (UINT)( 0xff * ( 1.f - ( 1.f / m_fadeOut ) * m_timer ) );
-					D3DXCOLOR color = D3DXCOLOR ( alpha << 24 ^ 0x00ffffff );
-					if ( m_pvpTexture->at ( 0 ) ) { m_pvpTexture->at ( 0 )->SetColor ( color ); }
-				}
-				else if ( m_fadeOut == m_timer )	//終了
-				{
-					m_pvpTexture->at ( 0 )->SetColor ( D3DXCOLOR ( 0x00ffffff ) );
-					UINT sizeObject = m_pvpObject->size();
-					for ( UINT i = 0; i < sizeObject; ++i )
-					{
-						m_pvpObject->at ( i )->SetValid ( false );
-					}
-					m_valid = false;
-					m_fadeOut = 0;
-				}
-			}
-			else if ( 0 < m_fadeIn )
-			{
-				if ( m_fadeIn > m_timer )
-				{
-					//α値を算出
-					UINT alpha = ( 0xff / m_fadeIn ) * m_timer;
-					D3DXCOLOR color = D3DXCOLOR ( alpha << 24 ^ 0x00ffffff );
-					if ( m_pvpTexture->at ( 0 ) ) { m_pvpTexture->at ( 0 )->SetColor ( color ); }
-				}
-				else if ( m_fadeIn == m_timer )	//終了
-				{
-					if ( m_pvpTexture->at ( 0 ) ) { m_pvpTexture->at ( 0 )->SetColor ( D3DXCOLOR ( 0xffffffff ) ); }
-					m_fadeIn = 0;
-				}
-			}
-
-			//タイマの終了
-			if ( m_wait == m_timer )
-			{
-				UINT sizeObject = m_pvpObject->size();
-				for ( UINT i = 0; i < sizeObject; ++i )
-				{
-					m_pvpObject->at ( i )->SetValid ( false );
-				}
-				m_valid = false;
-			}
-			else
-			{
-				++m_timer;
-			}
+			_Fade ();	//フェード
 		}
 
 
@@ -177,6 +131,61 @@ namespace GAME
 		}
 #endif // 0
 		for ( P_Object pOb : *m_pvpObject ) { pOb->Move (); }
+	}
+
+	void GameGraphicBase::_Fade ()
+	{
+		if ( 0 < m_fadeOut )	//フェードアウト優先
+		{
+			if ( m_fadeOut > m_timer )
+			{
+				//α値を算出
+				UINT alpha = (UINT)(0xff * (1.f - (1.f / m_fadeOut) * m_timer));
+				_CLR color = _CLR ( alpha << 24 ^ 0x00ffffff );
+				if ( m_pvpTexture->at ( 0 ) ) { m_pvpTexture->at ( 0 )->SetColor ( color ); }
+			}
+			else if ( m_fadeOut == m_timer )	//終了
+			{
+				m_pvpTexture->at ( 0 )->SetColor ( _CLR ( 0x00ffffff ) );
+				UINT sizeObject = m_pvpObject->size ();
+				for ( UINT i = 0; i < sizeObject; ++i )
+				{
+					m_pvpObject->at ( i )->SetValid ( false );
+				}
+				m_valid = false;
+				m_fadeOut = 0;
+			}
+		}
+		else if ( 0 < m_fadeIn )
+		{
+			if ( m_fadeIn > m_timer )
+			{
+				//α値を算出
+				UINT alpha = (0xff / m_fadeIn) * m_timer;
+				_CLR color = _CLR ( alpha << 24 ^ 0x00ffffff );
+				if ( m_pvpTexture->at ( 0 ) ) { m_pvpTexture->at ( 0 )->SetColor ( color ); }
+			}
+			else if ( m_fadeIn == m_timer )	//終了
+			{
+				if ( m_pvpTexture->at ( 0 ) ) { m_pvpTexture->at ( 0 )->SetColor ( _CLR ( 0xffffffff ) ); }
+				m_fadeIn = 0;
+			}
+		}
+
+		//タイマの終了
+		if ( m_wait == m_timer )
+		{
+			UINT sizeObject = m_pvpObject->size ();
+			for ( UINT i = 0; i < sizeObject; ++i )
+			{
+				m_pvpObject->at ( i )->SetValid ( false );
+			}
+			m_valid = false;
+		}
+		else
+		{
+			++m_timer;
+		}
 	}
 
 	//フレーム毎描画

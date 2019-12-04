@@ -9,20 +9,22 @@
 //-------------------------------------------------------------------------------------------------
 #include "Fade.h"
 
-
 //-------------------------------------------------------------------------------------------------
 // 定義
 //-------------------------------------------------------------------------------------------------
 namespace GAME
 {
-
-	Fade::Fade () : 
-		m_timer ( 0 ), m_fadeOutTime ( 0 ), m_darkInTime ( 0 ), m_darkOutTime ( 0 )
+	Fade::Fade ()
+	: m_whiteOutTime ( 0 ), m_darkInTime ( 0 ), m_darkOutTime ( 0 )
+	, m_color0 ( 0x00000000UL ), m_color1 ( 0xff000000UL ), m_targetTime ( 0 )
 	{
 		PrmRect::SetValid ( false );
 		PrmRect::SetRect ( 0, 0, 1.f * WINDOW_WIDTH, 1.f * WINDOW_HEIGHT );
-		PrmRect::SetAllColor ( _CLR ( 0xff000000 ) );
-		SetAllZ ( Z_FADE );
+		PrmRect::SetAllZ ( Z_FADE );
+//		PrmRect::SetAllColor ( m_color0 );
+//		PrmRect::SetAllColor ( _CLR ( 1.f, 1.f, 1.f, 1.f) );
+		PrmRect::SetValid ( true );
+		m_timer = make_shared < Timer > ();
 	}
 
 	Fade::~Fade ()
@@ -31,70 +33,88 @@ namespace GAME
 
 	void Fade::Move ()
 	{
-		//フェード(ホワイト)アウト( 0x00ffffff → 0xffffffff )
-		if ( m_fadeOutTime == 0 )
+		UINT t = m_timer->GetTime ();
+
+		//初期色->目標色( m_color0 → m_color1 )
+		if ( 0 != m_targetTime )
 		{
-		}
-		else 
-		{
-			if ( m_timer == m_fadeOutTime )
+			if ( t == m_targetTime )
 			{
-				m_timer = 0;
-				m_fadeOutTime = 0;
+				m_timer->Reset ();
+				m_targetTime = 0;
+				PrmRect::SetAllColor ( m_color1 );
+				PrmRect::SetValid ( false );
+			}
+			else
+			{
+				float alpha = (1.f / m_targetTime) * t;	//α値を算出
+				_CLR c = _CLR ( m_color1.r, m_color1.g, m_color1.b, alpha );
+				PrmRect::SetAllColor ( c );
+			}
+		}
+
+#if 0
+		//ホワイトアウト( 0x00ffffff → 0xffffffff )
+		if ( 0 != m_whiteOutTime )
+		{
+			if ( t == m_whiteOutTime )
+			{
+				m_timer->Reset ();
+				m_whiteOutTime = 0;
 				PrmRect::SetAllColor ( _CLR ( 0xffffffff ) );
 				PrmRect::SetValid ( false );
 			}
 			else
 			{
-				UINT alpha = ( 0xff / m_fadeOutTime ) * m_timer;				//α値を算出
-				_CLR color = _CLR ( alpha << 24 ^ 0x00000000 );
+//				UINT alpha = (0xff / m_whiteOutTime) * t;		//α値を算出
+				UCHAR alpha = (UCHAR)((255.f / m_whiteOutTime) * t);		//α値を算出
+				UINT alpha_s = alpha << 24;
+				UINT U_color = alpha_s ^ 0x00ffffff;
+				//				_CLR color = _CLR ( alpha_s ^ 0x00ffffff );
+				_CLR color = _CLR ( U_color );
+				TRACE_F ( _T ( "alpha = %x, alpha_s = %x, color = %x\n" ), alpha, alpha_s, U_color );
 				PrmRect::SetAllColor ( color );
-
-				++m_timer;
 			}
 		}
 
 		//ダークイン ( 0xff000000 → 0x00000000 )
-		if ( m_darkInTime == 0 ) 
+		if ( 0 != m_darkInTime ) 
 		{
-		}
-		else
-		{
-			if ( m_timer == m_darkInTime )
+			if ( t == m_darkInTime )
 			{
-				m_timer = 0;
+				m_timer->Reset ();
 				m_darkInTime = 0;
 				PrmRect::SetAllColor ( _CLR ( 0x00ffffff ) );
 				PrmRect::SetValid ( false );
 			}
 			else
 			{
-				UINT alpha = 0xff - ( 0xff / m_darkInTime ) * m_timer;			//α値を算出
+				UINT alpha = 0xff - ( 0xff / m_darkInTime ) * t;			//α値を算出
 				_CLR color = _CLR ( alpha << 24 ^ 0x00000000 );
 				PrmRect::SetAllColor ( color );
-
-				++m_timer;
 			}
 		}
 
 		//ダークアウト( 0x00000000 → 0xff000000 )
 		if ( 0 != m_darkOutTime )
 		{
-			if ( m_timer == m_darkOutTime )
+			if ( t == m_darkOutTime )
 			{
-				m_timer = 0;
+				m_timer->Reset ();
 				m_darkOutTime = 0;
 				PrmRect::SetAllColor ( _CLR ( 0xff000000 ) );
 			}
 			else
 			{
-				UINT alpha = ( 0xff / m_darkOutTime ) * m_timer;			//α値を算出
+				UINT alpha = ( 0xff / m_darkOutTime ) * t;			//α値を算出
 				_CLR color = _CLR ( alpha << 24 ^ 0x00000000 );
 				PrmRect::SetAllColor ( color );
-				++m_timer;
 			}
 		}
+#endif // 0
 
+
+		m_timer->Move ();
 		PrmRect::Move ();
 	}
 

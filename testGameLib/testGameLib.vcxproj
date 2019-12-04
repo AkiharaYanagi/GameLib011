@@ -146,7 +146,7 @@
     <ClCompile Include="Source\CharaData\IO\LoadCharaUtl.cpp" />
     <ClCompile Include="Source\CharaData\Script.cpp" />
     <ClCompile Include="Source\CharaData\Sequence.cpp" />
-    <ClCompile Include="Source\TestLoadChara.cpp" />
+    <ClCompile Include="Source\testFade.cpp" />
     <ClCompile Include="Source\WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -166,7 +166,7 @@
     <ClInclude Include="Source\GameMain.h" />
     <ClInclude Include="Source\GameMain\GameConst.h" />
     <ClInclude Include="Source\resource.h" />
-    <ClInclude Include="Source\TestLoadChara.h" />
+    <ClInclude Include="Source\testFade.h" />
     <ClInclude Include="Source\WinMain.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

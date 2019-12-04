@@ -2,7 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="Source\WinMain.cpp" />
-    <ClCompile Include="Source\TestLoadChara.cpp" />
     <ClCompile Include="Source\CharaData\Action.cpp">
       <Filter>CharaData</Filter>
     </ClCompile>
@@ -42,12 +41,12 @@
     <ClCompile Include="Source\CharaData\IO\LoadCharaUtl.cpp">
       <Filter>CharaData\IO</Filter>
     </ClCompile>
+    <ClCompile Include="Source\testFade.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\GameMain.h" />
     <ClInclude Include="Source\resource.h" />
     <ClInclude Include="Source\WinMain.h" />
-    <ClInclude Include="Source\TestLoadChara.h" />
     <ClInclude Include="Source\CharaData\Action.h">
       <Filter>CharaData</Filter>
     </ClInclude>
@@ -90,6 +89,7 @@
     <ClInclude Include="Source\CharaData\IO\LoadCharaUtl.h">
       <Filter>CharaData\IO</Filter>
     </ClInclude>
+    <ClInclude Include="Source\testFade.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CharaData">

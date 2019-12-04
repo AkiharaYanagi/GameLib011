@@ -154,6 +154,9 @@ namespace GAME
 		VEC2 GetCenterOfTexture ( UINT index ) const ;
 
 		//---------------------------------------------------------------------
+		//“à•”ŠÖ”
+	private:
+		void _Fade ();
 	};
 
 	//Œ^w’è

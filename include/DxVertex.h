@@ -3,31 +3,25 @@
 // DirectXにおける頂点の定義
 //
 //=================================================================================================
-
-
-#ifndef		__DXVERTEX_HEADER_INCLUDE__
-#define		__DXVERTEX_HEADER_INCLUDE__
-
+#pragma once
 
 //-------------------------------------------------------------------------------------------------
 // ヘッダのインクルード
 //-------------------------------------------------------------------------------------------------
 #include "Directx_common.h"	//DirectX共通
 #include "Dx3D.h"
+#include "DxDefine.h"
 #include <list>
-
 
 //-------------------------------------------------------------------------------------------------
 // 宣言
 //-------------------------------------------------------------------------------------------------
 namespace GAME 
 {
-
 	//-------------------------------------------------------------------------------------------------
 	// 定数
 	//-------------------------------------------------------------------------------------------------
 	#define FVF_CUSTOM ( D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1 )
-
 
 	//-------------------------------------------------------------------------------------------------
 	// 構造体
@@ -36,10 +30,9 @@ namespace GAME
 	{
 		float x, y, z;	//頂点座標
 		float rhw;		//除算数
-		DWORD color;	//色
+		_CLR color;		//色
 		float u, v;		//テクスチャ座標
 	};
-
 
 	//-------------------------------------------------------------------------------------------------
 	// 頂点バッファと処理クラス
@@ -52,13 +45,13 @@ namespace GAME
 
 		bool						m_update;				//更新フラグ (move()時にapplyPos()を行うかどうか)
 
-		D3DXCOLOR					m_color;				//共通基本色
+		_CLR						m_color;				//共通基本色
 		float						m_z;					//共通z位置
 
 	public:
 		DxVertex ();
 		DxVertex ( UINT vertexNum );	//頂点数を指定するコンストラクタ
-		DxVertex ( const DxVertex& rhs );
+		DxVertex ( const DxVertex& rhs ) = delete;
 		virtual ~DxVertex ();
 
 		virtual void Load ();
@@ -88,7 +81,7 @@ namespace GAME
 		void Clear ();
 
 		//頂点設定
-		void SetVertex ( UINT index, float x, float y, float z, float rhw, DWORD color, float u, float v );
+		void SetVertex ( UINT index, float x, float y, float z, float rhw, _CLR color, float u, float v );
 
 		//位置の設定
 		void SetPos ( UINT index, float x, float y, float z );
@@ -99,8 +92,8 @@ namespace GAME
 		float GetAllZ () const { return m_z; }
 
 		//色の設定
-		void SetAllColor ( D3DXCOLOR color );
-		void SetColor ( UINT vertexNum, D3DXCOLOR color );
+		void SetAllColor ( _CLR color );
+		void SetColor ( UINT vertexNum, _CLR color );
 
 		//除算数の設定
 		void SetRhw ( UINT index, float rhw );
@@ -118,12 +111,12 @@ namespace GAME
 	//特定の形を持つ頂点集合
 	class DxParticularVertex : public DxVertex
 	{
-		D3DXVECTOR2					m_pos;					//位置
+		VEC2		m_pos;		//位置
 
 	public:
-		DxParticularVertex ();
+		DxParticularVertex () = delete;
 		DxParticularVertex ( UINT vertexNum );	//頂点数を指定するコンストラクタ
-		DxParticularVertex ( const DxParticularVertex& rhs );
+		DxParticularVertex ( const DxParticularVertex& rhs ) = delete;
 		~DxParticularVertex () {}
 
 		//位置
@@ -142,7 +135,7 @@ namespace GAME
 
 	public:
 		DxVertex4 ();
-		DxVertex4 ( const DxVertex4& rhs );
+		DxVertex4 ( const DxVertex4& rhs ) = delete;
 		~DxVertex4 ();
 
 		//位置指定
@@ -164,7 +157,7 @@ namespace GAME
 
 	public:
 		DxVertexFree4 ();
-		DxVertexFree4 ( const DxVertexFree4& rhs );
+		DxVertexFree4 ( const DxVertexFree4& rhs ) = delete;
 		~DxVertexFree4 ();
 
 		//位置指定
@@ -184,7 +177,7 @@ namespace GAME
 
 	public:
 		DxVertexLine ();
-		DxVertexLine ( const DxVertexLine& rhs );
+		DxVertexLine ( const DxVertexLine& rhs ) = delete;
 		~DxVertexLine ();
 
 		//位置指定
@@ -207,7 +200,7 @@ namespace GAME
 
 	public:
 		DxVertex3 ();
-		DxVertex3 ( const DxVertex3& rhs );
+		DxVertex3 ( const DxVertex3& rhs ) = delete;
 		~DxVertex3 ();
 
 		//位置指定
@@ -230,7 +223,7 @@ namespace GAME
 
 	public:
 		_DxPoliVertex ();
-		_DxPoliVertex ( const _DxPoliVertex& rhs );
+		_DxPoliVertex ( const _DxPoliVertex& rhs ) = delete;
 		~_DxPoliVertex ();
 
 		void ApplyPos ();	//位置を適用して頂点をつくる
@@ -269,7 +262,7 @@ namespace GAME
 
 	public:
 		DxPoliVertex ();
-		DxPoliVertex ( const DxPoliVertex& rhs );
+		DxPoliVertex ( const DxPoliVertex& rhs ) = delete;
 		~DxPoliVertex ();
 
 		virtual void Load ();	//初期化を後にするオーバーライド
@@ -317,8 +310,4 @@ namespace GAME
 
 
 }	//namespace GAME
-
-
-#endif		//__DXVERTEX_HEADER_INCLUDE__
-
 
