@@ -11,17 +11,15 @@
 namespace GAME
 {
 	DxVertex::DxVertex () 
-		: m_lpVertexBuffer ( nullptr ), m_vertex ( nullptr ), m_vertexNum ( 0 ), m_update ( true )
-			, m_color ( 0xffffffff ), m_z ( 0.5f )
+	: m_lpVertexBuffer ( nullptr ), m_update ( true ), m_color ( 0xffffffff ), m_z ( Z_DEFALT )
 	{
 	}
 
 	//頂点数を指定したコンストラクタ
 	DxVertex::DxVertex ( UINT vertexNum )
-		: m_lpVertexBuffer ( nullptr ), m_vertex ( nullptr ), m_vertexNum ( 0 ), m_update ( true )
-			, m_color ( 0xffffffff ), m_z ( 0.5f )
+	: m_lpVertexBuffer ( nullptr ), m_update ( true ), m_color ( 0xffffffff ), m_z ( Z_DEFALT )
 	{
-		this->SetVertexNum ( vertexNum );
+		SetVertexNum ( vertexNum );
 	}
 
 	DxVertex::~DxVertex ()
@@ -34,14 +32,23 @@ namespace GAME
 	void DxVertex::SetVertexNum ( UINT vertexNum )
 	{
 		//既に指定してある場合何もしない
-		if ( m_vertex ) { return; }
+		if ( 0 < m_vVx.size () ) { return; }
 
 		//頂点の数で初期化
+#if 0
 		m_vertexNum = vertexNum;
-		m_vertex = new CUSTOM_VERTEX [ m_vertexNum ];
+//		m_vVx = new CUSTOM_VERTEX [ m_vertexNum ];
 		for ( UINT i = 0; i < m_vertexNum; i++ )
 		{
 			this->SetVertex ( i, 0, 0, m_z, 1.f, m_color, 0, 0 );
+		}
+#endif // 0
+
+		m_vVx.resize ( vertexNum );
+		UINT i = 0;
+		for ( CUSTOM_VERTEX v : m_vVx )
+		{
+			SetVertex ( i ++, 0, 0, m_z, 1.f, m_color, 0, 0 );
 		}
 	}
 
@@ -55,9 +62,10 @@ namespace GAME
 	//頂点を初期化
 	void DxVertex::Clear ()
 	{
-		if ( m_vertex ) { delete[] m_vertex; }
-		m_vertex = nullptr;
-		m_vertexNum = 0;
+//		if ( m_vVx ) { delete[] m_vVx; }
+//		m_vVx = nullptr;
+//		m_vertexNum = 0;
+		m_vVx.clear ();
 	}
 
 	void DxVertex::Load ()
@@ -84,37 +92,47 @@ namespace GAME
 			this->ApplyPos (); 
 			this->SetVertexBuffer ();
 		}
-
-//		ApplyPos ();
-//		SetVertexBuffer ();
 	}
 
-	void DxVertex::DrawVertex ( LPDIRECT3DTEXTURE9 lpTexture )
+	void DxVertex::DrawVertex ( TX lpTexture )
 	{
 		//サイズが０のときは何もしない
-		if ( m_vertexNum == 0 ) { return; }
-		Dx3D::instance()->DrawVertex ( lpTexture, 0, m_lpVertexBuffer, 0, sizeof ( CUSTOM_VERTEX ), FVF_CUSTOM, D3DPT_TRIANGLESTRIP, 0, m_vertexNum - 2 );
+		if ( m_vVx.empty () ) { return; }
+
+		//頂点描画
+		Dx3D::instance()->DrawVertex
+		( 
+			lpTexture,
+			0,
+			m_lpVertexBuffer,
+			0,
+			sizeof ( VX ),
+			FVF_CUSTOM,
+			D3DPT_TRIANGLESTRIP,
+			0,
+			m_vVx.size() - 2
+		);
 	}
 
 	//頂点バッファを作成
 	void DxVertex::CreateVertexBuffer ()
 	{
 		//サイズが０のときは何もしない
-		if ( m_vertexNum == 0 ) { return; }
-//		assert ( m_vertexNum > 0 );
+		if ( m_vVx.empty () ) { return; }
+		//		assert ( m_vertexNum > 0 );
 
 		try
 		{
 			HRESULT hr = Dx3D::instance()->GetDevice()->CreateVertexBuffer 
 			( 
-				sizeof ( CUSTOM_VERTEX ) * m_vertexNum, 
+				sizeof ( VX ) * m_vVx.size (),
 				D3DUSAGE_WRITEONLY, 
 				FVF_CUSTOM, 
 				D3DPOOL_MANAGED, 
 				&m_lpVertexBuffer, 
 				nullptr
 			);
-			if ( FAILED ( hr ) ) { throw TEXT("頂点バッファの作成"); }
+			if ( FAILED ( hr ) ) { throw _T("頂点バッファの作成"); }
 
 			//頂点バッファに書き込み
 			SetVertexBuffer ();
@@ -132,87 +150,93 @@ namespace GAME
 	void DxVertex::SetVertexBuffer ()
 	{
 		//サイズが０のときは何もしない
-		if ( m_vertexNum == 0 ) { return; }
-//		assert ( m_vertexNum > 0 );
+		if ( m_vVx.empty () ) { return; }
 
 		//初期化以前は何もしない
-		if ( m_lpVertexBuffer == nullptr ) { return; }
+		if ( nullptr == m_lpVertexBuffer ) { return; }
 
 		try 
 		{
-			//頂点情報の書込み
+			//頂点情報の書込
 			void* pData = nullptr;
-			HRESULT hr = m_lpVertexBuffer->Lock ( 0, sizeof ( CUSTOM_VERTEX ) * m_vertexNum, (void**)&pData, 0 );
-			if ( FAILED ( hr ) ) { throw TEXT("頂点バッファのロック"); }
-			
-			memcpy ( pData, m_vertex, sizeof ( CUSTOM_VERTEX ) * m_vertexNum );
+			HRESULT hr = m_lpVertexBuffer->Lock ( 0, sizeof ( VX ) * m_vVx.size (), (void**)&pData, 0 );
+			if ( FAILED ( hr ) ) { throw _T("頂点バッファのロック"); }
+
+			memcpy ( pData, m_vVx.data(), sizeof ( VX ) * m_vVx.size () );
+
 			hr = m_lpVertexBuffer->Unlock ();
-			if ( FAILED ( hr ) ) { throw TEXT("頂点バッファのアンロック"); }
+			if ( FAILED ( hr ) ) { throw _T ("頂点バッファのアンロック"); }
 		}
 		catch ( LPCTSTR str )
 		{
-			OutputDebugString ( str );
-			////TRACE_F ( str );
+			TRACE_F ( str );
 			Rele ();
 			return;
 		}
 	}
 
-	void DxVertex::SetVertex ( UINT index, float x, float y, float z, float rhw, _CLR color, float u, float v )
+	void DxVertex::SetVertex ( VX& vertex, float x, float y, float z, float rhw, DWORD color, float u, float v )
 	{
-		assert ( index < m_vertexNum );
-		m_vertex[index].x = x;
-		m_vertex[index].y = y;
-		m_vertex[index].z = z;
-		m_vertex[index].rhw = rhw;
-		m_vertex[index].color = color;
-		m_vertex[index].u = u;
-		m_vertex[index].v = v;
+		vertex.x = x;
+		vertex.y = y;
+		vertex.z = z;
+		vertex.rhw = rhw;
+		vertex.color = color;
+		vertex.u = u;
+		vertex.v = v;
+	}
+
+	void DxVertex::SetVertex ( UINT index, float x, float y, float z, float rhw, DWORD color, float u, float v )
+	{
+		assert ( index < m_vVx.size () );
+		SetVertex ( m_vVx[index], x, y, z, rhw, color, u, v );
 	}
 
 	void DxVertex::SetPos ( UINT index, float x, float y, float z )
 	{
-		assert ( index < m_vertexNum );
-		m_vertex[index].x = x;
-		m_vertex[index].y = y;
-		m_vertex[index].z = z;
+		assert ( index < m_vVx.size () );
+		m_vVx[index].x = x;
+		m_vVx[index].y = y;
+		m_vVx[index].z = z;
 	}
 
 	void DxVertex::SetPosXY ( UINT index, float x, float y )
 	{
-		assert ( index < m_vertexNum );
-		m_vertex[index].x = x;
-		m_vertex[index].y = y;
+		assert ( index < m_vVx.size () );
+		m_vVx[index].x = x;
+		m_vVx[index].y = y;
 	}
 
 	void DxVertex::SetAllZ ( float z )
 	{
-		for ( UINT i = 0; i < m_vertexNum; i++ ) { m_vertex[i].z = z; }
+//		for ( UINT i = 0; i < m_vertexNum; i++ ) { m_vVx[i].z = z; }
+		for ( VX vx : m_vVx ) { vx.z = z; }
 	}
 
-	void DxVertex::SetAllColor ( _CLR color )
+	void DxVertex::SetAllColor ( DWORD color )
 	{
 		m_color = color;
-		for ( UINT i = 0; i < m_vertexNum; i++ ) { m_vertex[i].color = color; }
+//		for ( UINT i = 0; i < m_vertexNum; i++ ) { m_vVx[i].color = color; }
+		for ( VX vx : m_vVx ) { vx.color = color; }
 	}
 
-	void DxVertex::SetColor ( UINT index, _CLR color )
+	void DxVertex::SetColor ( UINT index, DWORD color )
 	{
-		assert ( index < m_vertexNum );
-		m_vertex[index].color = color;
+		assert ( index < m_vVx.size () );
+		m_vVx[index].color = color;
 	}
 
 	void DxVertex::SetRhw ( UINT index, float rhw )
 	{
-		assert ( index < m_vertexNum );
-		m_vertex[index].rhw = rhw;
+		assert ( index < m_vVx.size () );
+		m_vVx[index].rhw = rhw;
 	}
 
 	void DxVertex::SetTexturePos ( UINT index, float u, float v )
 	{
-		assert ( index < m_vertexNum );
-		m_vertex[index].u = u;
-		m_vertex[index].v = v;
+		assert ( index < m_vVx.size () );
+		m_vVx[index].u = u;
+		m_vVx[index].v = v;
 	}
 
 

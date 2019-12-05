@@ -21,32 +21,36 @@ namespace GAME
 	//-------------------------------------------------------------------------------------------------
 	// 定数
 	//-------------------------------------------------------------------------------------------------
+	//VERTEXの状態を定義
 	#define FVF_CUSTOM ( D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1 )
 
 	//-------------------------------------------------------------------------------------------------
 	// 構造体
 	//-------------------------------------------------------------------------------------------------
+	//頂点の定義
 	struct CUSTOM_VERTEX
 	{
 		float x, y, z;	//頂点座標
 		float rhw;		//除算数
-		_CLR color;		//色
+		DWORD color;	//色 (D3DXCOLORではなく、DWORD指定)
 		float u, v;		//テクスチャ座標
 	};
+	using VX = CUSTOM_VERTEX;
+
+	//頂点を配列で保存
+	using V_VX = vector < VX >;
 
 	//-------------------------------------------------------------------------------------------------
 	// 頂点バッファと処理クラス
 	//-------------------------------------------------------------------------------------------------
 	class DxVertex
 	{
-		LPDIRECT3DVERTEXBUFFER9		m_lpVertexBuffer;		//頂点バッファ
-		CUSTOM_VERTEX*				m_vertex;				//頂点
-		UINT						m_vertexNum;			//頂点数
-
-		bool						m_update;				//更新フラグ (move()時にapplyPos()を行うかどうか)
-
-		_CLR						m_color;				//共通基本色
-		float						m_z;					//共通z位置
+		VXBUF		m_lpVertexBuffer;	//頂点バッファ
+		V_VX		m_vVx;				//頂点配列
+//		UINT		m_vertexNum;		//頂点数
+		bool		m_update;			//更新フラグ (move()時にapplyPos()を行うかどうか)
+		DWORD		m_color;			//共通基本色
+		float		m_z;				//共通z位置
 
 	public:
 		DxVertex ();
@@ -59,29 +63,31 @@ namespace GAME
 		virtual void Reset ();
 		virtual void Move ();
 
-		void DrawVertex ( LPDIRECT3DTEXTURE9 lpTexture );
+		void DrawVertex ( TX lpTexture );
 
-		virtual void ApplyPos () {};
+		//基準位置から頂点を設定する
+		virtual void ApplyPos () = 0;
 
 		//頂点バッファ作成
 		void CreateVertexBuffer ();
 
 		//頂点バッファ取得
-		LPDIRECT3DVERTEXBUFFER9 GetBuffer () { return m_lpVertexBuffer; }
+		VXBUF GetBuffer () { return m_lpVertexBuffer; }
 
 		//頂点バッファに頂点を書込
 		void SetVertexBuffer ();
 
 		//頂点数を設定
 		void SetVertexNum ( UINT num );
-		UINT GetVertexNum () { return m_vertexNum; }
+		UINT GetVertexNum () { return m_vVx.size (); }
 		//頂点数を再設定
 		void ResetVertexNum ( UINT num );
 		//頂点を初期化
 		void Clear ();
 
 		//頂点設定
-		void SetVertex ( UINT index, float x, float y, float z, float rhw, _CLR color, float u, float v );
+		void SetVertex ( VX& vertex, float x, float y, float z, float rhw, DWORD color, float u, float v );
+		void SetVertex ( UINT index, float x, float y, float z, float rhw, DWORD color, float u, float v );
 
 		//位置の設定
 		void SetPos ( UINT index, float x, float y, float z );
@@ -92,8 +98,8 @@ namespace GAME
 		float GetAllZ () const { return m_z; }
 
 		//色の設定
-		void SetAllColor ( _CLR color );
-		void SetColor ( UINT vertexNum, _CLR color );
+		void SetAllColor ( DWORD color );
+		void SetColor ( UINT vertexNum, DWORD color );
 
 		//除算数の設定
 		void SetRhw ( UINT index, float rhw );
@@ -108,10 +114,10 @@ namespace GAME
 
 
 
-	//特定の形を持つ頂点集合
+	//ある位置を基点に特定の形を持つ頂点集合
 	class DxParticularVertex : public DxVertex
 	{
-		VEC2		m_pos;		//位置
+		VEC2		m_pos;		//基準位置
 
 	public:
 		DxParticularVertex () = delete;

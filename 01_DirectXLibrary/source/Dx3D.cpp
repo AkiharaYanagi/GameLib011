@@ -274,8 +274,8 @@ namespace GAME
 	//------------------------------------------
 	// スプライト描画
 	//------------------------------------------
-	void Dx3D::DrawSprite ( LPDIRECT3DTEXTURE9 lpTexture, const D3DXMATRIX* pMatrix, const RECT* rect, 
-							const D3DXVECTOR3 *pCenter, const D3DXVECTOR3 *pPosition, D3DCOLOR color )
+	void Dx3D::DrawSprite ( TX lpTexture, const D3DXMATRIX* pMatrix, const RECT* rect,
+							const VEC3 *pCenter, const VEC3 *pPosition, _CLR color )
 	{
 		if ( ! m_lpSprite ) { return; }
 		if ( pMatrix != nullptr )
@@ -290,8 +290,7 @@ namespace GAME
 	// 頂点描画
 	//------------------------------------------
 	void Dx3D::DrawVertex ( 
-		LPDIRECT3DTEXTURE9 lpTextue,
-		UINT streamNumber, LPDIRECT3DVERTEXBUFFER9 lpVertexBuffer, UINT offsetBytes, UINT stride, 
+		TX lpTextue, UINT streamNumber, VXBUF lpVertexBuffer, UINT offsetBytes, UINT stride,
 		DWORD FVF, D3DPRIMITIVETYPE primitiveType, UINT startVertex, UINT primitiveCount )
 	{
 		//テクスチャの指定

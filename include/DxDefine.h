@@ -23,9 +23,17 @@ namespace GAME
 #define		D3DX_2PI	    ( (FLOAT) 6.283185308f )	
 #define		D3DX_PIBY6		( (FLOAT) 0.523598775f )
 
+constexpr float Z_DEFALT = 0.5f;		//z位置基本
+
 //------------------------------------------
 //型指定
 //------------------------------------------
+//テクスチャ
+using TX = LPDIRECT3DTEXTURE9;
+
+//頂点(バーテックス)バッファ
+using VXBUF = LPDIRECT3DVERTEXBUFFER9;
+
 //位置
 using VEC2 = D3DXVECTOR2;
 using P_VEC2 = shared_ptr < VEC2 >;

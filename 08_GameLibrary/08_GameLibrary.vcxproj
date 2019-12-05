@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\Define.h" />
     <ClInclude Include="..\include\Fade.h" />
     <ClInclude Include="..\include\GameInput.h" />
     <ClInclude Include="..\include\GameKey.h" />

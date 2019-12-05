@@ -26,9 +26,9 @@ namespace GAME
 	//--------------------------------------------------------
 	class GameTextureBase
 	{
-		LPDIRECT3DTEXTURE9		m_lpTexture;		//テクスチャ(確保・解放は継承先で行う)
-		D3DXCOLOR				m_color;			//カラー
-		UINT					m_textureIndex;		//テクスチャインデックス
+		TX		m_lpTexture;		//テクスチャ(確保・解放は継承先で行う)
+		_CLR	m_color;			//カラー
+		UINT	m_textureIndex;		//テクスチャインデックス
 	
 	public:
 		GameTextureBase ();
