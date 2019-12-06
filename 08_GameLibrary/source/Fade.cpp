@@ -15,15 +15,11 @@
 namespace GAME
 {
 	Fade::Fade ()
-	: m_whiteOutTime ( 0 ), m_darkInTime ( 0 ), m_darkOutTime ( 0 )
-	, m_color0 ( 0x00000000UL ), m_color1 ( 0xff000000UL ), m_targetTime ( 0 )
+	: m_color0 ( 0x00000000UL ), m_color1 ( 0xff000000UL )
 	{
 		PrmRect::SetValid ( false );
 		PrmRect::SetRect ( 0, 0, 1.f * WINDOW_WIDTH, 1.f * WINDOW_HEIGHT );
 		PrmRect::SetAllZ ( Z_FADE );
-//		PrmRect::SetAllColor ( m_color0 );
-//		PrmRect::SetAllColor ( _CLR ( 1.f, 1.f, 1.f, 1.f) );
-		PrmRect::SetValid ( true );
 		m_timer = make_shared < Timer > ();
 	}
 
@@ -36,19 +32,23 @@ namespace GAME
 		UINT t = m_timer->GetTime ();
 
 		//初期色->目標色( m_color0 → m_color1 )
-		if ( 0 != m_targetTime )
+//		if ( 0 != m_targetTime )
+		if ( m_timer->IsActive () )
 		{
-			if ( t == m_targetTime )
+			if ( m_timer->IsLast () )
 			{
 				m_timer->Reset ();
-				m_targetTime = 0;
 				PrmRect::SetAllColor ( m_color1 );
 				PrmRect::SetValid ( false );
 			}
 			else
 			{
-				float alpha = (1.f / m_targetTime) * t;	//α値を算出
-				_CLR c = _CLR ( m_color1.r, m_color1.g, m_color1.b, alpha );
+				float alpha = (1.f / m_timer->GetTargetTime () ) * t;	//α値を算出
+				if ( m_color0.a > m_color1.a )	//減少の場合は1.fから
+				{
+					alpha = 1.f - alpha;
+				};
+				DWORD c = _CLR ( m_color1.r, m_color1.g, m_color1.b, alpha );
 				PrmRect::SetAllColor ( c );
 			}
 		}

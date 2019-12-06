@@ -15,16 +15,16 @@
 //-------------------------------------------------------------------------------------------------
 namespace GAME
 {
-	GamePrimitive::GamePrimitive () : m_vertex ( nullptr )
+	GamePrimitive::GamePrimitive ()
+		: m_valid ( true ), m_vertex ( make_shared < DxVertex > () )
 	{
-		m_valid = true;
 	}
 
-	GamePrimitive::GamePrimitive ( DxVertex* vertex ) : m_vertex ( nullptr )
+	GamePrimitive::GamePrimitive ( P_Vertex vertex )
+		: m_valid ( true ), m_vertex ( make_shared < DxVertex > () )
 	{
 		assert ( vertex != nullptr );
 		m_vertex = vertex;
-		m_valid = true;
 	}
 
 	GamePrimitive::~GamePrimitive ()
@@ -60,7 +60,7 @@ namespace GAME
 	}
 
 	//引数：テクスチャあり
-	void GamePrimitive::DrawVertex ( LPDIRECT3DTEXTURE9& texture )
+	void GamePrimitive::DrawVertex ( TX& texture )
 	{
 		if ( ! GetValid() )	{ return; }	//非有効時には何もしない
 		m_vertex->DrawVertex ( texture );
@@ -70,8 +70,9 @@ namespace GAME
 	//-------------------------------------------------------------------------------------------------
 	GamePrimitiveRect::GamePrimitiveRect ()
 	{
-		GameParticularPrimitive::SetVertex ( &m_vertex );
-		m_vertex.SetRect ( 50, 50, 100, 100 );
+		m_vertex = make_shared < DxVertex4 > ();
+		GameParticularPrimitive::SetVertex ( m_vertex );
+		m_vertex->SetRect ( 50, 50, 100, 200 );
 	}
 
 	GamePrimitiveRect::~GamePrimitiveRect ()
@@ -82,11 +83,12 @@ namespace GAME
 	//-------------------------------------------------------------------------------------------------
 	GamePrimitive4::GamePrimitive4 ()
 	{
-		GamePrimitive::SetVertex ( &m_vertex );
-		m_vertex.SetPoint ( 0, D3DXVECTOR2 ( 100,  50 ) );
-		m_vertex.SetPoint ( 1, D3DXVECTOR2 ( 100, 100 ) );
-		m_vertex.SetPoint ( 2, D3DXVECTOR2 (  50,  50 ) );
-		m_vertex.SetPoint ( 3, D3DXVECTOR2 (  50, 100 ) );
+		m_vertex = make_shared < DxVertexFree4 > ();
+		GamePrimitive::SetVertex ( m_vertex );
+		m_vertex->SetPoint ( 0, VEC2 ( 200,  50 ) );
+		m_vertex->SetPoint ( 1, VEC2 ( 220, 120 ) );
+		m_vertex->SetPoint ( 2, VEC2 (  80,  40 ) );
+		m_vertex->SetPoint ( 3, VEC2 (  40, 140 ) );
 	}
 
 	GamePrimitive4::~GamePrimitive4 ()
@@ -97,8 +99,9 @@ namespace GAME
 	//-------------------------------------------------------------------------------------------------
 	GamePrimitiveLine::GamePrimitiveLine ()
 	{
-		SetVertex ( &m_vertex );
-		m_vertex.SetPoint ( D3DXVECTOR2 ( 100, 50 ), D3DXVECTOR2 ( 50, 100 ) );
+		m_vertex = make_shared < DxVertexLine > ();
+		GamePrimitive::SetVertex ( m_vertex );
+		m_vertex->SetPoint ( VEC2 ( 100, 50 ), VEC2 ( 50, 100 ) );
 	}
 
 	GamePrimitiveLine::~GamePrimitiveLine ()
@@ -109,8 +112,9 @@ namespace GAME
 	//-------------------------------------------------------------------------------------------------
 	GamePrimitiveTriangle::GamePrimitiveTriangle ()
 	{
-		SetVertex ( &m_vertex );
-		m_vertex.SetTriangle ( 0, 0, 10, D3DX_PI );
+		m_vertex = make_shared < DxVertex3 > ();
+		GamePrimitive::SetVertex ( m_vertex );
+		m_vertex->SetTriangle ( 0, 0, 10, D3DX_PI );
 	}
 
 	GamePrimitiveTriangle::~GamePrimitiveTriangle ()
@@ -146,7 +150,7 @@ namespace GAME
 		Rele ();
 		Init ();
 		GamePrimitiveRect::Reset ();
-		GameText::instance()->MakeStrTexture ( m_tstr, m_texture, GetVertex4 () );
+		GameText::instance()->MakeStrTexture ( m_tstr, m_texture, *GetpVertex4 () );
 	}
 
 	void GamePrimitiveText::DrawVertex ()
@@ -161,7 +165,7 @@ namespace GAME
 		if ( m_tstr.compare ( tstr.c_str() ) )
 		{
 			m_tstr = tstr;
-			GameText::instance()->MakeStrTexture ( m_tstr, m_texture, GetVertex4 () );
+			GameText::instance()->MakeStrTexture ( m_tstr, m_texture, *GetpVertex4 () );
 		}
 	}
 
@@ -172,7 +176,7 @@ namespace GAME
 		{
 			m_tstr.assign ( lpctstr );
 //			GameText::instance()->SetFontSize ( m_fontSize );
-			GameText::instance()->MakeStrTexture ( m_tstr, m_texture, GetVertex4 () );
+			GameText::instance()->MakeStrTexture ( m_tstr, m_texture, *GetpVertex4 () );
 		}
 	}
 
@@ -197,24 +201,26 @@ namespace GAME
 	//-------------------------------------------------------------------------------------------------
 	_GamePrimitivePoliLine::_GamePrimitivePoliLine ()
 	{
-		GamePrimitive::SetVertex ( &m_vertex );
+//		GamePrimitive::SetVertex ( &m_vertex );
+		m_vertex = make_shared < _DxPoliVertex > ();
+		GamePrimitive::SetVertex ( m_vertex );
 #if	0
-		m_vertex.SetPos ( 0, 300, 250, 0 );
-		m_vertex.SetPos ( 1, 250, 300, 0 );
-		m_vertex.SetPos ( 2, 200,  50, 0 );
-		m_vertex.SetPos ( 3, 200, 150, 0 );
-		m_vertex.SetPos ( 4, 100, 250, 0 );
-		m_vertex.SetPos ( 5, 150, 300, 0 );
+		m_vertex->SetPos ( 0, 300, 250, 0 );
+		m_vertex->SetPos ( 1, 250, 300, 0 );
+		m_vertex->SetPos ( 2, 200,  50, 0 );
+		m_vertex->SetPos ( 3, 200, 150, 0 );
+		m_vertex->SetPos ( 4, 100, 250, 0 );
+		m_vertex->SetPos ( 5, 150, 300, 0 );
 #endif	//0
 
-		m_vertex.SetColor ( 0, 0xffff0000 );
-		m_vertex.SetColor ( 1, 0xff00ff00 );
-		m_vertex.SetColor ( 2, 0xff0000ff );
-		m_vertex.SetColor ( 3, 0xff00ffff );
-		m_vertex.SetColor ( 4, 0xffff00ff );
-		m_vertex.SetColor ( 5, 0xffffff00 );
+		m_vertex->SetColor ( 0, 0xffff0000 );
+		m_vertex->SetColor ( 1, 0xff00ff00 );
+		m_vertex->SetColor ( 2, 0xff0000ff );
+		m_vertex->SetColor ( 3, 0xff00ffff );
+		m_vertex->SetColor ( 4, 0xffff00ff );
+		m_vertex->SetColor ( 5, 0xffffff00 );
 
-		m_vertex.ApplyPos ();
+		m_vertex->ApplyPos ();
 	}
 
 	_GamePrimitivePoliLine::~_GamePrimitivePoliLine ()
@@ -223,7 +229,7 @@ namespace GAME
 
 	void _GamePrimitivePoliLine::Load ()
 	{
-//		m_vertex.CreateVertexBuffer ();
+//		m_vertex->CreateVertexBuffer ();
 		GamePrimitive::Load ();
 	}
 
@@ -231,23 +237,25 @@ namespace GAME
 	//-------------------------------------------------------------------------------------------------
 	GamePrimitivePoliLine::GamePrimitivePoliLine ()
 	{
-		GamePrimitive::SetVertex ( &m_vertex );
+//		GamePrimitive::SetVertex ( &m_vertex );
+		m_vertex = make_shared < DxPoliVertex > ();
+		GamePrimitive::SetVertex ( m_vertex );
 
 #if	0
 		//点の個数を設定
-		m_vertex.SetMaxVec ( 10 );
+		m_vertex->SetMaxVec ( 10 );
 
 		//点の位置を設定
-		m_vertex.SetVec ( 0, D3DXVECTOR2 ( 0, 200 ) );
-		m_vertex.SetVec ( 1, D3DXVECTOR2 ( 50, 100 ) );
-		m_vertex.SetVec ( 2, D3DXVECTOR2 ( 100, 200 ) );
-		m_vertex.SetVec ( 3, D3DXVECTOR2 ( 150, 100 ) );
-		m_vertex.SetVec ( 4, D3DXVECTOR2 ( 200, 200 ) );
-		m_vertex.SetVec ( 5, D3DXVECTOR2 ( 250, 100 ) );
-		m_vertex.SetVec ( 6, D3DXVECTOR2 ( 300, 200 ) );
-		m_vertex.SetVec ( 7, D3DXVECTOR2 ( 350, 100 ) );
-		m_vertex.SetVec ( 8, D3DXVECTOR2 ( 400, 200 ) );
-		m_vertex.SetVec ( 9, D3DXVECTOR2 ( 450, 100 ) );
+		m_vertex->SetVec ( 0, D3DXVECTOR2 ( 0, 200 ) );
+		m_vertex->SetVec ( 1, D3DXVECTOR2 ( 50, 100 ) );
+		m_vertex->SetVec ( 2, D3DXVECTOR2 ( 100, 200 ) );
+		m_vertex->SetVec ( 3, D3DXVECTOR2 ( 150, 100 ) );
+		m_vertex->SetVec ( 4, D3DXVECTOR2 ( 200, 200 ) );
+		m_vertex->SetVec ( 5, D3DXVECTOR2 ( 250, 100 ) );
+		m_vertex->SetVec ( 6, D3DXVECTOR2 ( 300, 200 ) );
+		m_vertex->SetVec ( 7, D3DXVECTOR2 ( 350, 100 ) );
+		m_vertex->SetVec ( 8, D3DXVECTOR2 ( 400, 200 ) );
+		m_vertex->SetVec ( 9, D3DXVECTOR2 ( 450, 100 ) );
 #endif	//0
 	}
 

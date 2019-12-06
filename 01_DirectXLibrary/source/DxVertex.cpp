@@ -210,14 +210,18 @@ namespace GAME
 	void DxVertex::SetAllZ ( float z )
 	{
 //		for ( UINT i = 0; i < m_vertexNum; i++ ) { m_vVx[i].z = z; }
-		for ( VX vx : m_vVx ) { vx.z = z; }
+		UINT i = 0;
+		for ( VX vx : m_vVx ) { m_vVx[i++].z = z; }
 	}
 
 	void DxVertex::SetAllColor ( DWORD color )
 	{
 		m_color = color;
 //		for ( UINT i = 0; i < m_vertexNum; i++ ) { m_vVx[i].color = color; }
-		for ( VX vx : m_vVx ) { vx.color = color; }
+
+		//@todo []インデックスで指定する
+		UINT i = 0;
+		for ( VX vx : m_vVx ) { m_vVx[i++].color = color; }
 	}
 
 	void DxVertex::SetColor ( UINT index, DWORD color )
@@ -355,7 +359,7 @@ namespace GAME
 		float w_cos_plus  = m_w_half * cos ( theta_plus_pi_half  );
 		float w_sin_plus  = m_w_half * sin ( theta_plus_pi_half  );
 
-		D3DXVECTOR2 v[4];
+		VEC2 v[4];
 		v[0].x = m_vec[0].x + w_cos_minus;
 		v[0].y = m_vec[0].y + w_sin_minus;
 		v[1].x = m_vec[0].x + w_cos_plus;
@@ -381,7 +385,7 @@ namespace GAME
 	DxVertex3::DxVertex3 () : DxParticularVertex ( 3 )
 	{
 		//頂点の初期化
-		D3DXVECTOR2 pos = GetPos ();
+		VEC2 pos = GetPos ();
 		m_w = 10;
 		m_rad = 100;
 
@@ -404,7 +408,7 @@ namespace GAME
 	void DxVertex3::ApplyPos ()
 	{
 		//位置の更新
-		D3DXVECTOR2 pos = GetPos ();
+		VEC2 pos = GetPos ();
 		float x1, y1, x2, y2;
 		x1 = pos.x + m_w * cos(m_rad - D3DX_PIBY6);
 		y1 = pos.y + m_w * sin(m_rad - D3DX_PIBY6);
@@ -474,7 +478,7 @@ namespace GAME
 	//引数：
 	//	rectVec[4]		(out) ４角点
 	//	vec[2]			(in) 始点と終点
-	void _DxPoliVertex::SetRectVec ( D3DXVECTOR2 rectVec[], D3DXVECTOR2 vec[] ) const
+	void _DxPoliVertex::SetRectVec ( VEC2 rectVec[], VEC2 vec[] ) const
 	{
 		//線分のなす角度
 		float theta = atan2 ( vec[0].y - vec[1].y, vec[0].x - vec[1].x );
@@ -502,9 +506,9 @@ namespace GAME
 	//引数：
 	//crossVec		(out) 交点
 	//vec			(in) (vec0,vec1)と(vec2,vec3)の２直線
-	void _DxPoliVertex::SetCrossVec ( D3DXVECTOR2& crossVec,
-		const D3DXVECTOR2& vec0, const D3DXVECTOR2& vec1, 
-		const D3DXVECTOR2& vec2, const D3DXVECTOR2& vec3 ) const
+	void _DxPoliVertex::SetCrossVec ( VEC2& crossVec,
+		const VEC2& vec0, const VEC2& vec1,
+		const VEC2& vec2, const VEC2& vec3 ) const
 	{
 		//直線の式
 		float a0 = ( vec1.y - vec0.y ) / ( vec1.x - vec0.x );
@@ -752,7 +756,7 @@ namespace GAME
 	//引数：
 	//	rectVec[4]		(out) ４角点
 	//	vec[2]			(in) 始点と終点
-	void DxPoliVertex::SetRectVec ( D3DXVECTOR2 rectVec[], D3DXVECTOR2 vec[] ) const
+	void DxPoliVertex::SetRectVec ( VEC2 rectVec[], VEC2 vec[] ) const
 	{
 		//線分のなす角度
 		float theta = atan2 ( vec[0].y - vec[1].y, vec[0].x - vec[1].x );
@@ -780,9 +784,9 @@ namespace GAME
 	//引数：
 	//crossVec		(out) 交点
 	//vec			(in) (vec0,vec1)と(vec2,vec3)の２直線
-	void DxPoliVertex::SetCrossVec ( D3DXVECTOR2& crossVec,
-		const D3DXVECTOR2& vec0, const D3DXVECTOR2& vec1, 
-		const D3DXVECTOR2& vec2, const D3DXVECTOR2& vec3 ) const
+	void DxPoliVertex::SetCrossVec ( VEC2& crossVec,
+		const VEC2& vec0, const VEC2& vec1,
+		const VEC2& vec2, const VEC2& vec3 ) const
 	{
 		//直線の式
 		float a0 = ( vec1.y - vec0.y ) / ( vec1.x - vec0.x );

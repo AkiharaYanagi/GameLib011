@@ -66,7 +66,7 @@ namespace GAME
 		void DrawVertex ( TX lpTexture );
 
 		//基準位置から頂点を設定する
-		virtual void ApplyPos () = 0;
+		virtual void ApplyPos () {};
 
 		//頂点バッファ作成
 		void CreateVertexBuffer ();
@@ -112,8 +112,11 @@ namespace GAME
 		bool GetUpdate () const { return m_update; }
 	};
 
+	using P_Vertex = shared_ptr < DxVertex >;
 
 
+
+//-------------------------------------------------------------------------------------------------
 	//ある位置を基点に特定の形を持つ頂点集合
 	class DxParticularVertex : public DxVertex
 	{
@@ -127,9 +130,12 @@ namespace GAME
 
 		//位置
 		void SetPos ( float x, float y ) { m_pos.x = x; m_pos.y = y; }
-		void SetPos ( D3DXVECTOR2& vec ) { m_pos = vec; }
-		D3DXVECTOR2 GetPos () const { return m_pos; }
+		void SetPos ( VEC2& vec ) { m_pos = vec; }
+		VEC2 GetPos () const { return m_pos; }
 	};
+
+	using P_PtclVx = shared_ptr < DxParticularVertex >;
+
 
 //-------------------------------------------------------------------------------------------------
 	//４頂点(矩形)
@@ -153,13 +159,15 @@ namespace GAME
 		void ApplyPos ();	//位置を適用して頂点をつくる
 	};
 
+	using P_Vx4 = shared_ptr < DxVertex4 >;
+
 
 //-------------------------------------------------------------------------------------------------
 	//４頂点(自由位置)
 	class DxVertexFree4 : public DxVertex
 	{
 		enum { VERTEX_NUM = 4 };
-		D3DXVECTOR2				m_vec[4];
+		VEC2		m_vec[4];
 
 	public:
 		DxVertexFree4 ();
@@ -167,10 +175,12 @@ namespace GAME
 		~DxVertexFree4 ();
 
 		//位置指定
-		void SetPoint ( UINT i, D3DXVECTOR2 vec ) { m_vec[i] = vec; }
+		void SetPoint ( UINT i, VEC2 vec ) { m_vec[i] = vec; }
 
 		void ApplyPos ();	//位置を適用して頂点をつくる
 	};
+
+	using P_VxF4 = shared_ptr < DxVertexFree4 >;
 
 
 //-------------------------------------------------------------------------------------------------
@@ -178,8 +188,8 @@ namespace GAME
 	class DxVertexLine : public DxVertex
 	{
 		enum { VERTEX_NUM = 4 };
-		D3DXVECTOR2				m_vec[2];
-		float					m_w;		//幅
+		VEC2		m_vec[2];
+		float		m_w;		//幅
 
 	public:
 		DxVertexLine ();
@@ -194,6 +204,8 @@ namespace GAME
 
 		void ApplyPos ();	//位置を適用して頂点をつくる
 	};
+
+	using P_VxLine = shared_ptr < DxVertexLine >;
 
 
 //-------------------------------------------------------------------------------------------------
@@ -216,14 +228,18 @@ namespace GAME
 
 		void ApplyPos ();	//位置を適用して頂点をつくる
 	};
-//-------------------------------------------------------------------------------------------------
+
+	using P_VxTri = shared_ptr < DxVertex3 >;
+
+
+	//-------------------------------------------------------------------------------------------------
 	//多頂点
 	class _DxPoliVertex : public DxVertex
 	{
 		float					m_w;		//一辺の長さ
 
 		//３点
-		D3DXVECTOR2				m_vec[3];
+		VEC2				m_vec[3];
 		//->４角×２個		
 		//->６頂点
 
@@ -238,19 +254,22 @@ namespace GAME
 		//引数：
 		//rectVec[]		(out) ４角点
 		//vec[]			(in) 始点と終点
-		void SetRectVec ( D3DXVECTOR2 rectVec[], D3DXVECTOR2 vec[] ) const;
+		void SetRectVec ( VEC2 rectVec[], VEC2 vec[] ) const;
 
 		//２直線から交点を求める
 		//引数：
 		//crossVec		(out) 交点
 		//vec			(in) (vec0,vec1)と(vec2,vec3)の２直線
-		void SetCrossVec ( D3DXVECTOR2& crossVec,
-			const D3DXVECTOR2& vec0, const D3DXVECTOR2& vec1, 
-			const D3DXVECTOR2& vec2, const D3DXVECTOR2& vec3 ) const;
+		void SetCrossVec ( VEC2& crossVec,
+			const VEC2& vec0, const VEC2& vec1,
+			const VEC2& vec2, const VEC2& vec3 ) const;
 
 		//test 点設定
-		void SetVec ( D3DXVECTOR2 vec ) { m_vec[2] = vec; ApplyPos (); }
+		void SetVec ( VEC2 vec ) { m_vec[2] = vec; ApplyPos (); }
 	};
+
+	using _P_VxPori = shared_ptr < _DxPoliVertex >;
+
 
 
 	class DxPoliVertex : public DxVertex
@@ -264,7 +283,7 @@ namespace GAME
 		//４(ｎ－１)角点
 		//２ｎ頂点
 
-		std::list < D3DXVECTOR2 >	m_listVec;		//点のリスト
+		std::list < VEC2 >	m_listVec;		//点のリスト
 
 	public:
 		DxPoliVertex ();
@@ -279,7 +298,7 @@ namespace GAME
 //		void SetMaxVec ( UINT max );
 
 		//点を追加する
-		void AddVec ( D3DXVECTOR2& vec );
+		void AddVec ( VEC2& vec );
 
 		//点を削除する
 		void DelVec ();
@@ -294,22 +313,24 @@ namespace GAME
 		//引数：
 		//rectVec[]		(out) ４角点
 		//vec[]			(in) 始点と終点
-		void SetRectVec ( D3DXVECTOR2 rectVec[], D3DXVECTOR2 vec[] ) const;
+		void SetRectVec ( VEC2 rectVec[], VEC2 vec[] ) const;
 
 		//２直線から交点を求める
 		//引数：
 		//crossVec		(out) 交点
 		//vec			(in) (vec0,vec1)と(vec2,vec3)の２直線
-		void SetCrossVec ( D3DXVECTOR2& crossVec,
-			const D3DXVECTOR2& vec0, const D3DXVECTOR2& vec1, 
-			const D3DXVECTOR2& vec2, const D3DXVECTOR2& vec3 ) const;
+		void SetCrossVec ( VEC2& crossVec,
+			const VEC2& vec0, const VEC2& vec1,
+			const VEC2& vec2, const VEC2& vec3 ) const;
 
 		//点設定
-		void SetVec ( UINT index, const D3DXVECTOR2& vec );
+		void SetVec ( UINT index, const VEC2& vec );
 
 		//線の太さの設定
 		void SetWidth ( float w ) { m_w = w; }
 	};
+
+	using P_VxPori = shared_ptr < DxPoliVertex >;
 
 
 //-------------------------------------------------------------------------------------------------

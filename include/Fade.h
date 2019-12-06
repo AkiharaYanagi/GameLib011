@@ -20,14 +20,8 @@ namespace GAME
 	class Fade : public PrmRect
 	{
 		P_Timer	m_timer;
-
 		_CLR	m_color0;	//初期色
 		_CLR	m_color1;	//目標色
-		UINT	m_targetTime;		//移行時間
-
-		UINT	m_whiteOutTime;
-		UINT	m_darkInTime;
-		UINT	m_darkOutTime;
 
 	public:
 		Fade ();
@@ -38,13 +32,16 @@ namespace GAME
 
 		//色設定
 		void SetColor ( _CLR clr0, _CLR clr1 ) { m_color0 = clr0; m_color1 = clr1; }
-		void SetTime ( UINT t ) { m_targetTime = t; }
+		void SetTime ( UINT t )
+		{ 
+			m_timer->SetTargetTime ( t ); 
+		}
 
 		void Start ( UINT time )
 		{
-			m_targetTime = time;
-			PrmRect::SetValid ( true );
+			m_timer->SetTargetTime ( time );
 			m_timer->Start ();
+			PrmRect::SetValid ( true );
 		}
 
 		//-----------------------------------

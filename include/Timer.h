@@ -38,7 +38,9 @@ namespace GAME
 		void SetTime ( UINT i ) { m_time = 0; }
 		UINT GetTime () const { return m_time; }
 		
+		//目標時間
 		void SetTargetTime ( UINT time ) { m_targetTime = time; }
+		UINT GetTargetTime () const { return m_targetTime; }
 
 		//0からスタート
 		void Start () { m_time = 0; m_active = true; }

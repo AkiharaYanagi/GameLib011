@@ -26,12 +26,12 @@ namespace GAME
 	//-------------------------------------------------------------------------------------------------
 	class GamePrimitive : public GameGraphicBase
 	{
-		DxVertex*		m_vertex;				//頂点集合クラスポインタ
+		P_Vertex		m_vertex;				//頂点集合ポインタ
 		bool			m_valid;				//有効フラグ
 
 	public:
 		GamePrimitive ();
-		GamePrimitive ( DxVertex* vertex );
+		GamePrimitive ( P_Vertex vertex );
 		GamePrimitive ( const GamePrimitive& rhs ) = delete;
 		virtual ~GamePrimitive ();
 
@@ -43,16 +43,17 @@ namespace GAME
 		//引数：テクスチャなし
 		void DrawVertex ();
 		//引数：テクスチャあり
-		void DrawVertex ( LPDIRECT3DTEXTURE9& texture );
+		void DrawVertex ( TX& texture );
 
 		//頂点監理クラスの設定
-		void SetVertex ( DxVertex* vertex ) { assert ( vertex ); m_vertex = vertex; }
+		void SetVertex ( P_Vertex vertex ) { assert ( vertex ); m_vertex = vertex; }
 		
 		//有効・無効
 		void SetValid ( bool b ) { m_valid = b; }
 		bool GetValid () { return m_valid; }
 
 		//頂点色の設定
+		void SetAllColor ( DWORD color ) { m_vertex->SetAllColor ( color ); m_vertex->SetVertexBuffer (); }
 		void SetAllColor ( _CLR color ) { m_vertex->SetAllColor ( color ); m_vertex->SetVertexBuffer (); }
 
 		void SetAllZ ( float z ) { m_vertex->SetAllZ ( z ); m_vertex->SetVertexBuffer (); }
@@ -66,15 +67,15 @@ namespace GAME
 	//-------------------------------------------------------------------------------------------------
 	class GameParticularPrimitive : public GamePrimitive
 	{
-		DxParticularVertex*			m_vertex;				//頂点集合クラスポインタ
+		P_PtclVx	m_vertex;			//頂点集合クラスポインタ
 
 	public:
-		GameParticularPrimitive () :m_vertex ( nullptr ) {}
-		GameParticularPrimitive ( DxParticularVertex* vertex ) : GamePrimitive ( vertex ) { m_vertex = vertex; }
+		GameParticularPrimitive () {}
+		GameParticularPrimitive ( P_PtclVx vertex ) : GamePrimitive ( vertex ) { m_vertex = vertex; }
 		GameParticularPrimitive ( const GameParticularPrimitive& rhs ) = delete;
 		virtual ~GameParticularPrimitive () {}
 
-		void SetVertex ( DxParticularVertex* vertex ) { GamePrimitive::SetVertex ( vertex ); m_vertex = vertex; }
+		void SetVertex ( P_PtclVx vertex ) { GamePrimitive::SetVertex ( vertex ); m_vertex = vertex; }
 
 		//位置
 		void SetPos ( float x, float y ) { m_vertex->SetPos ( x, y ); }
@@ -95,27 +96,27 @@ namespace GAME
 
 	class GamePrimitiveRect : public GameParticularPrimitive
 	{
-		DxVertex4		m_vertex;
+		P_Vx4		m_vertex;
 
 	public:
 		GamePrimitiveRect ();
 		GamePrimitiveRect ( const GamePrimitiveRect& rhs ) = delete;
 		virtual ~GamePrimitiveRect ();
 
-		DxVertex4& GetVertex4 () { return m_vertex; }
-		DxVertex4* GetpVertex4 () { return &m_vertex; }
+//		DxVertex4& GetVertex4 () { return m_vertex; }
+		P_Vx4 GetpVertex4 () { return m_vertex; }
 
 		void SetColor ( UINT index, D3DXCOLOR color)
 		{
-			m_vertex.SetColor ( index, color );
+			m_vertex->SetColor ( index, color );
 		}
 
 		//位置の設定
-		void SetZero () { m_vertex.SetRect ( 0, 0, 0, 0 ); }
-		void SetRect ( float x, float y, float w, float h ) { m_vertex.SetRect ( x, y, w, h ); }
-		void SetWidth ( float w ) { m_vertex.SetWidth ( w ); }
-		void SetHeight ( float h ) { m_vertex.SetHeight ( h ); }
-		void SetSize ( float w, float h ) { m_vertex.SetSize ( w, h ); }
+		void SetZero () { m_vertex->SetRect ( 0, 0, 0, 0 ); }
+		void SetRect ( float x, float y, float w, float h ) { m_vertex->SetRect ( x, y, w, h ); }
+		void SetWidth ( float w ) { m_vertex->SetWidth ( w ); }
+		void SetHeight ( float h ) { m_vertex->SetHeight ( h ); }
+		void SetSize ( float w, float h ) { m_vertex->SetSize ( w, h ); }
 	};
 
 	typedef GamePrimitiveRect		PrmRect;
@@ -134,7 +135,7 @@ namespace GAME
 
 	class GamePrimitive4 : public GamePrimitive
 	{
-		DxVertexFree4		m_vertex;
+		P_VxF4		m_vertex;
 
 	public:
 		GamePrimitive4 ();
@@ -142,8 +143,11 @@ namespace GAME
 		virtual ~GamePrimitive4 ();
 
 		//位置の設定
-		void SetPoint ( UINT i, D3DXVECTOR2 vec ) { m_vertex.SetPoint ( i, vec ); }
+		void SetPoint ( UINT i, D3DXVECTOR2 vec ) { m_vertex->SetPoint ( i, vec ); }
 	};
+
+	using Prm4 = GamePrimitive4;
+	using P_Prm4 = shared_ptr < Prm4 >;
 
 
 	//-------------------------------------------------------------------------------------------------
@@ -152,7 +156,7 @@ namespace GAME
 	//-------------------------------------------------------------------------------------------------
 	class GamePrimitiveLine : public GamePrimitive
 	{
-		DxVertexLine		m_vertex;
+		P_VxLine	m_vertex;
 
 	public:
 		GamePrimitiveLine ();
@@ -160,9 +164,9 @@ namespace GAME
 		virtual ~GamePrimitiveLine ();
 
 		//位置の設定
-		void SetPoint ( D3DXVECTOR2 vec0, D3DXVECTOR2 vec1 ) { m_vertex.SetPoint ( vec0, vec1 ); }
-		void SetPoint ( float x0, float y0, float x1, float y1 )  { m_vertex.SetPoint ( x0, y0, x1, y1 ); }
-		void SetWidth ( float w ) { m_vertex.SetWidth ( w ); }
+		void SetPoint ( VEC2 vec0, VEC2 vec1 ) { m_vertex->SetPoint ( vec0, vec1 ); }
+		void SetPoint ( float x0, float y0, float x1, float y1 )  { m_vertex->SetPoint ( x0, y0, x1, y1 ); }
+		void SetWidth ( float w ) { m_vertex->SetWidth ( w ); }
 	};
 
 
@@ -172,7 +176,7 @@ namespace GAME
 	//-------------------------------------------------------------------------------------------------
 	class GamePrimitiveTriangle : public GameParticularPrimitive
 	{
-		DxVertex3		m_vertex;
+		P_VxTri		m_vertex;
 
 	public:
 		GamePrimitiveTriangle ();
@@ -180,9 +184,9 @@ namespace GAME
 		virtual ~GamePrimitiveTriangle ();
 
 		//位置の設定
-		void SetTriangle ( float x, float y, float w, float rad ) { m_vertex.SetTriangle ( x, y, w, rad ); }
-		void SetWidth ( float w ) { m_vertex.SetWidth ( w ); }
-		void SetRadian ( float h ) { m_vertex.SetRadian ( h ); }
+		void SetTriangle ( float x, float y, float w, float rad ) { m_vertex->SetTriangle ( x, y, w, rad ); }
+		void SetWidth ( float w ) { m_vertex->SetWidth ( w ); }
+		void SetRadian ( float r ) { m_vertex->SetRadian ( r ); }
 	};
 
 	
@@ -194,8 +198,6 @@ namespace GAME
 	{
 		LPDIRECT3DTEXTURE9		m_texture;				//テクスチャ
 		tstring					m_tstr;					//文字列
-
-//		HDC_Font::FONT_SIZE		m_fontSize;
 
 		enum FONT_SIZE
 		{
@@ -225,7 +227,7 @@ namespace GAME
 		//可変長引数によるフォーマット指定
 		void SetStrf ( LPCTSTR format, ... );
 
-//		void SetFontSize ( HDC_Font::FONT_SIZE fontSize ) { m_fontSize = fontSize; }
+		//フォントサイズ指定
 		void SetFontSize ( FONT_SIZE fontSize ) { m_fontSize = fontSize; }
 	};
 
@@ -236,7 +238,7 @@ namespace GAME
 	//-------------------------------------------------------------------------------------------------
 	class _GamePrimitivePoliLine : public GamePrimitive
 	{
-		_DxPoliVertex		m_vertex;
+		_P_VxPori		m_vertex;
 
 	public:
 		_GamePrimitivePoliLine ();
@@ -245,12 +247,12 @@ namespace GAME
 		
 		void Load ();
 
-		void SetVec ( D3DXVECTOR2 vec ) { m_vertex.SetVec ( vec ); }
+		void SetVec ( VEC2 vec ) { m_vertex->SetVec ( vec ); }
 	};
 
 	class GamePrimitivePoliLine : public GamePrimitive
 	{
-		DxPoliVertex		m_vertex;
+		P_VxPori		m_vertex;
 
 	public:
 		GamePrimitivePoliLine ();
@@ -259,11 +261,11 @@ namespace GAME
 		
 		void Load ();
 
-		void SetVec ( UINT index, D3DXVECTOR2& vec ) { m_vertex.SetVec ( index, vec ); }
-		void AddVec ( D3DXVECTOR2& vec ) { m_vertex.AddVec ( vec ); }
-		void DelVec () { m_vertex.DelVec (); }
-		void ClearVec () { m_vertex.ClearVec (); }
-		void SetWidth ( float w ) { m_vertex.SetWidth ( w ); }
+		void SetVec ( UINT index, VEC2& vec ) { m_vertex->SetVec ( index, vec ); }
+		void AddVec ( VEC2& vec ) { m_vertex->AddVec ( vec ); }
+		void DelVec () { m_vertex->DelVec (); }
+		void ClearVec () { m_vertex->ClearVec (); }
+		void SetWidth ( float w ) { m_vertex->SetWidth ( w ); }
 	};
 
 
