@@ -44,6 +44,8 @@ namespace GAME
 			PrmRect::SetValid ( true );
 		}
 
+		bool IsActive () { return m_timer->IsActive (); }
+
 		//-----------------------------------
 		//‹ï‘ÌÝ’è
 		//@info 0x00Žw’è‚Ì‚Æ‚«D3DXCOLOR‚Ì‰Šú‰»‚Ì‚½‚ß®”ƒŠƒeƒ‰ƒ‹UL‚ð•t‚¯‚é

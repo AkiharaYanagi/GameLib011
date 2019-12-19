@@ -21,14 +21,14 @@ namespace GAME
 
 	//コンストラクタ
 	GameGraphicBase::GameGraphicBase ()
-		:	m_wait ( 0 ), m_timer ( 0 ), m_fadeIn ( 0 ), m_fadeOut ( 0 ), 
-			m_indexObject ( 0 ), m_valid ( true )
+	:	m_wait ( 0 ), m_timer ( 0 ), m_fadeIn ( 0 ), m_fadeOut ( 0 ), 
+		m_indexObject ( 0 ), m_valid ( true )
 	{
 		//----------------------------------------------
 		//オブジェクト配列
 		m_pvpObject = make_shared < VP_Object > ();
 
-		//オブジェクトは１つ以上なので自動で一つ生成する
+		//オブジェクト個数は１以上なので自動で１つ生成する
 		m_pvpObject->push_back ( make_shared < GameObject > () );
 
 		//----------------------------------------------
@@ -40,9 +40,8 @@ namespace GAME
 
 		//----------------------------------------------
 		m_pCenter = make_shared < VEC3 > ( 0.f, 0.f, 0.f );
-		m_pPosition = make_shared < VEC3 > ( 0.f, 0.f, 0.f );
-		m_pPosition->z = 0.5f; 
-}
+		m_pPosition = make_shared < VEC3 > ( 0.f, 0.f, Z_DEFALT );
+	}
 
 	//デストラクタ
 	GameGraphicBase::~GameGraphicBase ()
@@ -63,28 +62,14 @@ namespace GAME
 	//すべてのオブジェクトへの操作：表示状態
 	void GameGraphicBase::SetValid ( bool b )
 	{
-#if 0
-		UINT sizeObject = m_pvpObject->size();
-		for ( UINT i = 0; i < sizeObject; ++i )
-		{
-			m_pvpObject->at ( i )->SetValid ( b );
-		}
-#endif // 0
-		for ( P_Object pOb : *m_pvpObject ) { pOb->SetValid ( b ); }
+		for ( P_Object p : *m_pvpObject ) { p->SetValid ( b ); }
 		m_valid = b;
 	}
 
 	//すべてのオブジェクトへの操作：位置指定
 	void GameGraphicBase::SetAllPos ( VEC2 vec )
 	{
-#if 0
-		UINT sizeMatrix = m_pvpObject->size ();
-		for ( UINT i = 0; i < sizeMatrix; ++i )
-		{
-			m_pvpObject->at ( i )->GetpMatrix ()->SetPos ( vec );
-		}
-#endif // 0
-		for ( P_Object pOb : *m_pvpObject ) { pOb->GetpMatrix ()->SetPos ( vec ); }
+		for ( P_Object p : *m_pvpObject ) { p->SetPos ( vec ); }
 	}
 
 	//すべてのオブジェクトへの操作：色指定
@@ -123,13 +108,6 @@ namespace GAME
 
 
 		//マトリックスの動作
-#if 0
-		UINT size = m_pvpObject->size();
-		for ( UINT i = 0; i < size; ++i )
-		{
-			m_pvpObject->at ( i )->Move ();
-		}
-#endif // 0
 		for ( P_Object pOb : *m_pvpObject ) { pOb->Move (); }
 	}
 
@@ -231,26 +209,6 @@ namespace GAME
 	{
 		m_pvpTexture->at ( 0 ) = pTexture;
 	}
-#if 0
-
-
-	//テクスチャの先頭を返す
-	shared_ptr < GameTextureBase > GameGraphicBase::GetpTexture ()
-	{
-		if ( m_pvpTexture->size () == 0 ) { return nullptr; }
-		return m_pvpTexture [ m_indexTexture ];
-	}
-
-	//テクスチャを次のインデックスに進める
-	//末尾のときは何もしない
-	void GameGraphicBase::NextTexture ()
-	{
-		if ( m_indexTexture < m_pvpTexture->size () - 1 )
-		{
-			++m_indexTexture;
-		}
-	}
-#endif // 0
 
 	//テクスチャの中心位置 (Load()後のみ)
 	VEC2 GameGraphicBase::GetCenterOfTexture ( UINT index ) const
