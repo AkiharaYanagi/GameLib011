@@ -21,7 +21,8 @@ namespace GAME
 	//	GameTextureBase
 	//-------------------------------------------------------------------------------------------------
 	GameTextureBase::GameTextureBase () : 
-		m_lpTexture ( nullptr ), m_color ( 0xffffffff ), m_textureIndex ( 0 )
+//		m_lpTexture ( nullptr ), m_color ( 0xffffffff ), m_textureIndex ( 0 )
+		m_lpTexture ( nullptr ), m_textureIndex ( 0 )
 	{
 	}
 

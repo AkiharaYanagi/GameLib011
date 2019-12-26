@@ -90,7 +90,7 @@ namespace GAME
 	{
 		m_vec = m_startScaling;
 		m_vel = VEC2 ( 0.f, 0.f );
-		SetIndexTexture ( 0 );
+//		SetIndexTexture ( 0 );
 	}
 
 	void GrpEf::SetCenterOfTexture ( UINT index )

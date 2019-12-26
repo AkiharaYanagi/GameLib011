@@ -41,7 +41,8 @@
     <ClCompile Include="Source\CharaData\IO\LoadCharaUtl.cpp">
       <Filter>CharaData\IO</Filter>
     </ClCompile>
-    <ClCompile Include="Source\testFade.cpp" />
+    <ClCompile Include="Source\StdAfx.cpp" />
+    <ClCompile Include="Source\testMultiOb.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\GameMain.h" />
@@ -89,7 +90,8 @@
     <ClInclude Include="Source\CharaData\IO\LoadCharaUtl.h">
       <Filter>CharaData\IO</Filter>
     </ClInclude>
-    <ClInclude Include="Source\testFade.h" />
+    <ClInclude Include="Source\StdAfx.h" />
+    <ClInclude Include="Source\testMultiOb.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CharaData">

@@ -27,7 +27,7 @@ namespace GAME
 	class GameTextureBase
 	{
 		TX		m_lpTexture;		//テクスチャ(確保・解放は継承先で行う)
-		_CLR	m_color;			//カラー
+//		_CLR	m_color;			//カラー
 		UINT	m_textureIndex;		//テクスチャインデックス
 	
 	public:
@@ -47,6 +47,8 @@ namespace GAME
 		void SetTexture ( LPDIRECT3DTEXTURE9 lpTexture ) { m_lpTexture = lpTexture; }
 		LPDIRECT3DTEXTURE9	GetTexture() const { return m_lpTexture; }
 
+		//カラーもグラフィックオブジェクトに移設
+#if 0
 		//カラーの設定
 		void SetColor ( D3DXCOLOR color ) { m_color = color; }
 		D3DXCOLOR	GetColor () const { return m_color; }
@@ -56,6 +58,7 @@ namespace GAME
 		{ 
 			m_color = D3DXCOLOR( m_color.r, m_color.g, m_color.b, alpha ); 
 		}		
+#endif // 0
 	};
 
 	typedef GameTextureBase			TxBs;

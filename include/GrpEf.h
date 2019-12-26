@@ -55,10 +55,23 @@ namespace GAME
 		void SetAcc ( VEC2 vec ) { m_acc = vec; }
 
 		//複数オブジェクト
+		void ResetObjectNUm ( UINT n ) {}
+
 		void AddObject () 
 		{
 			m_vPosMatrix.push_back ( VEC2 ( 0, 0 ) );
 			GrpAcv::AddObject ();
+		}
+
+		void AddObject ( UINT n )
+		{
+			for ( UINT i = 0; i < n; ++i ) { AddObject (); }
+		}
+		
+		void AddpObject ( P_Object p )
+		{
+			m_vPosMatrix.push_back ( VEC2 ( 0, 0 ) );
+			GrpAcv::AddpObject ( p );
 		}
 		
 		void SetPosMatrix ( UINT i, VEC2 pos )

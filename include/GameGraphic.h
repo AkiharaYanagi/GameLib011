@@ -43,7 +43,7 @@ namespace GAME
 		UINT		m_fadeOut;		//フェードアウト時間
 
 		P_VEC3		m_pCenter;		//スプライト中心位置
-		P_VEC3		m_pPosition;	//スプライト中心位置
+		P_VEC3		m_pPosition;	//スプライト表示位置
 
 		//オブジェクト配列
 		PVP_Object	m_pvpObject;
@@ -73,8 +73,8 @@ namespace GAME
 		UINT GetTimer () const { return m_timer; }
 
 		//フェード時間
-		void SetFadeIn ( UINT n ) { if ( 0 != n ) { m_fadeIn = n; m_timer = n; } }
-		void SetFadeOut ( UINT n ) { if ( 0 != n ) { m_fadeOut = n; m_timer = n; } }
+		void SetFadeIn ( UINT n ) { if ( 0 != n ) { m_fadeIn = n; m_timer = 0; } }
+		void SetFadeOut ( UINT n ) { if ( 0 != n ) { m_fadeOut = n; m_timer = 0; } }
 
 		//スプライト中心位置
 		void SetSpriteCenter ( VEC3 center ) { (* m_pCenter) = center; }
@@ -93,12 +93,12 @@ namespace GAME
 		void ClearObject ();
 
 		//再設定(最初の１つをクリアしてから個数を追加)
-		void ResetObjectNum ( UINT n ) { ClearObject (); AddObject ( n ); }
+		virtual void ResetObjectNum ( UINT n ) { ClearObject (); AddObject ( n ); }
 
 		//追加
-		void AddObject () { m_pvpObject->push_back ( make_shared < GameObject > () ); }
-		void AddObject ( UINT n ) { for ( UINT i = 0; i < n; ++i ) { AddObject (); } }
-		void AddpObject ( P_Object p ) { m_pvpObject->push_back ( p ); }
+		virtual void AddObject () { m_pvpObject->push_back ( make_shared < GameObject > () ); }
+		virtual void AddObject ( UINT n ) { for ( UINT i = 0; i < n; ++i ) { AddObject (); } }
+		virtual void AddpObject ( P_Object p ) { m_pvpObject->push_back ( p ); }
 
 		//すべて可動切替
 		void SetValid ( bool b );
@@ -139,7 +139,7 @@ namespace GAME
 		void ClearTexture () { m_pvpTexture->clear (); }
 
 		//テクスチャの先頭を返す
-		P_TxBs GetpTexture ();
+		P_TxBs GetpTexture () { return m_pvpTexture->at ( 0 ); }
 
 		//テクスチャ配列ポインタを返す
 		PVP_TxBs GetpvpTexture () { return m_pvpTexture; }
