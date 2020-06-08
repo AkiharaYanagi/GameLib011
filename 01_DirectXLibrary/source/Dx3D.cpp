@@ -278,10 +278,9 @@ namespace GAME
 							const VEC3 *pCenter, const VEC3 *pPosition, _CLR color )
 	{
 		if ( ! m_lpSprite ) { return; }
-		if ( pMatrix != nullptr )
-		{
-			m_lpSprite->SetTransform ( pMatrix );
-		}
+		if ( pMatrix == nullptr ) { return; }
+
+		m_lpSprite->SetTransform ( pMatrix );
 		m_lpSprite->Draw ( lpTexture, rect, pCenter, pPosition, color );
 	}
 
@@ -290,11 +289,11 @@ namespace GAME
 	// 頂点描画
 	//------------------------------------------
 	void Dx3D::DrawVertex ( 
-		TX lpTextue, UINT streamNumber, VXBUF lpVertexBuffer, UINT offsetBytes, UINT stride,
+		TX lpTexture, UINT streamNumber, VXBUF lpVertexBuffer, UINT offsetBytes, UINT stride,
 		DWORD FVF, D3DPRIMITIVETYPE primitiveType, UINT startVertex, UINT primitiveCount )
 	{
 		//テクスチャの指定
-		m_lpD3DDevice->SetTexture ( 0, lpTextue );
+		m_lpD3DDevice->SetTexture ( 0, lpTexture );
 
 #if	1
 		//テクスチャ設定

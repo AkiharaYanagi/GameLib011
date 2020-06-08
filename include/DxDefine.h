@@ -28,6 +28,9 @@ constexpr float Z_DEFALT = 0.5f;		//z位置基本
 //------------------------------------------
 //型指定
 //------------------------------------------
+//デバイス
+using D3DDEV = LPDIRECT3DDEVICE9;
+
 //テクスチャ
 using TX = LPDIRECT3DTEXTURE9;
 

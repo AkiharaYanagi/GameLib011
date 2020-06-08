@@ -141,47 +141,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Source\CharaData\Action.cpp" />
-    <ClCompile Include="Source\CharaData\Behavior.cpp" />
-    <ClCompile Include="Source\CharaData\Branch.cpp" />
-    <ClCompile Include="Source\CharaData\Chara.cpp" />
-    <ClCompile Include="Source\CharaData\Command.cpp" />
-    <ClCompile Include="Source\CharaData\Effect.cpp" />
-    <ClCompile Include="Source\CharaData\EffectGenerate.cpp" />
-    <ClCompile Include="Source\CharaData\IO\IOChara.cpp" />
-    <ClCompile Include="Source\CharaData\IO\IOCharaDefine.cpp" />
-    <ClCompile Include="Source\CharaData\IO\LoadChara.cpp" />
-    <ClCompile Include="Source\CharaData\IO\LoadCharaUtl.cpp" />
-    <ClCompile Include="Source\CharaData\Script.cpp" />
-    <ClCompile Include="Source\CharaData\Sequence.cpp" />
     <ClCompile Include="Source\StdAfx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Source\testMultiOb.cpp" />
+    <ClCompile Include="Source\TestOutlineFont0.cpp" />
     <ClCompile Include="Source\WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\CharaData\Action.h" />
-    <ClInclude Include="Source\CharaData\Behavior.h" />
-    <ClInclude Include="Source\CharaData\Branch.h" />
-    <ClInclude Include="Source\CharaData\Chara.h" />
-    <ClInclude Include="Source\CharaData\Command.h" />
-    <ClInclude Include="Source\CharaData\Effect.h" />
-    <ClInclude Include="Source\CharaData\EffectGenerate.h" />
-    <ClInclude Include="Source\CharaData\IO\IOChara.h" />
-    <ClInclude Include="Source\CharaData\IO\IOCharaDefine.h" />
-    <ClInclude Include="Source\CharaData\IO\LoadChara.h" />
-    <ClInclude Include="Source\CharaData\IO\LoadCharaUtl.h" />
-    <ClInclude Include="Source\CharaData\Script.h" />
-    <ClInclude Include="Source\CharaData\Sequence.h" />
     <ClInclude Include="Source\GameMain.h" />
-    <ClInclude Include="Source\GameMain\GameConst.h" />
-    <ClInclude Include="Source\resource.h" />
     <ClInclude Include="Source\StdAfx.h" />
-    <ClInclude Include="Source\testMultiOb.h" />
+    <ClInclude Include="Source\TestOutlineFont0.h" />
     <ClInclude Include="Source\WinMain.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

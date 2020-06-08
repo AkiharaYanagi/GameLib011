@@ -35,9 +35,9 @@ namespace GAME
 		};
 
 	private:
-		HFONT					m_font;				//フォント
-		HFONT					m_oldFont;			//現状保存用フォント
-		HDC						m_hdc;				//デバイスコンテキストハンドル
+		HFONT		m_font;				//フォント
+		HFONT		m_oldFont;			//現状保存用フォント
+		HDC			m_hdc;				//デバイスコンテキストハンドル
 
 	public:
 		HDC_Font ();

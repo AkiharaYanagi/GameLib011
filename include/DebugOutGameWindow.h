@@ -44,7 +44,7 @@ namespace GAME
 			DebugTextNum = 15,
 		};
 	private:
-		LPDIRECT3DTEXTURE9		m_texture[DebugTextNum];			//テクスチャ
+		TX		m_texture[DebugTextNum];			//テクスチャ
 		DxVertex4				m_vertex[DebugTextNum];				//頂点処理オブジェクト
 		tstring					m_tstr[DebugTextNum];				//文字列
 

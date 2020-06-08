@@ -44,8 +44,8 @@ namespace GAME
 		UINT GetTextureIndex() const	{ return m_textureIndex; }
 
 		//テクスチャの設定
-		void SetTexture ( LPDIRECT3DTEXTURE9 lpTexture ) { m_lpTexture = lpTexture; }
-		LPDIRECT3DTEXTURE9	GetTexture() const { return m_lpTexture; }
+		void SetTexture ( TX lpTexture ) { m_lpTexture = lpTexture; }
+		TX	GetTexture() const { return m_lpTexture; }
 
 		//カラーもグラフィックオブジェクトに移設
 #if 0
@@ -73,8 +73,8 @@ namespace GAME
 	//--------------------------------------------------------
 	class GameTextureFromFile : public TxBs
 	{
-		LPDIRECT3DTEXTURE9		m_lpTexture;		//テクスチャ
-		tstring					m_strFilename;		//読込ファイル名
+		TX			m_lpTexture;		//テクスチャ
+		tstring		m_strFilename;		//読込ファイル名
 	
 	public:
 		GameTextureFromFile ();
@@ -105,8 +105,8 @@ namespace GAME
 	//--------------------------------------------------------
 	class GameTextureFromArchive : public TxBs
 	{
-		LPDIRECT3DTEXTURE9		m_lpTexture;		//テクスチャ
-		tstring					m_strFileName;		//読込ファイル名
+		TX			m_lpTexture;		//テクスチャ
+		tstring		m_strFileName;		//読込ファイル名
 	
 	public:
 		GameTextureFromArchive ();
@@ -136,7 +136,7 @@ namespace GAME
 	//--------------------------------------------------------
 	class GameTextureFromMemory : public TxBs
 	{
-		LPDIRECT3DTEXTURE9		m_lpTexture;		//テクスチャ
+		TX		m_lpTexture;		//テクスチャ
 
 	public:
 		GameTextureFromMemory ( LPCVOID pSrcData, UINT SrcDataSize );

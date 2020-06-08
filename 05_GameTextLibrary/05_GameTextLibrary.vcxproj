@@ -21,11 +21,13 @@
   <ItemGroup>
     <ClCompile Include="source\GameText.cpp" />
     <ClCompile Include="source\GameTextFile.cpp" />
+    <ClCompile Include="source\OutlineFont.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\GameText.h" />
     <ClInclude Include="..\include\GameTextFile.h" />
     <ClInclude Include="..\include\GameTextLibrary.h" />
+    <ClInclude Include="..\include\OutlineFont.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
