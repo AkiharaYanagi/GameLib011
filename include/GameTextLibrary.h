@@ -11,7 +11,7 @@
 #include "GameText.h"
 #include "GameTextFile.h"
 #include "OutlineFont.h"
-
+#include "GameString.h"
 
 //-------------------------------------------------------------------------------------------------
 //	ライブラリのリンク
