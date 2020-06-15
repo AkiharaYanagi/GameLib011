@@ -19,10 +19,10 @@ namespace GAME
 	GameInput::P_GameInput	GameInput::m_inst;
 	//------------------------------------------------
 
-	GameKey GameInput::Get ( PLAYER_ID player_id, bool dirRight )
+	_GameKey GameInput::Get ( PLAYER_ID player_id, bool dirRight )
 	{
 		//現在の入力をゲームキーに直して保存
-		GameKey gameKey;
+		_GameKey gameKey;
 
 		//上下前後
 		bool bKey8 = false;	//上
@@ -66,16 +66,19 @@ namespace GAME
 		// 3つ以上同時押しは優先順で処理
 		// コマンド指定では12369874順
 		//----------------------------------------
+#if 0
+
 
 		//斜め優先
-		if		( bKey8 && bKey4 )	{ gameKey.SetDir ( GameKey::DIR_7 ); }
-		else if ( bKey8 && bKey6 )	{ gameKey.SetDir ( GameKey::DIR_9 ); }
-		else if ( bKey6 && bKey2 )	{ gameKey.SetDir ( GameKey::DIR_3 ); }
-		else if ( bKey4 && bKey2 )	{ gameKey.SetDir ( GameKey::DIR_1 ); }
-		else if ( bKey8 )			{ gameKey.SetDir ( GameKey::DIR_8 ); }
-		else if ( bKey6 )			{ gameKey.SetDir ( GameKey::DIR_6 ); }
-		else if ( bKey4 )			{ gameKey.SetDir ( GameKey::DIR_4 ); }
-		else if ( bKey2 )			{ gameKey.SetDir ( GameKey::DIR_2 ); }
+		if		( bKey8 && bKey4 )	{ gameKey.SetDir ( _GameKey::LVR_7 ); }
+		else if ( bKey8 && bKey6 )	{ gameKey.SetDir ( _GameKey::LVR_9 ); }
+		else if ( bKey6 && bKey2 )	{ gameKey.SetDir ( _GameKey::LVR_3 ); }
+		else if ( bKey4 && bKey2 )	{ gameKey.SetDir ( _GameKey::LVR_1 ); }
+		else if ( bKey8 )			{ gameKey.SetDir ( _GameKey::LVR_8 ); }
+		else if ( bKey6 )			{ gameKey.SetDir ( _GameKey::LVR_6 ); }
+		else if ( bKey4 )			{ gameKey.SetDir ( _GameKey::LVR_4 ); }
+		else if ( bKey2 )			{ gameKey.SetDir ( _GameKey::LVR_2 ); }
+#endif // 0
 
 		//ボタン
 		bool bButton0 = false;
@@ -97,10 +100,14 @@ namespace GAME
 			bButton3 = IS_KEY ( P2_BUTTON4 );
 		}
 
-		gameKey.SetBtn ( 0, ( bButton0 ) ? GameKey::BTN_ON : GameKey::BTN_OFF );
-		gameKey.SetBtn ( 1, ( bButton1 ) ? GameKey::BTN_ON : GameKey::BTN_OFF );
-		gameKey.SetBtn ( 2, ( bButton2 ) ? GameKey::BTN_ON : GameKey::BTN_OFF );
-		gameKey.SetBtn ( 3, ( bButton3 ) ? GameKey::BTN_ON : GameKey::BTN_OFF );
+#if 0
+
+
+		gameKey.SetBtn ( 0, ( bButton0 ) ? _GameKeyCommand::GAME_KEY_ON : _GameKeyCommand::GAME_KEY_OFF );
+		gameKey.SetBtn ( 1, ( bButton1 ) ? _GameKeyCommand::GAME_KEY_ON : _GameKeyCommand::GAME_KEY_OFF );
+		gameKey.SetBtn ( 2, ( bButton2 ) ? _GameKeyCommand::GAME_KEY_ON : _GameKeyCommand::GAME_KEY_OFF );
+		gameKey.SetBtn ( 3, ( bButton3 ) ? _GameKeyCommand::GAME_KEY_ON : _GameKeyCommand::GAME_KEY_OFF );
+#endif // 0
 	
 		//返す
 		return gameKey;

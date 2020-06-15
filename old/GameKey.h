@@ -73,7 +73,7 @@ namespace GAME
 		GAME_KEY_DIRECTION		m_dir;
 		GAME_KEY_BUTTON			m_button[4];
 
-#define	STR(var) #var	//引数にした変数から、変数名を示す文字列リテラルとして返す((#)が文字列化演算子)
+//#define	STR(var) #var	//引数にした変数から、変数名を示す文字列リテラルとして返す((#)が文字列化演算子)
 		
 		typedef map < tstring, GAME_KEY_DIRECTION > GAME_KEY_DIR_STR;
 		typedef map < tstring, GAME_KEY_BUTTON > GAME_KEY_BTN_STR;

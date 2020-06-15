@@ -20,7 +20,8 @@
 //	ヘッダファイル　インクルード
 //-------------------------------------------------------------------------------------------------
 #include "Define.h"
-#include "GameKey.h"
+#include "_GameKey.h"
+#include "_GameKeyCommand.h"
 #include "GameInput.h"
 #include "Fade.h"
 #include "GrpEf.h"
