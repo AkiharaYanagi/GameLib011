@@ -62,6 +62,13 @@ namespace GAME
 		enum _tagLvr { _LVR_NUM = 8 };
 
 		//ボタン
+		enum GAME_KEY_BUTTON
+		{
+			BTN_0 = 0,
+			BTN_1 = 1,
+			BTN_2 = 2,
+			BTN_3 = 3,
+		};
 		static const int BTN_NUM = 4;
 		enum _tagBtn { _BTN_NUM = 4 };
 
@@ -79,14 +86,15 @@ namespace GAME
 		//今回のキーを前回に保存する
 		void Update ();
 
-		bool GetLvr ( UINT index ) { return Lvr[index]; }
+		bool GetLvr ( UINT index ) const { return Lvr[index]; }
 		void SetLvr ( UINT index, bool b ) { Lvr[index] = b; }
-		bool GetPreLvr ( UINT index ) { return PreLvr[index]; }
+		void SetLvrOff ();
+		bool GetPreLvr ( UINT index ) const { return PreLvr[index]; }
 		void SetPreLvr ( UINT index, bool b ) { PreLvr[index] = b; }
 
-		bool GetBtn ( UINT index ) { return Lvr[index]; }
+		bool GetBtn ( UINT index ) const { return Lvr[index]; }
 		void SetBtn ( UINT index, bool b ) { Btn[index] = b; }
-		bool GetPreBtn ( UINT index ) { return PreLvr[index]; }
+		bool GetPreBtn ( UINT index ) const { return PreLvr[index]; }
 		void SetPreBtn ( UINT index, bool b ) { PreBtn[index] = b; }
 	};
 

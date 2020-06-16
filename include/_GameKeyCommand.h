@@ -128,6 +128,8 @@ namespace GAME
 		bool Is6E () const;
 		bool Is8E () const;
 		bool Is4E () const;
+
+		bool AllWild () const;
 	};
 
 	using V_GAME_KEY_CMD = vector < _GameKeyCommand >;

@@ -58,6 +58,14 @@ namespace GAME
 		Lvr[0] = false;
 	}
 
+	void _GameKey::SetLvrOff ()
+	{
+		for ( UINT i = 0; i < _LVR_NUM; ++ i )
+		{
+			Lvr[i] = false;
+		}
+	}
+
 
 }	//namespace GAME
 

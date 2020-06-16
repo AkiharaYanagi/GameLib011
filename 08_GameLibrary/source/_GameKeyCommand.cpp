@@ -55,7 +55,7 @@ namespace GAME
 		bool bBtn[_GameKey::_BTN_NUM] = { false };
 
 
-		//比較
+		//レバー比較
 		for ( UINT i = 0; i < _GameKey::_LVR_NUM; ++ i )
 		{
 			bool b = gameKeyData.GetLvr ( i );
@@ -67,13 +67,44 @@ namespace GAME
 			case GAME_KEY_ON:	bLvr[i] =   pb &&   b; break;
 			case GAME_KEY_PUSH:	bLvr[i] = ! pb &&   b; break;
 			case GAME_KEY_RELE:	bLvr[i] =   pb && ! b; break;
-			case GAME_KEY_WILD:	bWildLvr[i] = true; break;
 			case GAME_KEY_IS:	bLvr[i] = ! b; break;
 			case GAME_KEY_NIS:	bLvr[i] =   b; break;
+			case GAME_KEY_WILD:	bWildLvr[i] = true; break;
 			}
 		}
 
+		//ボタン比較
+		for ( UINT i = 0; i < _GameKey::_BTN_NUM; ++ i )
+		{
+			bool b = gameKeyData.GetBtn ( i );
+			bool pb = gameKeyData.GetPreBtn ( i );
 
+			switch ( m_Btn[i] )
+			{
+			case GAME_KEY_OFF:	bBtn[i] = ! pb && ! b; break;
+			case GAME_KEY_ON:	bBtn[i] =   pb &&   b; break;
+			case GAME_KEY_PUSH:	bBtn[i] = ! pb &&   b; break;
+			case GAME_KEY_RELE:	bBtn[i] = pb && !   b; break;
+			case GAME_KEY_IS:	bBtn[i] = ! b; break;
+			case GAME_KEY_NIS:	bBtn[i] =   b; break;
+			case GAME_KEY_WILD:	bWildBtn[i] = true; break;
+			}
+		}
+
+		//すべてワイルドの場合true
+//		if ( AllWild () ) { return true; }
+
+		//すべてを走査し１つでも ワイルドでない かつ 該当しない 場合falseを返す
+		for ( UINT i = 0; i < _GameKey::_LVR_NUM; ++ i )
+		{
+			if ( ! bWildLvr[i] && ! bLvr[i] ) { return false; }
+		}
+		for ( UINT i = 0; i < _GameKey::_BTN_NUM; ++ i )
+		{
+			if ( ! bWildBtn[i] && ! bBtn[i] ) { return false; }
+		}
+
+		//すべて適合だったらtrue
 		return false;
 	}
 
@@ -129,6 +160,11 @@ namespace GAME
 	bool _GameKeyCommand::Is4E () const
 	{
 		return Is ( _GameKey::LVR_1 ) || Is ( _GameKey::LVR_4 ) || Is ( _GameKey::LVR_7 );
+	}
+
+	bool _GameKeyCommand::AllWild () const
+	{
+		return false;
 	}
 
 }	//namespace GAME
