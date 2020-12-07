@@ -237,6 +237,9 @@ namespace GAME
 		//書き込みをバックバッファサーフェスに戻す
 //		m_lpD3DDevice->SetRenderTarget ( 0, m_lpBackBuffer );
 
+#if 0
+
+
 		//拡大縮小のテスト
 		RECT rectSrc, rectDest;
 //		SetRect( &rectSrc, 0+(int)m_zoom, 0+(int)(m_zoom * 0.67), 640-(int)m_zoom, 480-(int)(m_zoom * 0.67) );
@@ -244,6 +247,7 @@ namespace GAME
 		SetRect( &rectDest, 0, 0, 640, 480 );
 //		m_lpD3DDevice->StretchRect ( m_lpTextureSurface, &rectSrc, m_lpBackBuffer, &rectDest, D3DTEXF_NONE );
 
+#endif // 0
 		//バックバッファを表示
 		m_lpD3DDevice->Present ( nullptr, nullptr, nullptr, nullptr );
 	}
@@ -340,10 +344,10 @@ namespace GAME
 		D3DPRESENT_PARAMETERS param;
 		ZeroMemory( & param, sizeof ( param ) );
 
-//		param.BackBufferWidth	= m_window_x;
-//		param.BackBufferHeight	= m_window_y;
-		param.BackBufferWidth	= GAME_WINDOW_WIDTH;
-		param.BackBufferHeight	= GAME_WINDOW_HEIGHT;
+		param.BackBufferWidth	= m_window_x;
+		param.BackBufferHeight	= m_window_y;
+//		param.BackBufferWidth	= GAME_WINDOW_WIDTH;
+//		param.BackBufferHeight	= GAME_WINDOW_HEIGHT;
 		param.BackBufferFormat	= dm.Format;	//バックバッファのピクセルフォーマット(デフォルトアダプタと同一にする)
 		param.BackBufferCount	= 1;
 		param.SwapEffect		= D3DSWAPEFFECT_DISCARD;
