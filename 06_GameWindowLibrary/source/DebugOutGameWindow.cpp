@@ -49,6 +49,7 @@ namespace GAME
 		for ( UINT i = 0; i < DebugTextNum; ++i )
 		{
 			m_vertex[i].Load ();		//頂点バッファの作成
+			m_vertex[i].SetPos ( 0, 20 * i );
 		}
 
 //		m_tstr.assign ( TEXT("DebugOutGameWindow::Init _  ()") );

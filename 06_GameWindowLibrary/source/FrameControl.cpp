@@ -129,7 +129,7 @@ const DWORD FrameControl::waitOneFrameTime = 1000 * 0x10000 / dwFps;		//1ƒtƒŒ[ƒ
 			//1ƒtƒŒ[ƒ€ŽžŠÔ‚Ì’²®(‘‚·‚¬‚éŽž‚Í·•ª‚¾‚¯A‚»‚êˆÈŠO‚Í1‚¾‚¯Sleep)
 			DWORD sleepTime = ( idealTime > progressTime ) ? ( idealTime - progressTime ): 1;
 			
-			m_average += (double)idealTime - progressTime;
+			m_average += sleepTime;
 
 			Sleep ( sleepTime );
 
@@ -149,8 +149,10 @@ const DWORD FrameControl::waitOneFrameTime = 1000 * 0x10000 / dwFps;		//1ƒtƒŒ[ƒ
 				averageMove = 0;
 				averageDraw = 0;
 
-//				DebugOutGameWindow::instance()->SetPos ( 0, 300, 400 );
-//				DebugOutGameWindow::instance()->DebugOutf ( 0, _T("FPS:%u"), m_frames );
+				DBGOUT_WND->SetPos ( 10, 500, 000 );
+				float avrg = 0;
+				if ( 0 != m_frames ) { avrg = (float)m_average / m_frames; }
+				DBGOUT_WND_F ( 10, _T("FPS:%02u, sleep:%05.2f"), m_frames, avrg );
 
 				m_beforeTime = nowTime;
 				m_frames = 0;
