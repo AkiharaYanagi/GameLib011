@@ -47,10 +47,10 @@ namespace GAME
 	{
 		VXBUF		m_lpVertexBuffer;	//頂点バッファ
 		V_VX		m_vVx;				//頂点配列
-//		UINT		m_vertexNum;		//頂点数
 		bool		m_update;			//更新フラグ (move()時にapplyPos()を行うかどうか)
 		DWORD		m_color;			//共通基本色
 		float		m_z;				//共通z位置
+		bool		m_valid;			//有効フラグ
 
 	public:
 		DxVertex ();
@@ -110,6 +110,10 @@ namespace GAME
 		//更新フラグ
 		void SetUpdate ( bool b ) { m_update = b; }
 		bool GetUpdate () const { return m_update; }
+
+		//有効フラグ
+		void SetValid ( bool b ) { m_valid = b; }
+		bool GetValid () const { return m_valid; }
 	};
 
 	using P_Vertex = shared_ptr < DxVertex >;

@@ -62,9 +62,6 @@ namespace GAME
 	//頂点を初期化
 	void DxVertex::Clear ()
 	{
-//		if ( m_vVx ) { delete[] m_vVx; }
-//		m_vVx = nullptr;
-//		m_vertexNum = 0;
 		m_vVx.clear ();
 	}
 
@@ -96,6 +93,9 @@ namespace GAME
 
 	void DxVertex::DrawVertex ( TX lpTexture )
 	{
+		//有効フラグ
+		if ( ! m_valid ) { return; }
+
 		//サイズが０のときは何もしない
 		if ( m_vVx.empty () ) { return; }
 
@@ -218,8 +218,6 @@ namespace GAME
 	{
 		m_color = color;
 //		for ( UINT i = 0; i < m_vertexNum; i++ ) { m_vVx[i].color = color; }
-
-		//@todo []インデックスで指定する
 		UINT i = 0;
 		for ( VX vx : m_vVx ) { m_vVx[i++].color = color; }
 	}
