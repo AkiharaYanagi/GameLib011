@@ -133,8 +133,8 @@ namespace GAME
 		~DxParticularVertex () {}
 
 		//位置
-		void SetPos ( float x, float y ) { m_pos.x = x; m_pos.y = y; }
-		void SetPos ( VEC2& vec ) { m_pos = vec; }
+		void SetPos ( const float x, const float y ) { m_pos.x = x; m_pos.y = y; }
+		void SetPos ( const VEC2& vec ) { m_pos = vec; }
 		VEC2 GetPos () const { return m_pos; }
 	};
 

@@ -79,7 +79,7 @@ namespace GAME
 
 		//ˆÊ’u
 		void SetPos ( float x, float y ) { m_vertex->SetPos ( x, y ); }
-		void SetPos ( VEC2& vec ) { m_vertex->SetPos ( vec ); }
+		void SetPos ( const VEC2& vec ) { m_vertex->SetPos ( vec ); }
 		VEC2 GetPos () const { return m_vertex->GetPos (); }
 	};
 

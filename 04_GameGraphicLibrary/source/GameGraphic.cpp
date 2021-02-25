@@ -222,6 +222,9 @@ namespace GAME
 		VEC2 ret = VEC2 ( 0, 0 );
 		if ( m_pvpTexture->size () <= index ) { return ret; }
 
+		TX tx = m_pvpTexture->at ( index )->GetTexture ();
+		if ( nullptr == tx ) { return ret; }
+
 		D3DSURFACE_DESC desc;
 		m_pvpTexture->at ( index )->GetTexture ()->GetLevelDesc ( 0, &desc );
 		ret.x = 0.5f * desc.Width;
