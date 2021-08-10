@@ -188,7 +188,7 @@ namespace GAME
 		WNDCLASSEX wcex;
 		wcex.cbSize = sizeof ( WNDCLASSEX );
 		wcex.style = CS_HREDRAW | CS_VREDRAW;
-		wcex.lpfnWndProc = Application::WinProc;
+		wcex.lpfnWndProc = (WNDPROC)Application::WinProc;
 		wcex.cbClsExtra = 0;
 		wcex.cbWndExtra = 0;
 		wcex.hInstance = hInst;
@@ -202,8 +202,8 @@ namespace GAME
 		ATOM atom = RegisterClassExW ( &wcex );
 
 		//設定からウィンドウサイズの指定
-		UINT window_x = AppSettingFile::Inst()->GetWindowX ();
-		UINT window_y = AppSettingFile::Inst()->GetWindowY ();
+		int window_x = (int)AppSettingFile::Inst()->GetWindowX ();
+		int window_y = (int)AppSettingFile::Inst()->GetWindowY ();
 
 		//ウィンドウの作成
 		m_hWnd = CreateWindowW ( 
@@ -226,7 +226,7 @@ namespace GAME
 		::SystemParametersInfo ( SPI_GETWORKAREA, 0, &workRect, 0 );
 		int wWidth = workRect.right - workRect.left;
 		int wHeight = workRect.bottom - workRect.top;
-		int wPos_x = ( wWidth / 2 ) - ( window_x / 2 );
+		int wPos_x = ( wWidth  / 2 ) - ( window_x / 2 );
 		int wPos_y = ( wHeight / 2 ) - ( window_y / 2 );
 
 		//ウィンドウ位置の指定
@@ -315,7 +315,7 @@ namespace GAME
 #endif	//0
 
 		}
-		return DefWindowProc( hWnd, uMsg, wParam, lParam );
+		return DefWindowProc( hWnd, (unsigned int)uMsg, wParam, lParam );
 	}
 
 

@@ -1,0 +1,42 @@
+◆Bitbucket
+リポジトリの新規作成
+クローンの作成
+URLのコピー
+
+◆SourceTree
+新規リポジトリ
+リモートからクローンする
+URLの貼り付け
+空のローカルディレクトリを作成
+クローン
+
+◆VisualStudio
+ソリューションの作成
+ファイルとディレクトリの整理
+GameMainをペースト
+
+◆プロジェクト設定
+[構成プロパティ] -> [C/C++] -> [全般] -> [追加のインクルードライブラリ]
+D:\Projects\GameLib011\include
+
+[構成プロパティ] -> [リンカ] -> [全般] -> [追加のライブラリディレクトリ]
+D:\Projects\GameLib011\library
+
+[構成プロパティ] -> [VC++ディレクトリ] -> [インクルード ディレクトリ]
+D:\Programming\Microsoft DirectX SDK (June 2010)\Include
+
+[構成プロパティ] -> [VC++ディレクトリ] -> [ライブラリ ディレクトリ]
+D:\Programming\Microsoft DirectX SDK (June 2010)\Lib\x86
+D:\Programming\Microsoft DirectX SDK (June 2010)\Lib\x86
+ビルド・実行のテスト
+
+◆キーコンフィグ
+ゲームセッティング(Settings.exe)から
+キーコンフィグ、画面の初期化などを設定する。
+
+◆VisualStudio
+gitignoreをペースト
+VisualStudioのファイルを除外
+
+コミットしてテスト
+
