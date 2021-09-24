@@ -34,6 +34,8 @@ namespace GAME
 	using UINT = unsigned __int32;
 //	using UINT = unsigned __int64;
 
+	using V_UINT = vector < UINT >;
+
 	//-------------------------------------------------------------------------------------------------
 	// TCAHR‘Î‰ž
 	//-------------------------------------------------------------------------------------------------
@@ -45,6 +47,11 @@ namespace GAME
 	using tofstream =		std::basic_ofstream< TCHAR >;
 	using tistringstream =	std::basic_istringstream< TCHAR >;
 	using tostringstream =	std::basic_ostringstream< TCHAR >;
+
+	using V_STR = vector < tstring >;
+	using P_STR = shared_ptr < tstring >;
+	using VP_STR = vector < P_STR >;
+	using PVP_STR = shared_ptr < tstring >;
 
 	//-------------------------------------------------------------------------------------------------
 	// TRUE, FALSE

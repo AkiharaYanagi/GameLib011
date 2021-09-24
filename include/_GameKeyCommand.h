@@ -54,21 +54,24 @@ namespace GAME
 		//レバーを１つにまとめる
 		enum GAME_KEY_LVR_CMD
 		{
-			LVR_CMD_N = 0,	//入力なし
+//			LVR_CMD_N = 0,	//入力なし
 
-			LVR_CMD_1 = 1,
-			LVR_CMD_2 = 2,
-			LVR_CMD_3 = 3,
-			LVR_CMD_6 = 4,
-			LVR_CMD_9 = 5,
-			LVR_CMD_8 = 6,
-			LVR_CMD_7 = 7,
-			LVR_CMD_4 = 8,
+			LVR_CMD_1 = 0,
+			LVR_CMD_2 = 1,
+			LVR_CMD_3 = 2,
+			LVR_CMD_6 = 3,
+			LVR_CMD_9 = 4,
+			LVR_CMD_8 = 5,
+			LVR_CMD_7 = 6,
+			LVR_CMD_4 = 7,
+#if 0
 
 			LVR_CMD_2E = 9,		//下要素
 			LVR_CMD_6E = 10,	//右要素
 			LVR_CMD_8E = 11,	//上要素
 			LVR_CMD_4E = 12,	//左要素
+
+#endif // 0
 		};
 
 	private:
@@ -90,15 +93,14 @@ namespace GAME
 		~_GameKeyCommand ();
 
 		//比較
+		bool CompareTarget ( _GameKey gameKeyData ) const;
+
+		//向き指定の比較
 		//thisの状態がチェックするコマンド条件、引数がプレイヤ入力
 		//引数：コマンド成立条件となるゲームキー状態, キャラクタ向き(右正)
 		//戻値：適合したらtrue、それ以外はfalse
-		bool CompareTarget ( _GameKey gameKeyData, bool dirRight ) const
-		{
-			return false;
-		}
+		bool CompareTarget ( _GameKey gameKeyData, bool dirRight ) const;
 
-		bool CompareTarget ( _GameKey gameKeyData ) const;
 
 
 		//レバー(方向指定)
@@ -128,8 +130,6 @@ namespace GAME
 		bool Is6E () const;
 		bool Is8E () const;
 		bool Is4E () const;
-
-		bool AllWild () const;
 	};
 
 	using V_GAME_KEY_CMD = vector < _GameKeyCommand >;
