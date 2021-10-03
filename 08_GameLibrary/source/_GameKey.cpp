@@ -47,6 +47,8 @@ namespace GAME
 
 	}
 
+#if 0
+
 	void _GameKey::Update ()
 	{
 		//––”ö‚©‚çæ“ª‚ÉŒü‚¯‚Äã‘‚«‚µ‚Ä‚¢‚­
@@ -56,6 +58,20 @@ namespace GAME
 		}
 		//æ“ª‚Íè“®‚Å‰Šú‰»
 		Lvr[0] = false;
+	}
+
+#endif // 0
+
+	void _GameKey::ReservePrevious ( const _GameKey gkPrev )
+	{
+		for ( UINT i = 0; i < _LVR_NUM; ++ i )
+		{
+			PreLvr[i] = gkPrev.Lvr[i];
+		}
+		for ( UINT i = 0; i < _BTN_NUM; ++ i )
+		{
+			PreBtn[i] = gkPrev.Btn[i];
+		}
 	}
 
 	void _GameKey::SetLvrOff ()

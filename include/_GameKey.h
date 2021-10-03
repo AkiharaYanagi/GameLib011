@@ -81,8 +81,10 @@ namespace GAME
 		_GameKey ( const _GameKey & rhs );
 		~_GameKey ();
 
-		//今回のキーを前回に保存する
-		void Update ();
+		//更新(今回のキーを前回に保存する)
+//		void Update ();
+		//前回のキーを今回に保存する)
+		void ReservePrevious ( const _GameKey gkPrev );
 
 		bool GetLvr ( UINT index ) const { return Lvr[index]; }
 		void SetLvr ( UINT index, bool b ) { Lvr[index] = b; }
@@ -90,9 +92,9 @@ namespace GAME
 		bool GetPreLvr ( UINT index ) const { return PreLvr[index]; }
 		void SetPreLvr ( UINT index, bool b ) { PreLvr[index] = b; }
 
-		bool GetBtn ( UINT index ) const { return Lvr[index]; }
+		bool GetBtn ( UINT index ) const { return Btn[index]; }
 		void SetBtn ( UINT index, bool b ) { Btn[index] = b; }
-		bool GetPreBtn ( UINT index ) const { return PreLvr[index]; }
+		bool GetPreBtn ( UINT index ) const { return PreBtn[index]; }
 		void SetPreBtn ( UINT index, bool b ) { PreBtn[index] = b; }
 	};
 
