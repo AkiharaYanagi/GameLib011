@@ -237,8 +237,8 @@ namespace GAME
 		RECT windowRect, clientRect;
 		::GetWindowRect ( m_hWnd, & windowRect );
 		::GetClientRect ( m_hWnd, & clientRect );
-		//TRACE_F ( _T("windowRect = ( %d, %d, %d, %d ) \n"), windowRect.left, windowRect.top, windowRect.right, windowRect.bottom );
-		//TRACE_F ( _T("clientRect = ( %d, %d, %d, %d ) \n"), clientRect.left, clientRect.top, clientRect.right, clientRect.bottom );
+		TRACE_F ( _T("windowRect = ( %d, %d, %d, %d ) \n"), windowRect.left, windowRect.top, windowRect.right, windowRect.bottom );
+		TRACE_F ( _T("clientRect = ( %d, %d, %d, %d ) \n"), clientRect.left, clientRect.top, clientRect.right, clientRect.bottom );
 
 		//ウィンドウ幅、高さ
 		int windowWidth = windowRect.right - windowRect.left;
@@ -256,8 +256,8 @@ namespace GAME
 		
 		::GetWindowRect ( m_hWnd, &windowRect );
 		::GetClientRect ( m_hWnd, &clientRect );
-		//TRACE_F ( _T("windowRect = ( %d, %d, %d, %d ) \n"), windowRect.left, windowRect.top, windowRect.right, windowRect.bottom );
-		//TRACE_F ( _T("clientRect = ( %d, %d, %d, %d ) \n"), clientRect.left, clientRect.top, clientRect.right, clientRect.bottom );
+		TRACE_F ( _T("windowRect = ( %d, %d, %d, %d ) \n"), windowRect.left, windowRect.top, windowRect.right, windowRect.bottom );
+		TRACE_F ( _T("clientRect = ( %d, %d, %d, %d ) \n"), clientRect.left, clientRect.top, clientRect.right, clientRect.bottom );
 		
 		TRACE_F ( _T("ApplicationManager:: hWnd = %d\n"), m_hWnd );
 

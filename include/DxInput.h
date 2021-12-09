@@ -9,8 +9,7 @@
 // ヘッダファイルのインクルード
 //-------------------------------------------------------------------------------------------------
 #include "Directx_common.h"	//DirectX共通
-#include <dinput.h>				//DirectInput
-
+#include <dinput.h>			//DirectInput
 
 //-------------------------------------------------------------------------------------------------
 // ライブラリのリンク
@@ -18,43 +17,51 @@
 #pragma comment (lib, "dxguid.lib")
 #pragma comment (lib, "dinput8.lib")
 
-
 //-------------------------------------------------------------------------------------------------
 // 定義
 //-------------------------------------------------------------------------------------------------
 namespace GAME
 {
-
-
 	//-------------------------------------------------------------------------------------------------
 	//ライブラリ内クラス宣言
 	//-------------------------------------------------------------------------------------------------
 	class DxJoystick;
+	using P_DxJoystick = unique_ptr < DxJoystick >;
 	class DxKeyboard;
+	using P_DxKeyboard = unique_ptr < DxKeyboard >;
 	class DxMouse;
-
+	using P_DxMouse = unique_ptr < DxMouse >;
 
 	//------------------------------------------
 	//Direct Input の管理クラス
 	//------------------------------------------
 	class DxInput
 	{
-		//シングルトン　パターン
-		static DxInput*			m_instance;
-		DxInput ();
-		DxInput ( const DxInput& obj );
-		~DxInput ();
-
-		LPDIRECTINPUT8		m_lpDI;			//DirectInputオブジェクト
-		DxJoystick*			m_joystick;		//ジョイスティック監理
-		DxKeyboard*			m_keyboard;		//キーボード監理
-		DxMouse*			m_mouse;		//マウス監理
-
-
+	//---------------------------------------------------------------------
+	//シングルトン　パターン
+	private:
+		using P_DxInput = unique_ptr < DxInput >;	//ポインタ型定義
+		static P_DxInput	m_inst;		//シングルトンインスタンス(実体は.cppで定義)
+		DxInput ();		//private コンストラクタで通常の実体化は禁止
+//		DxInput ( const DxInput& obj );
 	public:
+		~DxInput ();		//デストラクタはunique_ptrのためpublic
 		static void Create ();
 		static void Destroy ();
-		static DxInput* instance () { return m_instance; }
+		static P_DxInput& instance () { return m_inst; }
+	//---------------------------------------------------------------------
+
+	private:
+		LPDIRECTINPUT8		m_lpDI;			//DirectInputオブジェクト
+
+//		DxJoystick*			m_joystick;		//ジョイスティック監理
+//		DxKeyboard*			m_keyboard;		//キーボード監理
+//		DxMouse*			m_mouse;		//マウス監理
+		P_DxJoystick		m_joystick;		//ジョイスティック監理
+		P_DxKeyboard		m_keyboard;		//キーボード監理
+		P_DxMouse			m_mouse;		//マウス監理
+
+	public:
 
 		void Init ();
 		void Rele ();
@@ -135,6 +142,9 @@ namespace GAME
 		bool IsMouseInside ( LONG x, LONG y, LONG w, LONG h ) const;
 	};
 
+
+	//シングルトンアクセス
+	#define DXINP DxInput::instance()
 
 }	//namespace GAME
 

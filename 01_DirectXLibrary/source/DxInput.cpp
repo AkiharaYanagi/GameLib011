@@ -24,15 +24,45 @@
 //-------------------------------------------------------------------------------------------------
 namespace GAME
 {
+	//-------------------------------------------------------------------------------------------------
+	//	シングルトン　インスタンス
+	//-------------------------------------------------------------------------------------------------
+	DxInput::P_DxInput		DxInput::m_inst = nullptr;
+
+	//-------------------------------------------------------------------------------------------------
+	//	シングルトン　インスタンス生成
+	//-------------------------------------------------------------------------------------------------
+	void DxInput::Create ()
+	{
+		assert ( ! m_inst );
+//		m_inst = new DxInput;
+//		if ( ! m_inst ) { m_inst = make_unique < DxInput > (); }
+		if ( ! m_inst ) { m_inst = P_DxInput ( new DxInput () ); }
+	}
+
+	//-------------------------------------------------------------------------------------------------
+	//	シングルトン　インスタンス破棄
+	//-------------------------------------------------------------------------------------------------
+	void DxInput::Destroy ()
+	{
+//		if ( m_inst ) { delete m_inst; }
+//		m_inst = nullptr;
+		m_inst.reset ();
+	}
+
 
 	//-------------------------------------------------------------------------------------------------
 	//	コンストラクタ
 	//-------------------------------------------------------------------------------------------------
-	DxInput::DxInput () : m_lpDI ( nullptr ), m_joystick ( nullptr ), m_keyboard ( nullptr ), m_mouse ( nullptr )
+	DxInput::DxInput ()
+		: m_lpDI ( nullptr ), m_joystick ( nullptr ), m_keyboard ( nullptr ), m_mouse ( nullptr )
 	{
-		m_joystick = new DxJoystick;
-		m_keyboard = new DxKeyboard;
-		m_mouse = new DxMouse;
+//		m_joystick = new DxJoystick;
+//		m_keyboard = new DxKeyboard;
+//		m_mouse = new DxMouse;
+		m_joystick = make_unique < DxJoystick > ();
+		m_keyboard = make_unique < DxKeyboard > ();
+		m_mouse = make_unique < DxMouse > ();
 
 		Init ();		//初期化
 	}
@@ -43,36 +73,14 @@ namespace GAME
 	DxInput::~DxInput ()
 	{
 		Rele ();	//解放
-
+#if 0
 		if ( m_joystick ) { delete m_joystick; }
 		m_joystick = nullptr;
 		if ( m_keyboard ) { delete m_keyboard; }
 		m_keyboard = nullptr;
 		if ( m_mouse ) { delete m_mouse; }
 		m_mouse = nullptr;
-	}
-
-	//-------------------------------------------------------------------------------------------------
-	//	シングルトン　インスタンス
-	//-------------------------------------------------------------------------------------------------
-	DxInput* DxInput::m_instance = nullptr;
-
-	//-------------------------------------------------------------------------------------------------
-	//	シングルトン　インスタンス生成
-	//-------------------------------------------------------------------------------------------------
-	void DxInput::Create ()
-	{
-		assert ( ! m_instance );
-		m_instance = new DxInput;
-	}
-
-	//-------------------------------------------------------------------------------------------------
-	//	シングルトン　インスタンス破棄
-	//-------------------------------------------------------------------------------------------------
-	void DxInput::Destroy ()
-	{
-		if ( m_instance ) delete m_instance;
-		m_instance = nullptr;
+#endif // 0
 	}
 
 

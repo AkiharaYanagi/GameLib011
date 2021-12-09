@@ -40,7 +40,7 @@ namespace GAME
 
 	public:
 		DxMouse();
-		DxMouse( const DxMouse& rhs );
+		DxMouse( const DxMouse& rhs ) = delete;
 		~DxMouse();
 
 		void Init( LPDIRECTINPUT8 lpDI );		//初期化
@@ -66,8 +66,7 @@ namespace GAME
 		//マウスの移動量を取得
 		POINT GetMouseDelta () const 
 		{
-			POINT pt = { m_mouseState.lX, m_mouseState.lY };
-			return pt;
+			return { m_mouseState.lX, m_mouseState.lY };
 		}
 
 		//ゲーム利用

@@ -39,7 +39,7 @@ namespace GAME
 	//シングルトンパターン
 	private:
 		using P_Dx3D = unique_ptr < Dx3D >;
-		static P_Dx3D		m_inst;		//シングルトンインスタンス
+		static P_Dx3D		m_inst;		//シングルトンインスタンス(実体は.cppで定義)
 		Dx3D();		//private コンストラクタで通常の実体化は禁止
 	public:
 		~Dx3D();		//デストラクタはunique_ptrのためpublic
