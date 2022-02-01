@@ -44,7 +44,7 @@ namespace GAME
 	public:
 		~Dx3D();		//デストラクタはunique_ptrのためpublic
 		static void Create() { if ( ! m_inst ) { m_inst = P_Dx3D ( new Dx3D () ); } }
-		static unique_ptr < Dx3D >& instance () { return m_inst; }	//インスタンス取得
+		static P_Dx3D& instance () { return m_inst; }	//インスタンス取得
 	//---------------------------------------------------------------------
 
 	private:

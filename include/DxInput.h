@@ -43,20 +43,16 @@ namespace GAME
 		using P_DxInput = unique_ptr < DxInput >;	//ポインタ型定義
 		static P_DxInput	m_inst;		//シングルトンインスタンス(実体は.cppで定義)
 		DxInput ();		//private コンストラクタで通常の実体化は禁止
-//		DxInput ( const DxInput& obj );
 	public:
 		~DxInput ();		//デストラクタはunique_ptrのためpublic
 		static void Create ();
-		static void Destroy ();
+//		static void Destroy ();
 		static P_DxInput& instance () { return m_inst; }
 	//---------------------------------------------------------------------
 
 	private:
 		LPDIRECTINPUT8		m_lpDI;			//DirectInputオブジェクト
 
-//		DxJoystick*			m_joystick;		//ジョイスティック監理
-//		DxKeyboard*			m_keyboard;		//キーボード監理
-//		DxMouse*			m_mouse;		//マウス監理
 		P_DxJoystick		m_joystick;		//ジョイスティック監理
 		P_DxKeyboard		m_keyboard;		//キーボード監理
 		P_DxMouse			m_mouse;		//マウス監理

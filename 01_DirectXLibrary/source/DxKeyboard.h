@@ -41,7 +41,7 @@ namespace GAME
 
 	public:
 		DxKeyboard();
-		DxKeyboard( const DxKeyboard& rhs );
+		DxKeyboard ( const DxKeyboard& rhs ) = delete;
 		~DxKeyboard();
 
 		void Init( LPDIRECTINPUT8 lpDI );		//èâä˙âª
