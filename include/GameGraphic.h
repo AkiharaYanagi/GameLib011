@@ -87,12 +87,12 @@ namespace GAME
 		virtual void Draw();	//フレーム毎描画
 
 		//表示時間（０なら常時）
-		void SetWait ( UINT n );
+		void SetWait ( UINT time );
 		UINT GetTimer () const { return m_timer; }
 
 		//フェード時間
-		void SetFadeIn ( UINT n ) { if ( 0 != n ) { m_fadeIn = n; m_timer = 0; } }
-		void SetFadeOut ( UINT n ) { if ( 0 != n ) { m_fadeOut = n; m_timer = 0; } }
+		void SetFadeIn ( UINT time ) { if (0 != time) { m_fadeIn = time; m_timer = 0; SetWait ( time ); } }
+		void SetFadeOut ( UINT time ) { if (0 != time) { m_fadeOut = time; m_timer = 0; SetWait ( time ); } }
 
 		//スプライト中心位置
 		void SetSpriteCenter ( VEC3 center ) { (* m_pCenter) = center; }
