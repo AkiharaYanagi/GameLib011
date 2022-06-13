@@ -39,7 +39,7 @@ namespace GAME
 	}
 
 	//Z値で降順ソートされた位置に挿入
-	void GameGraphicList::InsertByZ ( P_GrpBs pTask )
+	void GameGraphicList::InsertByZ ( P_GrpCr pTask )
 	{
 //		TRACE_F ( _T ( "InsertByZ : %x -> " ), m_pTaskList );
 //		TRACE_F ( _T ( "%d\n" ), m_pTaskList->GetSize () );
@@ -56,7 +56,7 @@ namespace GAME
 		for ( ; end ( * plpTask ) != it; ++ it )
 		{
 			//オブジェクトの取得
-			P_GrpBs pg = dynamic_pointer_cast < GrpBs > ( * it );
+			P_GrpCr pg = dynamic_pointer_cast < GrpCr > ( * it );
 
 			//Z値の取得
 			float gz = pg->GetZ ();

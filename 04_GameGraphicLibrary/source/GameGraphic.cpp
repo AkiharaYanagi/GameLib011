@@ -86,13 +86,6 @@ namespace GAME
 
 		if ( 0 == n ) { return; }
 		
-#if 0
-		UINT sizeMatrix = m_pvpObject->size();
-		for ( UINT i = 0; i < sizeMatrix; ++i )
-		{
-			m_pvpObject->at ( i )->SetValid ( true );
-		}
-#endif // 0
 		for ( P_Object p : (*m_pvpObject) ) { p->SetValid ( true ); }
 		m_valid = true;
 	}

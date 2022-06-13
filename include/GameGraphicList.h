@@ -1,7 +1,9 @@
 //=================================================================================================
 //
-// GameGraphicList ヘッダファイル
+// ◆GameGraphicList
+//		表示の前後を全体で統一する
 //		Z値を用いてソートするGameGpraphicのリストのポインタを保持する
+//		オブジェクトの所有を超えて登録するグラフィックのリスト
 //		【シングルトン】を用いてグローバルからアクセスする
 //
 //=================================================================================================
@@ -37,6 +39,7 @@ namespace GAME
 		P_TASK_LST		m_pTaskList;		//大元となるタスクリスト
 
 	public:
+		//@info 利用前にNewTaskList()を手動で呼ぶ
 		//対象タスクリストを新設して返す
 		P_TASK_LST NewTaskList ();
 
@@ -47,15 +50,10 @@ namespace GAME
 		P_TASK_LST GetpTaskList () { return m_pTaskList; }
 
 		//Z値で降順ソートされた位置に挿入
-		void InsertByZ ( P_GrpBs pTask );
+		void InsertByZ ( P_GrpCr pTask );
 
 		//対象タスクを取外
-		void Erase ( P_Task pTask )
-		{
-//			TRACE_F ( _T ( "Erase : %x -> " ), m_pTaskList );
-			m_pTaskList->EraseTask ( pTask );
-//			TRACE_F ( _T ( "%d\n" ), m_pTaskList->GetSize () );
-		}
+		void Erase ( P_Task pTask ) { m_pTaskList->EraseTask ( pTask ); }
 
 		//再設定
 		void Reset ();

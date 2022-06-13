@@ -77,7 +77,7 @@ namespace GAME
 			}
 		}
 
-		//ダークイン ( 0xff000000 → 0x00000000 )
+		//ブラックイン ( 0xff000000 → 0x00000000 )
 		if ( 0 != m_darkInTime ) 
 		{
 			if ( t == m_darkInTime )
@@ -95,7 +95,7 @@ namespace GAME
 			}
 		}
 
-		//ダークアウト( 0x00000000 → 0xff000000 )
+		//ブラックアウト( 0x00000000 → 0xff000000 )
 		if ( 0 != m_darkOutTime )
 		{
 			if ( t == m_darkOutTime )

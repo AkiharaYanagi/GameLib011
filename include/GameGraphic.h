@@ -23,6 +23,24 @@ using namespace std;
 namespace GAME
 {
 	//■=======================================================================
+	// ゲームグラフィック　コア
+	//		・ゲームプリミティブ(頂点のみ描画)も含んだグラフィック全般
+	//■=======================================================================
+	class GameGraphicCore : public GameTask
+	{
+	public:
+		GameGraphicCore () {}
+		GameGraphicCore ( const GameGraphicCore & rhs ) = delete;
+		~GameGraphicCore () {}
+
+		virtual float GetZ () const = 0;
+	};
+
+	//型指定
+	typedef		GameGraphicCore			GrpCr;
+	typedef		shared_ptr < GrpCr >	P_GrpCr;
+
+	//■=======================================================================
 	// ゲームグラフィック　ベース
 	//		・グラフィック機能の基本
 	//		・純粋仮想関数を持つので実体化は不可
@@ -35,7 +53,7 @@ namespace GAME
 	//		・追加、削除、動作などの管理をする
 	//		・テクスチャが指定されていないときは何もしない
 	//■=======================================================================
-	class GameGraphicBase	: public GameTask
+	class GameGraphicBase	: public GameGraphicCore
 	{
 		UINT		m_wait;			//表示時間（０なら常時）
 		UINT		m_timer;		//内部タイマ[F]

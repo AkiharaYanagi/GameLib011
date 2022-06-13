@@ -24,7 +24,7 @@ namespace GAME
 	//-------------------------------------------------------------------------------------------------
 	//プリミティブグラフィック
 	//-------------------------------------------------------------------------------------------------
-	class GamePrimitive : public GameGraphicBase
+	class GamePrimitive : public GameGraphicCore
 	{
 		P_Vertex		m_vertex;				//頂点集合ポインタ
 		bool			m_valid;				//有効フラグ
@@ -56,7 +56,9 @@ namespace GAME
 		void SetAllColor ( DWORD color ) { m_vertex->SetAllColor ( color ); m_vertex->SetVertexBuffer (); }
 		void SetAllColor ( _CLR color ) { m_vertex->SetAllColor ( color ); m_vertex->SetVertexBuffer (); }
 
+		//Z位置
 		void SetAllZ ( float z ) { m_vertex->SetAllZ ( z ); m_vertex->SetVertexBuffer (); }
+		float GetZ () const { return m_vertex->GetAllZ (); }
 
 		void SetUpdate ( bool b ) { m_vertex->SetUpdate ( b ); }
 	};

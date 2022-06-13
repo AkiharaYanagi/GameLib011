@@ -48,15 +48,15 @@ namespace GAME
 
 		//-----------------------------------
 		//具体設定
-		//@info 0x00指定のときD3DXCOLORの初期化のため整数リテラルULを付ける
+		//@info 0x00000000 を指定するときD3DXCOLORの初期化のため整数リテラル UL を付ける
 		
 		//ホワイトアウト( 0x00ffffff → 0xffffffff )
 		void SetWhiteOut ( UINT time ) { SetColor ( 0x00ffffff, 0xffffffff ); Start ( time ); }
 
-		//ダークイン ( 0xff000000 → 0x00000000 )
+		//ブラックイン ( 0xff000000 → 0x00000000 )
 		void SetDarkIn ( UINT time ) { SetColor ( 0xff000000, 0x00000000UL ); Start ( time ); }
 
-		//ダークアウト( 0x00000000 → 0xff000000 )
+		//ブラックアウト( 0x00000000 → 0xff000000 )
 		void SetDarkOut ( UINT time ) { SetColor ( 0x00000000UL, 0xff000000 ); Start ( time ); }
 
 #if 0
@@ -69,7 +69,7 @@ namespace GAME
 			m_timer->Start (); 
 		}
 
-		//ダークイン ( 0xff000000 → 0x00000000 )
+		//ブラックイン ( 0xff000000 → 0x00000000 )
 		void SetDarkIn ( UINT time )
 		{
 			PrmRect::SetValid ( true );
@@ -77,7 +77,7 @@ namespace GAME
 			m_timer->Start ();
 		}
 
-		//ダークアウト( 0x00000000 → 0xff000000 )
+		//ブラックアウト( 0x00000000 → 0xff000000 )
 		void SetDarkOut ( UINT time )
 		{
 			PrmRect::SetValid ( true );

@@ -35,18 +35,9 @@ namespace GAME
 		if ( 0 < m_vVx.size () ) { return; }
 
 		//頂点の数で初期化
-#if 0
-		m_vertexNum = vertexNum;
-//		m_vVx = new CUSTOM_VERTEX [ m_vertexNum ];
-		for ( UINT i = 0; i < m_vertexNum; i++ )
-		{
-			this->SetVertex ( i, 0, 0, m_z, 1.f, m_color, 0, 0 );
-		}
-#endif // 0
-
 		m_vVx.resize ( vertexNum );
 		UINT i = 0;
-		for ( CUSTOM_VERTEX v : m_vVx )
+		for ( VX v : m_vVx )
 		{
 			SetVertex ( i ++, 0, 0, m_z, 1.f, m_color, 0, 0 );
 		}
@@ -119,7 +110,6 @@ namespace GAME
 	{
 		//サイズが０のときは何もしない
 		if ( m_vVx.empty () ) { return; }
-		//		assert ( m_vertexNum > 0 );
 
 		try
 		{
