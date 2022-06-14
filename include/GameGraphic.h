@@ -14,6 +14,7 @@
 #include "GameTexture.h"
 #include "GameObject.h"
 #include <vector>
+#include "GameGraphicCore.h"
 
 //-------------------------------------------------------------------------------------------------
 // 宣言
@@ -22,24 +23,6 @@ using namespace std;
 
 namespace GAME
 {
-	//■=======================================================================
-	// ゲームグラフィック　コア
-	//		・ゲームプリミティブ(頂点のみ描画)も含んだグラフィック全般
-	//■=======================================================================
-	class GameGraphicCore : public GameTask
-	{
-	public:
-		GameGraphicCore () {}
-		GameGraphicCore ( const GameGraphicCore & rhs ) = delete;
-		~GameGraphicCore () {}
-
-		virtual float GetZ () const = 0;
-	};
-
-	//型指定
-	typedef		GameGraphicCore			GrpCr;
-	typedef		shared_ptr < GrpCr >	P_GrpCr;
-
 	//■=======================================================================
 	// ゲームグラフィック　ベース
 	//		・グラフィック機能の基本
@@ -55,11 +38,7 @@ namespace GAME
 	//■=======================================================================
 	class GameGraphicBase	: public GameGraphicCore
 	{
-		UINT		m_wait;			//表示時間（０なら常時）
-		UINT		m_timer;		//内部タイマ[F]
-		UINT		m_fadeIn;		//フェードイン時間
-		UINT		m_fadeOut;		//フェードアウト時間
-
+		//位置
 		P_VEC3		m_pCenter;		//スプライト中心位置
 		P_VEC3		m_pPosition;	//スプライト表示位置
 
@@ -69,9 +48,6 @@ namespace GAME
 
 		//テクスチャ配列(インデックスはオブジェクトが持つ)
 		PVP_TxBs	m_pvpTexture;
-
-		//全体表示切替
-		bool		m_valid;
 
 	public:
 		GameGraphicBase ();
@@ -86,14 +62,7 @@ namespace GAME
 		virtual void Move();	//フレーム毎動作
 		virtual void Draw();	//フレーム毎描画
 
-		//表示時間（０なら常時）
-		void SetWait ( UINT time );
-		UINT GetTimer () const { return m_timer; }
-
-		//フェード時間
-		void SetFadeIn ( UINT time ) { if (0 != time) { m_fadeIn = time; m_timer = 0; SetWait ( time ); } }
-		void SetFadeOut ( UINT time ) { if (0 != time) { m_fadeOut = time; m_timer = 0; SetWait ( time ); } }
-
+		//---------------------------------------------------------------------
 		//スプライト中心位置
 		void SetSpriteCenter ( VEC3 center ) { (* m_pCenter) = center; }
 		VEC3 GetSpriteCenter () { return (* m_pCenter); }
@@ -119,8 +88,7 @@ namespace GAME
 		virtual void AddpObject ( P_Object p ) { m_pvpObject->push_back ( p ); }
 
 		//すべて可動切替
-		void SetValid ( bool b );
-		bool GetValid () const { return m_valid; }
+		void SetAllValid ( bool b );
 
 		//すべて位置指定
 		void SetAllPos ( VEC2 vec );
@@ -171,10 +139,6 @@ namespace GAME
 		//テクスチャの中心位置 (Load()後のみ)
 		VEC2 GetCenterOfTexture ( UINT index ) const ;
 
-		//---------------------------------------------------------------------
-		//内部関数
-	private:
-		void _Fade ();
 	};
 
 	//型指定

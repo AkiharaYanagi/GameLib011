@@ -21,8 +21,7 @@ namespace GAME
 
 	//コンストラクタ
 	GameGraphicBase::GameGraphicBase ()
-	:	m_wait ( 0 ), m_timer ( 0 ), m_fadeIn ( 0 ), m_fadeOut ( 0 ), 
-		m_indexObject ( 0 ), m_valid ( true )
+		:	m_indexObject ( 0 )
 	{
 		//----------------------------------------------
 		//オブジェクト配列
@@ -60,10 +59,9 @@ namespace GAME
 	}
 
 	//すべてのオブジェクトへの操作：表示状態
-	void GameGraphicBase::SetValid ( bool b )
+	void GameGraphicBase::SetAllValid ( bool b )
 	{
 		for ( P_Object p : *m_pvpObject ) { p->SetValid ( b ); }
-		m_valid = b;
 	}
 
 	//すべてのオブジェクトへの操作：位置指定
@@ -78,79 +76,14 @@ namespace GAME
 		for ( P_Object p : (*m_pvpObject ) ) { p->SetColor ( color ); }
 	}
 
-	//表示時間（０なら常時）
-	void GameGraphicBase::SetWait ( UINT time )
-	{
-		m_wait = time;
-		m_timer = 0;
-
-		if ( 0 == time) { return; }
-		
-		for ( P_Object p : (*m_pvpObject) ) { p->SetValid ( true ); }
-		m_valid = true;
-	}
-
 	//フレーム毎動作
 	void GameGraphicBase::Move ()
 	{
-		//ウェイトタイムが指定されているとき
-		if ( 0 != m_wait )
-		{
-			_Fade ();	//フェード
-		}
+		//コアの前動作
+		GameGraphicCore::PreMove ();
 
-		//マトリックスの動作
+		//オブジェクトの動作
 		for ( P_Object pOb : *m_pvpObject ) { pOb->Move (); }
-	}
-
-	void GameGraphicBase::_Fade ()
-	{
-		if ( 0 < m_fadeOut )	//フェードアウト優先
-		{
-			if ( m_fadeOut > m_timer )
-			{
-				//α値を算出
-				UINT alpha = (UINT)(0xff * (1.f - (1.f / m_fadeOut) * m_timer));
-				_CLR color = _CLR ( alpha << 24 ^ 0x00ffffff );
-				for ( P_Object p : * m_pvpObject ) { p->SetColor ( color ); }
-			}
-			else if ( m_fadeOut == m_timer )	//終了
-			{
-				for ( P_Object p : *m_pvpObject ) { p->SetColor ( _CLR ( 0x00ffffff ) ); p->SetValid ( false ); }
-				m_valid = false;
-				m_fadeOut = 0;
-			}
-		}
-		else if ( 0 < m_fadeIn )
-		{
-			if ( m_fadeIn > m_timer )
-			{
-				//α値を算出
-				UINT alpha = (0xff / m_fadeIn) * m_timer;
-				_CLR color = _CLR ( alpha << 24 ^ 0x00ffffff );
-				for ( P_Object p : *m_pvpObject ) { p->SetColor ( color ); }
-			}
-			else if ( m_fadeIn == m_timer )	//終了
-			{
-				for ( P_Object p : *m_pvpObject ) { p->SetColor ( _CLR ( 0xffffffff ) ); }
-				m_fadeIn = 0;
-			}
-		}
-
-		//タイマの終了
-		if ( m_wait == m_timer )
-		{
-			UINT sizeObject = m_pvpObject->size ();
-			for ( UINT i = 0; i < sizeObject; ++i )
-			{
-				m_pvpObject->at ( i )->SetValid ( false );
-			}
-			m_valid = false;
-		}
-		else
-		{
-			++ m_timer;
-		}
 	}
 
 	//フレーム毎描画
@@ -159,7 +92,10 @@ namespace GAME
 		//テクスチャが設定されていないとき何もしない
 		if ( 0 == m_pvpTexture->size() ) { return; }
 
-		//マトリックスの数だけ描画
+		//全体有効フラグ
+		if ( ! m_valid ) { return; }
+
+		//オブジェクトの数だけ描画
 		for ( UINT i = 0; i < m_pvpObject->size (); ++i )
 		{
 			//有効フラグ
@@ -275,18 +211,6 @@ namespace GAME
 	GameGraphicFromArchive::~GameGraphicFromArchive ()
 	{
 		Rele ();
-#if 0
-
-		for ( UINT i = 0; i < m_pvpTexture->size(); ++i )
-		{
-			if ( m_pvpTexture[i] )
-			{
-				delete m_pvpTexture[i];
-				m_pvpTexture[i] = nullptr;
-			}
-		}
-
-#endif // 0
 		m_vpTexture.clear ();
 	}
 

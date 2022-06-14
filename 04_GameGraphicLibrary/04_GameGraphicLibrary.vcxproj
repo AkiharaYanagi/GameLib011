@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="source\GameGraphic.cpp" />
     <ClCompile Include="source\GameGraphicArray.cpp" />
+    <ClCompile Include="source\GameGraphicCore.cpp" />
     <ClCompile Include="source\GameGraphicList.cpp" />
     <ClCompile Include="source\GameMatrix.cpp" />
     <ClCompile Include="source\GameObject.cpp" />
@@ -31,6 +32,7 @@
     <ClInclude Include="..\include\GameGraphic.h" />
     <ClInclude Include="..\include\GameGraphicArray.h" />
     <ClInclude Include="..\include\GameGraphicConst.h" />
+    <ClInclude Include="..\include\GameGraphicCore.h" />
     <ClInclude Include="..\include\GameGraphicLibrary.h" />
     <ClInclude Include="..\include\GameGraphicList.h" />
     <ClInclude Include="..\include\GameMatrix.h" />

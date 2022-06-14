@@ -14,7 +14,7 @@
 #include "DxVertex.h"
 #include "GameTask.h"
 #include "GameText.h"
-#include "GameGraphic.h"
+#include "GameGraphicCore.h"
 
 //-------------------------------------------------------------------------------------------------
 // 宣言
@@ -27,7 +27,6 @@ namespace GAME
 	class GamePrimitive : public GameGraphicCore
 	{
 		P_Vertex		m_vertex;				//頂点集合ポインタ
-		bool			m_valid;				//有効フラグ
 
 	public:
 		GamePrimitive ();
@@ -48,10 +47,6 @@ namespace GAME
 		//頂点監理クラスの設定
 		void SetVertex ( P_Vertex vertex ) { assert ( vertex ); m_vertex = vertex; }
 		
-		//有効・無効
-		void SetValid ( bool b ) { m_valid = b; }
-		bool GetValid () { return m_valid; }
-
 		//頂点色の設定
 		void SetAllColor ( DWORD color ) { m_vertex->SetAllColor ( color ); m_vertex->SetVertexBuffer (); }
 		void SetAllColor ( _CLR color ) { m_vertex->SetAllColor ( color ); m_vertex->SetVertexBuffer (); }

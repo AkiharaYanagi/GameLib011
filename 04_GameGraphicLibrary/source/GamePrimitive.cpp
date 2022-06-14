@@ -16,12 +16,12 @@
 namespace GAME
 {
 	GamePrimitive::GamePrimitive ()
-		: m_valid ( true ), m_vertex ( make_shared < DxVertex > () )
+		: m_vertex ( make_shared < DxVertex > () )
 	{
 	}
 
 	GamePrimitive::GamePrimitive ( P_Vertex vertex )
-		: m_valid ( true ), m_vertex ( make_shared < DxVertex > () )
+		: m_vertex ( make_shared < DxVertex > () )
 	{
 		assert ( vertex != nullptr );
 		m_vertex = vertex;
