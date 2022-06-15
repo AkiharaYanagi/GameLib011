@@ -55,7 +55,7 @@ namespace GAME
 		LP_Task::iterator it = begin ( * plpTask );
 		for ( ; end ( * plpTask ) != it; ++ it )
 		{
-			//オブジェクトの取得
+			//グラフィックタスクの取得
 			P_GrpCr pg = dynamic_pointer_cast < GrpCr > ( * it );
 
 			//Z値の取得

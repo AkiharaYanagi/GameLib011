@@ -106,6 +106,13 @@ namespace GAME
 
 			P_Object po = m_pvpObject->at ( i );
 
+			//全体カラー優先
+			_CLR clr = m_color;
+			if ( m_color == _CLR ( 0xffffffff ) )
+			{
+				clr = m_pvpObject->at ( i )->GetColor ();
+			}
+
 			Dx3D::instance()->DrawSprite
 			(
 				m_pvpTexture->at ( indexTexture )->GetTexture(),
@@ -113,7 +120,7 @@ namespace GAME
 				nullptr,
 				m_pCenter.get (), 
 				m_pPosition.get (), 
-				m_pvpObject->at ( i )->GetColor ()
+				clr
 			);
 		}
 	}

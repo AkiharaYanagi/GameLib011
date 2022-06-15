@@ -50,6 +50,7 @@ namespace GAME
 		P_TASK_LST GetpTaskList () { return m_pTaskList; }
 
 		//Z値で降順ソートされた位置に挿入
+		//描画Z位置(後:1.f ～ 0.0f:前) "GameGraphicConst.h"に Z_BG などで定数が宣言してある
 		void InsertByZ ( P_GrpCr pTask );
 
 		//対象タスクを取外
