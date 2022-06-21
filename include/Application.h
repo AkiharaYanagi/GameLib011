@@ -68,6 +68,8 @@ namespace GAME
 		//設定ファイル
 		shared_ptr < AppSettingFile >	m_settingFile;
 
+		bool		m_InitFromCursorPos;
+
 
 	public:
 		Application ( ResourceName rcName );
@@ -95,6 +97,13 @@ namespace GAME
 
 		//スレッド稼動フラグ取得
 //		bool IsActive() { return m_bActive; }
+
+		//Init前にウィンドウ表示位置をカーソル位置に指定
+		void SetWindowPosFromCursor ( bool b ) { m_InitFromCursorPos = b; }
+
+	private:
+		POINT GetWindowInitPos ();
+		POINT GetWindowInitSize ();
 	};
 
 

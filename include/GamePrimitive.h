@@ -114,6 +114,7 @@ namespace GAME
 		void SetWidth ( float w ) { m_vertex->SetWidth ( w ); }
 		void SetHeight ( float h ) { m_vertex->SetHeight ( h ); }
 		void SetSize ( float w, float h ) { m_vertex->SetSize ( w, h ); }
+		void SetSize ( VEC2 v ) { m_vertex->SetSize ( v.x, v.y ); }
 	};
 
 	typedef GamePrimitiveRect		PrmRect;
