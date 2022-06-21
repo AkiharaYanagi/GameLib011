@@ -139,6 +139,10 @@ namespace GAME
 		//テクスチャの中心位置 (Load()後のみ)
 		VEC2 GetCenterOfTexture ( UINT index ) const ;
 
+
+		//オブジェクトを用いたフェード
+
+
 	};
 
 	//型指定

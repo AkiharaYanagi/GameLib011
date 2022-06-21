@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\Fade.h" />
+    <ClInclude Include="..\include\FadeRect.h" />
     <ClInclude Include="..\include\GameInput.h" />
     <ClInclude Include="..\include\_GameKey.h" />
     <ClInclude Include="..\include\GameLibrary.h" />
@@ -31,7 +31,7 @@
     <ClInclude Include="..\include\_GameKeyCommand.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\Fade.cpp" />
+    <ClCompile Include="source\FadeRect.cpp" />
     <ClCompile Include="source\GameInput.cpp" />
     <ClCompile Include="source\GrpBlink.cpp" />
     <ClCompile Include="source\GrpDemo.cpp" />

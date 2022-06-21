@@ -148,14 +148,14 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Source\TestOutlineFont0.cpp" />
+    <ClCompile Include="Source\TestFade.cpp" />
     <ClCompile Include="Source\WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\DispInput.h" />
     <ClInclude Include="Source\GameMain.h" />
     <ClInclude Include="Source\StdAfx.h" />
-    <ClInclude Include="Source\TestOutlineFont0.h" />
+    <ClInclude Include="Source\TestFade.h" />
     <ClInclude Include="Source\WinMain.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

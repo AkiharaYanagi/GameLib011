@@ -23,7 +23,7 @@
 #include "_GameKey.h"
 #include "_GameKeyCommand.h"
 #include "GameInput.h"
-#include "Fade.h"
+#include "FadeRect.h"
 #include "GrpEf.h"
 #include "GrpDemo.h"
 #include "GrpBlink.h"

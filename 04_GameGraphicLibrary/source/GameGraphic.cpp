@@ -110,6 +110,7 @@ namespace GAME
 			_CLR clr = m_color;
 			if ( m_color == _CLR ( 0xffffffff ) )
 			{
+				//全体カラーが通常表示(0xffffffff)のときオブジェクトのカラーを参照する
 				clr = m_pvpObject->at ( i )->GetColor ();
 			}
 

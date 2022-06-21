@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\Fade.cpp" />
     <ClCompile Include="source\GameGraphic.cpp" />
     <ClCompile Include="source\GameGraphicArray.cpp" />
     <ClCompile Include="source\GameGraphicCore.cpp" />
@@ -29,6 +30,7 @@
     <ClCompile Include="source\GameTexture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\Fade.h" />
     <ClInclude Include="..\include\GameGraphic.h" />
     <ClInclude Include="..\include\GameGraphicArray.h" />
     <ClInclude Include="..\include\GameGraphicConst.h" />
