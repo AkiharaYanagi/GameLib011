@@ -13,7 +13,7 @@
 #include "DebugManager.h"
 #include "DxVertex.h"
 #include "GameTask.h"
-#include "GameText.h"
+#include "GameText.h"	//テキスト
 #include "GameGraphicCore.h"
 
 //-------------------------------------------------------------------------------------------------

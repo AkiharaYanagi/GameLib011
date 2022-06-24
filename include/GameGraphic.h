@@ -25,20 +25,18 @@ namespace GAME
 {
 	//■=======================================================================
 	// ゲームグラフィック　ベース
-	//		・グラフィック機能の基本
+	//		・複数テクスチャと複数オブジェクトを持つグラフィック
+	//		・テクスチャが指定されていないときは何もしない
 	//		・純粋仮想関数を持つので実体化は不可
+	//		・継承先
 	//			GameGraphicFromFile
 	//			GameGraphicFromArchive
 	//			GameGraphicApprovedTexture
 	//		　のいずれかを用いる
-	//
-	//		・テクスチャとオブジェクトのvectorを持つ
-	//		・追加、削除、動作などの管理をする
-	//		・テクスチャが指定されていないときは何もしない
 	//■=======================================================================
 	class GameGraphicBase	: public GameGraphicCore
 	{
-		//位置
+		//オブジェクト位置
 		P_VEC3		m_pCenter;		//スプライト中心位置
 		P_VEC3		m_pPosition;	//スプライト表示位置
 
@@ -87,14 +85,9 @@ namespace GAME
 		virtual void AddObject ( UINT n ) { for ( UINT i = 0; i < n; ++i ) { AddObject (); } }
 		virtual void AddpObject ( P_Object p ) { m_pvpObject->push_back ( p ); }
 
-		//すべて可動切替
-		void SetAllValid ( bool b );
-
-		//すべて位置指定
-		void SetAllPos ( VEC2 vec );
-
-		//すべての色を指定
-		void SetAllColor ( D3DXCOLOR color );
+		void SetAllValid ( bool b );		//すべて可動切替
+		void SetAllPos ( VEC2 vec );		//すべて位置指定
+		void SetAllColor ( D3DXCOLOR color );		//すべての色を指定
 
 		//---------------------------------------------------------------------
 		//オブジェクト直接先頭制御
@@ -139,8 +132,14 @@ namespace GAME
 		//テクスチャの中心位置 (Load()後のみ)
 		VEC2 GetCenterOfTexture ( UINT index ) const ;
 
+		//---------------------------------------------------------------------
 
 		//オブジェクトを用いたフェード
+
+
+		//@todo
+		//オブジェクトが２つ以上のときフェードで入替
+		void FadeChangeOb ( UINT i0, UINT i1 );
 
 
 	};
