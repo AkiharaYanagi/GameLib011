@@ -46,6 +46,7 @@ namespace GAME
 
 		//メインオブジェクトの設定
 		void SetGameMain ( UP_GameMainBase pGameMain );
+
 	};
 
 

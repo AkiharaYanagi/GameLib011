@@ -8,13 +8,75 @@
 //-------------------------------------------------------------------------------------------------
 // ヘッダファイルのインクルード
 //-------------------------------------------------------------------------------------------------
-#include "GameGraphicLibrary.h"
+#include "DebugLibrary.h"
+#include "DxDefine.h"			//DirectX内外共通
+#include "GameTask.h"
+//#include "GameGraphicLibrary.h"
 
 //-------------------------------------------------------------------------------------------------
 // 宣言
 //-------------------------------------------------------------------------------------------------
 namespace GAME
 {
+	//------------------------------------------------------------
+	//フェードオブジェクト
+	//	グラフィックが保有するタスク
+	//	時間と色を指定し、フレーム毎に遷移する(現在色を返す)
+	//------------------------------------------------------------
+	class _Fade
+	{
+		UINT	m_timer;	//現在時間
+		UINT	m_time;		//移行時間
+
+		_CLR	m_color_present;//現在色
+
+		_CLR	m_color_start;	//初期色
+		_CLR	m_color_end;	//目標色
+
+	public:
+		_Fade ();
+		_Fade ( const _Fade & rhs ) = delete;
+		~_Fade ();
+
+		//毎フレーム動作(Move()内先頭で呼ぶ)
+		void PreMove ();
+
+		//色取得
+		_CLR GetColor () const { return m_color_present; }
+
+		//フェード時間設定
+		void SetTime ( UINT time );
+
+		//色設定
+		void SetFadeColor ( _CLR clr_start, _CLR clr_end )
+		{
+			m_color_start = clr_start; 
+			m_color_end = clr_end; 
+		}
+
+		//フェード設定
+		void SetFade ( UINT time, _CLR clr_start, _CLR clr_end )
+		{
+			SetTime ( time );
+			SetFadeColor ( clr_start, clr_end );
+			m_color_present = clr_start;
+		}
+
+		//終了
+		void End ( _CLR clr );
+
+	private:
+
+		//実処理
+		void _Fade_Do ();
+	};
+
+
+//=================================================================================================
+//=================================================================================================
+
+#if 0
+
 	class Fade : public GrpAcv
 	{
 		UINT	m_timer;	//現在時間
@@ -34,7 +96,7 @@ namespace GAME
 		Fade ( const Fade & rhs ) = delete;
 		~Fade ();
 
-		//毎フレーム動作
+		//毎フレーム動作(Move()内先頭で呼ぶ)
 		void PreMove ();
 		void Move ();
 
@@ -45,7 +107,6 @@ namespace GAME
 		//フェード時間設定
 		void SetTime ( UINT time );
 
-		void _Fade ();
 
 		//色設定
 		void SetColor ( _CLR clr_start, _CLR clr_end ) { m_color_start = clr_start; m_color_end = clr_end; }
@@ -65,9 +126,15 @@ namespace GAME
 		//ブラックアウト( 0x00000000 → 0xff000000 )
 		void SetDarkOut ( UINT time ) { SetColor ( 0x00000000UL, 0xff000000 ); SetTime ( time ); }
 
+	private:
+
+		//実処理
+		void _Fade ();
 	};
 
 	using P_FADE = shared_ptr < Fade >;
+
+#endif // 0
 
 
 }	//namespace GAME

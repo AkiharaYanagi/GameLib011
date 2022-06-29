@@ -38,7 +38,7 @@ namespace GAME
 	// コンストラクタ
 	//-------------------------------------------------------------------------------------------------
 	Application::Application ( ResourceName rcName )
-		: m_rcName ( rcName )
+		: m_rcName ( rcName ), m_InitFromCursorPos ( false )
 	{
 		//メモリリーク検出
 		_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
@@ -199,28 +199,25 @@ namespace GAME
 		wcex.lpszMenuName = nullptr;
 		wcex.lpszClassName = m_rcName.windowClassName;
 
-		ATOM atom = RegisterClassExW ( &wcex );
+		ATOM atom = RegisterClassExW ( & wcex );
 
 		//設定からウィンドウサイズの指定
-		int window_x = (int)AppSettingFile::Inst()->GetWindowX ();
-		int window_y = (int)AppSettingFile::Inst()->GetWindowY ();
+		int window_w = (int)AppSettingFile::Inst()->GetWindowW ();
+		int window_h = (int)AppSettingFile::Inst()->GetWindowH ();
 
 		//ウィンドウの作成
 		m_hWnd = CreateWindowW ( 
 			m_rcName.windowClassName, m_rcName.TitleBar,
-			WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME ^ WS_MAXIMIZEBOX | WS_VISIBLE,
+			WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME ^ WS_MAXIMIZEBOX,
 //			CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, 
-			0, 0, window_x, window_y,
+			0, 0, window_w, window_h,
 			nullptr, nullptr, hInst, nullptr );
 		if ( ! m_hWnd ) { return false; }
 
 		//ウィンドウハンドルの保存
 		HWnd::Set ( m_hWnd );
 
-		//カーソル位置の取得
-		POINT cursorPos;
-		::GetCursorPos ( & cursorPos );
-
+#if 0
 		//プライマリモニタの作業領域サイズを取得
 		RECT workRect;
 		::SystemParametersInfo ( SPI_GETWORKAREA, 0, &workRect, 0 );
@@ -253,11 +250,20 @@ namespace GAME
 		int revisedHeight = windowHeight - clientHeight;
 
 		::SetWindowPos ( m_hWnd, HWND_TOP, -100, -100, window_x + revisedWidth, window_y + revisedHeight, SWP_NOMOVE );
-		
+
+#endif // 0
+		POINT pos = GetWindowInitPos ();
+		POINT size = GetWindowInitSize ();
+		::SetWindowPos ( m_hWnd, HWND_TOP, pos.x, pos.y, size.x, size.y, SWP_SHOWWINDOW );
+//		::ShowWindow ( m_hWnd, SW_SHOW );
+#if 0
+
 		::GetWindowRect ( m_hWnd, &windowRect );
 		::GetClientRect ( m_hWnd, &clientRect );
 		TRACE_F ( _T("windowRect = ( %d, %d, %d, %d ) \n"), windowRect.left, windowRect.top, windowRect.right, windowRect.bottom );
 		TRACE_F ( _T("clientRect = ( %d, %d, %d, %d ) \n"), clientRect.left, clientRect.top, clientRect.right, clientRect.bottom );
+
+#endif // 0
 		
 		TRACE_F ( _T("ApplicationManager:: hWnd = %d\n"), m_hWnd );
 
@@ -360,6 +366,7 @@ namespace GAME
 #endif	//APP_THREAD
 
 
+	//------------------------------------------------------------------------
 	void Application::SetGameMain ( UP_GameMainBase pGameMain )
 	{
 		m_pFrameControl->SetGameMain ( ::move ( pGameMain ) );
@@ -369,6 +376,67 @@ namespace GAME
 		Init ();	//初期化
 	}
 
+	//------------------------------------------------------------------------
+	POINT Application::GetWindowInitPos ()
+	{
+		//-------------------------------------------------
+		//カーソル位置から初期位置を設定する
+		if ( m_InitFromCursorPos )
+		{
+			//カーソル位置の取得
+			POINT cursorPos;
+			::GetCursorPos ( & cursorPos );
+			cursorPos.x -= 300;
+			cursorPos.y -= 10;
+			return cursorPos;
+		}
+
+		//-------------------------------------------------
+		//画面中央配置
+		POINT pos = { 0, 0 };
+
+		//設定からウィンドウサイズの指定
+		int window_w = (int)AppSettingFile::Inst ()->GetWindowW ();
+		int window_h = (int)AppSettingFile::Inst ()->GetWindowH ();
+
+		//プライマリモニタの作業領域サイズを取得
+		RECT workRect;
+		::SystemParametersInfo ( SPI_GETWORKAREA, 0, &workRect, 0 );
+		int wWidth = workRect.right - workRect.left;
+		int wHeight = workRect.bottom - workRect.top;
+		int wPos_x = ( wWidth / 2 ) - ( window_w / 2 );
+		int wPos_y = ( wHeight / 2 ) - ( window_h / 2 );
+
+		pos.x = wPos_x;
+		pos.y = wPos_y;
+
+		return pos;
+	}
+
+	POINT Application::GetWindowInitSize ()
+	{
+		//ウィンドウモード時のサイズ補正
+		RECT windowRect, clientRect;
+
+		//ウィンドウ幅、高さ
+		::GetWindowRect ( m_hWnd, & windowRect );
+//		TRACE_F ( _T ( "windowRect = ( %d, %d, %d, %d ) \n" ), windowRect.left, windowRect.top, windowRect.right, windowRect.bottom );
+		int windowWidth = windowRect.right - windowRect.left;
+		int windowHeight = windowRect.bottom - windowRect.top;
+
+		//クライアント幅、高さ
+		::GetClientRect ( m_hWnd, & clientRect );
+//		TRACE_F ( _T ( "clientRect = ( %d, %d, %d, %d ) \n" ), clientRect.left, clientRect.top, clientRect.right, clientRect.bottom );
+		int clientWidth = clientRect.right - clientRect.left;
+		int clientHeight = clientRect.bottom - clientRect.top;
+
+		//タイトルバー補正サイズ
+		POINT size;
+		size.x = windowWidth + ( windowWidth - clientWidth );
+		size.y = windowHeight + ( windowHeight - clientHeight );
+
+		return size;
+	}
 
 }	//namespace GAME
 

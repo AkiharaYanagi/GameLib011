@@ -146,17 +146,26 @@ const DWORD FrameControl::waitOneFrameTime = 1000 * 0x10000 / dwFps;		//1ƒtƒŒ[ƒ
 			//1000ms–ˆ‚ÉŒ»ÝƒtƒŒ[ƒ€”(FPS)‚ÌXV
 			if ( progressTime >= 1000 )
 			{
-				averageMove = 0;
-				averageDraw = 0;
+				static bool bFPS = false;
+				if ( ::GetAsyncKeyState ( 'F' ) & 0x0001 ) { bFPS ^= true; }
+				if ( bFPS )
+				{
+					averageMove = 0;
+					averageDraw = 0;
 
-				DBGOUT_WND->SetPos ( 10, 400, 000 );
-				float avrg = 0;
-				if ( 0 != m_frames ) { avrg = (float)m_average / m_frames; }
-				DBGOUT_WND_F ( 10, _T("FPS:%02u, sleep:%05.2f"), m_frames, avrg );
+					DBGOUT_WND->SetPos ( 10, 400, 000 );
+					float avrg = 0;
+					if ( 0 != m_frames ) { avrg = (float)m_average / m_frames; }
+					DBGOUT_WND_F ( 10, _T("FPS:%02u, sleep:%05.2f"), m_frames, avrg );
 
-				m_beforeTime = nowTime;
-				m_frames = 0;
-				m_average = 0;
+					m_beforeTime = nowTime;
+					m_frames = 0;
+					m_average = 0;
+				}
+				else
+				{
+					DBGOUT_WND_F ( 10, _T ( "" ) );
+				}
 			}
 			m_frames++;
 		}

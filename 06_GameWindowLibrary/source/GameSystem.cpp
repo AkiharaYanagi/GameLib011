@@ -25,8 +25,8 @@ namespace GAME
 	void GameSystem::SystemLoad ()
 	{
 		//設定からウィンドウ状態の取得
-		UINT window_x = AppSettingFile::Inst ()->GetWindowX ();
-		UINT window_y = AppSettingFile::Inst ()->GetWindowY ();
+		UINT window_x = AppSettingFile::Inst ()->GetWindowW ();
+		UINT window_y = AppSettingFile::Inst ()->GetWindowH ();
 		bool bFullScreen = AppSettingFile::Inst ()->GetbFullscreen ();
 
 		// Direct3Dの初期化

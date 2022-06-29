@@ -32,8 +32,8 @@ namespace GAME
 		static _UP_StgFl & Inst () { return m_inst; }	//インスタンス取得
 	//---------------------------------------------------------------------
 		bool	m_bFullscreen;
-		UINT	m_window_x;
-		UINT	m_window_y;
+		UINT	m_window_w;
+		UINT	m_window_h;
 
 		bool	m_input1pPlayer;
 		bool	m_input2pPlayer;
@@ -44,8 +44,8 @@ namespace GAME
 
 		//値の取得
 		bool GetbFullscreen () const { return m_bFullscreen; }
-		UINT GetWindowX () const { return m_window_x; }
-		UINT GetWindowY () const { return m_window_y; }
+		UINT GetWindowW () const { return m_window_w; }
+		UINT GetWindowH () const { return m_window_h; }
 		bool GetbInput1pPlayer () const { return m_input1pPlayer; }
 		bool GetbInput2pPlayer () const { return m_input2pPlayer; }
 	};
