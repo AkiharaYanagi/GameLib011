@@ -20,6 +20,7 @@ namespace GAME
 		UINT	m_timer;	//Œ»İŠÔ
 		UINT	m_time;		//ˆÚsŠÔ
 
+		//@info protected:
 //		_CLR	m_color;	//Œ»İF
 
 		_CLR	m_color_start;	//‰ŠúF
