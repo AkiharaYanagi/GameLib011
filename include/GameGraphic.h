@@ -133,15 +133,10 @@ namespace GAME
 		VEC2 GetCenterOfTexture ( UINT index ) const ;
 
 		//---------------------------------------------------------------------
-
 		//オブジェクトを用いたフェード
 
-
-		//@todo
 		//オブジェクトが２つ以上のときフェードで入替
-		void FadeChangeOb ( UINT i0, UINT i1 );
-
-
+		void FadeChangeOb ( UINT time, UINT index_out, UINT index_in );
 	};
 
 	//型指定

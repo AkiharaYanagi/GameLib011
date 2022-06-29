@@ -83,6 +83,7 @@ namespace GAME
 		GameGraphicCore::PreMove ();
 
 		//オブジェクトの動作
+		for ( P_Object pOb : *m_pvpObject ) { pOb->PreMove (); }
 		for ( P_Object pOb : *m_pvpObject ) { pOb->Move (); }
 	}
 
@@ -156,6 +157,21 @@ namespace GAME
 		ret.y = 0.5f * desc.Height;
 		return ret;
 	}
+
+	//オブジェクトが２つ以上のときフェードで入替
+	void GameGraphicBase::FadeChangeOb ( UINT time, UINT index_out, UINT index_in )
+	{
+		//範囲チェック
+		UINT n = m_pvpObject->size ();
+		if ( n <= index_out ) { return; }
+		if ( n <= index_in ) { return; }
+		if ( index_in == index_out ) { return; }
+	
+		//
+		( *m_pvpObject ) [ index_out ]->SetFade ( time, 0xffffffff, 0x00ffffff );
+		( *m_pvpObject ) [ index_in  ]->SetFade ( time, 0x00ffffff, 0xffffffff );
+	}
+
 
 
 	//■=======================================================================

@@ -32,6 +32,12 @@ namespace GAME
 	{
 	}
 
+	void GameObject::PreMove ()
+	{
+		m_fade.PreMove ();
+		m_color = m_fade.GetColor ();
+	}
+
 	void GameObject::Move ()
 	{
 		m_matrix.Move ();

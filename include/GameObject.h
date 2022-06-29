@@ -2,7 +2,8 @@
 //
 // GameObject ヘッダファイル
 //		テクスチャ以外のグラフィックの実体
-//		マトリックス
+//		マトリックスを持つ
+//		タスクではないのでグラフィック内で手動操作する
 //
 //=================================================================================================
 #pragma once
@@ -12,6 +13,7 @@
 //-------------------------------------------------------------------------------------------------
 //#include "Const.h"
 #include "GameMatrix.h"
+#include "Fade.h"
 
 //-------------------------------------------------------------------------------------------------
 // 宣言
@@ -26,12 +28,15 @@ namespace GAME
 		UINT			m_indexTexture;		//テクスチャ指定添字
 		D3DXCOLOR		m_color;			//色
 
+		_Fade			m_fade;				//フェード
+
 	public:
 		GameObject ();
 		GameObject ( const GameObject& rhs );	//コピー可能
 		~GameObject ();
 
-		virtual void Move ();
+		void PreMove ();
+		void Move ();
 
 		void SetMatrix ( GameMatrix m ) { m_matrix = m; }	//GameMatrixは複製可能
 		GameMatrix GetMatrix () const { return m_matrix; }
@@ -69,6 +74,24 @@ namespace GAME
 		//色
 		void SetColor ( _CLR c ) { m_color = c; }
 		_CLR GetColor () const { return m_color; }
+
+		//フェード
+		void SetFade ( UINT time, _CLR clr_start, _CLR clr_end )
+		{
+			m_valid = true;
+			m_fade.SetFade ( time, clr_start, clr_end ); 
+		}
+		void SetFadeIn  ( UINT time )
+		{
+			m_valid = true;
+			m_fade.SetFade ( time, 0x00ffffff, 0xffffffff );
+		}
+		void SetFadeOut ( UINT time )
+		{
+			m_valid = true;
+			m_fade.SetFade ( time, 0xffffffff, 0x00ffffff );
+		}
+		void EndFade ( _CLR clr ) { m_fade.End ( clr ); }
 	};
 
 	//型定義
