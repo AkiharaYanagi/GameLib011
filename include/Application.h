@@ -33,6 +33,7 @@ namespace GAME
 	struct ResourceName
 	{
 		LPCTSTR windowClassName;	//ウィンドウクラス名
+		LPCTSTR mutexText;			//ミューテックス文字列
 		LPCTSTR TitleBar;			//タイトルバー文字列
 		LPCTSTR ICON_ID;			//アイコンID
 	};
@@ -66,9 +67,9 @@ namespace GAME
 
 		//------------------------------------------------------------------------
 		//設定ファイル
-		shared_ptr < AppSettingFile >	m_settingFile;
+//		AppSettingFile	m_settingFile;
 
-		bool		m_InitFromCursorPos;
+//		bool		m_InitFromCursorPos;
 
 
 	public:
@@ -98,8 +99,10 @@ namespace GAME
 		//スレッド稼動フラグ取得
 //		bool IsActive() { return m_bActive; }
 
+#if 0
 		//Init前にウィンドウ表示位置をカーソル位置に指定
 		void SetWindowPosFromCursor ( bool b ) { m_InitFromCursorPos = b; }
+#endif // 0
 
 	private:
 		POINT GetWindowInitPos ();

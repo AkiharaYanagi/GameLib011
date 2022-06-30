@@ -22,6 +22,14 @@ namespace GAME
 
 	AppSettingFile::AppSettingFile ()
 	{
+	}
+
+	AppSettingFile::~AppSettingFile ()
+	{
+	}
+	
+	void AppSettingFile::Load ()
+	{
 		try
 		{
 			TCHAR path [ MAX_PATH ];
@@ -36,35 +44,45 @@ namespace GAME
 			if ( ! ifstrm )
 			{
 				SetDefault ();
+				return;
 			}
 			
 			//ì«çû
 			ifstrm.read ( (char*)& m_bFullscreen, sizeof(bool) );
-			UINT size = sizeof ( UINT );
-			ifstrm.read ( (char*)& m_window_w, sizeof ( UINT ) );
-			ifstrm.read ( (char*)& m_window_h, sizeof ( UINT ) );
+			ifstrm.read ( (char*)& m_window_w, sizeof ( int ) );
+			ifstrm.read ( (char*)& m_window_h, sizeof ( int ) );
+
+			int temp = 0;
+			ifstrm.read ( (char*)& temp, sizeof ( int ) );
+			m_startPos = ( WINDOW_START_POS )temp;
+			ifstrm.read ( (char*)& m_displayNum, sizeof ( int ) );
+
+#if 0
 			ifstrm.read ( (char*)& m_input1pPlayer, sizeof(bool) );
 			ifstrm.read ( (char*)& m_input2pPlayer, sizeof(bool) );
+#endif // 0
 
 			//èIóπ
 			ifstrm.close ();
 		}
 		catch (...)
 		{
+			TRACE_F ( _T( "catch(...)\n" ) );
+			SetDefault ();
 		}
 	}
 
-	AppSettingFile::~AppSettingFile ()
-	{
-	}
-	
 	void AppSettingFile::SetDefault ()
 	{
 		m_bFullscreen = false;
-		m_window_w = 1280;
-		m_window_h = 960;
+		m_window_w = DFL_WND_W;
+		m_window_h = DFL_WND_H;
+		m_startPos = START_POS_CURSOR;
+		m_displayNum = 0;
+#if 0
 		m_input1pPlayer = true;
 		m_input2pPlayer = true;
+#endif // 0
 	}
 
 

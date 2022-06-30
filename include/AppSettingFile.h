@@ -9,7 +9,6 @@
 // ヘッダのインクルード
 //-------------------------------------------------------------------------------------------------
 #include "Define.h"
-//#include <windows.h>
 #include "DebugLibrary.h"
 
 //-------------------------------------------------------------------------------------------------
@@ -17,6 +16,22 @@
 //-------------------------------------------------------------------------------------------------
 namespace GAME 
 {
+	//ウィンドウスタート位置
+	enum WINDOW_START_POS
+	{
+		START_POS_CURSOR,
+		START_POS_DISPLAY,
+	};
+
+	//定数
+	//デフォルトウィンドウサイズ
+	enum DEFAULT_WINDOW_SIZE
+	{
+		DFL_WND_W = 1280,
+		DFL_WND_H = 960,
+	};
+
+
 	class AppSettingFile
 	{
 	//---------------------------------------------------------------------
@@ -31,23 +46,44 @@ namespace GAME
 		static void Create () { if ( ! m_inst ) { m_inst = _UP_StgFl ( new _StgFl () ); } }
 		static _UP_StgFl & Inst () { return m_inst; }	//インスタンス取得
 	//---------------------------------------------------------------------
-		bool	m_bFullscreen;
-		UINT	m_window_w;
-		UINT	m_window_h;
+	//@info GameSystem でDx３Dにパラメータを渡すためシングルトンで定義する
 
+
+	private:
+		//------------------------------------------------
+		//値
+		bool	m_bFullscreen;	//フルスクリーン
+		int		m_window_w;		//ウィンドウ幅W
+		int		m_window_h;		//ウィンドウ高H
+
+		WINDOW_START_POS	m_startPos;		//ウィンドウ開始位置
+		int		m_displayNum;	//出力ディスプレイ番号
+
+#if 0
 		bool	m_input1pPlayer;
 		bool	m_input2pPlayer;
+#endif // 0
+		//------------------------------------------------
 
+		//基本値
 		void	SetDefault ();
 
 	public:
+
+		void Load ();
 
 		//値の取得
 		bool GetbFullscreen () const { return m_bFullscreen; }
 		UINT GetWindowW () const { return m_window_w; }
 		UINT GetWindowH () const { return m_window_h; }
+
+		WINDOW_START_POS GetWindowStartPos () const { return m_startPos; }
+		int GetDisplayNum () const { return m_displayNum; }
+
+#if 0
 		bool GetbInput1pPlayer () const { return m_input1pPlayer; }
 		bool GetbInput2pPlayer () const { return m_input2pPlayer; }
+#endif // 0
 	};
 
 	using P_SettingFile = unique_ptr < AppSettingFile >;
