@@ -237,8 +237,6 @@ namespace GAME
 //		m_lpD3DDevice->SetRenderTarget ( 0, m_lpBackBuffer );
 
 #if 0
-
-
 		//拡大縮小のテスト
 		RECT rectSrc, rectDest;
 //		SetRect( &rectSrc, 0+(int)m_zoom, 0+(int)(m_zoom * 0.67), 640-(int)m_zoom, 480-(int)(m_zoom * 0.67) );
@@ -343,6 +341,8 @@ namespace GAME
 		D3DPRESENT_PARAMETERS param;
 		ZeroMemory( & param, sizeof ( param ) );
 
+/*◆*/	param.Windowed			= TRUE;
+
 		param.BackBufferWidth	= m_window_x;
 		param.BackBufferHeight	= m_window_y;
 //		param.BackBufferWidth	= GAME_WINDOW_WIDTH;
@@ -350,7 +350,6 @@ namespace GAME
 		param.BackBufferFormat	= dm.Format;	//バックバッファのピクセルフォーマット(デフォルトアダプタと同一にする)
 		param.BackBufferCount	= 1;
 		param.SwapEffect		= D3DSWAPEFFECT_DISCARD;
-		param.Windowed			= TRUE;
 //		param.PresentationInterval = D3DPRESENT_INTERVAL_DEFAULT;	//垂直同期待ちをする
 		param.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;	//垂直同期待ちをしない
 //		param.Flags = D3DPRESENTFLAG_LOCKABLE_BACKBUFFER;
@@ -369,12 +368,13 @@ namespace GAME
 		D3DPRESENT_PARAMETERS fparam;
 		ZeroMemory ( & fparam, sizeof ( fparam ) );
 
+/*◇*/	fparam.Windowed			= FALSE;
+
 		fparam.BackBufferWidth	= m_window_x;
 		fparam.BackBufferHeight	= m_window_y;
 		fparam.BackBufferFormat	= dm.Format;	//バックバッファのピクセルフォーマット(デフォルトアダプタと同一にする)
 		fparam.BackBufferCount	= 1;
 		fparam.SwapEffect		= D3DSWAPEFFECT_DISCARD;
-		fparam.Windowed			= FALSE;
 		fparam.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;	//垂直同期待ちをしない
 		fparam.AutoDepthStencilFormat = D3DFMT_D16;	//深度ステンシルのフォーマット
 		fparam.EnableAutoDepthStencil = TRUE;		//深度を用いる

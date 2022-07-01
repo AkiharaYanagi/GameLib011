@@ -25,7 +25,6 @@
 //-------------------------------------------------------------------------------------------------
 namespace GAME
 {
-
 	//------------------------------------------
 	//静的変数
 	//------------------------------------------
@@ -38,7 +37,7 @@ namespace GAME
 	// コンストラクタ
 	//-------------------------------------------------------------------------------------------------
 	Application::Application ( ResourceName rcName )
-		: m_rcName ( rcName ), m_InitFromCursorPos ( false )
+		: m_rcName ( rcName )	//, m_InitFromCursorPos ( false )
 	{
 		//メモリリーク検出
 		_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
@@ -49,16 +48,15 @@ namespace GAME
 		try 
 		{
 			//ミューテックスによる多重起動の防止
-			LPCTSTR		MUTEX_NAME = TEXT("client : Copyright(C) 2018 Akihara Soft. All rights reserved.");
-			m_hMutex = CreateMutex ( nullptr, false, MUTEX_NAME );
+			m_hMutex = CreateMutex ( nullptr, false, rcName.mutexText );
 			if ( ::GetLastError () == ERROR_ALREADY_EXISTS )
 			{
-				throw TEXT("ミューテックスによる多重起動の防止\n");
+				throw _T("ミューテックスによる多重起動の防止\n");
 			}
 		}
 		catch ( LPCTSTR str )
 		{
-//			TRACE_F ( str );
+			TRACE_F ( str );
 			MessageBox ( nullptr, TEXT("同時に2つ以上実行することはできません。"), TEXT("多重起動の防止"), MB_OK );
 			Rele ();
 			PostQuitMessage(0);
@@ -71,6 +69,7 @@ namespace GAME
 
 		//設定ファイルの初期化と読込
 		AppSettingFile::Create ();
+		AppSettingFile::Inst()->Load ();
 	}
 
 
@@ -196,6 +195,7 @@ namespace GAME
 		wcex.lpszClassName = m_rcName.windowClassName;
 
 		ATOM atom = RegisterClassExW ( & wcex );
+		//LPCTSTR windowsClassName = (LPCTSTR)atom;
 
 		//設定からウィンドウサイズの指定
 		int window_w = (int)AppSettingFile::Inst()->GetWindowW ();
@@ -205,7 +205,6 @@ namespace GAME
 		m_hWnd = CreateWindowW ( 
 			m_rcName.windowClassName, m_rcName.TitleBar,
 			WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME ^ WS_MAXIMIZEBOX,
-//			CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, 
 			0, 0, window_w, window_h,
 			nullptr, nullptr, hInst, nullptr );
 		if ( ! m_hWnd ) { return false; }
@@ -213,53 +212,11 @@ namespace GAME
 		//ウィンドウハンドルの保存
 		HWnd::Set ( m_hWnd );
 
-#if 0
-		//プライマリモニタの作業領域サイズを取得
-		RECT workRect;
-		::SystemParametersInfo ( SPI_GETWORKAREA, 0, &workRect, 0 );
-		int wWidth = workRect.right - workRect.left;
-		int wHeight = workRect.bottom - workRect.top;
-		int wPos_x = ( wWidth  / 2 ) - ( window_x / 2 );
-		int wPos_y = ( wHeight / 2 ) - ( window_y / 2 );
-
-		//ウィンドウ位置の指定
-//		::MoveWindow ( m_hWnd, cursorPos.x, cursorPos.y, WINDOW_WIDTH, WINDOW_HEIGHT, TRUE );
-		::MoveWindow ( m_hWnd, wPos_x, wPos_y, window_x, window_y, TRUE );
-
-		//ウィンドウモード時のサイズ補正
-		RECT windowRect, clientRect;
-		::GetWindowRect ( m_hWnd, & windowRect );
-		::GetClientRect ( m_hWnd, & clientRect );
-		TRACE_F ( _T("windowRect = ( %d, %d, %d, %d ) \n"), windowRect.left, windowRect.top, windowRect.right, windowRect.bottom );
-		TRACE_F ( _T("clientRect = ( %d, %d, %d, %d ) \n"), clientRect.left, clientRect.top, clientRect.right, clientRect.bottom );
-
-		//ウィンドウ幅、高さ
-		int windowWidth = windowRect.right - windowRect.left;
-		int windowHeight = windowRect.bottom - windowRect.top;
-
-		//クライアント幅、高さ
-		int clientWidth = clientRect.right - clientRect.left;
-		int clientHeight = clientRect.bottom - clientRect.top;
-
-		//タイトルバー補正サイズ
-		int revisedWidth = windowWidth - clientWidth;
-		int revisedHeight = windowHeight - clientHeight;
-
-		::SetWindowPos ( m_hWnd, HWND_TOP, -100, -100, window_x + revisedWidth, window_y + revisedHeight, SWP_NOMOVE );
-
-#endif // 0
+		//ウィンドウサイズ指定
 		POINT pos = GetWindowInitPos ();
 		POINT size = GetWindowInitSize ();
 		::SetWindowPos ( m_hWnd, HWND_TOP, pos.x, pos.y, size.x, size.y, SWP_SHOWWINDOW );
 //		::ShowWindow ( m_hWnd, SW_SHOW );
-#if 0
-
-		::GetWindowRect ( m_hWnd, &windowRect );
-		::GetClientRect ( m_hWnd, &clientRect );
-		TRACE_F ( _T("windowRect = ( %d, %d, %d, %d ) \n"), windowRect.left, windowRect.top, windowRect.right, windowRect.bottom );
-		TRACE_F ( _T("clientRect = ( %d, %d, %d, %d ) \n"), clientRect.left, clientRect.top, clientRect.right, clientRect.bottom );
-
-#endif // 0
 		
 		TRACE_F ( _T("ApplicationManager:: hWnd = %d\n"), m_hWnd );
 
@@ -377,7 +334,7 @@ namespace GAME
 	{
 		//-------------------------------------------------
 		//カーソル位置から初期位置を設定する
-		if ( m_InitFromCursorPos )
+		if ( START_POS_CURSOR == AppSettingFile::Inst()->GetWindowStartPos () )
 		{
 			//カーソル位置の取得
 			POINT cursorPos;
