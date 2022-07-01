@@ -79,11 +79,7 @@ namespace GAME
 	//-------------------------------------------------------------------------------------------------
 	Application::~Application ()
 	{
-//		TRACE_F ( TEXT("Applicationのデストラクタ\n") );
 		Rele ();
-
-		//フレーム制御(ゲームメインを含む)
-//		if ( m_frameControl ) { delete m_frameControl; m_frameControl = nullptr; }
 
 #if MULTI_ACT
 		//多重起動防止のミューテックスを解放
