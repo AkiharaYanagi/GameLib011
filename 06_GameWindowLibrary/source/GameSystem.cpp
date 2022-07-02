@@ -25,13 +25,13 @@ namespace GAME
 	void GameSystem::SystemLoad ()
 	{
 		//設定からウィンドウ状態の取得
-		UINT window_x = AppSettingFile::Inst ()->GetWindowW ();
-		UINT window_y = AppSettingFile::Inst ()->GetWindowH ();
+		UINT window_w = AppSettingFile::Inst ()->GetWindowW ();
+		UINT window_h = AppSettingFile::Inst ()->GetWindowH ();
 		bool bFullScreen = AppSettingFile::Inst ()->GetbFullscreen ();
 
 		// Direct3Dの初期化
 		Dx3D::Create ();
-		Dx3D::instance()->SetWindowSize ( window_x, window_y );
+		Dx3D::instance()->SetWindowSize ( window_w, window_h );
 		Dx3D::instance()->SetFullscreen ( bFullScreen );
 		Dx3D::instance()->Load ();
 
