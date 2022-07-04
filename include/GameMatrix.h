@@ -10,7 +10,6 @@
 // ヘッダファイル　インクルード
 //-------------------------------------------------------------------------------------------------
 #include "DebugManager.h"
-#include <vector>
 #include "Dx3D.h"
 
 //-------------------------------------------------------------------------------------------------
@@ -18,23 +17,18 @@
 //-------------------------------------------------------------------------------------------------
 namespace GAME
 {
-
 	class GameMatrix
 	{
 		D3DXMATRIX		m_matrix;				//変換行列の一時保存
 
-		VEC2			m_vecDisp;				//スクリーン表示位置
+		VEC2			m_vecPos;				//自オブジェクト位置
+//		VEC2			m_vecDisp;				//スクリーン表示位置
 		VEC2			m_scalingCenter;		//スケーリングの中心座標
 		VEC2			m_scaling;				//スケーリング
 		float			m_scalingRotation;		//拡大回転の要素
 		VEC2			m_rotationCenter;		//回転時の中心座標
 //		INT				m_nDegree;				//角度
 		float			m_radian;				//角度[rad]
-		VEC2			m_vecPos;				//自オブジェクト位置
-
-		bool			m_valid;				//有効・無効フラグ
-		int				m_indexTexture;			//個別のテクスチャインデックス
-
 
 	public:
 		GameMatrix();
@@ -45,8 +39,8 @@ namespace GAME
 		void Move();
 
 		//変換行列の取得
-		D3DXMATRIX* GetpMatrix() { return &m_matrix; }
-		const D3DXMATRIX* GetcpMatrix() const { return &m_matrix; }
+		D3DXMATRIX* GetpMatrix() { return & m_matrix; }
+		const D3DXMATRIX* GetcpMatrix() const { return & m_matrix; }
 
 		//値の設定
 		VEC2 GetPos() const			{ return m_vecPos; }
@@ -68,14 +62,6 @@ namespace GAME
 		void SetRotationCenter ( VEC2 vec )	{ m_rotationCenter = vec; }
 //		void SetDegree ( int n )					{ m_nDegree = n; }
 		void SetRadian ( float f )					{ m_radian = f; }
-
-		//有効・無効
-		void SetValid ( bool b ) { m_valid = b; }
-		bool GetValid () const { return m_valid; }
-
-		//テクスチャインデックス
-		void SetIndexTexture ( int i ) { m_indexTexture = i; }
-		int GetIndexTexture () const { return m_indexTexture; }
 	};
 
 
