@@ -28,9 +28,9 @@ namespace GAME
 	private:
 		using P_DBG_WND = unique_ptr < DebugOutGameWindow >;
 		static P_DBG_WND	m_inst;
-	public:
 		DebugOutGameWindow ();
 		DebugOutGameWindow ( const DebugOutGameWindow & rhs ) = delete;
+	public:
 		~DebugOutGameWindow ();
 		static void Create();
 		static P_DBG_WND & instance() { return m_inst; }
@@ -44,9 +44,16 @@ namespace GAME
 			DebugTextNum = 15,
 		};
 	private:
-		TX		m_texture[DebugTextNum];			//テクスチャ
-		DxVertex4				m_vertex[DebugTextNum];				//頂点処理オブジェクト
-		tstring					m_tstr[DebugTextNum];				//文字列
+		TX				m_texture[DebugTextNum];		//テクスチャ
+		DxVertex4		m_vertex[DebugTextNum];			//頂点処理オブジェクト
+		tstring			m_tstr[DebugTextNum];			//文字列
+
+		//デバッグ用固定表示
+		//FPS
+		//TIme
+
+		TX				m_testTx;
+		DxVertex4		m_testVx;
 
 	public:
 		void Load ();
@@ -71,6 +78,8 @@ namespace GAME
 		void Off ();
 
 	};
+
+	using DBGO_WND = DebugOutGameWindow;
 
 //シングルトンアクセス用
 #define DBGOUT_WND		DebugOutGameWindow::instance()

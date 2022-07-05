@@ -20,8 +20,11 @@
 //-------------------------------------------------------------------------------------------------
 namespace GAME
 {
+	//static実体
+	bool GameSystem::m_bDispTimer = false;
 
-	//シングルトンのクリエイトなど1回のみの初期化
+
+	//各種シングルトンのクリエイトなど1回のみの初期化
 	void GameSystem::SystemLoad ()
 	{
 		//設定からウィンドウ状態の取得
@@ -134,13 +137,14 @@ namespace GAME
 
 		//----------------------------------------------
 		// 'T'キーでタイマー表示切替
-		static bool bTimer = false;
+//		static bool bTimer = false;
 		static int time = 0;
 		if( ::GetAsyncKeyState('T') & 0x0001 )
 		{
-			bTimer ^= true; 
+//			bTimer ^= true;
+			m_bDispTimer ^= true;
 		}
-		if( bTimer )
+		if( m_bDispTimer )
 		{
 			DBGOUT_WND_F ( 0, _T("time = %d"), time );
 		}
@@ -208,6 +212,11 @@ namespace GAME
 		m_pGameMain->AddpTask ( pGrpAry );
 //		TRACE_F(_T("GameSystem::SetGameMain\n"));
 #endif // 0
+	}
+
+	void GameSystem::FullDebugMode ()
+	{
+		m_bDispTimer = T;
 	}
 
 

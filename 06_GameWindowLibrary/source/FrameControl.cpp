@@ -20,12 +20,13 @@
 namespace GAME
 {
 
-//----------------------------------------------
-//	’è”éŒ¾
-//----------------------------------------------
-const DWORD FrameControl::dwFps = 60;	//FPS
-const DWORD FrameControl::waitOneFrameTime = 1000 * 0x10000 / dwFps;		//1ƒtƒŒ[ƒ€‚É‘Ò‚Âƒ~ƒŠ•bBãˆÊ16ƒrƒbƒg‚É®”•”A‰ºˆÊ16ƒrƒbƒg‚É¬”•”‚ð•Û‘¶
+	//----------------------------------------------
+	//	’è”éŒ¾
+	//----------------------------------------------
+	const DWORD FrameControl::dwFps = 60;	//FPS
+	const DWORD FrameControl::waitOneFrameTime = 1000 * 0x10000 / dwFps;	//1ƒtƒŒ[ƒ€‚É‘Ò‚Âƒ~ƒŠ•bBãˆÊ16ƒrƒbƒg‚É®”•”A‰ºˆÊ16ƒrƒbƒg‚É¬”•”‚ð•Û‘¶
 
+	bool FrameControl::m_bDispFPS = false;
 
 	//------------------------------------------
 	//	ƒRƒ“ƒXƒgƒ‰ƒNƒ^
@@ -147,9 +148,9 @@ const DWORD FrameControl::waitOneFrameTime = 1000 * 0x10000 / dwFps;		//1ƒtƒŒ[ƒ
 			//1000ms–ˆ‚ÉŒ»ÝƒtƒŒ[ƒ€”(FPS)‚ÌXV
 			if ( progressTime >= 1000 )
 			{
-				static bool bFPS = false;
-				if ( ::GetAsyncKeyState ( 'F' ) & 0x0001 ) { bFPS ^= true; }
-				if ( bFPS )
+//				static bool bFPS = false;
+				if ( ::GetAsyncKeyState ( 'F' ) & 0x0001 ) { m_bDispFPS ^= true; }
+				if ( m_bDispFPS )
 				{
 					averageMove = 0;
 					averageDraw = 0;
@@ -180,6 +181,14 @@ const DWORD FrameControl::waitOneFrameTime = 1000 * 0x10000 / dwFps;		//1ƒtƒŒ[ƒ
 	void FrameControl::SetGameMain ( UP_GameMainBase pGameMain )
 	{
 		m_gameSystem->SetGameMain( ::move ( pGameMain ) ); 
+	}
+
+
+	//ƒfƒoƒbƒO•\Ž¦‚ð‚·‚×‚ÄON
+	void FrameControl::FullDebugMode ()
+	{
+		m_bDispFPS = T;
+		GameSystem::FullDebugMode ();
 	}
 
 

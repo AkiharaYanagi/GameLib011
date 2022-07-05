@@ -47,6 +47,14 @@ namespace GAME
 		//メインオブジェクトの設定
 		void SetGameMain ( UP_GameMainBase pGameMain );
 
+
+	private:
+		static bool m_bDispTimer;
+
+	public:
+
+		//デバッグ表示をすべてON
+		static void FullDebugMode ();
 	};
 
 

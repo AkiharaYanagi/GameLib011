@@ -67,8 +67,17 @@ namespace GAME
 		void Frame ();	//描画処理
 
 		//ゲームメインオブジェクトの設定
-		//includeを遅延し実体をソースコード内でのみ用いるため、ヘッダには記述しない
+		//実体をソースコード内でのみ用いるため、includeを遅延しヘッダには記述しない
 		void SetGameMain ( UP_GameMainBase pGameMain );
+
+
+	private:
+		static bool m_bDispFPS;
+
+	public:
+		//デバッグ表示をすべてON
+		static void FullDebugMode ();
+
 	};
 
 
