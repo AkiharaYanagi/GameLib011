@@ -16,8 +16,10 @@
 namespace GAME
 {
 
+	//--------------------------------------------------
+	//シングルトンパターン
 	//static実体
-	unique_ptr < DebugOutGameWindow > DebugOutGameWindow::m_inst = nullptr;
+	DBGO_WND::P_DBG_WND		DBGO_WND::m_inst = nullptr;
 
 	//コンストラクタ
 	DebugOutGameWindow::DebugOutGameWindow ()
@@ -39,8 +41,9 @@ namespace GAME
 	void DebugOutGameWindow::Create ()
 	{
 		assert ( ! m_inst );		//既に存在していたらassert
-		m_inst = unique_ptr < DebugOutGameWindow > ( new DebugOutGameWindow () );
+		m_inst = DBGO_WND::P_DBG_WND ( new DBGO_WND () );
 	}
+	//--------------------------------------------------
 
 
 	//読込
@@ -54,6 +57,12 @@ namespace GAME
 
 //		m_tstr.assign ( TEXT("DebugOutGameWindow::Init _  ()") );
 //		GameText::instance()->MakeStrTexture ( m_tstr, m_texture, m_vertex );
+
+
+		tstring testStr = _T ( "Test String" );
+		m_testVx.Load ();
+		m_testVx.SetPos ( 100, 100 );
+		GameText::instance ()->MakeStrTexture ( testStr, m_testTx, m_testVx );
 	}
 
 	void DebugOutGameWindow::Rele ()
@@ -63,6 +72,9 @@ namespace GAME
 			RELEASE ( m_texture[i] );
 			m_vertex[i].Rele ();
 		}
+
+
+		m_testVx.Rele ();
 	}
 
 	void DebugOutGameWindow::Reset ( LPDIRECT3DDEVICE9 d3dDevice )
@@ -82,6 +94,9 @@ namespace GAME
 			m_vertex[i].ApplyPos ();
 			m_vertex[i].SetVertexBuffer ();
 		}
+
+
+		m_testVx.Move ();
 	}
 
 	void DebugOutGameWindow::DrawVertex ()
@@ -91,9 +106,12 @@ namespace GAME
 			//文字列が空なら何もしないで返す
 			if ( ! m_tstr[i].compare ( TEXT("") ) ) { continue; }
 
-			//描画
+			//４頂点にテクスチャ描画
 			m_vertex[i].DrawVertex ( m_texture[i] );
 		}
+
+
+		m_testVx.DrawVertex ( nullptr );
 	}
 
 

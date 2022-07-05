@@ -391,5 +391,10 @@ namespace GAME
 		return size;
 	}
 
+	void Application::FullDebugMode ()
+	{
+		FrameControl::FullDebugMode ();
+	}
+
 }	//namespace GAME
 

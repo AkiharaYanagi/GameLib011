@@ -4,13 +4,13 @@
     <ClCompile Include="Source\WinMain.cpp" />
     <ClCompile Include="Source\StdAfx.cpp" />
     <ClCompile Include="Source\DispInput.cpp" />
-    <ClCompile Include="Source\TestFade.cpp" />
+    <ClCompile Include="Source\TestOutlineFont0.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\GameMain.h" />
     <ClInclude Include="Source\WinMain.h" />
     <ClInclude Include="Source\StdAfx.h" />
     <ClInclude Include="Source\DispInput.h" />
-    <ClInclude Include="Source\TestFade.h" />
+    <ClInclude Include="Source\TestOutlineFont0.h" />
   </ItemGroup>
 </Project>

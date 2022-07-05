@@ -122,7 +122,7 @@ namespace GAME
 				&m_lpVertexBuffer, 
 				nullptr
 			);
-			if ( FAILED ( hr ) ) { throw _T("頂点バッファの作成"); }
+			if ( FAILED ( hr ) ) { throw _T("頂点バッファの作成エラー"); }
 
 			//頂点バッファに書き込み
 			SetVertexBuffer ();

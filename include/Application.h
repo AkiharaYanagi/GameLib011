@@ -99,10 +99,8 @@ namespace GAME
 		//スレッド稼動フラグ取得
 //		bool IsActive() { return m_bActive; }
 
-#if 0
-		//Init前にウィンドウ表示位置をカーソル位置に指定
-		void SetWindowPosFromCursor ( bool b ) { m_InitFromCursorPos = b; }
-#endif // 0
+		//デバッグ表示をすべてON
+		static void FullDebugMode ();
 
 	private:
 		POINT GetWindowInitPos ();
