@@ -39,7 +39,6 @@ namespace GAME
 		Dx3D::instance()->Load ();
 
 		//Graphic配列の初期化
-//		GameGraphicArray::Create ();
 		GameGraphicList::Create ();
 
 		//ゲームテキスト初期化

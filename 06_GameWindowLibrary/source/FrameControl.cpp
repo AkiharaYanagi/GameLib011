@@ -145,6 +145,10 @@ namespace GAME
 			averageDraw += postDrawTime - preDrawTime;
 
 
+			//@todo
+			// フレーム計算は常に行い、表示だけ切り替える
+
+
 			//1000ms毎に現在フレーム数(FPS)の更新
 			if ( progressTime >= 1000 )
 			{

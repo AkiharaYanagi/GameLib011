@@ -11,13 +11,15 @@
 namespace GAME
 {
 	DxVertex::DxVertex () 
-	: m_lpVertexBuffer ( nullptr ), m_update ( true ), m_color ( 0xffffffff ), m_z ( Z_DEFALT )
+		: m_lpVertexBuffer ( nullptr ), m_update ( true ), m_color ( 0xffffffff ), m_z ( Z_DEFALT )
+		, m_valid ( T )
 	{
 	}
 
 	//頂点数を指定したコンストラクタ
 	DxVertex::DxVertex ( UINT vertexNum )
-	: m_lpVertexBuffer ( nullptr ), m_update ( true ), m_color ( 0xffffffff ), m_z ( Z_DEFALT )
+		: m_lpVertexBuffer ( nullptr ), m_update ( true ), m_color ( 0xffffffff ), m_z ( Z_DEFALT )
+		, m_valid ( T )
 	{
 		SetVertexNum ( vertexNum );
 	}
