@@ -75,7 +75,7 @@ namespace GAME
 		GameText ( const GameText& rhs ) = delete;
 	public:
 		~GameText () {}
-		static void Create () { if ( m_inst ) { m_inst = P_GAME_TXT ( new GameText () ); } }
+		static void Create () { if ( ! m_inst ) { m_inst = P_GAME_TXT ( new GameText () ); } }
 		static P_GAME_TXT & Inst () { return m_inst; }
 		//--------------------------------------------------
 
@@ -101,6 +101,7 @@ namespace GAME
 
 		//Ascii文字列からテクスチャを作成
 		void MakeAsciiTexture ();
+		TX GetAsciiTx () { return m_txAscii; }
 
 		//文字データ取得
 		//引数 [in]	 LPTCHAR				: 1文字

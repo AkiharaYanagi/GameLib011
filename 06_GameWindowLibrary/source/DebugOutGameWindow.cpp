@@ -76,7 +76,7 @@ namespace GAME
 //		m_testVx.Rele ();
 	}
 
-	void DebugOutGameWindow::Reset ( LPDIRECT3DDEVICE9 d3dDevice )
+	void DebugOutGameWindow::Reset ( D3DDEV d3dDevice )
 	{
 		Rele ();
 		Load ();

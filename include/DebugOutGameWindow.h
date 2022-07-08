@@ -58,7 +58,7 @@ namespace GAME
 	public:
 		void Load ();
 		void Rele ();
-		void Reset ( LPDIRECT3DDEVICE9 d3dDevice );	//Äİ’è
+		void Reset ( D3DDEV d3dDevice );	//Äİ’è
 		void Move ();
 
 		//’¸“_‚É‚æ‚é•`‰æ

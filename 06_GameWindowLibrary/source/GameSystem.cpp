@@ -44,6 +44,7 @@ namespace GAME
 		//ゲームテキスト初期化
 		GameText::Create();
 		GameText::Inst()->Load ( Dx3D::instance()->GetDevice() );
+
 		OutlineFont::Create ();
 		OutlineFont::Inst ()->Load ( Dx3D::instance ()->GetDevice () );
 

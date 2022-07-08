@@ -98,6 +98,8 @@ namespace GAME
 			m_hdcFont[ i ].MakeFont ( fontSizeArray[ i ] );
 		}
 #endif	//0
+
+		MakeAsciiTexture ();
 	}
 
 	void GameText::Rele ()
@@ -109,6 +111,8 @@ namespace GAME
 			m_hdcFont[ i ].Rele ();
 		}
 #endif	//0
+
+		RELEASE ( m_txAscii );
 	}
 
 	void GameText::Reset ( D3DDEV d3dDevice )
@@ -193,7 +197,7 @@ namespace GAME
 				{
 					for ( int x = 0; x < bmp_w; x++ )
 					{
-						DWORD alpha = 255 * pBmpArray[i][x + (bmp_w * y)] / (level - 1 );
+						DWORD alpha = 255 * pBmpArray[i][x + (bmp_w * y)] / ( level - 1 );
 						DWORD color = 0x00ffffff | (alpha << 24);
 						memcpy ( (BYTE*)lockedRect.pBits + ( 4 * ( x + gmArray[i].gmptGlyphOrigin.x + posBaseX ) )
 									+ ( lockedRect.Pitch * ( y + ( tm.tmAscent - gmArray[i].gmptGlyphOrigin.y ) ) ), 
@@ -232,8 +236,10 @@ namespace GAME
 
 		//グリフ(字体)メトリクスを取得
 		const MAT2 mat = { {0,1},{0,0},{0,0},{0,1} };
-		const UINT BMP_FMT = GGO_GRAY4_BITMAP;
+		const UINT BMP_FMT = GGO_GRAY4_BITMAP;	//最大アンチエイリアス レベル17
+		const UINT aaLv = 17;
 		GLYPHMETRICS gm;
+		short max_gm_x = 0;
 		DWORD bmpsize [ N_ASCII ] = { 0 };	//各サイズ
 		DWORD bmpsize_sum = 0;	//サイズ和
 
@@ -241,29 +247,40 @@ namespace GAME
 		for ( UINT t = 0; t < N_ASCII; ++ t )
 		{
 			bmpsize [ t ] = ::GetGlyphOutline ( hdc, t, BMP_FMT, & gm, 0, nullptr, & mat );
+
+			//最大幅を保存
+			if ( max_gm_x < gm.gmCellIncX ) { max_gm_x = gm.gmCellIncX; }
+			TRACE_F ( _T("gmx = %d\n"), gm.gmCellIncX );
+
 			bmpsize_sum += bmpsize [ t ];
 		}
+		TRACE_F ( _T ( "max_gm_x = %d\n" ), max_gm_x );
 
 		//全体ビットマップ用BYTE配列ポインタ
-		unique_ptr < BYTE[] > ppBmpAscii = make_unique < BYTE [] >( bmpsize_sum );
+		unique_ptr < BYTE[] > ppBmpAscii = make_unique < BYTE[] > ( bmpsize_sum );
+		::ZeroMemory ( ppBmpAscii.get(), bmpsize_sum );
 
 		//ビットマップを確保してから再取得
 		DWORD offset = 0;
 		for ( UINT t = 0; t < N_ASCII; ++ t )
 		{
 			DWORD size = bmpsize [ t ];
-			unique_ptr < BYTE [] > ppBmp = make_unique < BYTE [] > ( size );
-			::GetGlyphOutline ( hdc, t, BMP_FMT, & gm, bmpsize_sum, ppBmp.get(), & mat );
+			if ( 0 == size ) { continue; }
+
+			unique_ptr < BYTE[] > ppBmp = make_unique < BYTE[] > ( size );
+			::GetGlyphOutline ( hdc, t, BMP_FMT, & gm, size, ppBmp.get(), & mat );
 
 			//全体にコピー
+			TRACE_F ( _T ( "offset = %d\n" ), offset );
+			memcpy_s ( ppBmpAscii.get() + offset, size, ppBmp.get(), size );
+
 			offset += size;
-			memcpy_s ( ppBmpAscii.get () + offset, size, ppBmp.get(), size );
 		}
 
 		//テクスチャの作成
 		HRESULT hr;
-		UINT w = 0;
-		UINT h = 0;
+		UINT w = max_gm_x * N_ASCII_X;
+		UINT h = tm.tmHeight * N_ASCII_Y;
 		DWORD USAGE = D3DUSAGE_DYNAMIC;
 		D3DFORMAT D3DFMT = D3DFMT_A8R8G8B8;
 		D3DPOOL POOL = D3DPOOL_DEFAULT;
@@ -279,6 +296,22 @@ namespace GAME
 		D3DLOCKED_RECT lockedRect;
 		hr = m_txAscii->LockRect ( 0, & lockedRect, nullptr, D3DLOCK_DISCARD );
 		::ZeroMemory ( lockedRect.pBits, lockedRect.Pitch * h );
+
+		//グリフデータの読込ビット列からxy平面に展開する
+		UINT bmp_w = gm.gmCellIncX + ( 4 - ( gm.gmCellIncX % 4 ) ) % 4;
+		UINT bmp_h = tm.tmHeight;
+
+		for ( UINT y = 0; y < bmp_h; ++ y )
+		{
+			for ( UINT x = 0; x < bmp_w; ++ x )
+			{
+				UINT offsetBmp = x + bmp_w * y;
+				DWORD alpha = 255 * ppBmpAscii [ offsetBmp ] / ( aaLv - 1 );
+			}
+		}
+
+		//アンロック
+		hr = m_txAscii->UnlockRect ( 0 );
 	}
 
 

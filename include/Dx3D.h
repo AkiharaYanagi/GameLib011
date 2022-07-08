@@ -91,7 +91,7 @@ namespace GAME
 		void SetFullscreen ( bool b ) { m_fullscreen = b; }
 
 		//デバイスの取得 
-		LPDIRECT3DDEVICE9		GetDevice() { return m_lpD3DDevice; }
+		D3DDEV		GetDevice() { return m_lpD3DDevice; }
 		//スプライトの取得
 		LPD3DXSPRITE			GetSprite() { return m_lpSprite; }
 
