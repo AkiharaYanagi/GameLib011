@@ -199,14 +199,15 @@ namespace GAME
 				HANDLE hReadFile = CreateFile ( fileName.c_str(), GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr );
 
 				//ファイルハンドルからサイズ分読込
-				BYTE* buf = new BYTE [ fileSize ];
+//				BYTE* buf = new BYTE [ fileSize ];
+				unique_ptr < BYTE[] > buf = make_unique < BYTE[] > ( fileSize );
 				DWORD numberOfBytesRead = 0;
-				ReadFile ( hReadFile, buf, fileSize, &numberOfBytesRead, nullptr );
+				ReadFile ( hReadFile, buf.get (), fileSize, &numberOfBytesRead, nullptr );
 
 				//ファイルにサイズ分書出
 				DWORD numberOfBytesWritten = 0;
-				WriteFile ( hWriteFile, buf, fileSize, &numberOfBytesWritten, nullptr );
-				delete[] buf;
+				WriteFile ( hWriteFile, buf.get (), fileSize, &numberOfBytesWritten, nullptr );
+//				delete[] buf;
 
 				CloseHandle ( hReadFile );
 

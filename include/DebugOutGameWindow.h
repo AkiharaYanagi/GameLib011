@@ -44,16 +44,16 @@ namespace GAME
 			DebugTextNum = 15,
 		};
 	private:
-		TX				m_texture[DebugTextNum];		//テクスチャ
-		DxVertex4		m_vertex[DebugTextNum];			//頂点処理オブジェクト
-		tstring			m_tstr[DebugTextNum];			//文字列
+		TX			m_texture[DebugTextNum];	//テクスチャ
+		VX_Rect		m_vertex[DebugTextNum];		//頂点処理オブジェクト
+		tstring		m_tstr[DebugTextNum];		//文字列
 
 		//デバッグ用固定表示
 		//FPS
 		//TIme
 
-		TX				m_testTx;
-		DxVertex4		m_testVx;
+		TX			m_testTx;
+		VX_Rect		m_testVx;
 
 	public:
 		void Load ();

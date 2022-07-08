@@ -43,7 +43,7 @@ namespace GAME
 
 		//ゲームテキスト初期化
 		GameText::Create();
-		GameText::instance()->Load ( Dx3D::instance()->GetDevice() );
+		GameText::Inst()->Load ( Dx3D::instance()->GetDevice() );
 		OutlineFont::Create ();
 		OutlineFont::Inst ()->Load ( Dx3D::instance ()->GetDevice () );
 
@@ -108,7 +108,7 @@ namespace GAME
 		Dx3D::instance()->Reset();
 //		GRPARY_RESET ();
 		GRPLST_RESET ();
-		GameText::instance()->Reset ( Dx3D::instance()->GetDevice() );
+		GameText::Inst()->Reset ( Dx3D::instance()->GetDevice() );
 		DebugOutGameWindow::instance()->Reset( Dx3D::instance()->GetDevice() );
 		KeyInput::instance()->Reset ();
 

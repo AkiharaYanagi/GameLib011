@@ -82,7 +82,7 @@ namespace GAME
 		Load ();
 		for ( UINT i = 0; i < DebugTextNum; ++i )
 		{
-			GameText::instance()->MakeStrTexture ( m_tstr[i], m_texture[i], m_vertex[i] );
+			GameText::Inst()->MakeStrTexture ( m_tstr[i], m_texture[i], m_vertex[i] );
 		}
 	}
 
@@ -121,12 +121,16 @@ namespace GAME
 		if ( m_tstr[index].compare ( lpctstr ) )
 		{
 			m_tstr[index].assign ( lpctstr );
-			GameText::instance()->MakeStrTexture ( m_tstr[index], m_texture[index], m_vertex[index] );
+//			GameText::instance()->MakeStrTexture ( m_tstr[index], m_texture[index], m_vertex[index] );
 
-//			OutlineFont::Inst ()->SetParam ( 16, 2, 1 );
+			OutlineFont::Inst ()->SetParam ( 40, 1, 1 );
 //			OutlineFont::Inst ()->SetFontFace ( _T ( "ƒƒCƒŠƒI" ) );
 
-//			m_texture[index] = OutlineFont::Inst ()->Make ( m_tstr [ index ].c_str (), 0x00000000, 0xfffffff );
+			m_texture[index] = OutlineFont::Inst ()->Make ( m_tstr [ index ].c_str (), 0xffffffff, 0xffffffff );
+			POINT size = OutlineFont::Inst ()->GetSize ();
+
+			m_vertex [ index ].SetSize ( 1.f * size.x, 1.f * size.y );
+			m_vertex [ index ].ApplyPos ();
 		}
 	}
 

@@ -46,7 +46,6 @@ namespace GAME
 	public:
 		~DxInput ();		//デストラクタはunique_ptrのためpublic
 		static void Create ();
-//		static void Destroy ();
 		static P_DxInput& instance () { return m_inst; }
 	//---------------------------------------------------------------------
 

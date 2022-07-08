@@ -61,37 +61,46 @@ namespace GAME
 
 
 	//=================================================================================================
-	//	ゲーム画面に表示するテキストのフォントなどを監理するクラス
+	//	ゲーム画面に表示するテキストのフォントなどを監理し、
+	//	文字列からテクスチャを取得できる
+	//	テクスチャの解放は呼び出し側で行う
 	//=================================================================================================
 	class GameText
 	{
 		//--------------------------------------------------
 		//シングルトンパターン
-		static unique_ptr < GameText >		m_instance;
+		using P_GAME_TXT = unique_ptr < GameText >;
+		static P_GAME_TXT		m_inst;
 		GameText ();
-	public:
 		GameText ( const GameText& rhs ) = delete;
-		~GameText ();
-		static unique_ptr < GameText > & instance () { return m_instance; }
-		static void Create ();
+	public:
+		~GameText () {}
+		static void Create () { if ( m_inst ) { m_inst = P_GAME_TXT ( new GameText () ); } }
+		static P_GAME_TXT & Inst () { return m_inst; }
 		//--------------------------------------------------
 
 	private:
 
-		LPDIRECT3DDEVICE9		m_lpD3DDevice;		//Direct3D　デバイス
+		D3DDEV					m_D3DDev;		//Direct3D　デバイス
 		HDC_Font				m_hdcFont;
 		HDC_Font::FONT_SIZE		m_fontSizeIndex;
 
-	public:
-		void Load ( LPDIRECT3DDEVICE9 d3dDevice );
-		void Rele ();
-		void Reset ( LPDIRECT3DDEVICE9 d3dDevice );
+		//ASCIIコードテクスチャ
+		TX		m_txAscii;
+		static const UINT	N_ASCII;	//アスキー文字(表示用128種)
+		static const UINT	N_ASCII_X;	//テクスチャ配置
+		static const UINT	N_ASCII_Y;	//テクスチャ配置
 
-		//頂点による描画
-		void DrawVertex ( LPDIRECT3DTEXTURE9& lpTexture, DxVertex4& vertex );
+	public:
+		void Load ( D3DDEV d3dDevice );
+		void Rele ();
+		void Reset ( D3DDEV d3dDevice );
 
 		//文字列をテクスチャに書込
-		void MakeStrTexture ( tstring& tstr, LPDIRECT3DTEXTURE9& lpTexture, DxVertex4& vertex );
+		void MakeStrTexture ( tstring& tstr, TX& lpTexture, DxVertexRect& vertex );
+
+		//Ascii文字列からテクスチャを作成
+		void MakeAsciiTexture ();
 
 		//文字データ取得
 		//引数 [in]	 LPTCHAR				: 1文字

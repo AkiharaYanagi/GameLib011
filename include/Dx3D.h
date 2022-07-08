@@ -40,7 +40,8 @@ namespace GAME
 	private:
 		using P_Dx3D = unique_ptr < Dx3D >;
 		static P_Dx3D		m_inst;		//シングルトンインスタンス(実体は.cppで定義)
-		Dx3D();		//private コンストラクタで通常の実体化は禁止
+		Dx3D ();		//private コンストラクタで通常の実体化は禁止
+		Dx3D ( const Dx3D& rhs ) = delete;		//コピーコンストラクタは削除
 	public:
 		~Dx3D();		//デストラクタはunique_ptrのためpublic
 		static void Create() { if ( ! m_inst ) { m_inst = P_Dx3D ( new Dx3D () ); } }

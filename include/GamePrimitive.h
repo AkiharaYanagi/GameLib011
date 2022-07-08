@@ -93,7 +93,7 @@ namespace GAME
 
 	class GamePrimitiveRect : public GameParticularPrimitive
 	{
-		P_Vx4		m_vertex;
+		P_VxRct		m_vertex;
 
 	public:
 		GamePrimitiveRect ();
@@ -101,7 +101,7 @@ namespace GAME
 		virtual ~GamePrimitiveRect ();
 
 //		DxVertex4& GetVertex4 () { return m_vertex; }
-		P_Vx4 GetpVertex4 () { return m_vertex; }
+		P_VxRct GetpVertex4 () { return m_vertex; }
 
 		void SetColor ( UINT index, D3DXCOLOR color)
 		{
@@ -194,8 +194,8 @@ namespace GAME
 	//-------------------------------------------------------------------------------------------------
 	class GamePrimitiveText : public GamePrimitiveRect
 	{
-		LPDIRECT3DTEXTURE9		m_texture;				//テクスチャ
-		tstring					m_tstr;					//文字列
+		TX				m_texture;				//テクスチャ
+		tstring			m_tstr;					//文字列
 
 		enum FONT_SIZE
 		{

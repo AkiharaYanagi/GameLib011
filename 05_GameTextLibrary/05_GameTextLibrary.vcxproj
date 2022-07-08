@@ -23,6 +23,7 @@
     <ClCompile Include="source\GameText.cpp" />
     <ClCompile Include="source\GameTextFile.cpp" />
     <ClCompile Include="source\OutlineFont.cpp" />
+    <ClCompile Include="source\StringTexture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\GameString.h" />
@@ -30,6 +31,7 @@
     <ClInclude Include="..\include\GameTextFile.h" />
     <ClInclude Include="..\include\GameTextLibrary.h" />
     <ClInclude Include="..\include\OutlineFont.h" />
+    <ClInclude Include="..\include\StringTexture.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

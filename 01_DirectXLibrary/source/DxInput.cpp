@@ -32,24 +32,8 @@ namespace GAME
 	void DxInput::Create ()
 	{
 		assert ( ! m_inst );
-//		m_inst = new DxInput;
-//		if ( ! m_inst ) { m_inst = make_unique < DxInput > (); }
 		if ( ! m_inst ) { m_inst = P_DxInput ( new DxInput () ); }
 	}
-#if 0
-
-
-	//-------------------------------------------------------------------------------------------------
-	//	シングルトン　インスタンス破棄
-	//-------------------------------------------------------------------------------------------------
-	void DxInput::Destroy ()
-	{
-//		if ( m_inst ) { delete m_inst; }
-//		m_inst = nullptr;
-		m_inst.reset ();
-	}
-#endif // 0
-
 
 	//-------------------------------------------------------------------------------------------------
 	//	コンストラクタ
@@ -70,14 +54,6 @@ namespace GAME
 	DxInput::~DxInput ()
 	{
 		Rele ();	//解放
-#if 0
-		if ( m_joystick ) { delete m_joystick; }
-		m_joystick = nullptr;
-		if ( m_keyboard ) { delete m_keyboard; }
-		m_keyboard = nullptr;
-		if ( m_mouse ) { delete m_mouse; }
-		m_mouse = nullptr;
-#endif // 0
 	}
 
 

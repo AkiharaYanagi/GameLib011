@@ -151,7 +151,9 @@ namespace GAME
 		{
 			//頂点情報の書込
 			void* pData = nullptr;
-			HRESULT hr = m_lpVertexBuffer->Lock ( 0, sizeof ( VX ) * m_vVx.size (), (void**)&pData, 0 );
+			HRESULT hr;
+
+			hr= m_lpVertexBuffer->Lock ( 0, sizeof ( VX ) * m_vVx.size (), (void**)&pData, 0 );
 			if ( FAILED ( hr ) ) { throw _T("頂点バッファのロック"); }
 
 			memcpy ( pData, m_vVx.data(), sizeof ( VX ) * m_vVx.size () );
@@ -244,7 +246,7 @@ namespace GAME
 
 
 //-------------------------------------------------------------------------------------------------
-	DxVertex4::DxVertex4 () : DxParticularVertex ( 4 )
+	DxVertexRect::DxVertexRect () : DxParticularVertex ( 4 )
 	{
 		//頂点の初期化
 		D3DXVECTOR2 pos = GetPos ();
@@ -257,12 +259,12 @@ namespace GAME
 		SetVertex ( 3, pos.x      , pos.y + m_h, 0.f, 1.f, 0xffffffff, 0.f, 1.f ); 
 	}
 
-	DxVertex4::~DxVertex4 ()
+	DxVertexRect::~DxVertexRect ()
 	{
 	}
 
 	//位置設定
-	void DxVertex4::ApplyPos ()
+	void DxVertexRect::ApplyPos ()
 	{
 		//位置の更新
 		D3DXVECTOR2 pos = GetPos ();
@@ -525,9 +527,6 @@ namespace GAME
 
 	DxPoliVertex::~DxPoliVertex ()
 	{
-//		if ( m_vec ) { delete [] m_vec; }
-//		m_vec = nullptr;
-
 		m_listVec.clear ();
 	}
 
@@ -551,18 +550,6 @@ namespace GAME
 		DxVertex::Load ();		//Reset時のみLoadを呼ぶ
 	}
 
-#if	0
-	//点の最大数を設定する
-	void DxPoliVertex::SetMaxVec ( UINT max )
-	{
-		m_maxVec = max;
-		m_vec = new D3DXVECTOR2 [ m_maxVec ];
-		m_numVec = m_maxVec;
-
-		//現在の点の個数の2倍で頂点を生成する
-		SetVertexNum ( m_numVec * 2 );
-	}
-#endif	//0
 
 	//点設定
 	void DxPoliVertex::SetVec ( UINT index, const D3DXVECTOR2& vec )
@@ -601,7 +588,6 @@ namespace GAME
 	}
 
 	//位置設定 リスト利用
-//	void DxPoliVertex::_ApplyPos ()
 	void DxPoliVertex::ApplyPos ()
 	{
 		//点の個数を取得
@@ -619,9 +605,9 @@ namespace GAME
 		ResetVertexNum ( num * 2 );
 
 		//四角点を４×(ｎ－１）個算出
-		D3DXVECTOR2** r = new D3DXVECTOR2* [ num - 1 ];
-		D3DXVECTOR2 vec[2];
-		std::list < D3DXVECTOR2 >::iterator it = m_listVec.begin ();
+		VEC2** r = new VEC2* [ num - 1 ];
+		VEC2 vec[2];
+		L_VEC2::iterator it = m_listVec.begin ();
 		for ( UINT i = 0; i < num - 1; ++i )
 		{
 			r[i] = new D3DXVECTOR2 [ 4 ];
@@ -633,7 +619,6 @@ namespace GAME
 
 
 		//頂点を２ｎ個算出
-//		UINT n = 2 * m_numVec;		//頂点個数
 		UINT n = 2 * num;		//頂点個数
 		D3DXVECTOR2* v = new D3DXVECTOR2 [ n ];
 
@@ -642,7 +627,6 @@ namespace GAME
 		v[1].x = r[0][1].x;
 		v[1].y = r[0][1].y;
 
-//		if ( m_numVec > 2 )
 		if ( num > 2 )
 		{
 			//交点
@@ -659,12 +643,6 @@ namespace GAME
 		v[n-2].y = r[num-2][2].y;
 		v[n-1].x = r[num-2][3].x;
 		v[n-1].y = r[num-2][3].y;
-#if	0
-		v[n-2].x = r[m_numVec-2][2].x;
-		v[n-2].y = r[m_numVec-2][2].y;
-		v[n-1].x = r[m_numVec-2][3].x;
-		v[n-1].y = r[m_numVec-2][3].y;
-#endif	//0
 
 		//位置の更新
 		for ( UINT i = 0; i < n; i++ )
@@ -674,7 +652,6 @@ namespace GAME
 
 		//解放
 		delete[] v;
-//		for ( UINT i = 0; i < m_numVec - 1; i++ )
 		for ( UINT i = 0; i < num - 1; i++ )
 		{
 			delete[] r[i];

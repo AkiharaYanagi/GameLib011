@@ -15,6 +15,8 @@
 //-------------------------------------------------------------------------------------------------
 namespace GAME
 {
+	//======================================================================================
+	//◆フォント
 
 	//フォントに関連付けたデバイスコンテキストハンドル
 	HDC_Font::HDC_Font () : m_font ( nullptr ), m_oldFont ( nullptr ), m_hdc ( nullptr )
@@ -25,7 +27,7 @@ namespace GAME
 	{
 	}
 
-	void HDC_Font::MakeFont (  UINT fontSize )
+	void HDC_Font::MakeFont ( UINT fontSize )
 	{
 		//すでに生成されているとき何もしない
 		if ( m_font != nullptr || m_oldFont != nullptr || m_hdc ) { return; }
@@ -62,29 +64,31 @@ namespace GAME
 	}
 
 
-//-------------------------------------------------------------------------------------------------
+	//======================================================================================
+	//◆GameText
+
+	//-------------------------------------------------------------------------------
 	//static実体
-	unique_ptr < GameText > GameText::m_instance = nullptr;
+	unique_ptr < GameText > GameText::m_inst = nullptr;
+	const UINT GameText::N_ASCII = 128;
+	const UINT GameText::N_ASCII_X = 8;
+	const UINT GameText::N_ASCII_Y = 16;
 
+	//-------------------------------------------------------------------------------
+	//シングルトン
 
+	//コンストラクタ
 	GameText::GameText ()
-		: m_lpD3DDevice(nullptr), m_fontSizeIndex ( HDC_Font::FONT_SIZE_8 )
+		: m_D3DDev (nullptr), m_fontSizeIndex ( HDC_Font::FONT_SIZE_8 )
 	{
 	}
 
-	GameText::~GameText ()
-	{
-	}
+	//-------------------------------------------------------------------------------
 
-	void GameText::Create ()
-	{
-		assert ( ! m_instance );	//既に存在していたらassert
-		m_instance = unique_ptr < GameText > ( new GameText () );
-	}
 
-	void GameText::Load ( LPDIRECT3DDEVICE9 d3dDevice )
+	void GameText::Load ( D3DDEV d3dDevice )
 	{
-		m_lpD3DDevice = d3dDevice;	//デバイスの解放は引数の元で行う
+		m_D3DDev = d3dDevice;	//デバイスの解放は引数の元で行う
 
 		//フォントの作成
 		m_hdcFont.MakeFont ( fontSizeArray[ HDC_Font::FONT_SIZE_24 ] );
@@ -107,26 +111,16 @@ namespace GAME
 #endif	//0
 	}
 
-	void GameText::Reset ( LPDIRECT3DDEVICE9 d3dDevice )
+	void GameText::Reset ( D3DDEV d3dDevice )
 	{
 		Rele ();
 		Load ( d3dDevice );
 	}
 
-
-	//------------------------------------------
-	//	頂点情報による描画
-	//------------------------------------------
-	void GameText::DrawVertex ( LPDIRECT3DTEXTURE9& lpTexture, DxVertex4& vertex )
-	{
-		vertex.DrawVertex ( lpTexture );
-	}
-
-
 	//------------------------------------------
 	//	文字列からテクスチャを作成
 	//------------------------------------------
-	void GameText::MakeStrTexture ( tstring& tstr, LPDIRECT3DTEXTURE9& texture, DxVertex4& vertex )
+	void GameText::MakeStrTexture ( tstring& tstr, TX& texture, DxVertexRect& vertex )
 	{
 		HRESULT hr;
 		UINT size = tstr.size();	//文字数
@@ -134,11 +128,14 @@ namespace GAME
 
 		if ( size == 0 ) { return; }	//サイズが０のときは何もしない
 
-		BYTE** pBmpArray = new BYTE* [size];
-		GLYPHMETRICS* gmArray = new GLYPHMETRICS [size];
+		BYTE** pBmpArray = nullptr;
+		GLYPHMETRICS* gmArray = nullptr;
 
 		try 
 		{
+			pBmpArray = new BYTE* [size];
+			gmArray = new GLYPHMETRICS [size];
+
 			//一文字につき、ビットマップ(new)とGLYPHMETRICSを取得
 			for ( UINT i = 0; i < size; i++ )
 			{
@@ -148,9 +145,6 @@ namespace GAME
 
 			//デバイスコンテキストに基づくテキストメトリクスを取得
 			TEXTMETRIC tm;
-#if	0
-			GetTextMetrics ( m_hdc, &tm );
-#endif	//0
 			GetTextMetrics ( m_hdcFont.GetHDC(), &tm );
 //			GetTextMetrics ( m_hdcFont[ m_fontSizeIndex ].GetHDC(), &tm );
 
@@ -163,16 +157,16 @@ namespace GAME
 			//今までのテクスチャを破棄
 			RELEASE ( texture );
 			//空のテクスチャ作成 (今回作成したテクスチャは呼び出し元で解放する)
-			hr = m_lpD3DDevice->CreateTexture ( textureWidth, tm.tmHeight, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &texture, nullptr );
+			hr = m_D3DDev->CreateTexture ( textureWidth, tm.tmHeight, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &texture, nullptr );
 			if ( FAILED ( hr ) )
 			{
 				DXTRACE ( hr, TEXT("D3DPOOL_DEFAULT テクスチャの作成失敗") );
-				hr = m_lpD3DDevice->CreateTexture ( textureWidth, tm.tmHeight, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &texture, nullptr );
+				hr = m_D3DDev->CreateTexture ( textureWidth, tm.tmHeight, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &texture, nullptr );
 				FAILED_DXTRACE_THROW( hr, TEXT("D3DPOOL_MANAGED テクスチャ作成に失敗\n") );
 			}
 
 			//書込
-			//テクスチャにフォントビットマップを書込
+			//テクスチャをロックしてフォントビットマップを書込
 			D3DLOCKED_RECT lockedRect;
 			hr = texture->LockRect ( 0, &lockedRect, nullptr, D3DLOCK_DISCARD );
 			if ( FAILED ( hr ) )
@@ -221,10 +215,74 @@ namespace GAME
 			OutputDebugString ( str );
 			////TRACE_F ( str );
 			DeleteGlyph ( size, pBmpArray, gmArray );
-			PostQuitMessage ( 0 );
+			//PostQuitMessage ( 0 );
 		}
 	}
 
+	//------------------------------------------
+	//	Ascii文字列から1枚テクスチャを作成
+	//------------------------------------------
+	void GameText::MakeAsciiTexture ()
+	{
+		HDC hdc = m_hdcFont.GetHDC ();
+
+		//フォントに対するテキストメトリクスを取得
+		TEXTMETRIC tm;
+		::GetTextMetrics ( hdc, & tm );
+
+		//グリフ(字体)メトリクスを取得
+		const MAT2 mat = { {0,1},{0,0},{0,0},{0,1} };
+		const UINT BMP_FMT = GGO_GRAY4_BITMAP;
+		GLYPHMETRICS gm;
+		DWORD bmpsize [ N_ASCII ] = { 0 };	//各サイズ
+		DWORD bmpsize_sum = 0;	//サイズ和
+
+		//対象文字コードに対し、ビットマップをnullptrにしてサイズだけを取得する
+		for ( UINT t = 0; t < N_ASCII; ++ t )
+		{
+			bmpsize [ t ] = ::GetGlyphOutline ( hdc, t, BMP_FMT, & gm, 0, nullptr, & mat );
+			bmpsize_sum += bmpsize [ t ];
+		}
+
+		//全体ビットマップ用BYTE配列ポインタ
+		unique_ptr < BYTE[] > ppBmpAscii = make_unique < BYTE [] >( bmpsize_sum );
+
+		//ビットマップを確保してから再取得
+		DWORD offset = 0;
+		for ( UINT t = 0; t < N_ASCII; ++ t )
+		{
+			DWORD size = bmpsize [ t ];
+			unique_ptr < BYTE [] > ppBmp = make_unique < BYTE [] > ( size );
+			::GetGlyphOutline ( hdc, t, BMP_FMT, & gm, bmpsize_sum, ppBmp.get(), & mat );
+
+			//全体にコピー
+			offset += size;
+			memcpy_s ( ppBmpAscii.get () + offset, size, ppBmp.get(), size );
+		}
+
+		//テクスチャの作成
+		HRESULT hr;
+		UINT w = 0;
+		UINT h = 0;
+		DWORD USAGE = D3DUSAGE_DYNAMIC;
+		D3DFORMAT D3DFMT = D3DFMT_A8R8G8B8;
+		D3DPOOL POOL = D3DPOOL_DEFAULT;
+		hr = m_D3DDev->CreateTexture ( w, h, 1, USAGE, D3DFMT, POOL, & m_txAscii, nullptr );
+		if ( FAILED ( hr ) )
+		{
+			DXTRACE ( hr, TEXT ( "D3DPOOL_DEFAULT テクスチャの作成失敗" ) );
+			hr = m_D3DDev->CreateTexture ( w, h, 1, 0, D3DFMT, D3DPOOL_MANAGED, & m_txAscii, nullptr );
+			FAILED_DXTRACE_THROW ( hr, TEXT ( "D3DPOOL_MANAGED テクスチャ作成に失敗\n" ) );
+		}
+
+		//ロックして書込
+		D3DLOCKED_RECT lockedRect;
+		hr = m_txAscii->LockRect ( 0, & lockedRect, nullptr, D3DLOCK_DISCARD );
+		::ZeroMemory ( lockedRect.pBits, lockedRect.Pitch * h );
+	}
+
+
+	//--------------------------------------------------
 	//一時グリフデータの解放
 	void GameText::DeleteGlyph ( UINT size, BYTE** pBmpArray, GLYPHMETRICS* gmArray ) const 
 	{
@@ -252,18 +310,13 @@ namespace GAME
 			UINT code = GetCode ( ptch );
 
 			//対象ビットマップをnullptrで呼び出し、サイズを取得する
-#if	0
-			DWORD bmpSize = GetGlyphOutline ( m_hdc, code, GGO_GRAY4_BITMAP, lpGm, 0, nullptr, &mat );
-#endif	//0
 			DWORD bmpSize = ::GetGlyphOutline ( m_hdcFont.GetHDC(), code, GGO_GRAY4_BITMAP, lpGm, 0, nullptr, &mat );
 //			DWORD bmpSize = ::GetGlyphOutline ( m_hdcFont[ m_fontSizeIndex ].GetHDC(), code, GGO_GRAY4_BITMAP, lpGm, 0, nullptr, &mat );
 			//フォントがなかった場合のエラー処理
 			if ( bmpSize == GDI_ERROR ) { throw TEXT("フォントビットマップの取得に失敗しました\n"); }
 
+			//ビットマップを確保してから再取得
 			*ppBmp = new BYTE[bmpSize];		//deleteは呼出側が行う
-#if	0
-			GetGlyphOutline ( m_hdc, code, GGO_GRAY4_BITMAP, lpGm, bmpSize, *ppBmp, &mat );
-#endif	//0
 			::GetGlyphOutline ( m_hdcFont.GetHDC(), code, GGO_GRAY4_BITMAP, lpGm, bmpSize, *ppBmp, &mat );
 //			::GetGlyphOutline ( m_hdcFont[ m_fontSizeIndex ].GetHDC(), code, GGO_GRAY4_BITMAP, lpGm, bmpSize, *ppBmp, &mat );
 		}

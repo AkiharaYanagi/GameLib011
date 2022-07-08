@@ -70,7 +70,7 @@ namespace GAME
 	//-------------------------------------------------------------------------------------------------
 	GamePrimitiveRect::GamePrimitiveRect ()
 	{
-		m_vertex = make_shared < DxVertex4 > ();
+		m_vertex = make_shared < DxVertexRect > ();
 		GameParticularPrimitive::SetVertex ( m_vertex );
 		m_vertex->SetRect ( 50, 50, 100, 200 );
 	}
@@ -150,7 +150,7 @@ namespace GAME
 		Rele ();
 		Init ();
 		GamePrimitiveRect::Reset ();
-		GameText::instance()->MakeStrTexture ( m_tstr, m_texture, *GetpVertex4 () );
+		GameText::Inst()->MakeStrTexture ( m_tstr, m_texture, *GetpVertex4 () );
 	}
 
 	void GamePrimitiveText::DrawVertex ()
@@ -165,7 +165,7 @@ namespace GAME
 		if ( m_tstr.compare ( tstr.c_str() ) )
 		{
 			m_tstr = tstr;
-			GameText::instance()->MakeStrTexture ( m_tstr, m_texture, *GetpVertex4 () );
+			GameText::Inst()->MakeStrTexture ( m_tstr, m_texture, *GetpVertex4 () );
 		}
 	}
 
@@ -176,7 +176,7 @@ namespace GAME
 		{
 			m_tstr.assign ( lpctstr );
 //			GameText::instance()->SetFontSize ( m_fontSize );
-			GameText::instance()->MakeStrTexture ( m_tstr, m_texture, *GetpVertex4 () );
+			GameText::Inst()->MakeStrTexture ( m_tstr, m_texture, *GetpVertex4 () );
 		}
 	}
 

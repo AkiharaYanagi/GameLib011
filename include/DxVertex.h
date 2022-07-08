@@ -22,6 +22,7 @@ namespace GAME
 	// 定数
 	//-------------------------------------------------------------------------------------------------
 	//VERTEXの状態を定義
+	// Flexible vertex format bits
 	#define FVF_CUSTOM ( D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1 )
 
 	//-------------------------------------------------------------------------------------------------
@@ -143,16 +144,16 @@ namespace GAME
 
 //-------------------------------------------------------------------------------------------------
 	//４頂点(矩形)
-	class DxVertex4 : public DxParticularVertex
+	class DxVertexRect : public DxParticularVertex
 	{
 		enum { VERTEX_NUM = 4 };
-		float					m_w;		//幅
-		float					m_h;		//高さ
+		float	m_w;	//幅
+		float	m_h;	//高さ
 
 	public:
-		DxVertex4 ();
-		DxVertex4 ( const DxVertex4& rhs ) = delete;
-		~DxVertex4 ();
+		DxVertexRect ();
+		DxVertexRect ( const DxVertexRect& rhs ) = delete;
+		~DxVertexRect ();
 
 		//位置指定
 		void SetRect ( float x, float y, float w, float h ) { SetPos ( x, y ); m_w = w; m_h = h; }
@@ -163,7 +164,8 @@ namespace GAME
 		void ApplyPos ();	//位置を適用して頂点をつくる
 	};
 
-	using P_Vx4 = shared_ptr < DxVertex4 >;
+	using VX_Rect = DxVertexRect;
+	using P_VxRct = shared_ptr < VX_Rect >;
 
 
 //-------------------------------------------------------------------------------------------------
@@ -278,7 +280,7 @@ namespace GAME
 
 	class DxPoliVertex : public DxVertex
 	{
-		float					m_w;		//一辺の長さ
+		float		m_w;		//一辺の長さ
 
 		//ｎ点
 //		UINT					m_maxVec;		//点の最大数
@@ -287,7 +289,7 @@ namespace GAME
 		//４(ｎ－１)角点
 		//２ｎ頂点
 
-		std::list < VEC2 >	m_listVec;		//点のリスト
+		L_VEC2		m_listVec;		//点のリスト
 
 	public:
 		DxPoliVertex ();
