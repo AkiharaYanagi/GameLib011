@@ -32,7 +32,12 @@ namespace GAME
 	// unsigned int
 	//-------------------------------------------------------------------------------------------------
 	using UINT = unsigned __int32;
-//	using UINT = unsigned __int64;
+//	using UINT64 = unsigned __int64;
+	typedef struct tagUSIZE
+	{
+		UINT w;
+		UINT h;
+	} USIZE;
 
 	using V_UINT = vector < UINT >;
 

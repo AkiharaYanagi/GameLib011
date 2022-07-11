@@ -102,6 +102,8 @@ namespace GAME
 		//Ascii文字列からテクスチャを作成
 		void MakeAsciiTexture ();
 		TX GetAsciiTx () { return m_txAscii; }
+		USIZE m_sizeTxAscii;
+		USIZE GetAsciiTxSize () const { return m_sizeTxAscii; }
 
 		//文字データ取得
 		//引数 [in]	 LPTCHAR				: 1文字

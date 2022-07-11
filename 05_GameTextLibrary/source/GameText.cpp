@@ -19,7 +19,8 @@ namespace GAME
 	//◆フォント
 
 	//フォントに関連付けたデバイスコンテキストハンドル
-	HDC_Font::HDC_Font () : m_font ( nullptr ), m_oldFont ( nullptr ), m_hdc ( nullptr )
+	HDC_Font::HDC_Font ()
+		: m_font ( nullptr ), m_oldFont ( nullptr ), m_hdc ( nullptr )
 	{
 	}
 
@@ -71,8 +72,8 @@ namespace GAME
 	//static実体
 	unique_ptr < GameText > GameText::m_inst = nullptr;
 	const UINT GameText::N_ASCII = 128;
-	const UINT GameText::N_ASCII_X = 8;
-	const UINT GameText::N_ASCII_Y = 16;
+	const UINT GameText::N_ASCII_X = 16;
+	const UINT GameText::N_ASCII_Y = 8;
 
 	//-------------------------------------------------------------------------------
 	//シングルトン
@@ -80,6 +81,7 @@ namespace GAME
 	//コンストラクタ
 	GameText::GameText ()
 		: m_D3DDev (nullptr), m_fontSizeIndex ( HDC_Font::FONT_SIZE_8 )
+		, m_sizeTxAscii ( { 0, 0 } )
 	{
 	}
 
@@ -240,28 +242,50 @@ namespace GAME
 		const UINT aaLv = 17;
 		GLYPHMETRICS gm;
 		short max_gm_x = 0;
+//		UINT max_gm_x = 0;
 		DWORD bmpsize [ N_ASCII ] = { 0 };	//各サイズ
-		DWORD bmpsize_sum = 0;	//サイズ和
 
-		//対象文字コードに対し、ビットマップをnullptrにしてサイズだけを取得する
+		//対象文字コードに対し、ビットマップ指定をnullptrにしてサイズだけを取得する
 		for ( UINT t = 0; t < N_ASCII; ++ t )
 		{
 			bmpsize [ t ] = ::GetGlyphOutline ( hdc, t, BMP_FMT, & gm, 0, nullptr, & mat );
 
 			//最大幅を保存
 			if ( max_gm_x < gm.gmCellIncX ) { max_gm_x = gm.gmCellIncX; }
-			TRACE_F ( _T("gmx = %d\n"), gm.gmCellIncX );
-
-			bmpsize_sum += bmpsize [ t ];
+//			if ( max_gm_x < gm.gmBlackBoxX ) { max_gm_x = gm.gmBlackBoxX; }
 		}
 		TRACE_F ( _T ( "max_gm_x = %d\n" ), max_gm_x );
 
-		//全体ビットマップ用BYTE配列ポインタ
-		unique_ptr < BYTE[] > ppBmpAscii = make_unique < BYTE[] > ( bmpsize_sum );
-		::ZeroMemory ( ppBmpAscii.get(), bmpsize_sum );
 
-		//ビットマップを確保してから再取得
-		DWORD offset = 0;
+		//テクスチャの作成
+		HRESULT hr;
+		UINT CH_W = max_gm_x;				//1文字サイズW
+		UINT CH_H = tm.tmHeight;			//1文字サイズH
+		UINT TX_W = CH_W * N_ASCII_X;		//テクスチャサイズW
+		UINT TX_H = CH_H * N_ASCII_Y;		//テクスチャサイズH
+		m_sizeTxAscii.w = TX_W;
+		m_sizeTxAscii.h = TX_H;
+
+		DWORD USAGE = D3DUSAGE_DYNAMIC;
+		D3DFORMAT D3DFMT = D3DFMT_A8R8G8B8;
+//		D3DPOOL POOL = D3DPOOL_DEFAULT;
+		D3DPOOL POOL = D3DPOOL_MANAGED;
+		hr = m_D3DDev->CreateTexture ( TX_W, TX_H, 1, USAGE, D3DFMT, POOL, & m_txAscii, nullptr );
+		if ( FAILED ( hr ) )
+		{
+			DXTRACE ( hr, TEXT ( "D3DPOOL_DEFAULT テクスチャの作成失敗" ) );
+			hr = m_D3DDev->CreateTexture ( TX_W, TX_H, 1, 0, D3DFMT, D3DPOOL_MANAGED, & m_txAscii, nullptr );
+			FAILED_DXTRACE_THROW ( hr, TEXT ( "D3DPOOL_MANAGED テクスチャ作成に失敗\n" ) );
+		}
+
+		//ロックして書込
+		D3DLOCKED_RECT lockedRect;
+		hr = m_txAscii->LockRect ( 0, & lockedRect, nullptr, D3DLOCK_DISCARD );
+		::ZeroMemory ( lockedRect.pBits, lockedRect.Pitch * TX_H/2 );
+		
+
+
+		//保存用ビットマップを確保してから再取得
 		for ( UINT t = 0; t < N_ASCII; ++ t )
 		{
 			DWORD size = bmpsize [ t ];
@@ -270,45 +294,80 @@ namespace GAME
 			unique_ptr < BYTE[] > ppBmp = make_unique < BYTE[] > ( size );
 			::GetGlyphOutline ( hdc, t, BMP_FMT, & gm, size, ppBmp.get(), & mat );
 
-			//全体にコピー
-			TRACE_F ( _T ( "offset = %d\n" ), offset );
-			memcpy_s ( ppBmpAscii.get() + offset, size, ppBmp.get(), size );
+			//テクスチャ位置
+			const UINT P = sizeof ( DWORD );	//1ピクセルを表すバイト数
+			const UINT LINE = P * TX_W;	//1ラインのバイト数
 
-			offset += size;
-		}
+			//グリフデータの読込バイト列(4バイト境界)からxy平面に展開する
+			UINT bmp_w = gm.gmBlackBoxX + ( P - ( gm.gmBlackBoxX % P ) ) % P;
+			UINT bmp_h = gm.gmBlackBoxY;
 
-		//テクスチャの作成
-		HRESULT hr;
-		UINT w = max_gm_x * N_ASCII_X;
-		UINT h = tm.tmHeight * N_ASCII_Y;
-		DWORD USAGE = D3DUSAGE_DYNAMIC;
-		D3DFORMAT D3DFMT = D3DFMT_A8R8G8B8;
-		D3DPOOL POOL = D3DPOOL_DEFAULT;
-		hr = m_D3DDev->CreateTexture ( w, h, 1, USAGE, D3DFMT, POOL, & m_txAscii, nullptr );
-		if ( FAILED ( hr ) )
-		{
-			DXTRACE ( hr, TEXT ( "D3DPOOL_DEFAULT テクスチャの作成失敗" ) );
-			hr = m_D3DDev->CreateTexture ( w, h, 1, 0, D3DFMT, D3DPOOL_MANAGED, & m_txAscii, nullptr );
-			FAILED_DXTRACE_THROW ( hr, TEXT ( "D3DPOOL_MANAGED テクスチャ作成に失敗\n" ) );
-		}
-
-		//ロックして書込
-		D3DLOCKED_RECT lockedRect;
-		hr = m_txAscii->LockRect ( 0, & lockedRect, nullptr, D3DLOCK_DISCARD );
-		::ZeroMemory ( lockedRect.pBits, lockedRect.Pitch * h );
-
-		//グリフデータの読込ビット列からxy平面に展開する
-		UINT bmp_w = gm.gmCellIncX + ( 4 - ( gm.gmCellIncX % 4 ) ) % 4;
-		UINT bmp_h = tm.tmHeight;
-
-		for ( UINT y = 0; y < bmp_h; ++ y )
-		{
-			for ( UINT x = 0; x < bmp_w; ++ x )
+			for ( UINT y = 0; y < bmp_h; ++ y )
 			{
-				UINT offsetBmp = x + bmp_w * y;
-				DWORD alpha = 255 * ppBmpAscii [ offsetBmp ] / ( aaLv - 1 );
+				for ( UINT x = 0; x < bmp_w; ++ x )
+				{
+					//----------------------------------------------
+					//Src : BMP位置
+					UINT offsetBmp = x + bmp_w * y;
+					DWORD alpha = ppBmp [ offsetBmp ] * 255 / ( aaLv - 1 );
+					DWORD color = 0x00ffffff | ( alpha << 24 );
+
+
+					//----------------------------------------------
+					//Dst : テクスチャ位置
+
+					//tによる基準位置
+					UINT by = LINE * CH_H * ( t / N_ASCII_X );
+					UINT bx = P * CH_W * ( t % N_ASCII_X );
+					UINT base_t = bx + by;
+
+					//TextMetricsによる差分位置
+					UINT tm_y = tm.tmAscent - gm.gmptGlyphOrigin.y;
+					UINT tm_x = gm.gmptGlyphOrigin.x;
+					UINT tmpt = P * tm_x + LINE * tm_y;
+
+					//x,yによる差分位置
+					UINT ox = P * x;
+					UINT oy = LINE * y;
+					UINT xypt = ox + oy;
+
+					UINT offset = base_t + tmpt + xypt;
+					LPBYTE adress = (LPBYTE)lockedRect.pBits + offset;
+
+					//コピー
+					memcpy_s ( adress, P, & color, P );
+				}
 			}
+
+#if 0
+			UINT tx_x = 0;
+			UINT tx_nx = 0;
+			UINT tx_y = 0;
+			UINT tx_ny = 0;
+			++ tx_x;
+			if ( tx_x <= N_ASCII_X )
+			{
+				tx_x = 0;
+				++ tx_y;
+			}
+			//テクスチャ位置
+			if ( ++ tx_nx == N_ASCII_X ) { tx_nx = 0; tx_x = 0; }
+			else { tx_x += bmp_w; }
+
+			tx_y += bmp_h;
+			for ( UINT y = 0; y < TX_H; ++ y )
+			{
+				for ( UINT x = 0; x < TX_W; ++ x )
+				{
+					DWORD color = 0xff000000 | ( x * ( 255 / TX_W ) );
+					UINT offset = P * x + P * TX_W * y;
+					LPVOID adress = (BYTE*)lockedRect.pBits + offset;
+					memcpy_s ( adress, P, & color, P );
+				}
+			}
+#endif // 0
 		}
+
 
 		//アンロック
 		hr = m_txAscii->UnlockRect ( 0 );
