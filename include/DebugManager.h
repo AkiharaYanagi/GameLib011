@@ -18,7 +18,6 @@
 #include <sstream>
 #include <assert.h>
 #include "GameLibConst.h"
-//#include "Format.h"
 
 //-------------------------------------------------------------------------------------------------
 // 宣言
@@ -78,9 +77,10 @@ namespace GAME
 
 
 //=================================================================================================
-	//IDEデバッグウィンドウ出力
+	//IDEデバッグウィンドウ出力 [ TRACE() ]
 	class DebugOutTrace
 	{
+#if 0
 		//--------------------------------------------------
 		//シングルトンパターン
 		DebugOutTrace () = default;
@@ -91,37 +91,29 @@ namespace GAME
 		static unique_ptr < DebugOutTrace > & instance() { return m_inst; }
 		static void Create () { if ( ! m_inst ) m_inst = unique_ptr < DebugOutTrace > ( new DebugOutTrace () ); }
 		//--------------------------------------------------
+#endif // 0
+
+		DebugOutTrace () = delete;	//staticクラスとして実体化禁止
+
+	public:
 
 		//文字列フォーマットを表示(Unicode)
-		void DebugOutf ( LPCTSTR format, ... );
+		static void DebugOutf ( LPCTSTR format, ... );
 
 		//文字列フォーマットを表示(char*)
-		void DebugOutchf ( LPCSTR format, ... );
-
-#if 0
-		template < typename... Args >
-		void DebugOutf ( LPCTSTR format, const Args&... args );
-#endif // 0
+		static void DebugOutchf ( LPCSTR format, ... );
 
 		//GetLastError()からのWIN32APIのエラーメッセージ表示
 		//引数：呼出側で__FILE__, __LINE__を指定
-		void OutputLastError ( LPCSTR file, DWORD line ) const;
+		static void OutputLastError ( LPCSTR file, DWORD line );
 	};
-
-#if 0
-	template < typename... Args >
-	void DebugOutTrace::DebugOutf ( LPCTSTR format, const Args&... args )
-	{
-		//デバッグウィンドウに出力
-		OutputDebugString ( Format::f ( format, args... ) );
-	}
-#endif // 0
 
 
 //シングルトンアクセス用
-#define TRACE		DebugOutTrace::instance()
-#define TRACE_F		DebugOutTrace::instance()->DebugOutf
-#define TRACE_CHF	DebugOutTrace::instance()->DebugOutchf
+//#define TRACE_F		DebugOutTrace::instance()->DebugOutf
+//#define TRACE_CHF	DebugOutTrace::instance()->DebugOutchf
+#define TRACE_F		DebugOutTrace::DebugOutf
+#define TRACE_CHF	DebugOutTrace::DebugOutchf
 
 
 }	//namespace GAME

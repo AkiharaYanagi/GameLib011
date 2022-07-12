@@ -10,7 +10,7 @@
 // ヘッダファイルのインクルード
 //-------------------------------------------------------------------------------------------------
 #include "DebugManager.h"
-//#include "Format.h"
+#include "Format.h"
 
 //-------------------------------------------------------------------------------------------------
 // 定義
@@ -87,38 +87,29 @@ namespace GAME
 
 
 	/*===========================================================================*/
-	//	IDEデバッグウィンドウ出力
+	//	IDEデバッグウィンドウ出力 [ TRACE() ]
 	/*===========================================================================*/
 
 	//------------------------------------------------
 	//staticの実体
 	//------------------------------------------------
-	unique_ptr < DebugOutTrace > DebugOutTrace::m_inst = nullptr;
+//	unique_ptr < DebugOutTrace > DebugOutTrace::m_inst = nullptr;
 
 	//文字列フォーマットを表示
 	void DebugOutTrace::DebugOutf ( LPCTSTR format, ... )
 	{
 		va_list args;	//可変長リスト
 		va_start ( args, format );	//文字列の先頭ポインタをセット
-
-			//UNICODE、マルチバイト汎用関数(t~)を用いるのに　<tchar.h>のインクルードが必要
-			int size = _vsctprintf ( format, args ) + 1;		//'\0'を最後につけたサイズを得る
-			unique_ptr < TCHAR[] > buf = make_unique < TCHAR[] > ( size );		//バッファを確保
-			_vstprintf_s ( buf.get (), size, format, args );	//バッファに書き込み
-
-			//デバッグウィンドウに出力
-			OutputDebugString ( buf.get () );
-
+		UP_TSTR buf = Format::Printf_Args ( format, args );
 		va_end ( args );	//可変長リスト終了
-	}
-#if 0
+
 		//デバッグウィンドウに出力
-		OutputDebugString ( Format::f ( format, args ) );
+		OutputDebugString ( buf.get () );
+//		OutputDebugString ( Format::f ( format, args ) );
 	}
-#endif // 0
 
 
-	//文字列フォーマットを表示
+	//文字列フォーマットを表示(char*)
 	void DebugOutTrace::DebugOutchf ( LPCSTR format, ... )
 	{
 		va_list args;	//可変長リスト
@@ -143,7 +134,7 @@ namespace GAME
 
 	//GetLastError()からのWIN32APIのエラーメッセージ表示
 	//引数：呼出側で__FILE__, __LINE__を指定
-	void DebugOutTrace::OutputLastError ( LPCSTR file, DWORD line ) const
+	void DebugOutTrace::OutputLastError ( LPCSTR file, DWORD line )
 	{
 		TCHAR filePath [ MAX_PATH ] = _T("");
 		size_t _PptNumOfCharConverted = 0;

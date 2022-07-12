@@ -90,6 +90,8 @@ namespace GAME
 		static const UINT	N_ASCII;	//アスキー文字(表示用128種)
 		static const UINT	N_ASCII_X;	//テクスチャ配置
 		static const UINT	N_ASCII_Y;	//テクスチャ配置
+		USIZE		m_sizeTxChar;		//1文字サイズ
+		USIZE		m_sizeTxAscii;		//統合テクスチャサイズ
 
 	public:
 		void Load ( D3DDEV d3dDevice );
@@ -102,8 +104,8 @@ namespace GAME
 		//Ascii文字列からテクスチャを作成
 		void MakeAsciiTexture ();
 		TX GetAsciiTx () { return m_txAscii; }
-		USIZE m_sizeTxAscii;
 		USIZE GetAsciiTxSize () const { return m_sizeTxAscii; }
+		USIZE GetCharTxSize () const { return m_sizeTxChar; }
 		VEC2 GetChToPos ( char ch );
 
 		//文字データ取得

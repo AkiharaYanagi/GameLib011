@@ -105,7 +105,7 @@ namespace GAME
 		//除算数の設定
 		void SetRhw ( UINT index, float rhw );
 
-		//テクスチャ座標の設定
+		//テクスチャ座標の設定(0.f~1.f)
 		void SetTexturePos ( UINT index, float u, float v );
 
 		//更新フラグ

@@ -12,7 +12,7 @@
 #include "GameSystem.h"
 #include "DebugOutGameWindow.h"
 #include "AppSettingFile.h"
-#include "GameGraphicArray.h"
+//#include "GameGraphicArray.h"
 #include "GameGraphicList.h"
 
 //-------------------------------------------------------------------------------------------------
@@ -56,7 +56,7 @@ namespace GAME
 	
 		//ゲーム画面デバッグ表示の初期化
 		DebugOutGameWindow::Create ();
-		DebugOutGameWindow::instance()->Load ();
+		DebugOutGameWindow::Inst()->Load ();
 
 		//サウンドの生成
 		DxSound::Create ();
@@ -110,7 +110,7 @@ namespace GAME
 //		GRPARY_RESET ();
 		GRPLST_RESET ();
 		GameText::Inst()->Reset ( Dx3D::instance()->GetDevice() );
-		DebugOutGameWindow::instance()->Reset( Dx3D::instance()->GetDevice() );
+		DebugOutGameWindow::Inst()->Reset( Dx3D::instance()->GetDevice() );
 		KeyInput::instance()->Reset ();
 
 		if ( m_pGameMain ) { m_pGameMain->Reset(); }
@@ -137,20 +137,20 @@ namespace GAME
 
 		//----------------------------------------------
 		// 'T'キーでタイマー表示切替
-//		static bool bTimer = false;
 		static int time = 0;
 		if( ::GetAsyncKeyState('T') & 0x0001 )
 		{
-//			bTimer ^= true;
 			m_bDispTimer ^= true;
 		}
 		if( m_bDispTimer )
 		{
-			DBGOUT_WND_F ( 0, _T("time = %d"), time );
+//			DBGOUT_WND_F ( 0, _T("time = %d"), time );
+			DBGOUT_WND->DebugOutWnd_Time ( _T ( "time = %d" ), time );
 		}
 		else
 		{
-			DBGOUT_WND_F ( 0, _T("") );
+//			DBGOUT_WND_F ( 0, _T("") );
+			DBGOUT_WND->DebugOutWnd_Time ( _T ( "" ) );
 		}
 
 		//----------------------------------------------
@@ -171,7 +171,7 @@ namespace GAME
 		//----------------------------------------------
 
 		//ゲーム画面におけるデバッグ表示の動作
-		DebugOutGameWindow::instance()->Move ();
+		DebugOutGameWindow::Inst()->Move ();
 #if	0
 		TextFile::instance()->Move ();
 #endif	//0
@@ -195,7 +195,7 @@ namespace GAME
 			//頂点描画
 			m_pGameMain->DrawVertex ();			//ゲームメイン以下のタスクによる頂点描画
 
-			DebugOutGameWindow::instance()->DrawVertex ();	//ゲーム画面上のデバッグ表示
+			DebugOutGameWindow::Inst()->DrawVertex ();	//ゲーム画面上のデバッグ表示
 		}
 		Dx3D::instance()->EndScene ();		//描画終了
 	}

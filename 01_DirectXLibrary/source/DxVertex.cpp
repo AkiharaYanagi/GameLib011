@@ -265,6 +265,8 @@ namespace GAME
 
 	void DxVertexRect::SetTxUVWH ( float u, float v, float w, float h )
 	{
+		//@info		TxÇÃuvç¿ïWÇÕ [ 0.0f ~ 1.0f ] Ç≈ê≥ãKâª
+
 		SetTexturePos ( 0, u + w, v		);
 		SetTexturePos ( 1, u + w, v + h );
 		SetTexturePos ( 2, u	, v		);

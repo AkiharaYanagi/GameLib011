@@ -74,16 +74,13 @@ namespace GAME
 
 
 		UINT index = 0;
-		float pos_x = 0;
+		float pos_x = 50;
 		for ( P_VxRct pVx : m_vpVx )
 		{
 			pVx->Load ();
-			pVx->SetPos ( pos_x, 30 );
+			pVx->SetPos ( pos_x, 130 );
 			pos_x += 12;
-
-			pVx->SetSize ( 100, 50 );
-			pVx->SetAllColor ( 0xffffff00L | ++index * 255 / DebugVertexNum );
-//			pVx->SetAllColor ( 0xffffffff );
+			pVx->SetAllColor ( 0xffff00ffL | ++ index * 255 / DebugVertexNum );
 		}
 	}
 
@@ -114,9 +111,27 @@ namespace GAME
 			m_vertex[i].SetVertexBuffer ();
 		}
 
+//		m_testVx.SetPos ( VEC2 ( 500, 300 ) );
+//		m_testVx.ApplyPos ();
 
 		m_testVx.Move ();
-		for ( P_VxRct pVx : m_vpVx ) { pVx->Move (); }
+
+		char ch = 32;
+		for ( P_VxRct pVx : m_vpVx )
+		{
+#if 0
+			VEC2 pos = GameText::Inst ()->GetChToPos ( ch ++ );
+			USIZE ch = GameText::Inst ()->GetCharTxSize ();
+			USIZE all = GameText::Inst ()->GetAsciiTxSize ();
+			float x = pos.x / (float)all.w;
+			float y = pos.y / (float)all.h;
+			float u = ch.w  / (float)all.w;
+			float v = ch.h  / (float)all.h;
+			pVx->SetTxUVWH ( x, y, u, v );
+			pVx->SetSize ( 1.f * ch.w, 1.f * ch.h );
+#endif // 0
+			pVx->Move (); 
+		}
 	}
 
 	void DebugOutGameWindow::DrawVertex ()
@@ -124,7 +139,7 @@ namespace GAME
 		for ( UINT i = 0; i < DebugTextNum; ++i )
 		{
 			//文字列が空なら何もしないで返す
-			if ( ! m_tstr[i].compare ( TEXT("") ) ) { continue; }
+			if ( ! m_tstr[i].compare ( _T("") ) ) { continue; }
 
 			//４頂点にテクスチャ描画
 			m_vertex[i].DrawVertex ( m_texture[i] );
@@ -132,15 +147,10 @@ namespace GAME
 
 
 //		m_testVx.DrawVertex ( m_testTx );
-//		m_testVx.SetPos ( VEC2 ( 500, 300 ) );
-//		m_testVx.ApplyPos ();
-		m_testVx.DrawVertex ( m_testTx );
-		char ch = 0;
+
 		for ( P_VxRct pVx : m_vpVx )
 		{
-//			VEC2 pos = GameText::Inst ()->GetChToPos ( ch ++ );
-//	//		pVx->SetTxUVWH ( pos.x, pos.y, 10, 20 );
-			pVx->DrawVertex ( m_testTx );
+			pVx->DrawVertex ( GameText::Inst()->GetAsciiTx () );
 		}
 	}
 
@@ -148,47 +158,87 @@ namespace GAME
 	//文字列設定
 	void DebugOutGameWindow::SetStr ( UINT index, LPCTSTR lpctstr )
 	{
-		//現在の文字列と比較して異なる場合新たにテクスチャを作成
-		if ( m_tstr[index].compare ( lpctstr ) )
-		{
-			m_tstr[index].assign ( lpctstr );
-			GameText::Inst()->MakeStrTexture ( m_tstr[index], m_texture[index], m_vertex[index] );
+		//現在の文字列と比較して同じ場合何もしない
+		if ( ! m_tstr [ index ].compare ( lpctstr ) ) { return; }
+
+		//新たにテクスチャを作成
+		m_tstr[index].assign ( lpctstr );
+		GameText::Inst()->MakeStrTexture ( m_tstr[index], m_texture[index], m_vertex[index] );
 
 #if 0
-			OutlineFont::Inst ()->SetParam ( 40, 1, 1 );
+		OutlineFont::Inst ()->SetParam ( 40, 1, 1 );
 //			OutlineFont::Inst ()->SetFontFace ( _T ( "メイリオ" ) );
 
-			m_texture[index] = OutlineFont::Inst ()->Make ( m_tstr [ index ].c_str (), 0xffffffff, 0xffffffff );
-			POINT size = OutlineFont::Inst ()->GetSize ();
+		m_texture[index] = OutlineFont::Inst ()->Make ( m_tstr [ index ].c_str (), 0xffffffff, 0xffffffff );
+		POINT size = OutlineFont::Inst ()->GetSize ();
 
-			m_vertex [ index ].SetSize ( 1.f * size.x, 1.f * size.y );
-			m_vertex [ index ].ApplyPos ();
+		m_vertex [ index ].SetSize ( 1.f * size.x, 1.f * size.y );
+		m_vertex [ index ].ApplyPos ();
 #endif // 0
-		}
 	}
 
 	void DebugOutGameWindow::SetStr ( UINT index, tstring& tstr )
 	{
 		SetStr ( index, tstr.c_str () );
 	}
+	void DebugOutGameWindow::SetStr ( UINT index, UP_TSTR pstr )
+	{
+		SetStr ( index, pstr.get () );
+	}
 
 
 	void DebugOutGameWindow::DebugOutf ( UINT index, LPCTSTR format, ... )
 	{
+		//文字列フォーマット
 		va_list args;	//可変長リスト
 		va_start ( args, format );	//文字列の先頭ポインタをセット
-
-		//Unicode（ワイド文字）対応　_vsc w printf() / マルチバイト文字対応 _vscprintf()
-		int size = _vsctprintf ( format, args ) + 1;		//'\0'を最後につけたサイズを得る
-		TCHAR* buf = new TCHAR[size];		//バッファを確保
-		//Unicode（ワイド文字）対応　vs w printf_s() / マルチバイト文字対応 vswprintf_s()
-		_vstprintf_s ( buf, size, format, args );	//バッファに書き込み
+		UP_TSTR p = Format::Printf_Args ( format, args );
+		va_end ( args );
 
 		//テキストの設定
-		SetStr ( index, buf );
+		SetStr ( index, p.get () );
+	}
 
+	void DebugOutGameWindow::DebugOutWnd_Time ( LPCTSTR format, ... )
+	{
+		va_list args;
+		va_start ( args, format );	//文字列の先頭ポインタをセット
+		UP_TSTR p = Format::Printf_Args ( format, args );
 		va_end ( args );
-		delete[] buf;
+
+		UINT index = 0;
+		LPTCH tch = p.get ();
+
+		TCHAR t = *tch;
+		UINT size = 0;
+		while ( t != '\0' )
+		{
+			t = *(tch + (index++));
+			++ size;
+		}
+
+
+		USIZE ch = GameText::Inst ()->GetCharTxSize ();
+		USIZE all = GameText::Inst ()->GetAsciiTxSize ();
+		float u = ch.w / (float)all.w;
+		float v = ch.h / (float)all.h;
+
+		index = 0;
+		t = *tch;
+		while ( t != '\0' && index < size )
+		{
+			UINT code = GameText::Inst()->GetCode ( tch + index );
+
+			VEC2 pos = GameText::Inst ()->GetChToPos ( code );
+			float x = pos.x / (float)all.w;
+			float y = pos.y / (float)all.h;
+			
+			P_VxRct pVx = m_vpVx [ index ];
+			pVx->SetTxUVWH ( x, y, u, v );
+			pVx->SetSize ( 1.f * ch.w, 1.f * ch.h );
+			
+			++ index;
+		}
 	}
 
 	void DebugOutGameWindow::Off ()
@@ -199,7 +249,6 @@ namespace GAME
 			m_vertex[i].Rele ();
 		}
 	}
-
 
 }	//namespace GAME
 

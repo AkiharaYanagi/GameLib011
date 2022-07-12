@@ -258,14 +258,16 @@ namespace GAME
 
 
 		//テクスチャの作成
-		HRESULT hr;
 		UINT CH_W = max_gm_x;				//1文字サイズW
 		UINT CH_H = tm.tmHeight;			//1文字サイズH
 		UINT TX_W = CH_W * N_ASCII_X;		//テクスチャサイズW
 		UINT TX_H = CH_H * N_ASCII_Y;		//テクスチャサイズH
+		m_sizeTxChar.w = CH_W;
+		m_sizeTxChar.h = CH_H;
 		m_sizeTxAscii.w = TX_W;
 		m_sizeTxAscii.h = TX_H;
 
+		HRESULT hr;
 		DWORD USAGE = D3DUSAGE_DYNAMIC;
 		D3DFORMAT D3DFMT = D3DFMT_A8R8G8B8;
 //		D3DPOOL POOL = D3DPOOL_DEFAULT;
@@ -311,7 +313,6 @@ namespace GAME
 					UINT offsetBmp = x + bmp_w * y;
 					DWORD alpha = ppBmp [ offsetBmp ] * 255 / ( aaLv - 1 );
 					DWORD color = 0x00ffffff | ( alpha << 24 );
-
 
 					//----------------------------------------------
 					//Dst : テクスチャ位置
@@ -413,11 +414,11 @@ namespace GAME
 #endif	//_UNICODE
 	}
 
-	//ASCIIからテクスチャ位置を取得
+
 	VEC2 GameText::GetChToPos ( char ch )
 	{
-		float x = 1.f * m_sizeTxAscii.w / N_ASCII_X * ( ch % N_ASCII_X );
-		float y = 1.f * m_sizeTxAscii.h / N_ASCII_X * ( ch / N_ASCII_X );
+		float x = 1.f * m_sizeTxChar.w * (ch % N_ASCII_X);
+		float y = 1.f * m_sizeTxChar.h * (ch / N_ASCII_X);
 		return VEC2 ( x, y );
 	}
 

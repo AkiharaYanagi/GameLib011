@@ -10,6 +10,7 @@
 //-------------------------------------------------------------------------------------------------
 // ヘッダファイルのインクルード
 //-------------------------------------------------------------------------------------------------
+#include "DebugLibrary.h"
 #include "Dx3D.h"
 #include "DxVertex.h"
 #include "GameTextLibrary.h"
@@ -20,6 +21,9 @@
 //-------------------------------------------------------------------------------------------------
 namespace GAME 
 {
+
+	using UP_CTSTR = unique_ptr < TCHAR >;
+
 
 	class DebugOutGameWindow
 	{
@@ -33,7 +37,7 @@ namespace GAME
 	public:
 		~DebugOutGameWindow ();
 		static void Create();
-		static P_DBG_WND & instance() { return m_inst; }
+		static P_DBG_WND & Inst() { return m_inst; }
 	//--------------------------------------------------
 
 	private:
@@ -69,6 +73,7 @@ namespace GAME
 		//文字列指定
 		void SetStr ( UINT index, LPCTSTR lpctstr );
 		void SetStr ( UINT index, tstring& tstr );
+		void SetStr ( UINT index, UP_TSTR pstr );
 
 		//位置指定
 		void SetPos ( UINT index, float x, float y ) { m_vertex[index].SetPos ( x, y ); }
@@ -76,17 +81,20 @@ namespace GAME
 		//画面にテキスト描画する文字列フォーマットを設定
 		void DebugOutf ( UINT index, LPCTSTR format, ... );
 
+		//固定表示 : 稼働時間[F]
+		void DebugOutWnd_Time ( LPCTSTR format, ... );
+
 		//非表示
 		void Off ();
-
 	};
 
 	using DBGO_WND = DebugOutGameWindow;
 
+
 //シングルトンアクセス用
-#define DBGOUT_WND		DebugOutGameWindow::instance()
-#define DBGOUT_WND_F	DebugOutGameWindow::instance()->DebugOutf
-//#define TRACEW_CHF	DebugOutGameWindow::instance()->DebugOutchf
+#define DBGOUT_WND		DBGO_WND::Inst()
+#define DBGOUT_WND_F	DBGO_WND::Inst()->DebugOutf
+
 
 }	//namespace GAME
 

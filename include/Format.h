@@ -20,12 +20,18 @@ namespace GAME
 	typedef shared_ptr < TOSS > P_TOSS;
 
 
+	//配列として < TCHAR[] > で宣言する
+	using UP_TSTR = unique_ptr < TCHAR[] >;
+
+
 	class Format
 	{
+		Format () = delete;	//staticクラスとして実体化禁止
+
 		static TOSS		m_toss;
 
 		//再帰末端
-		static void _f ( const TCHAR * tstr )
+		static void _f ( LPCTSTR tstr )
 		{
 			m_toss << *(tstr++);
 			return;
@@ -33,7 +39,7 @@ namespace GAME
 
 		//再帰用
 		template < typename First, typename... Rest >
-		static void _f ( const TCHAR * tstr, const First & first, const Rest&... rest )
+		static void _f ( LPCTSTR tstr, const First & first, const Rest&... rest )
 		{
 			while ( *tstr )
 			{
@@ -53,7 +59,7 @@ namespace GAME
 	public:
 		
 		template < typename... Args >
-		static void Addf ( const TCHAR * tstr, const Args&... args )
+		static void Addf ( LPCTSTR tstr, const Args&... args )
 		{
 			_f ( tstr, args... );
 		}
@@ -61,15 +67,18 @@ namespace GAME
 
 		//フォーマットを取得
 		template < typename... Args >
-		static LPCTSTR f ( const TCHAR * tstr, const Args&... args )
+		static LPCTSTR f ( LPCTSTR tstr, const Args&... args )
 		{
 			m_toss.clear ();
 			_f ( tstr, args... );
 			return m_toss.str().c_str ();
 		}
 
-		//va_list
-		unique_ptr < TCHAR[] > DebugOutf ( LPCTSTR format, ... );
+		//---------------------------------------------------------------
+		//va_list 可変引数
+		static UP_TSTR GetFormatStr ( LPCTSTR format, ... );
+		
+		static UP_TSTR Printf_Args ( LPCTSTR format, va_list args );
 	};
 
 
