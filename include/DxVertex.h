@@ -160,12 +160,13 @@ namespace GAME
 		void SetWidth ( float w ) { m_w = w; }
 		void SetHeight ( float h ) { m_h = h; }
 		void SetSize ( float w, float h ) { m_w = w; m_h = h; }
+		void SetTxUVWH ( float u, float v, float w, float h );
 
 		void ApplyPos ();	//位置を適用して頂点をつくる
 	};
 
-	using VX_Rect = DxVertexRect;
-	using P_VxRct = shared_ptr < VX_Rect >;
+	using Vx_Rect = DxVertexRect;
+	using P_VxRct = shared_ptr < Vx_Rect >;
 
 
 //-------------------------------------------------------------------------------------------------

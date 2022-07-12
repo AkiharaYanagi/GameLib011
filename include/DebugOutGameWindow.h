@@ -42,10 +42,11 @@ namespace GAME
 		enum Const_DebugOutGameWindow
 		{
 			DebugTextNum = 15,
+			DebugVertexNum = 64,
 		};
 	private:
 		TX			m_texture[DebugTextNum];	//テクスチャ
-		VX_Rect		m_vertex[DebugTextNum];		//頂点処理オブジェクト
+		Vx_Rect		m_vertex[DebugTextNum];		//頂点処理オブジェクト
 		tstring		m_tstr[DebugTextNum];		//文字列
 
 		//デバッグ用固定表示
@@ -53,7 +54,8 @@ namespace GAME
 		//TIme
 
 		TX			m_testTx;
-		VX_Rect		m_testVx;
+		Vx_Rect		m_testVx;
+		vector < P_VxRct >		m_vpVx;
 
 	public:
 		void Load ();

@@ -29,6 +29,11 @@ namespace GAME
 			m_texture[i] = nullptr;
 			m_tstr[i] = _T("");
 		}
+
+		for ( UINT i = 0; i < DebugVertexNum; ++ i )
+		{
+			m_vpVx.push_back ( make_shared < Vx_Rect > () );
+		}
 	}
  
 	//デストラクタ
@@ -45,7 +50,6 @@ namespace GAME
 	}
 	//--------------------------------------------------
 
-
 	//読込
 	void DebugOutGameWindow::Load ()
 	{
@@ -54,14 +58,33 @@ namespace GAME
 			m_vertex[i].Load ();		//頂点バッファの作成
 			m_vertex[i].SetPos ( 0, 20.f * i );
 		}
+		for ( UINT i = 0; i < DebugTextNum; ++i )
+		{
+			GameText::Inst()->MakeStrTexture ( m_tstr[i], m_texture[i], m_vertex[i] );
+		}
 //		m_tstr.assign ( TEXT("DebugOutGameWindow::Init _  ()") );
 //		GameText::instance()->MakeStrTexture ( m_tstr, m_texture, m_vertex );
 
 
-//		tstring testStr = _T ( "Test String" );
-//		m_testVx.Load ();
-//		m_testVx.SetPos ( 100, 100 );
-//		GameText::instance ()->MakeStrTexture ( testStr, m_testTx, m_testVx );
+		tstring testStr = _T ( "Test String" );
+		m_testVx.Load ();
+		m_testVx.SetPos ( 100, 400 );
+		m_testVx.SetAllColor ( 0xffff0000 );
+		GameText::Inst ()->MakeStrTexture ( testStr, m_testTx, m_testVx );
+
+
+		UINT index = 0;
+		float pos_x = 0;
+		for ( P_VxRct pVx : m_vpVx )
+		{
+			pVx->Load ();
+			pVx->SetPos ( pos_x, 30 );
+			pos_x += 12;
+
+			pVx->SetSize ( 100, 50 );
+			pVx->SetAllColor ( 0xffffff00L | ++index * 255 / DebugVertexNum );
+//			pVx->SetAllColor ( 0xffffffff );
+		}
 	}
 
 	void DebugOutGameWindow::Rele ()
@@ -73,17 +96,14 @@ namespace GAME
 		}
 
 
-//		m_testVx.Rele ();
+		m_testVx.Rele ();
+		for ( P_VxRct pVx : m_vpVx ) { pVx->Rele (); }
 	}
 
 	void DebugOutGameWindow::Reset ( D3DDEV d3dDevice )
 	{
 		Rele ();
 		Load ();
-		for ( UINT i = 0; i < DebugTextNum; ++i )
-		{
-			GameText::Inst()->MakeStrTexture ( m_tstr[i], m_texture[i], m_vertex[i] );
-		}
 	}
 
 	void DebugOutGameWindow::Move ()
@@ -95,7 +115,8 @@ namespace GAME
 		}
 
 
-//		m_testVx.Move ();
+		m_testVx.Move ();
+		for ( P_VxRct pVx : m_vpVx ) { pVx->Move (); }
 	}
 
 	void DebugOutGameWindow::DrawVertex ()
@@ -110,7 +131,17 @@ namespace GAME
 		}
 
 
-//		m_testVx.DrawVertex ( nullptr );
+//		m_testVx.DrawVertex ( m_testTx );
+//		m_testVx.SetPos ( VEC2 ( 500, 300 ) );
+//		m_testVx.ApplyPos ();
+		m_testVx.DrawVertex ( m_testTx );
+		char ch = 0;
+		for ( P_VxRct pVx : m_vpVx )
+		{
+//			VEC2 pos = GameText::Inst ()->GetChToPos ( ch ++ );
+//	//		pVx->SetTxUVWH ( pos.x, pos.y, 10, 20 );
+			pVx->DrawVertex ( m_testTx );
+		}
 	}
 
 
@@ -121,8 +152,9 @@ namespace GAME
 		if ( m_tstr[index].compare ( lpctstr ) )
 		{
 			m_tstr[index].assign ( lpctstr );
-//			GameText::instance()->MakeStrTexture ( m_tstr[index], m_texture[index], m_vertex[index] );
+			GameText::Inst()->MakeStrTexture ( m_tstr[index], m_texture[index], m_vertex[index] );
 
+#if 0
 			OutlineFont::Inst ()->SetParam ( 40, 1, 1 );
 //			OutlineFont::Inst ()->SetFontFace ( _T ( "メイリオ" ) );
 
@@ -131,6 +163,7 @@ namespace GAME
 
 			m_vertex [ index ].SetSize ( 1.f * size.x, 1.f * size.y );
 			m_vertex [ index ].ApplyPos ();
+#endif // 0
 		}
 	}
 

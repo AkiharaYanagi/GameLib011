@@ -322,15 +322,16 @@ namespace GAME
 					UINT base_t = bx + by;
 
 					//TextMetricsによる差分位置
-					UINT tm_y = tm.tmAscent - gm.gmptGlyphOrigin.y;
-					UINT tm_x = gm.gmptGlyphOrigin.x;
-					UINT tmpt = P * tm_x + LINE * tm_y;
+					UINT tm_y = LINE * (tm.tmAscent - gm.gmptGlyphOrigin.y);
+					UINT tm_x = P * ( gm.gmptGlyphOrigin.x );
+					UINT tmpt = tm_x + tm_y;
 
 					//x,yによる差分位置
-					UINT ox = P * x;
 					UINT oy = LINE * y;
+					UINT ox = P * x;
 					UINT xypt = ox + oy;
 
+					//書込位置
 					UINT offset = base_t + tmpt + xypt;
 					LPBYTE adress = (LPBYTE)lockedRect.pBits + offset;
 
@@ -338,36 +339,7 @@ namespace GAME
 					memcpy_s ( adress, P, & color, P );
 				}
 			}
-
-#if 0
-			UINT tx_x = 0;
-			UINT tx_nx = 0;
-			UINT tx_y = 0;
-			UINT tx_ny = 0;
-			++ tx_x;
-			if ( tx_x <= N_ASCII_X )
-			{
-				tx_x = 0;
-				++ tx_y;
-			}
-			//テクスチャ位置
-			if ( ++ tx_nx == N_ASCII_X ) { tx_nx = 0; tx_x = 0; }
-			else { tx_x += bmp_w; }
-
-			tx_y += bmp_h;
-			for ( UINT y = 0; y < TX_H; ++ y )
-			{
-				for ( UINT x = 0; x < TX_W; ++ x )
-				{
-					DWORD color = 0xff000000 | ( x * ( 255 / TX_W ) );
-					UINT offset = P * x + P * TX_W * y;
-					LPVOID adress = (BYTE*)lockedRect.pBits + offset;
-					memcpy_s ( adress, P, & color, P );
-				}
-			}
-#endif // 0
 		}
-
 
 		//アンロック
 		hr = m_txAscii->UnlockRect ( 0 );
@@ -439,6 +411,14 @@ namespace GAME
 		return code;
 
 #endif	//_UNICODE
+	}
+
+	//ASCIIからテクスチャ位置を取得
+	VEC2 GameText::GetChToPos ( char ch )
+	{
+		float x = 1.f * m_sizeTxAscii.w / N_ASCII_X * ( ch % N_ASCII_X );
+		float y = 1.f * m_sizeTxAscii.h / N_ASCII_X * ( ch / N_ASCII_X );
+		return VEC2 ( x, y );
 	}
 
 

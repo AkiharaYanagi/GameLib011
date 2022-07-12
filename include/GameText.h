@@ -104,6 +104,7 @@ namespace GAME
 		TX GetAsciiTx () { return m_txAscii; }
 		USIZE m_sizeTxAscii;
 		USIZE GetAsciiTxSize () const { return m_sizeTxAscii; }
+		VEC2 GetChToPos ( char ch );
 
 		//文字データ取得
 		//引数 [in]	 LPTCHAR				: 1文字
