@@ -141,6 +141,7 @@ namespace GAME
 		if( ::GetAsyncKeyState('T') & 0x0001 )
 		{
 			m_bDispTimer ^= true;
+			DBGOUT_WND->SetbDispTime ( m_bDispTimer );
 		}
 		if( m_bDispTimer )
 		{

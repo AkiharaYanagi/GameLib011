@@ -59,6 +59,8 @@ namespace GAME
 
 		TX			m_testTx;
 		Vx_Rect		m_testVx;
+
+		bool		m_bTime;
 		vector < P_VxRct >		m_vpVx;
 
 	public:
@@ -83,9 +85,13 @@ namespace GAME
 
 		//ŒÅ’è•\Ž¦ : ‰Ò“­ŽžŠÔ[F]
 		void DebugOutWnd_Time ( LPCTSTR format, ... );
+		void SetbDispTime ( bool b ) { m_bTime = b; }
 
 		//”ñ•\Ž¦
 		void Off ();
+
+	private:
+		UINT Size ( LPCTSTR lpctstr ) const;
 	};
 
 	using DBGO_WND = DebugOutGameWindow;
