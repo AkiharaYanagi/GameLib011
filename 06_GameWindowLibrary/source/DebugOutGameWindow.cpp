@@ -23,7 +23,7 @@ namespace GAME
 
 	//コンストラクタ
 	DebugOutGameWindow::DebugOutGameWindow ()
-		: m_bTime ( true )
+		: m_bTime ( true ), m_bFPS ( true )
 	{
 		for ( UINT i = 0; i < DebugTextNum; ++i )
 		{
@@ -33,7 +33,11 @@ namespace GAME
 
 		for ( UINT i = 0; i < DebugVertexNum; ++ i )
 		{
-			m_vpVx.push_back ( make_shared < Vx_Rect > () );
+			m_vpVxTime.push_back ( make_shared < Vx_Rect > () );
+		}
+		for ( UINT i = 0; i < DebugVertexNum; ++ i )
+		{
+			m_vpVxFPS.push_back ( make_shared < Vx_Rect > () );
 		}
 	}
  
@@ -63,27 +67,19 @@ namespace GAME
 		{
 			GameText::Inst()->MakeStrTexture ( m_tstr[i], m_texture[i], m_vertex[i] );
 		}
-//		m_tstr.assign ( TEXT("DebugOutGameWindow::Init _  ()") );
-//		GameText::instance()->MakeStrTexture ( m_tstr, m_texture, m_vertex );
 
+		LoadVVx ( m_vpVxTime, VEC2 ( 0, 0 ) );
+		LoadVVx ( m_vpVxFPS, VEC2 ( 300, 0 ) );
+	}
 
-		tstring testStr = _T ( "Test String" );
-		m_testVx.Load ();
-		m_testVx.SetPos ( 100, 400 );
-		m_testVx.SetAllColor ( 0xffff0000 );
-		GameText::Inst ()->MakeStrTexture ( testStr, m_testTx, m_testVx );
-
-
-		UINT index = 0;
-		float pos_x = 50;
-		DWORD delta = 0;
-		for ( P_VxRct pVx : m_vpVx )
+	void DebugOutGameWindow::LoadVVx ( VP_VxRct& vpVxRct, VEC2 pos )
+	{
+		for ( P_VxRct pVx : vpVxRct )
 		{
 			pVx->Load ();
-			pVx->SetPos ( pos_x, 130 );
-			pos_x += 12;
-			delta = ++ index * 255 / DebugVertexNum;
-			pVx->SetAllColor ( 0xff00ffffL | delta << 16 );
+			pVx->SetPos ( pos.x, 0 );
+			pos.x += 12;
+			pVx->SetAllColor ( 0xffffffffL );
 		}
 	}
 
@@ -95,9 +91,8 @@ namespace GAME
 			m_vertex[i].Rele ();
 		}
 
-
-		m_testVx.Rele ();
-		for ( P_VxRct pVx : m_vpVx ) { pVx->Rele (); }
+		for ( P_VxRct pVx : m_vpVxTime ) { pVx->Rele (); }
+		for ( P_VxRct pVx : m_vpVxFPS ) { pVx->Rele (); }
 	}
 
 	void DebugOutGameWindow::Reset ( D3DDEV d3dDevice )
@@ -114,16 +109,8 @@ namespace GAME
 			m_vertex[i].SetVertexBuffer ();
 		}
 
-//		m_testVx.SetPos ( VEC2 ( 500, 300 ) );
-//		m_testVx.ApplyPos ();
-
-		m_testVx.Move ();
-
-		char ch = 32;
-		for ( P_VxRct pVx : m_vpVx )
-		{
-			pVx->Move (); 
-		}
+		for ( P_VxRct pVx : m_vpVxTime ) { pVx->Move (); }
+		for ( P_VxRct pVx : m_vpVxFPS ) { pVx->Move (); }
 	}
 
 	void DebugOutGameWindow::DrawVertex ()
@@ -138,14 +125,20 @@ namespace GAME
 		}
 
 
-//		m_testVx.DrawVertex ( m_testTx );
-
 		//固定表示 : 稼働時間[F]
 		if ( m_bTime )
 		{
-			for ( P_VxRct pVx : m_vpVx )
+			for ( P_VxRct pVx : m_vpVxTime )
 			{
-				pVx->DrawVertex ( GameText::Inst()->GetAsciiTx () );
+				pVx->DrawVertex ( GameText::Inst ()->GetAsciiTx () );
+			}
+		}
+		//固定表示 : FPS
+		if ( m_bFPS )
+		{
+			for ( P_VxRct pVx : m_vpVxFPS )
+			{
+				pVx->DrawVertex ( GameText::Inst ()->GetAsciiTx () );
 			}
 		}
 	}
@@ -204,59 +197,18 @@ namespace GAME
 		UP_TSTR p = Format::Printf_Args ( format, args );
 		va_end ( args );
 
+		DebugOutWnd ( std::move ( p ), m_vpVxTime );
+	}
 
-		//先頭が空の文字列のとき何もしない
-		LPTCH tch = p.get ();
-		if ( p [ 0 ] == '\0' ) { return; }
+	//固定表示 : FPS
+	void DebugOutGameWindow::DebugOutWnd_FPS ( LPCTSTR format, ... )
+	{
+		va_list args;
+		va_start ( args, format );	//文字列の先頭ポインタをセット
+		UP_TSTR p = Format::Printf_Args ( format, args );
+		va_end ( args );
 
-		//文字列サイズの取得
-		UINT old_size = m_vpVx.size ();
-		UINT size = Size ( p.get () );
-		if ( size < old_size )
-		{
-			m_vpVx.resize ( size );
-		}
-		else if ( old_size < size )
-		{
-			m_vpVx.resize ( size );
-			for ( UINT i = size - old_size; i < size; ++ i )
-			{
-				m_vpVx [ i ] = make_shared < Vx_Rect > ();
-				m_vpVx [ i ]->Load ();
-			}
-
-			UINT init_index = 0;
-			float pos_x = 50;
-			DWORD delta = 0;
-			for ( P_VxRct pVx : m_vpVx )
-			{
-				pVx->SetPos ( pos_x, 130 );
-				pos_x += 12;
-				delta = ++ init_index * 255 / DebugVertexNum;
-				pVx->SetAllColor ( 0xff00ffffL | delta << 16 );
-			}
-		}
-
-		//テクスチャサイズと位置の取得
-		USIZE ch = GameText::Inst ()->GetCharTxSize ();
-		USIZE all = GameText::Inst ()->GetAsciiTxSize ();
-		float u = ch.w / (float)all.w;
-		float v = ch.h / (float)all.h;
-
-		UINT index = 0;
-		while ( index < size )
-		{
-			UINT code = GameText::Inst()->GetCode ( tch + index );
-			VEC2 pos = GameText::Inst ()->GetChToPos ( code );
-			float x = pos.x / (float)all.w;
-			float y = pos.y / (float)all.h;
-			
-			P_VxRct pVx = m_vpVx [ index ];
-			pVx->SetTxUVWH ( x, y, u, v );
-			pVx->SetSize ( 1.f * ch.w, 1.f * ch.h );
-			
-			++ index;
-		}
+		DebugOutWnd ( std::move ( p ), m_vpVxFPS );
 	}
 
 	void DebugOutGameWindow::Off ()
@@ -288,6 +240,58 @@ namespace GAME
 
 		return ret;
 	}
+
+
+	void DebugOutGameWindow::DebugOutWnd ( UP_TSTR up_tstr, VP_VxRct& vpVpRct )
+	{
+		//先頭が空の文字列のとき何もしない
+		LPTCH tch = up_tstr.get ();
+		if ( up_tstr [ 0 ] == '\0' ) { return; }
+
+		//文字列サイズの取得
+		UINT old_size = vpVpRct.size ();
+		UINT size = Size ( up_tstr.get () );
+		if ( size < old_size )
+		{
+			vpVpRct.resize ( size );
+		}
+		else if ( old_size < size )
+		{
+			vpVpRct.resize ( size );
+			for ( UINT i = size - old_size; i < size; ++ i )
+			{
+				vpVpRct [ i ] = make_shared < Vx_Rect > ();
+				vpVpRct [ i ]->Load ();
+			}
+
+			float pos_x = 0.f;
+			for ( P_VxRct pVx : vpVpRct )
+			{
+				pVx->SetPos ( pos_x, 0 );
+				pos_x += 12;
+				pVx->SetAllColor ( 0xffffffffL );
+			}
+		}
+
+		//テクスチャサイズと位置の取得
+		USIZE ch = GameText::Inst ()->GetCharTxSize ();
+		USIZE all = GameText::Inst ()->GetAsciiTxSize ();
+		float u = ch.w / (float)all.w;
+		float v = ch.h / (float)all.h;
+
+		for ( UINT i = 0; i < size; ++ i )
+		{
+			UINT code = GameText::Inst ()->GetCode ( tch + i );
+			VEC2 pos = GameText::Inst ()->GetChToPos ( code );
+			float x = pos.x / (float)all.w;
+			float y = pos.y / (float)all.h;
+
+			P_VxRct pVx = vpVpRct [ i ];
+			pVx->SetTxUVWH ( x, y, u, v );
+			pVx->SetSize ( 1.f * ch.w, 1.f * ch.h );
+		}
+	}
+
 
 }	//namespace GAME
 

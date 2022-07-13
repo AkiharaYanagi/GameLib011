@@ -19,7 +19,6 @@
 //-------------------------------------------------------------------------------------------------
 namespace GAME
 {
-
 	//----------------------------------------------
 	//	定数宣言
 	//----------------------------------------------
@@ -85,7 +84,7 @@ namespace GAME
 	{
 		m_frames = 0;
 		m_beforeTime = 0;
-		m_average = 0;
+		m_averageSleep = 0;
 		
 		//ゲームシステムの初期化
 		m_gameSystem->Init ();
@@ -96,6 +95,10 @@ namespace GAME
 	//------------------------------------------
 	void FrameControl::Frame()
 	{
+		static float avrgSleep = 0;
+		static DWORD dwDispFps = 0;
+		
+
 		//1フレームのループ
 //		while ( m_bPermi )
 //		while ( false )
@@ -131,7 +134,7 @@ namespace GAME
 			//1フレーム時間の調整(早すぎる時は差分だけ、それ以外は1だけSleep)
 			DWORD sleepTime = ( idealTime > progressTime ) ? ( idealTime - progressTime ): 1;
 			
-			m_average += sleepTime;
+			m_averageSleep += sleepTime;
 
 			Sleep ( sleepTime );
 
@@ -145,35 +148,41 @@ namespace GAME
 			averageDraw += postDrawTime - preDrawTime;
 
 
-			//@todo
 			// フレーム計算は常に行い、表示だけ切り替える
+			if ( ::GetAsyncKeyState ( 'F' ) & 0x0001 )
+			{
+				m_bDispFPS ^= true;
+				DBGOUT_WND->SetbDispFPS( m_bDispFPS );
+			}
+			DBGOUT_WND->SetPos ( 10, 400, 000 );
+			if ( m_bDispFPS )
+			{
+				DBGOUT_WND->DebugOutWnd_FPS ( _T("FPS:%02u, sleep:%05.2f"), dwDispFps, avrgSleep );
+			}
+			else
+			{
+				DBGOUT_WND->DebugOutWnd_FPS ( _T ( "") );
+			}
 
 
 			//1000ms毎に現在フレーム数(FPS)の更新
 			if ( progressTime >= 1000 )
 			{
-//				static bool bFPS = false;
-				if ( ::GetAsyncKeyState ( 'F' ) & 0x0001 ) { m_bDispFPS ^= true; }
-				if ( m_bDispFPS )
-				{
-					averageMove = 0;
-					averageDraw = 0;
+				averageMove = 0;
+				averageDraw = 0;
 
-					DBGOUT_WND->SetPos ( 10, 400, 000 );
-					float avrg = 0;
-					if ( 0 != m_frames ) { avrg = (float)m_average / m_frames; }
-					DBGOUT_WND_F ( 10, _T("FPS:%02u, sleep:%05.2f"), m_frames, avrg );
-
-					m_beforeTime = nowTime;
-					m_frames = 0;
-					m_average = 0;
-				}
-				else
+				if ( 0 != m_frames )
 				{
-					DBGOUT_WND_F ( 10, _T ( "" ) );
+					dwDispFps = m_frames;
+					avrgSleep = (float)m_averageSleep / m_frames; 
 				}
+
+				m_beforeTime = nowTime;
+				m_frames = 0;
+				m_averageSleep = 0;
 			}
-			m_frames++;
+
+			++ m_frames;
 		}
 
 //		m_bActive = false;	//スレッド終了をフラグに設定

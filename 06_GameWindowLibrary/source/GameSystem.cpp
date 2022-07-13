@@ -145,12 +145,10 @@ namespace GAME
 		}
 		if( m_bDispTimer )
 		{
-//			DBGOUT_WND_F ( 0, _T("time = %d"), time );
 			DBGOUT_WND->DebugOutWnd_Time ( _T ( "time = %d" ), time );
 		}
 		else
 		{
-//			DBGOUT_WND_F ( 0, _T("") );
 			DBGOUT_WND->DebugOutWnd_Time ( _T ( "" ) );
 		}
 

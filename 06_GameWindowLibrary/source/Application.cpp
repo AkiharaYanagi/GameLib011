@@ -284,7 +284,7 @@ namespace GAME
 	//-------------------------------------------------------------------------------------------------
 	void Application::MainLoop ( MSG * pMsg )
 	{
-		while (1)
+		while ( true )
 		{
 			if ( PeekMessage( pMsg, nullptr, 0, 0, PM_REMOVE ) )	//Windowメッセージがあるときの処理
 			{

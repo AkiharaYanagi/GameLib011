@@ -43,7 +43,7 @@ namespace GAME
 		DWORD				m_frames;		//現在フレーム数
 		unique_ptr < GameSystem >		m_gameSystem;	//ゲームシステム
 
-		DWORD				m_average;		//差分の平均
+		DWORD				m_averageSleep;		//差分の平均
 
 		//定数
 		static const DWORD	dwFps;					//FPS

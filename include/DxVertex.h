@@ -167,6 +167,7 @@ namespace GAME
 
 	using Vx_Rect = DxVertexRect;
 	using P_VxRct = shared_ptr < Vx_Rect >;
+	using VP_VxRct = vector < P_VxRct >;
 
 
 //-------------------------------------------------------------------------------------------------

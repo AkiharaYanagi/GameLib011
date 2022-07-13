@@ -46,7 +46,7 @@ namespace GAME
 		enum Const_DebugOutGameWindow
 		{
 			DebugTextNum = 15,
-			DebugVertexNum = 64,
+			DebugVertexNum = 32,
 		};
 	private:
 		TX			m_texture[DebugTextNum];	//テクスチャ
@@ -54,14 +54,14 @@ namespace GAME
 		tstring		m_tstr[DebugTextNum];		//文字列
 
 		//デバッグ用固定表示
-		//FPS
 		//TIme
-
-		TX			m_testTx;
-		Vx_Rect		m_testVx;
-
 		bool		m_bTime;
-		vector < P_VxRct >		m_vpVx;
+		VP_VxRct	m_vpVxTime;
+
+		//FPS
+		bool		m_bFPS;
+		VP_VxRct 	m_vpVxFPS;
+
 
 	public:
 		void Load ();
@@ -87,11 +87,18 @@ namespace GAME
 		void DebugOutWnd_Time ( LPCTSTR format, ... );
 		void SetbDispTime ( bool b ) { m_bTime = b; }
 
+		//固定表示 : FPS
+		void DebugOutWnd_FPS ( LPCTSTR format, ... );
+		void SetbDispFPS ( bool b ) { m_bFPS = b; }
+
 		//非表示
 		void Off ();
 
 	private:
 		UINT Size ( LPCTSTR lpctstr ) const;
+		void LoadVVx ( VP_VxRct& vpVxRct, VEC2 pos );
+		void DebugOutWnd ( UP_TSTR up_tstr, VP_VxRct& vpVpRct );
+
 	};
 
 	using DBGO_WND = DebugOutGameWindow;
