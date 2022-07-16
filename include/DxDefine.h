@@ -51,6 +51,12 @@ using L_VEC3 = list < VEC3 >;
 //色
 using _CLR = D3DXCOLOR;
 
+//ミップマップレベル
+enum
+{
+	MP_LV_1 = 1,
+};
+
 
 }	//namespace GAME
 

@@ -58,6 +58,8 @@ namespace GAME
 		LPDIRECT3DSURFACE9		m_lpTextureSurface;		//テクスチャとするサーフェスポインタ
 		LPDIRECT3DSURFACE9		m_lpSurface;			//サーフェスポインタ
 
+		LPDIRECT3DSURFACE9		m_lpBackDepthSurface;		//深度バッファサーフェスポインタ
+
 		bool					m_fullscreen;			//[フルスクリーン] / [ウィンドウ]
 //		double					m_zoom;					//拡大値(0-320)
 //		D3DXVECTOR2				m_focus;				//スクリーン表示位置の原点

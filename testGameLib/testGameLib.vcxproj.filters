@@ -3,12 +3,12 @@
   <ItemGroup>
     <ClCompile Include="Source\WinMain.cpp" />
     <ClCompile Include="Source\StdAfx.cpp" />
-    <ClCompile Include="Source\TestOutlineFont0.cpp" />
+    <ClCompile Include="Source\testStretch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\GameMain.h" />
     <ClInclude Include="Source\WinMain.h" />
     <ClInclude Include="Source\StdAfx.h" />
-    <ClInclude Include="Source\TestOutlineFont0.h" />
+    <ClInclude Include="Source\testStretch.h" />
   </ItemGroup>
 </Project>

@@ -18,7 +18,8 @@ namespace GAME
 	: m_color0 ( 0x00000000UL ), m_color1 ( 0xff000000UL )
 	{
 		PrmRect::SetValid ( false );
-		PrmRect::SetRect ( 0, 0, 1.f * WINDOW_WIDTH, 1.f * WINDOW_HEIGHT );
+//		PrmRect::SetRect ( 0, 0, 1.f * WINDOW_WIDTH, 1.f * WINDOW_HEIGHT );
+		PrmRect::SetRect ( 0, 0, 1.f * 1280, 1.f * 960 );
 		PrmRect::SetAllZ ( Z_FADE );
 		m_timer = make_shared < Timer > ();
 	}

@@ -9,8 +9,7 @@
 //-------------------------------------------------------------------------------------------------
 //	インクルードファイル
 //-------------------------------------------------------------------------------------------------
-#include <iostream>
-#include <tchar.h>
+#include "Define.h"
 
 //-------------------------------------------------------------------------------------------------
 //	定義
@@ -22,12 +21,12 @@ namespace GAME
 	//------------------------------------------
 	
 	//ウィンドウサイズ(表示上・変更可能)
-	const int WINDOW_WIDTH = 1280;
-	const int WINDOW_HEIGHT = 960;
+//	const UINT WINDOW_WIDTH = 1280;
+//	const UINT WINDOW_HEIGHT = 960;
 
 	//ゲームウィンドウサイズ(原寸・書込対象)
-	const int GAME_WINDOW_WIDTH = 1280;
-	const int GAME_WINDOW_HEIGHT = 960;
+//	const UINT GAME_WINDOW_WIDTH = 1280;
+//	const UINT GAME_WINDOW_HEIGHT = 960;
 
 	//プレイヤーID
 	enum PLAYER_ID

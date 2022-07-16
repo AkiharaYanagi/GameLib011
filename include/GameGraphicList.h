@@ -66,7 +66,8 @@ namespace GAME
 	using GrpLst = GameGraphicList;
 	using UP_GrpLst = unique_ptr < GrpLst >;
 
-#define		GRPLST_NEW		GrpLst::Inst()->NewTaskList
+#define		GRPLST_CREATE	GrpLst::Create
+#define		GRPLST_MAKE		GrpLst::Inst()->NewTaskList
 #define		GRPLST_INSERT	GrpLst::Inst()->InsertByZ
 #define		GRPLST_ERASE	GrpLst::Inst()->Erase
 #define		GRPLST_RESET	GrpLst::Inst()->Reset
