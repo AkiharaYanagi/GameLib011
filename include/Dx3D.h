@@ -56,7 +56,7 @@ namespace GAME
 		LPDIRECT3DSURFACE9		m_lpBackBuffer;			//バックバッファサーフェス
 		LPDIRECT3DTEXTURE9		m_lpTexture;			//サーフェス用のテクスチャ	
 		LPDIRECT3DSURFACE9		m_lpTextureSurface;		//テクスチャとするサーフェスポインタ
-		LPDIRECT3DSURFACE9		m_lpSurface;			//サーフェスポインタ
+		LPDIRECT3DSURFACE9		m_lpOffScreenSurface;			//オフスクリーンサーフェスポインタ
 
 		LPDIRECT3DSURFACE9		m_lpBackDepthSurface;		//深度バッファサーフェスポインタ
 

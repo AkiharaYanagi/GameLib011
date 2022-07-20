@@ -25,8 +25,8 @@ namespace GAME
 //	const UINT WINDOW_HEIGHT = 960;
 
 	//ゲームウィンドウサイズ(原寸・書込対象)
-//	const UINT GAME_WINDOW_WIDTH = 1280;
-//	const UINT GAME_WINDOW_HEIGHT = 960;
+	const UINT GAME_WINDOW_WIDTH = 1280;
+	const UINT GAME_WINDOW_HEIGHT = 960;
 
 	//プレイヤーID
 	enum PLAYER_ID

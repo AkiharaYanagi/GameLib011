@@ -373,13 +373,13 @@ namespace GAME
 
 		//ウィンドウ幅、高さ
 		::GetWindowRect ( m_hWnd, & windowRect );
-//		TRACE_F ( _T ( "windowRect = ( %d, %d, %d, %d ) \n" ), windowRect.left, windowRect.top, windowRect.right, windowRect.bottom );
+		TRACE_F ( _T ( "windowRect = ( %d, %d, %d, %d ) \n" ), windowRect.left, windowRect.top, windowRect.right, windowRect.bottom );
 		int windowWidth = windowRect.right - windowRect.left;
 		int windowHeight = windowRect.bottom - windowRect.top;
 
 		//クライアント幅、高さ
 		::GetClientRect ( m_hWnd, & clientRect );
-//		TRACE_F ( _T ( "clientRect = ( %d, %d, %d, %d ) \n" ), clientRect.left, clientRect.top, clientRect.right, clientRect.bottom );
+		TRACE_F ( _T ( "clientRect = ( %d, %d, %d, %d ) \n" ), clientRect.left, clientRect.top, clientRect.right, clientRect.bottom );
 		int clientWidth = clientRect.right - clientRect.left;
 		int clientHeight = clientRect.bottom - clientRect.top;
 

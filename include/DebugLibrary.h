@@ -21,6 +21,7 @@
 // ヘッダファイル　インクルード
 //-------------------------------------------------------------------------------------------------
 #include "Define.h"
+#include "GameLibConst.h"
 #include "DebugManager.h"
 #include "Format.h"
 

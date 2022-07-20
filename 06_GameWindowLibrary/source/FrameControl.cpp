@@ -95,8 +95,8 @@ namespace GAME
 	//------------------------------------------
 	void FrameControl::Frame()
 	{
-		static float avrgSleep = 0;
-		static DWORD dwDispFps = 0;
+		static float avrgSleep = 16.6f;
+		static DWORD dwDispFps = 60;
 		
 
 		//1フレームのループ
