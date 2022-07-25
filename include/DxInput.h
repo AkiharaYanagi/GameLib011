@@ -126,6 +126,9 @@ namespace GAME
 		//いずれかのキーが押されている状態から離されたかどうか
 		//	0: LBUTTON, 1: RBUTTON, 2: ホイールクリック
 		bool UpMouseButton ( MOUSE_BUTTON n ) const;
+		bool UpMouseLeft () { return UpMouseButton ( MOUSE_LEFT ); }
+		bool UpMouseRight () { return UpMouseButton ( MOUSE_RIGHT ); }
+		bool UpMouseCenter () { return UpMouseButton ( MOUSE_CENTER ); }
 
 		//マウスの移動量を取得
 		POINT GetMouseDelta () const;
@@ -138,8 +141,11 @@ namespace GAME
 	};
 
 
-	//シングルトンアクセス
-	#define DXINP DxInput::instance()
+//シングルトンアクセス
+#define DXINP DxInput::instance()
+#define DXINP_UpMouseLeft DxInput::instance()->UpMouseLeft
+#define DXINP_UpMouseRight DxInput::instance()->UpMouseRight
+#define DXINP_UpMouseCenter DxInput::instance()->UpMouseCenter
 
 }	//namespace GAME
 

@@ -19,27 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\FadeRect.h" />
-    <ClInclude Include="..\include\GameInput.h" />
-    <ClInclude Include="..\include\_GameKey.h" />
+    <ClInclude Include="..\include\CursorUtl.h" />
     <ClInclude Include="..\include\GameLibrary.h" />
-    <ClInclude Include="..\include\GrpBlink.h" />
-    <ClInclude Include="..\include\GrpDemo.h" />
-    <ClInclude Include="..\include\GrpEf.h" />
-    <ClInclude Include="..\include\Rect.h" />
-    <ClInclude Include="..\include\Timer.h" />
-    <ClInclude Include="..\include\_GameKeyCommand.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\FadeRect.cpp" />
-    <ClCompile Include="source\GameInput.cpp" />
-    <ClCompile Include="source\GrpBlink.cpp" />
-    <ClCompile Include="source\GrpDemo.cpp" />
-    <ClCompile Include="source\GrpEf.cpp" />
-    <ClCompile Include="source\Rect.cpp" />
-    <ClCompile Include="source\Timer.cpp" />
-    <ClCompile Include="source\_GameKey.cpp" />
-    <ClCompile Include="source\_GameKeyCommand.cpp" />
+    <ClCompile Include="source\CursorUtl.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

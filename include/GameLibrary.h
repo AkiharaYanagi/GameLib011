@@ -29,4 +29,5 @@
 #include "GrpBlink.h"
 #include "Rect.h"
 #include "Timer.h"
+#include "CursorUtl.h"
 
