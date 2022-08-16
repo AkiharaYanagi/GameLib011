@@ -12,7 +12,6 @@
 #include "GameSystem.h"
 #include "DebugOutGameWindow.h"
 #include "AppSettingFile.h"
-//#include "GameGraphicArray.h"
 #include "GameGraphicList.h"
 
 //-------------------------------------------------------------------------------------------------
@@ -107,11 +106,12 @@ namespace GAME
 	{
 		//DirectXŠÖ˜A‚ÌÄİ’è
 		Dx3D::instance()->Reset();
-//		GRPARY_RESET ();
-		GRPLST_RESET ();
-		GameText::Inst()->Reset ( Dx3D::instance()->GetDevice() );
-		DebugOutGameWindow::Inst()->Reset( Dx3D::instance()->GetDevice() );
+		D3DDEV dev = Dx3D::instance ()->GetDevice ();
+		GameText::Inst()->Reset ( dev );
+		OutlineFont::Inst ()->Reset ( dev );
+		DebugOutGameWindow::Inst()->Reset( dev );
 		KeyInput::instance()->Reset ();
+		GRPLST_RESET ();
 
 		if ( m_pGameMain ) { m_pGameMain->Reset(); }
 	}
