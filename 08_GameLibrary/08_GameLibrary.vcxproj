@@ -26,7 +26,6 @@
     <ClInclude Include="..\include\GrpBlink.h" />
     <ClInclude Include="..\include\GrpDemo.h" />
     <ClInclude Include="..\include\GrpEf.h" />
-    <ClInclude Include="..\include\Rect.h" />
     <ClInclude Include="..\include\Timer.h" />
     <ClInclude Include="..\include\_GameKey.h" />
     <ClInclude Include="..\include\_GameKeyCommand.h" />
@@ -38,7 +37,6 @@
     <ClCompile Include="source\GrpBlink.cpp" />
     <ClCompile Include="source\GrpDemo.cpp" />
     <ClCompile Include="source\GrpEf.cpp" />
-    <ClCompile Include="source\Rect.cpp" />
     <ClCompile Include="source\Timer.cpp" />
     <ClCompile Include="source\_GameKey.cpp" />
     <ClCompile Include="source\_GameKeyCommand.cpp" />

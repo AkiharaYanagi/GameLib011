@@ -149,6 +149,7 @@ namespace GAME
 		}
 		else
 		{
+			DBGOUT_WND->SetbDispTime ( false );
 			DBGOUT_WND->DebugOutWnd_Time ( _T ( "" ) );
 		}
 
@@ -216,6 +217,11 @@ namespace GAME
 	void GameSystem::FullDebugMode ()
 	{
 		m_bDispTimer = T;
+	}
+
+	void GameSystem::NoDebugMode ()
+	{
+		m_bDispTimer = F;
 	}
 
 

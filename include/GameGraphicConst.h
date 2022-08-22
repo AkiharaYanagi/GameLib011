@@ -17,6 +17,7 @@ namespace GAME
 {
 	//--------------------------------------
 	//描画Z位置(後:1.f ～ 0.0f:前)
+	//@info 小さい方が手前
 	constexpr float Z_BG = 0.9f;		//背景
 	constexpr float Z_SHADOW = 0.8f;	//影
 	constexpr float Z_EFB = 0.7f;		//背面エフェクト

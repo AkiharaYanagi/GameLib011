@@ -7,6 +7,7 @@
     <ClCompile Include="source\KeyInput.cpp" />
     <ClCompile Include="source\Application.cpp" />
     <ClCompile Include="source\AppSettingFile.cpp" />
+    <ClCompile Include="source\Rect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\FrameControl.h" />
@@ -17,5 +18,6 @@
     <ClInclude Include="..\include\Application.h" />
     <ClInclude Include="..\include\DebugOutGameWindow.h" />
     <ClInclude Include="..\include\AppSettingFile.h" />
+    <ClInclude Include="..\include\Rect.h" />
   </ItemGroup>
 </Project>

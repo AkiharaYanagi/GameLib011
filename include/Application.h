@@ -12,6 +12,7 @@
 //インクルードファイル
 //-------------------------------------------------------------------------------------------------
 #include "DebugManager.h"		//デバッグ表示
+#include "Rect.h"				//Rectユーザ定義利用
 #include "DirectX_Library.h"	//DirectX利用
 #include "HWnd.h"				//ウィンドウハンドルオブジェクトの利用
 #include "GameMainBase.h"		//ゲームメイン基底
@@ -101,6 +102,13 @@ namespace GAME
 
 		//デバッグ表示をすべてON
 		static void FullDebugMode ();
+
+		//デバッグ表示をすべてOFF
+		static void NoDebugMode ();
+
+		//モニタ列挙プロシージャ
+		static BOOL CALLBACK MonitorEnumProc ( HMONITOR hMnt, HDC hdc, LPRECT lpRect, LPARAM dwParam );
+		static int m_count;
 
 	private:
 		POINT GetWindowInitPos ();

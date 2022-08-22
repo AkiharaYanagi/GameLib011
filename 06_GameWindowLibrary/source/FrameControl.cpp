@@ -161,6 +161,7 @@ namespace GAME
 			}
 			else
 			{
+				DBGOUT_WND->SetbDispFPS ( false );
 				DBGOUT_WND->DebugOutWnd_FPS ( _T ( "") );
 			}
 
@@ -202,6 +203,13 @@ namespace GAME
 	{
 		m_bDispFPS = T;
 		GameSystem::FullDebugMode ();
+	}
+
+	//デバッグ表示をすべてON
+	void FrameControl::NoDebugMode ()
+	{
+		m_bDispFPS = F;
+		GameSystem::NoDebugMode ();
 	}
 
 

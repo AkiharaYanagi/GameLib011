@@ -218,6 +218,12 @@ namespace GAME
 
 	void GameGraphicFromFile::AddTexture ( LPCTSTR fileName )
 	{
+		tstring tstr ( fileName );
+		AddTexture ( tstr );
+	}
+
+	void GameGraphicFromFile::AddTexture ( tstring fileName )
+	{
 		shared_ptr < GameTextureFromFile > pTexture = make_shared < GameTextureFromFile > ();
 		pTexture->SetFileName ( fileName );
 		m_vpTexture.push_back ( pTexture );
@@ -266,6 +272,12 @@ namespace GAME
 	}
 
 	void GameGraphicFromArchive::AddTexture ( LPCTSTR fileName )
+	{
+		tstring tstr ( fileName );
+		AddTexture ( tstr );
+	}
+
+	void GameGraphicFromArchive::AddTexture ( tstring fileName )
 	{
 		P_TxAcv pTexture = make_shared < TxAcv > ();
 		pTexture->SetFileName ( fileName );

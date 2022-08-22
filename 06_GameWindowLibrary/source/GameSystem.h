@@ -55,6 +55,9 @@ namespace GAME
 
 		//デバッグ表示をすべてON
 		static void FullDebugMode ();
+
+		//デバッグ表示をすべてON
+		static void NoDebugMode ();
 	};
 
 

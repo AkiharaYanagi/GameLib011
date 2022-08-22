@@ -25,6 +25,7 @@
     <ClCompile Include="source\GameSystem.cpp" />
     <ClCompile Include="source\KeyInput.cpp" />
     <ClCompile Include="source\AppSettingFile.cpp" />
+    <ClCompile Include="source\Rect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Application.h" />
@@ -33,6 +34,7 @@
     <ClInclude Include="..\include\GameWindowLibrary.h" />
     <ClInclude Include="..\include\KeyInput.h" />
     <ClInclude Include="..\include\AppSettingFile.h" />
+    <ClInclude Include="..\include\Rect.h" />
     <ClInclude Include="source\FrameControl.h" />
     <ClInclude Include="source\GameSystem.h" />
   </ItemGroup>

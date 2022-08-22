@@ -168,6 +168,7 @@ namespace GAME
 
 		//テクスチャを追加
 		void AddTexture ( LPCTSTR fileName );
+		void AddTexture ( tstring fileName );
 	};
 
 	typedef		GameGraphicFromFile		GrpFl;
@@ -195,6 +196,7 @@ namespace GAME
 
 		//テクスチャを追加
 		void AddTexture ( LPCTSTR fileName );
+		void AddTexture ( tstring fileName );
 	};
 
 	typedef		GameGraphicFromArchive	GrpAcv;

@@ -352,6 +352,16 @@ namespace GAME
 		int window_w = (int)AppSettingFile::Inst ()->GetWindowW ();
 		int window_h = (int)AppSettingFile::Inst ()->GetWindowH ();
 
+		//複数モニタの取得
+		int targetDisp = (int)AppSettingFile::Inst ()->GetDisplayNum ();
+
+		int n = ::GetSystemMetrics ( SM_CMONITORS );
+
+		m_count = 0;
+		V_RECT vecRect ( n );
+
+		EnumDisplayMonitors ( NULL, NULL, MonitorEnumProc, (LPARAM)&vecRect );
+
 		//プライマリモニタの作業領域サイズを取得
 		RECT workRect;
 		::SystemParametersInfo ( SPI_GETWORKAREA, 0, &workRect, 0 );
@@ -364,6 +374,23 @@ namespace GAME
 		pos.y = wPos_y;
 
 		return pos;
+	}
+
+	int Application::m_count;
+
+
+	BOOL CALLBACK Application::MonitorEnumProc ( HMONITOR hMnt, HDC hdc, LPRECT lpRect, LPARAM dwParam )
+	{
+		V_RECT* pr = (V_RECT*)dwParam;
+		
+		MONITORINFOEX mntInfo;
+		mntInfo.cbSize = sizeof ( mntInfo );
+		GetMonitorInfo ( hMnt, & mntInfo );
+
+		::CopyRect ( &(*pr)[ m_count ], & mntInfo.rcMonitor );
+		++ m_count;
+
+		return TRUE;
 	}
 
 	POINT Application::GetWindowInitSize ()
@@ -394,6 +421,11 @@ namespace GAME
 	void Application::FullDebugMode ()
 	{
 		FrameControl::FullDebugMode ();
+	}
+
+	void Application::NoDebugMode ()
+	{
+		FrameControl::NoDebugMode ();
 	}
 
 }	//namespace GAME
