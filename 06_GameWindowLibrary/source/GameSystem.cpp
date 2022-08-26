@@ -30,11 +30,13 @@ namespace GAME
 		UINT window_w = AppSettingFile::Inst ()->GetWindowW ();
 		UINT window_h = AppSettingFile::Inst ()->GetWindowH ();
 		bool bFullScreen = AppSettingFile::Inst ()->GetbFullscreen ();
+		int displayNum = AppSettingFile::Inst ()->GetDisplayNum ();
 
 		// Direct3D‚Ì‰Šú‰»
 		Dx3D::Create ();
 		Dx3D::instance()->SetWindowSize ( window_w, window_h );
 		Dx3D::instance()->SetFullscreen ( bFullScreen );
+		Dx3D::instance ()->SetDisplayNum ( displayNum );
 		Dx3D::instance()->Load ();
 
 		//Graphic”z—ñ‚Ì‰Šú‰»

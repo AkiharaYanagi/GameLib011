@@ -23,13 +23,11 @@ namespace GAME
 	//------------------------------------------
 	//	コンストラクタ
 	//------------------------------------------
-	Dx3D::Dx3D () 
-		: m_lpD3D(nullptr), m_lpD3DDevice(nullptr), m_lpSprite(nullptr)
-		, m_lpBackBuffer(nullptr), m_lpTexture(nullptr), m_lpTextureSurface(nullptr), m_lpOffScreenSurface(nullptr)
+	Dx3D::Dx3D ()
+		: m_lpD3D ( nullptr ), m_lpD3DDevice ( nullptr ), m_lpSprite ( nullptr )
+		, m_lpBackBuffer ( nullptr ), m_lpTexture ( nullptr ), m_lpTextureSurface ( nullptr ), m_lpOffScreenSurface ( nullptr )
 		, m_fullscreen ( false )
-		//, m_window_x ( WINDOW_WIDTH ), m_window_y ( WINDOW_HEIGHT )
-		//, m_window_x ( 640 ), m_window_y ( 480 )
-		, m_window_x ( 1280 ), m_window_y ( 960 )
+		, m_window_x ( 1280 ), m_window_y ( 960 ), m_displayNum ( 0 )
 	{
 	}
 
@@ -71,18 +69,21 @@ namespace GAME
 		if ( m_lpD3D == nullptr ) { throw _T("Direct3Dオブジェクトの作成"); }
 
 		//対応ディスプレイモードの個数を取得
-		UINT nDisplayMode = m_lpD3D->GetAdapterModeCount ( D3DADAPTER_DEFAULT, D3DFMT_X8R8G8B8 );
+//		UINT nDisplayMode = m_lpD3D->GetAdapterModeCount ( D3DADAPTER_DEFAULT, D3DFMT_X8R8G8B8 );
+		UINT nDisplayMode = m_lpD3D->GetAdapterModeCount ( m_displayNum, D3DFMT_X8R8G8B8 );
 		D3DDISPLAYMODE dsplMd;
 		std::vector < D3DDISPLAYMODE >	vDsplMode;
 		for ( UINT i = 0; i < nDisplayMode; ++i )
 		{
-			m_lpD3D->EnumAdapterModes ( D3DADAPTER_DEFAULT, D3DFMT_X8R8G8B8, i, & dsplMd );
+//			m_lpD3D->EnumAdapterModes ( D3DADAPTER_DEFAULT, D3DFMT_X8R8G8B8, i, & dsplMd );
+			m_lpD3D->EnumAdapterModes ( m_displayNum, D3DFMT_X8R8G8B8, i, & dsplMd );
 			vDsplMode.push_back ( dsplMd );
 		}
 
 		//現在のディスプレイモードの取得
 		D3DDISPLAYMODE displayMode;
-		hr = m_lpD3D->GetAdapterDisplayMode ( D3DADAPTER_DEFAULT, &displayMode );
+//		hr = m_lpD3D->GetAdapterDisplayMode ( D3DADAPTER_DEFAULT, &displayMode );
+		hr = m_lpD3D->GetAdapterDisplayMode ( m_displayNum, &displayMode );
 		FAILED_DXTRACE_THROW ( hr, _T("現在のディスプレイモードの取得") );
 
 #if	0
@@ -444,7 +445,8 @@ namespace GAME
 	//デバイスの作成
 	HRESULT Dx3D::_CreateDevice ( D3DDEVTYPE type, DWORD behavior, D3DPRESENT_PARAMETERS* pparam )
 	{
-		return m_lpD3D->CreateDevice ( D3DADAPTER_DEFAULT, type, HWnd::Get(), behavior, pparam, & m_lpD3DDevice );
+//		return m_lpD3D->CreateDevice ( D3DADAPTER_DEFAULT, type, HWnd::Get (), behavior, pparam, & m_lpD3DDevice );
+		return m_lpD3D->CreateDevice ( m_displayNum, type, HWnd::Get (), behavior, pparam, & m_lpD3DDevice );
 	}
 
 	//各種組み合わせ順次 デバイスの作成

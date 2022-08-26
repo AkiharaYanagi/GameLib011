@@ -348,32 +348,51 @@ namespace GAME
 		//画面中央配置
 		POINT pos = { 0, 0 };
 
-		//設定からウィンドウサイズの指定
+		//設定からウィンドウサイズの指定 (サイズ差を計算するためintにキャスト)
 		int window_w = (int)AppSettingFile::Inst ()->GetWindowW ();
 		int window_h = (int)AppSettingFile::Inst ()->GetWindowH ();
 
 		//複数モニタの取得
-		int targetDisp = (int)AppSettingFile::Inst ()->GetDisplayNum ();
-
-		int n = ::GetSystemMetrics ( SM_CMONITORS );
+		int targetDisp = (int)AppSettingFile::Inst ()->GetDisplayNum ();	//０から
+		int n = ::GetSystemMetrics ( SM_CMONITORS );	//1から
 
 		m_count = 0;
 		V_RECT vecRect ( n );
 
 		EnumDisplayMonitors ( NULL, NULL, MonitorEnumProc, (LPARAM)&vecRect );
 
-		//プライマリモニタの作業領域サイズを取得
-		RECT workRect;
-		::SystemParametersInfo ( SPI_GETWORKAREA, 0, &workRect, 0 );
-		int wWidth = workRect.right - workRect.left;
-		int wHeight = workRect.bottom - workRect.top;
-		int wPos_x = ( wWidth / 2 ) - ( window_w / 2 );
-		int wPos_y = ( wHeight / 2 ) - ( window_h / 2 );
+		if ( targetDisp + 1 <= n )
+		{
+			vecRect [ targetDisp ];
+			pos = CenterWndOfRect ( vecRect [ targetDisp ], window_w, window_h );
+		}
+		else
+		{
+			//プライマリモニタの作業領域サイズを取得
+			RECT workRect;
+			::SystemParametersInfo ( SPI_GETWORKAREA, 0, &workRect, 0 );
+	#if 0
+			int wWidth = workRect.right - workRect.left;
+			int wHeight = workRect.bottom - workRect.top;
+			int wPos_x = ( wWidth / 2 ) - ( window_w / 2 );
+			int wPos_y = ( wHeight / 2 ) - ( window_h / 2 );
 
-		pos.x = wPos_x;
-		pos.y = wPos_y;
+			pos.x = wPos_x;
+			pos.y = wPos_y;
+	#endif // 0
+			pos = CenterWndOfRect ( workRect, window_w, window_h );
+		}
 
 		return pos;
+	}
+
+	POINT Application::CenterWndOfRect ( const RECT & rect, int wx, int wy ) const
+	{
+		int rW = rect.right - rect.left;
+		int rH = rect.bottom - rect.top;
+		int wPos_x = ( rW / 2 ) - ( wx / 2 );
+		int wPos_y = ( rH / 2 ) - ( wy / 2 );
+		return POINT { rect.left + wPos_x, rect.top + wPos_y };
 	}
 
 	int Application::m_count;

@@ -113,6 +113,9 @@ namespace GAME
 	private:
 		POINT GetWindowInitPos ();
 		POINT GetWindowInitSize ();
+
+		//対象RECTの中心に指定ウィンドウを置いたときの位置
+		POINT CenterWndOfRect ( const RECT & rect, int wx, int wy ) const;
 	};
 
 

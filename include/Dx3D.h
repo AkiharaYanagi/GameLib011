@@ -60,12 +60,14 @@ namespace GAME
 
 		LPDIRECT3DSURFACE9		m_lpBackDepthSurface;		//深度バッファサーフェスポインタ
 
+		//------------------------------------------------------------
+		//外部パラメータ指定
 		bool					m_fullscreen;			//[フルスクリーン] / [ウィンドウ]
 //		double					m_zoom;					//拡大値(0-320)
 //		D3DXVECTOR2				m_focus;				//スクリーン表示位置の原点
-
 		UINT	m_window_x;		//外部指定ウィンドウサイズX
 		UINT	m_window_y;		//外部指定ウィンドウサイズY
+		int		m_displayNum;	//ディスプレイ番号
 
 		//------------------------------------
 		//内部関数
@@ -86,11 +88,16 @@ namespace GAME
 		void Rele();	//解放
 		void Reset();	//再設定
 
+		//------------------------------------------------------------
+		//外部パラメータ指定
 		//ウィンドウサイズ
 		void SetWindowSize ( UINT x, UINT y ) { m_window_x = x; m_window_y = y; }
-
 		//フルスクリーン
 		void SetFullscreen ( bool b ) { m_fullscreen = b; }
+		//ディスプレイ番号
+		void SetDisplayNum ( int n ) { m_displayNum = n; }
+
+		//------------------------------------------------------------
 
 		//デバイスの取得 
 		D3DDEV		GetDevice() { return m_lpD3DDevice; }
