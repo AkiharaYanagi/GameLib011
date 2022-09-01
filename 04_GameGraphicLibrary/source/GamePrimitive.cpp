@@ -62,8 +62,15 @@ namespace GAME
 	//引数：テクスチャあり
 	void GamePrimitive::DrawVertex ( TX& texture )
 	{
-		if ( ! GetValid() )	{ return; }	//非有効時には何もしない
+		if ( ! GetValid () ) { return; }	//非有効時には何もしない
 		m_vertex->DrawVertex ( texture );
+	}
+
+	//引数：テクスチャあり
+	void GamePrimitive::DrawVertexMultiple ( TX& texture )
+	{
+		if ( ! GetValid () ) { return; }	//非有効時には何もしない
+		m_vertex->DrawVertexMultiple ( texture );
 	}
 
 

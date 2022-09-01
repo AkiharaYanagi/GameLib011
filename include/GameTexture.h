@@ -45,7 +45,8 @@ namespace GAME
 
 		//テクスチャの設定
 		void SetTexture ( TX lpTexture ) { m_lpTexture = lpTexture; }
-		TX	GetTexture() const { return m_lpTexture; }
+//		TX	GetTexture () const { return m_lpTexture; }
+		TX&	GetTexture () { return m_lpTexture; }
 
 		//カラーもグラフィックオブジェクトに移設
 #if 0

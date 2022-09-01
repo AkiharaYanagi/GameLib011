@@ -147,13 +147,13 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Source\testStretch.cpp" />
+    <ClCompile Include="Source\testMultiple.cpp" />
     <ClCompile Include="Source\WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\GameMain.h" />
     <ClInclude Include="Source\StdAfx.h" />
-    <ClInclude Include="Source\testStretch.h" />
+    <ClInclude Include="Source\testMultiple.h" />
     <ClInclude Include="Source\WinMain.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

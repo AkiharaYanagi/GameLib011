@@ -65,6 +65,7 @@ namespace GAME
 		virtual void Move ();
 
 		void DrawVertex ( TX lpTexture );
+		void DrawVertexMultiple ( TX lpTexture );
 
 		//基準位置から頂点を設定する
 		virtual void ApplyPos () {};

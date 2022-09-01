@@ -17,6 +17,7 @@
 #include "GamePrimitive.h"
 #include "GameGraphicArray.h"
 #include "GameGraphicList.h"
+#include "PrimitiveTexture.h"
 
 //-------------------------------------------------------------------------------------------------
 //	ƒ‰ƒCƒuƒ‰ƒŠ‚ÌƒŠƒ“ƒN

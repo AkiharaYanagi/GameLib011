@@ -347,7 +347,7 @@ namespace GAME
 	//------------------------------------------
 	// 頂点描画
 	//------------------------------------------
-	void Dx3D::DrawVertex ( 
+	void Dx3D::DrawVertex (
 		TX lpTexture, UINT streamNumber, VXBUF lpVertexBuffer, UINT offsetBytes, UINT stride,
 		DWORD FVF, D3DPRIMITIVETYPE primitiveType, UINT startVertex, UINT primitiveCount )
 	{
@@ -373,6 +373,60 @@ namespace GAME
 
 #endif	//0
 
+		m_lpD3DDevice->SetStreamSource ( streamNumber, lpVertexBuffer, offsetBytes, stride );
+		m_lpD3DDevice->SetFVF ( FVF );
+		m_lpD3DDevice->DrawPrimitive ( primitiveType, startVertex, primitiveCount );
+	}
+
+
+	//------------------------------------------
+	// 頂点描画(乗算)
+	//------------------------------------------
+	void Dx3D::DrawVertexMultiple (
+		TX lpTexture, UINT streamNumber, VXBUF lpVertexBuffer, UINT offsetBytes, UINT stride,
+		DWORD FVF, D3DPRIMITIVETYPE primitiveType, UINT startVertex, UINT primitiveCount )
+	{
+		//テクスチャ設定
+
+		//Stage0：色
+		m_lpD3DDevice->SetTexture ( 0, lpTexture );
+		m_lpD3DDevice->SetTextureStageState ( 0, D3DTSS_COLORARG1, D3DTA_TEXTURE );
+		m_lpD3DDevice->SetTextureStageState ( 0, D3DTSS_COLORARG2, D3DTA_DIFFUSE );
+		m_lpD3DDevice->SetTextureStageState ( 0, D3DTSS_COLOROP, D3DTOP_BLENDTEXTUREALPHA );
+		m_lpD3DDevice->SetTextureStageState ( 0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE );
+		m_lpD3DDevice->SetTextureStageState ( 0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE );
+		m_lpD3DDevice->SetTextureStageState ( 0, D3DTSS_ALPHAOP, D3DTOP_MODULATE );
+#if 0
+
+		m_lpD3DDevice->SetTextureStageState ( 0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE );
+		m_lpD3DDevice->SetTextureStageState ( 0, D3DTSS_COLOROP, D3DTOP_SELECTARG1 );
+
+		//Stage1: 形
+		m_lpD3DDevice->SetTexture ( 1, lpTexture );
+		m_lpD3DDevice->SetTextureStageState ( 1, D3DTSS_COLORARG1, D3DTA_TEXTURE );
+		m_lpD3DDevice->SetTextureStageState ( 1, D3DTSS_COLOROP, D3DTOP_BLENDTEXTUREALPHA );
+		m_lpD3DDevice->SetTextureStageState ( 1, D3DTSS_COLORARG1, D3DTA_CURRENT );
+		m_lpD3DDevice->SetTextureStageState ( 1, D3DTSS_ALPHAOP, D3DTOP_SELECTARG2 );
+		m_lpD3DDevice->SetTextureStageState ( 1, D3DTSS_ALPHAARG2, D3DTA_CURRENT );
+#endif // 0
+
+		//レンダリングステート
+//		m_lpD3DDevice->SetRenderState ( D3DRS_ALPHABLENDENABLE, FALSE );
+		m_lpD3DDevice->SetRenderState ( D3DRS_ALPHABLENDENABLE, TRUE );
+
+		m_lpD3DDevice->SetRenderState ( D3DRS_SRCBLEND, D3DBLEND_ZERO );
+		m_lpD3DDevice->SetRenderState ( D3DRS_DESTBLEND, D3DBLEND_SRCCOLOR );
+#if 0
+
+		m_lpD3DDevice->SetRenderState ( D3DRS_SRCBLEND, D3DBLEND_SRCALPHA );
+		m_lpD3DDevice->SetRenderState ( D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA );
+//		m_lpD3DDevice->SetRenderState ( D3DRS_DESTBLEND, D3DBLEND_ONE );
+#endif // 0
+
+		//zバッファ
+		m_lpD3DDevice->SetRenderState ( D3DRS_ZENABLE, D3DZB_TRUE );
+
+		//描画
 		m_lpD3DDevice->SetStreamSource ( streamNumber, lpVertexBuffer, offsetBytes, stride );
 		m_lpD3DDevice->SetFVF ( FVF );
 		m_lpD3DDevice->DrawPrimitive ( primitiveType, startVertex, primitiveCount );

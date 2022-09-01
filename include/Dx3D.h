@@ -122,11 +122,19 @@ namespace GAME
 		);
 
 		//頂点描画
-		void DrawVertex 
+		void DrawVertex
 		(
 			TX lpTexture,
 			UINT streamNumber, VXBUF lpVertexBuffer, UINT offsetBytes, UINT stride,
-			DWORD FVF, D3DPRIMITIVETYPE primitiveType, UINT startVertex, UINT primitiveCount 
+			DWORD FVF, D3DPRIMITIVETYPE primitiveType, UINT startVertex, UINT primitiveCount
+		);
+
+		//頂点描画(乗算)
+		void DrawVertexMultiple
+		(
+			TX lpTexture,
+			UINT streamNumber, VXBUF lpVertexBuffer, UINT offsetBytes, UINT stride,
+			DWORD FVF, D3DPRIMITIVETYPE primitiveType, UINT startVertex, UINT primitiveCount
 		);
 
 		//稼動状態の確認

@@ -93,8 +93,8 @@ namespace GAME
 		if ( m_vVx.empty () ) { return; }
 
 		//頂点描画
-		Dx3D::instance()->DrawVertex
-		( 
+		Dx3D::instance ()->DrawVertex
+		(
 			lpTexture,
 			0,
 			m_lpVertexBuffer,
@@ -103,7 +103,30 @@ namespace GAME
 			FVF_CUSTOM,
 			D3DPT_TRIANGLESTRIP,
 			0,
-			m_vVx.size() - 2
+			m_vVx.size () - 2
+		);
+	}
+
+	void DxVertex::DrawVertexMultiple ( TX lpTexture )
+	{
+		//有効フラグ
+		if ( ! m_valid ) { return; }
+
+		//サイズが０のときは何もしない
+		if ( m_vVx.empty () ) { return; }
+
+		//頂点描画
+		Dx3D::instance ()->DrawVertexMultiple
+		(
+			lpTexture,
+			0,
+			m_lpVertexBuffer,
+			0,
+			sizeof ( VX ),
+			FVF_CUSTOM,
+			D3DPT_TRIANGLESTRIP,
+			0,
+			m_vVx.size () - 2
 		);
 	}
 
