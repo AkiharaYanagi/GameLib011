@@ -1,6 +1,6 @@
 ﻿//=================================================================================================
 //
-// ウィンドウハンドルの保持と取得
+// ディスプレイの列挙と情報の取得
 //
 //=================================================================================================
 #pragma once
@@ -18,32 +18,18 @@
 //-------------------------------------------------------------------------------------------------
 namespace GAME 
 {
-
-	class HWnd
+	class EnumDisplay
 	{
-		static HWND			m_hWnd;		//ウィンドウハンドル
-
 		//HWND取得コールバック関数
-		static BOOL CALLBACK EnumWindowsProc ( HWND hWnd, LPARAM lParam );
+		static BOOL CALLBACK EnumDisplayProc ( HMONITOR hMnt, HDC hdc, LPRECT lpRect, LPARAM dwParam );
 
 	public:
-		HWnd () = default;	//staticクラスなので実体化禁止
-		HWnd ( const HWnd & rhs ) = delete;
-		~HWnd () = default;
+		EnumDisplay () = delete;	//staticクラスなので実体化禁止
+		EnumDisplay ( const EnumDisplay & rhs ) = delete;
+		~EnumDisplay () = delete;
 
-		//ウィンドウ生成時の値を保存
-		static void Set ( HWND hWnd ) { m_hWnd = hWnd; }
-
-		//ウィンドウ生成時の値を取得
-		static HWND Get() { return m_hWnd; }
-
-		//WINDOWS_OS上のウィンドウを列挙し、現在プロセスと同一のハンドルを取得する
-		static HWND _Get()
-		{
-			HWND hWnd = nullptr;
-			EnumWindows ( EnumWindowsProc, reinterpret_cast<LPARAM>( &hWnd ) );
-			return hWnd;
-		}
+		//モニタ数を取得
+		static int GetMonitorNum ();
 	};
 
 }	//namespace GAME
