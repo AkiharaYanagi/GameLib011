@@ -105,7 +105,7 @@ namespace GAME
 //		DxVertex4& GetVertex4 () { return m_vertex; }
 		P_VxRct GetpVertex4 () { return m_vertex; }
 
-		void SetColor ( UINT index, D3DXCOLOR color)
+		void SetColorN ( UINT index, D3DXCOLOR color)
 		{
 			m_vertex->SetColor ( index, color );
 		}

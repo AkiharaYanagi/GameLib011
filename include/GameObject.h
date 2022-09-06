@@ -28,7 +28,7 @@ namespace GAME
 		UINT			m_indexTexture;		//テクスチャ指定添字
 		D3DXCOLOR		m_color;			//色
 
-		_Fade			m_fade;				//フェード
+		Fade			m_fade;				//フェード
 
 	public:
 		GameObject ();

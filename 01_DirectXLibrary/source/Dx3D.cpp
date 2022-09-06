@@ -390,13 +390,13 @@ namespace GAME
 
 		//Stage0：色
 		m_lpD3DDevice->SetTexture ( 0, lpTexture );
+		m_lpD3DDevice->SetTextureStageState ( 0, D3DTSS_COLOROP, D3DTOP_BLENDTEXTUREALPHA );
 		m_lpD3DDevice->SetTextureStageState ( 0, D3DTSS_COLORARG1, D3DTA_TEXTURE );
 		m_lpD3DDevice->SetTextureStageState ( 0, D3DTSS_COLORARG2, D3DTA_DIFFUSE );
-		m_lpD3DDevice->SetTextureStageState ( 0, D3DTSS_COLOROP, D3DTOP_BLENDTEXTUREALPHA );
+#if 0
 		m_lpD3DDevice->SetTextureStageState ( 0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE );
 		m_lpD3DDevice->SetTextureStageState ( 0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE );
 		m_lpD3DDevice->SetTextureStageState ( 0, D3DTSS_ALPHAOP, D3DTOP_MODULATE );
-#if 0
 
 		m_lpD3DDevice->SetTextureStageState ( 0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE );
 		m_lpD3DDevice->SetTextureStageState ( 0, D3DTSS_COLOROP, D3DTOP_SELECTARG1 );
@@ -410,10 +410,21 @@ namespace GAME
 		m_lpD3DDevice->SetTextureStageState ( 1, D3DTSS_ALPHAARG2, D3DTA_CURRENT );
 #endif // 0
 
+		//Stage1: 乗算後、ディフューズで半透明
+		m_lpD3DDevice->SetTextureStageState ( 1, D3DTSS_COLOROP, D3DTOP_BLENDDIFFUSEALPHA );
+		m_lpD3DDevice->SetTextureStageState ( 1, D3DTSS_COLORARG1, D3DTA_CURRENT );
+		m_lpD3DDevice->SetTextureStageState ( 1, D3DTSS_COLORARG2, D3DTA_DIFFUSE );
+#if 0
+		m_lpD3DDevice->SetTextureStageState ( 1, D3DTSS_ALPHAOP, D3DTOP_BLENDDIFFUSEALPHA );
+		m_lpD3DDevice->SetTextureStageState ( 1, D3DTSS_ALPHAARG1, D3DTA_CURRENT );
+		m_lpD3DDevice->SetTextureStageState ( 1, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE );
+#endif // 0
+
 		//レンダリングステート
 //		m_lpD3DDevice->SetRenderState ( D3DRS_ALPHABLENDENABLE, FALSE );
 		m_lpD3DDevice->SetRenderState ( D3DRS_ALPHABLENDENABLE, TRUE );
 
+		//乗算
 		m_lpD3DDevice->SetRenderState ( D3DRS_SRCBLEND, D3DBLEND_ZERO );
 		m_lpD3DDevice->SetRenderState ( D3DRS_DESTBLEND, D3DBLEND_SRCCOLOR );
 #if 0

@@ -108,8 +108,8 @@ namespace GAME
 			P_Object po = m_pvpObject->at ( i );
 
 			//全体カラー優先
-			_CLR clr = m_color;
-			if ( m_color == _CLR ( 0xffffffff ) )
+			_CLR clr = GameGraphicCore::GetColor ();
+			if ( clr == _CLR ( 0xffffffff ) )
 			{
 				//全体カラーが通常表示(0xffffffff)のときオブジェクトのカラーを参照する
 				clr = m_pvpObject->at ( i )->GetColor ();

@@ -23,7 +23,7 @@ namespace GAME
 	//	グラフィックが保有するタスク
 	//	時間と色を指定し、フレーム毎に遷移する(現在色を返す)
 	//------------------------------------------------------------
-	class _Fade
+	class Fade
 	{
 		UINT	m_timer;	//現在時間
 		UINT	m_time;		//移行時間
@@ -34,12 +34,15 @@ namespace GAME
 		_CLR	m_color_end;	//目標色
 
 	public:
-		_Fade ();
-		_Fade ( const _Fade & rhs ) = delete;
-		~_Fade ();
+		Fade ();
+		Fade ( const Fade & rhs ) = delete;
+		~Fade ();
 
 		//毎フレーム動作(Move()内先頭で呼ぶ)
 		void PreMove ();
+
+		//色保存
+		void SetColor ( _CLR clr) { m_color_present = clr; }
 
 		//色取得
 		_CLR GetColor () const { return m_color_present; }

@@ -18,7 +18,6 @@
 //-------------------------------------------------------------------------------------------------
 namespace GAME
 {
-
 	//--------------------------------------------------------
 	//ゲームテクスチャ　ベース
 	//		テクスチャの基本
@@ -27,7 +26,6 @@ namespace GAME
 	class GameTextureBase
 	{
 		TX		m_lpTexture;		//テクスチャ(確保・解放は継承先で行う)
-//		_CLR	m_color;			//カラー
 		UINT	m_textureIndex;		//テクスチャインデックス
 	
 	public:
@@ -45,27 +43,15 @@ namespace GAME
 
 		//テクスチャの設定
 		void SetTexture ( TX lpTexture ) { m_lpTexture = lpTexture; }
-//		TX	GetTexture () const { return m_lpTexture; }
-		TX&	GetTexture () { return m_lpTexture; }
-
-		//カラーもグラフィックオブジェクトに移設
-#if 0
-		//カラーの設定
-		void SetColor ( D3DXCOLOR color ) { m_color = color; }
-		D3DXCOLOR	GetColor () const { return m_color; }
 		
-		//α値のみの設定
-		void SetAlpha ( float alpha ) 
-		{ 
-			m_color = D3DXCOLOR( m_color.r, m_color.g, m_color.b, alpha ); 
-		}		
-#endif // 0
+		//取得
+		TX&	GetTexture () { return m_lpTexture; }
 	};
 
-	typedef GameTextureBase			TxBs;
-	typedef shared_ptr < TxBs >		P_TxBs;
-	typedef vector < P_TxBs >		VP_TxBs;
-	typedef shared_ptr < VP_TxBs >	PVP_TxBs;
+	using TxBs = GameTextureBase;
+	using P_TxBs = shared_ptr < TxBs >;
+	using VP_TxBs = vector < P_TxBs >;
+	using PVP_TxBs = shared_ptr < VP_TxBs >;
 
 
 	//--------------------------------------------------------
@@ -92,10 +78,10 @@ namespace GAME
 		void SetFileName ( tstring filename ) { m_strFilename = filename; }
 	};
 	
-	typedef GameTextureFromFile		TxFl;
-	typedef shared_ptr < TxFl >		P_TxFl;
-	typedef vector < P_TxFl >		VP_TxFl;
-	typedef shared_ptr < VP_TxFl >	PVP_TxFl;
+	using TxFl = GameTextureFromFile;
+	using P_TxFl = shared_ptr < TxFl >;
+	using VP_TxFl = vector < P_TxFl >;
+	using PVP_TxFl = shared_ptr < VP_TxFl >;
 
 
 	//--------------------------------------------------------
@@ -123,10 +109,10 @@ namespace GAME
 		void SetFileName ( tstring fileName ) { m_strFileName = fileName; }
 	};
 
-	typedef GameTextureFromArchive	TxAcv;
-	typedef shared_ptr < TxAcv >	P_TxAcv;
-	typedef vector < P_TxAcv >		VP_TxAcv;
-	typedef shared_ptr < VP_TxAcv >	PVP_TxAcv;
+	using TxAcv= GameTextureFromArchive;
+	using P_TxAcv= shared_ptr < TxAcv >;
+	using VP_TxAcv= vector < P_TxAcv >;
+	using PVP_TxAcv= shared_ptr < VP_TxAcv >;
 
 
 	//--------------------------------------------------------
@@ -149,10 +135,10 @@ namespace GAME
 		virtual void Reset ();	//再設定
 	};
 
-	typedef GameTextureFromMemory	TxMem;
-	typedef shared_ptr < TxMem >	P_TxMem;
-	typedef vector < P_TxMem >		VP_TxMem;
-	typedef shared_ptr < VP_TxMem >	PVP_TxMem;
+	using TxMem = GameTextureFromMemory;
+	using P_TxMem = shared_ptr < TxMem >;
+	using VP_TxMem = vector < P_TxMem >;
+	using PVP_TxMem = shared_ptr < VP_TxMem >;
 
 
 }	//namespace GAME

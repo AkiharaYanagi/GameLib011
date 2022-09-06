@@ -50,6 +50,7 @@ namespace GAME
 	void GamePrimitive::Move ()
 	{
 		m_vertex->Move ();
+		GameGraphicCore::PreMove ();
 	}
 
 	//引数：テクスチャなし
@@ -66,10 +67,13 @@ namespace GAME
 		m_vertex->DrawVertex ( texture );
 	}
 
-	//引数：テクスチャあり
+	//乗算描画　引数：テクスチャあり
 	void GamePrimitive::DrawVertexMultiple ( TX& texture )
 	{
 		if ( ! GetValid () ) { return; }	//非有効時には何もしない
+
+		SetAllColor ( GameGraphicCore::GetColor () );
+
 		m_vertex->DrawVertexMultiple ( texture );
 	}
 
