@@ -359,7 +359,7 @@ namespace GAME
 		m_count = 0;
 		V_RECT vecRect ( n );
 
-		EnumDisplayMonitors ( NULL, NULL, MonitorEnumProc, (LPARAM)&vecRect );
+		::EnumDisplayMonitors ( NULL, NULL, MonitorEnumProc, (LPARAM)&vecRect );
 
 		if ( targetDisp + 1 <= n )
 		{

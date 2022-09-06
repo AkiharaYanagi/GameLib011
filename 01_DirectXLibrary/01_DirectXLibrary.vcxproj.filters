@@ -9,6 +9,7 @@
     <ClCompile Include="source\DxSound.cpp" />
     <ClCompile Include="source\DxVertex.cpp" />
     <ClCompile Include="source\HWnd.cpp" />
+    <ClCompile Include="source\EnumDisplay.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\DxJoystick.h" />
@@ -22,5 +23,6 @@
     <ClInclude Include="..\include\Directx_Library.h" />
     <ClInclude Include="..\include\Dx3D.h" />
     <ClInclude Include="..\include\DxDefine.h" />
+    <ClInclude Include="..\include\EnumDisplay.h" />
   </ItemGroup>
 </Project>

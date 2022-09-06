@@ -69,6 +69,8 @@ namespace GAME
 		if ( m_lpD3D == nullptr ) { throw _T("Direct3Dオブジェクトの作成"); }
 
 		//対応ディスプレイモードの個数を取得
+		int n = ::GetSystemMetrics ( SM_CMONITORS );	//個数の数え上げは1個から
+		if ( n - 1 < m_displayNum ) { m_displayNum = n - 1; }
 //		UINT nDisplayMode = m_lpD3D->GetAdapterModeCount ( D3DADAPTER_DEFAULT, D3DFMT_X8R8G8B8 );
 		UINT nDisplayMode = m_lpD3D->GetAdapterModeCount ( m_displayNum, D3DFMT_X8R8G8B8 );
 		D3DDISPLAYMODE dsplMd;
