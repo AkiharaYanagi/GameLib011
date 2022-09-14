@@ -97,15 +97,43 @@ namespace GAME
 		if ( ! m_valid ) { return; }
 
 		//オブジェクトの数だけ描画
-		for ( UINT i = 0; i < m_pvpObject->size (); ++i )
+//		for ( UINT i = 0; i < m_pvpObject->size (); ++i )
+		for ( P_Object pob : * m_pvpObject )
 		{
 			//有効フラグ
-			if ( ! m_pvpObject->at ( i )->GetValid () ) { continue; }
-			UINT indexTexture = m_pvpObject->at ( i )->GetIndexTexture ();
+			if ( ! pob->GetValid () ) { continue; }
 
+			//テクスチャ指定
+			UINT indexTexture = pob->GetIndexTexture ();
 			if ( ! m_pvpTexture->at ( indexTexture ) ) { continue; }
 
+
+			//全体カラー優先
+			_CLR clr = GameGraphicCore::GetColor ();
+			if ( clr == _CLR ( 0xffffffff ) )
+			{
+				//全体カラーが通常表示(0xffffffff)のときオブジェクトのカラーを参照する
+				clr = pob->GetColor ();
+			}
+
+			Dx3D::instance()->DrawSprite
+			(
+				m_pvpTexture->at ( indexTexture )->GetTexture(),
+				pob->GetcpMatrix(),
+				nullptr,
+				m_pCenter.get (), 
+				m_pPosition.get (), 
+				clr
+			);
+#if 0
 			P_Object po = m_pvpObject->at ( i );
+			//有効フラグ
+			if ( ! m_pvpObject->at ( i )->GetValid () ) { continue; }
+
+			//テクスチャ指定
+			UINT indexTexture = m_pvpObject->at ( i )->GetIndexTexture ();
+			if ( ! m_pvpTexture->at ( indexTexture ) ) { continue; }
+
 
 			//全体カラー優先
 			_CLR clr = GameGraphicCore::GetColor ();
@@ -124,6 +152,7 @@ namespace GAME
 				m_pPosition.get (), 
 				clr
 			);
+#endif // 0
 		}
 	}
 

@@ -73,6 +73,7 @@ namespace GAME
 		//---------------------------------------------------------------------
 		//オブジェクトvectorのポインタ
 		PVP_Object GetpvpObject () { return m_pvpObject; }
+		P_Object GetpObject ( UINT n ) { return m_pvpObject->at ( n ); }
 
 		//クリア
 		void ClearObject ();

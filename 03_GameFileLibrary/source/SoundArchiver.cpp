@@ -47,6 +47,8 @@ namespace GAME
 	//作成
 	void SoundArchiver::Make ()
 	{
+		//DBGOUT_FL_F ( _T ("SoundArchiver::Make()\n") );
+
 		//カレントディレクトリの取得
 		TCHAR path [ MAX_PATH ];
 		::GetCurrentDirectory ( MAX_PATH, path );
@@ -58,6 +60,7 @@ namespace GAME
 		WIN32_FIND_DATA		fileData;
 		HANDLE hFileList = ::FindFirstFile ( m_searchCondition, &fileData );	//ディレクトリ指定("sound/*.*")
 
+		//個数を数え上げ
 		while ( 1 )
 		{
 			//次ファイルを取得
@@ -67,6 +70,36 @@ namespace GAME
 				if ( FILE_ATTRIBUTE_DIRECTORY == fileData.dwFileAttributes ) { continue; }
 				//システムファイル(Thumbs.dbなど)は飛ばす
 				if ( FILE_ATTRIBUTE_SYSTEM & fileData.dwFileAttributes ) { continue; }
+
+				++ m_count;
+			}
+			//次ファイルが取得できなかったとき
+			else
+			{
+				break;
+			}
+		}
+		FindClose ( hFileList );
+
+		//ファイル個数を記録
+		::WriteFile ( hWriteFile, & m_count, sizeof ( DWORD ), nullptr, nullptr );
+
+
+		//再列挙
+		hFileList = ::FindFirstFile ( m_searchCondition, &fileData );	//ディレクトリ指定("sound/*.*")
+
+		//書出
+		while ( 1 )
+		{
+			//次ファイルを取得
+			if ( ::FindNextFile ( hFileList, &fileData ) )
+			{
+				//ディレクトリは飛ばす
+				if ( FILE_ATTRIBUTE_DIRECTORY == fileData.dwFileAttributes ) { continue; }
+				//システムファイル(Thumbs.dbなど)は飛ばす
+				if ( FILE_ATTRIBUTE_SYSTEM & fileData.dwFileAttributes ) { continue; }
+
+				//DBGOUT_FL_F ( _T ( "Filename=\"%s\"\n" ), fileData.cFileName );
 
 				//ファイルサイズ
 				DWORD fileSize = fileData.nFileSizeLow;	//4Gbyte未満のみ
@@ -112,10 +145,22 @@ namespace GAME
 	//開
 	void SoundArchiver::Open ()
 	{
+		//DBGOUT_FL_F ( _T ( "サウンドアーカイバ読込開始\n" ) );
 		//ファイル読込
 		m_hFile = CreateFile ( m_archiveFileName, GENERIC_READ, 0, nullptr, OPEN_EXISTING, 
 			FILE_ATTRIBUTE_NORMAL, nullptr );
 
+		TCHAR cur [ 255 ] = _T("filepath");
+		::GetCurrentDirectory ( 255, cur );
+		//DBGOUT_FL_F ( _T ( "currentDirectory  =\"%s\"\n m_hFile = %lx\n" ), cur, m_hFile );
+		//DBGOUT_FL_F ( _T ( "File=\"%s\"\n" ), m_archiveFileName );
+
+		//ファイル個数を読込
+		DWORD fileNum = 0;
+		::ReadFile ( m_hFile, &fileNum, sizeof ( DWORD ), nullptr, nullptr );
+		m_count = fileNum;
+
+		//DBGOUT_FL_F ( _T ( "m_count = %d\n" ), m_count );
 		for ( UINT i = 0; i < m_count; ++i )
 		{
 			DWORD numberOfByteRead = 0;
@@ -123,6 +168,8 @@ namespace GAME
 			::ReadFile ( m_hFile, &fileSize, sizeof ( DWORD ), &numberOfByteRead, nullptr );
 			BYTE* buf = new BYTE [ fileSize ];
 			::ReadFile ( m_hFile, buf, fileSize, &numberOfByteRead, nullptr );
+
+			//DBGOUT_FL_F ( _T ( "FileSize = %d\n" ), fileSize );
 
 			DxSound::instance ()->LoadWaveFromMem_Renew ( (HPSTR)buf, fileSize );
 

@@ -52,6 +52,14 @@ namespace GAME
 		if ( m_archiveHeader ) { delete[] m_archiveHeader; m_archiveHeader = nullptr; }
 	}
 
+
+
+
+	//@todo 再起によるサブディレクトリの検索を追加する
+
+
+
+
 	//アーカイブファイル作成
 	void Archiver::Make ()
 	{
@@ -106,6 +114,7 @@ namespace GAME
 		}
 		FindClose ( hFile );
 
+		//ファイル個数を書出
 		DWORD numberOfBytesWritten = 0;
 		WriteFile ( hWriteFile, &fileNum, sizeof(DWORD), &numberOfBytesWritten, nullptr );
 

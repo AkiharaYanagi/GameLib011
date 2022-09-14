@@ -1,1 +1,7 @@
 ファイル書出開始
+SoundArchiver::Make()
+サウンドアーカイバ読込開始
+currentDirectory  ="D:\Projects\GameLib011\testGameLib"
+ m_hFile = 824
+File="sound.dat"
+m_count = 0
