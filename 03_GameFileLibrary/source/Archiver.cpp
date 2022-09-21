@@ -39,7 +39,7 @@ namespace GAME
 
 	//コンストラクタ
 	Archiver::Archiver ()
-		: m_hMap ( nullptr ), m_pFile ( nullptr ), m_fileNum ( 0 )
+		: m_hMap ( nullptr ), m_pFile ( nullptr ), m_offset ( 0 )
 	{
 	}
 
@@ -73,12 +73,12 @@ namespace GAME
 		//バイナリで書出用ファイルを開く
 		HANDLE hWriteFile = CreateFile ( ARCHIVE_FILE_NAME, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr );
 		DWORD numberOfBytesWritten = 0;
-
+		
 		//-------------------------------------------------------------------------
-		//	ヘッダの作成
+		//	対象ファイルリストと個数
 		//-------------------------------------------------------------------------
-
 		//サブディレクトリを含む検索でファイルリストを作成する
+		m_offset = 0;	//実データ開始位置からのオフセット
 		Find ( SEARCH_CONDITION );
 
 		//ファイル個数を書出
@@ -86,8 +86,9 @@ namespace GAME
 		::WriteFile ( hWriteFile, & nFile, sizeof ( DWORD ), & numberOfBytesWritten, nullptr );
 
 		//-------------------------------------------------------------------------
-		//	ファイル名、ファイルサイズ(オフセット)を取得
+		//	ヘッダの作成
 		//-------------------------------------------------------------------------
+		//	ファイル名、ファイルサイズ(オフセット)を取得
 #if 0
 		WIN32_FIND_DATA findData;
 		HANDLE hFind = FindFirstFile ( SEARCH_CONDITION, & findData );
@@ -242,12 +243,16 @@ namespace GAME
 	//アーカイブファイル読込
 	void Archiver::Open ()
 	{
-		TCHAR path [ MAX_PATH ];
-		::GetCurrentDirectory ( MAX_PATH, path );
+//		TCHAR path [ MAX_PATH ];
+//		::GetCurrentDirectory ( MAX_PATH, path );
 
-//		m_hFile = ::CreateFile ( ARCHIVE_FILE_NAME, GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr );
 		HANDLE hFile = ::CreateFile ( ARCHIVE_FILE_NAME, GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr );
-		DWORD erorr = GetLastError();
+		DWORD error = ::GetLastError();
+		if ( ERROR_SUCCESS != error )
+		{
+			TRACE_F ( _T ( "Error : %d\n" ), error );
+			return;
+		}
 
 		//ファイル数を得る
 		DWORD dwFileNum = 0;
@@ -255,10 +260,6 @@ namespace GAME
 		bool bRet = ::ReadFile ( hFile, & dwFileNum, sizeof ( DWORD ), & numberOfBytesRead, nullptr );
 
 		//ヘッダを個数分得る
-#if 0
-		if ( m_archiveHeader ) { return; }
-		m_archiveHeader = new ARCHIVE_HEADER_SEARCH [ dwFileNum ];
-#endif // 0
 		unique_ptr < ACV_H_SRC [] > hAcv ( new ACV_H_SRC [ dwFileNum ] );
 
 		for ( DWORD i = 0; i < dwFileNum; ++ i )
@@ -269,10 +270,8 @@ namespace GAME
 			hAcv [i].align.offset = tempAcvHd.align.offset;
 			hAcv [i].align.fileSize = tempAcvHd.align.fileSize;
 
-			m_map.insert ( ARCHIVE_MAP::value_type ( hAcv [i].fileName, & (hAcv [i].align ) ) );
+			m_map.insert ( ARCHIVE_MAP::value_type ( hAcv [i].fileName, hAcv [i].align ) );
 		}
-
-		m_fileNum = dwFileNum;
 
 		//ファイルマッピング
 		//@info 名前を付けると複数起動時に同名のマッピングでアクセス違反になるので無名にする
@@ -304,13 +303,14 @@ namespace GAME
 		}
 
 		//mapからポインタ配置情報を取得
-		ARCHIVE_ALIGN* align = m_map [ str ];
+		ARCHIVE_ALIGN align = m_map [ str ];
 
 		//データ開始位置
-		DWORD startData = sizeof ( DWORD ) + sizeof ( ARCHIVE_HEADER ) * m_fileNum;
+		size_t nFile = m_vFilename.size ();
+		DWORD startData = sizeof ( DWORD ) + sizeof ( ARCHIVE_HEADER ) * nFile;
 
-		ret.filePointer = (LPBYTE)m_pFile + startData + align->offset;
-		ret.fileSize = align->fileSize;
+		ret.filePointer = (LPBYTE)m_pFile + startData + align.offset;
+		ret.fileSize = align.fileSize;
 
 		return ret;
 
@@ -336,9 +336,6 @@ namespace GAME
 
 		//引数のパスから最初のファイルを検索
 		HANDLE hFind = ::FindFirstFile ( path, & findData );
-
-		DWORD fileNum = 0;	//ファイル個数
-		DWORD fileTotalSize = 0;	//総ファイルサイズ
 
 		//列挙後、条件("*.*")を除きディレクトリ文字列にする
 		TRACE_F ( _T ( "Find( %s )\n" ), path );
@@ -381,13 +378,13 @@ namespace GAME
 				ACV_H_SRC acv;
 				acv.fileName = filename;
 				acv.align.fileSize = findData.nFileSizeLow;
-				acv.align.offset = fileTotalSize;
+				acv.align.offset = m_offset;
 				
 				//保存
 				m_vFilename.push_back ( acv );
 
 				//ファイルのオフセット計算
-				fileTotalSize += findData.nFileSizeLow;
+				m_offset += findData.nFileSizeLow;
 			}
 		} while ( FindNextFile ( hFind, & findData ) );
 

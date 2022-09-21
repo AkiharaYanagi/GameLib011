@@ -29,10 +29,11 @@ namespace GAME
 	//========================================================
 
 	//ファイル内配置
+	//mapにおいて[名前]をキーにで取得したいデータ
 	struct ARCHIVE_ALIGN
 	{
-		DWORD		offset;			//(ヘッダを除く)データ開始位置からのポインタ位置オフセット
-		DWORD		fileSize;		//ファイルサイズ
+		DWORD		offset;		//(ヘッダを除く)データ開始位置からのポインタ位置オフセット
+		DWORD		fileSize;	//ファイルサイズ
 	};
 
 	//書込用(大きさが定数のTCHAR[]を用いる)
@@ -46,21 +47,21 @@ namespace GAME
 	//検索用(文字列操作がしやすいtstringを用いる)
 	struct ARCHIVE_HEADER_SEARCH
 	{
-		tstring			fileName;		//ファイル名
-		ARCHIVE_ALIGN	align;			//配置
+		tstring			fileName;	//ファイル名
+		ARCHIVE_ALIGN	align;		//配置
 	};
 	using ACV_H_SRC = ARCHIVE_HEADER_SEARCH;
 
 	//戻値用
 	struct ARCHIVE_FILE_USE
 	{
-		LPCVOID		filePointer;		//ファイルポインタ
-		DWORD		fileSize;			//ファイルサイズ
+		LPCVOID		filePointer;	//ファイルポインタ
+		DWORD		fileSize;		//ファイルサイズ
 	};
 	using ACV_FL_USE = ARCHIVE_FILE_USE;
 
 	//map型宣言
-	using ARCHIVE_MAP = std::map < tstring, ARCHIVE_ALIGN* >;
+	using ARCHIVE_MAP = std::map < tstring, ARCHIVE_ALIGN >;
 
 
 	//アーカイバクラス
@@ -80,14 +81,13 @@ namespace GAME
 	//--------------------------------------------------
 
 	private:
-//		HANDLE					m_hFile;
-		HANDLE					m_hMap;		//ファイルマッピング
+		HANDLE					m_hMap;		//データのファイルマッピングハンドル
+		LPVOID					m_pFile;	//ファイルマッピングの開始アドレス
 
-		DWORD					m_fileNum;
-		ARCHIVE_MAP				m_map;
-		LPVOID					m_pFile;
+		ARCHIVE_MAP				m_map;		//実データ検索用マップ
+		vector < ACV_H_SRC >	m_vFilename;	//対象データファイル名リスト
 
-		vector < ACV_H_SRC >	m_vFilename;
+		DWORD					m_offset;	//総ファイルサイズ
 		
 		static const TCHAR		ARCHIVE_FILE_NAME[];
 		static const TCHAR		ARCHIVE_DIR_NAME[];
@@ -95,14 +95,9 @@ namespace GAME
 		static const TCHAR		MAP_NAME[];
 
 	public:
-		//アーカイブファイル作成
-		void Make ();
-
-		//アーカイブファイル読込
-		void Open ();
-
-		//アーカイブファイル閉
-		void Close ();
+		void Make ();		//アーカイブファイル作成
+		void Open ();		//アーカイブファイル読込
+		void Close ();		//アーカイブファイル閉
 
 		//元のファイル名からアーカイブ内のファイルポインタを得る
 		ACV_FL_USE GetFilePointer ( LPCTSTR fileName );

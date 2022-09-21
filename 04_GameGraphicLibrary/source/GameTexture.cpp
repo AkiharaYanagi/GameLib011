@@ -101,13 +101,13 @@ namespace GAME
 			return;
 		}
 
+#if 0
 		TCHAR curDir [ MAX_PATH ];
 		::GetCurrentDirectory( MAX_PATH, curDir );
 //		TRACE->DebugOutf ( curDir );
 		////TRACE_F ( _T(": %s : ") , m_strFileName.c_str() );
 
 		//メモリからテクスチャの作成
-#if 0
 		HRESULT hr = D3DXCreateTextureFromFileInMemory ( Dx3D::instance ()->GetDevice(), file.filePointer, file.fileSize, & m_lpTexture );
 		if ( FAILED ( hr ) )
 		{ 
@@ -117,8 +117,7 @@ namespace GAME
 #endif // 0
 		DX3D->CreateTextureFromMem ( file.filePointer, file.fileSize, & m_lpTexture );
 
-		TRACE_F ( m_strFileName.c_str() );
-		TRACE_F ( _T(" : テクスチャ作成　成功\n") );
+		TRACE_F ( _T("%s : テクスチャ作成　成功\n") , m_strFileName.c_str());
 
 		//テクスチャの設定
 		GameTextureBase::SetTexture ( m_lpTexture );
