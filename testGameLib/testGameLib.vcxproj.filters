@@ -11,4 +11,7 @@
     <ClInclude Include="Source\StdAfx.h" />
     <ClInclude Include="Source\testMultiple.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="GameLib.props" />
+  </ItemGroup>
 </Project>

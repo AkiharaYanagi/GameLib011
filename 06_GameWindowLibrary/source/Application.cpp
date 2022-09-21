@@ -323,10 +323,6 @@ namespace GAME
 	void Application::SetGameMain ( UP_GameMainBase pGameMain )
 	{
 		m_pFrameControl->SetGameMain ( ::move ( pGameMain ) );
-		
-		//@todo Load()の位置を調整
-		Load ();	//読込
-		Init ();	//初期化
 	}
 
 	//------------------------------------------------------------------------
@@ -356,7 +352,7 @@ namespace GAME
 		int targetDisp = (int)AppSettingFile::Inst ()->GetDisplayNum ();	//０から
 		int n = ::GetSystemMetrics ( SM_CMONITORS );	//1から
 
-		m_count = 0;
+		m_monitor_count = 0;
 		V_RECT vecRect ( n );
 
 		::EnumDisplayMonitors ( NULL, NULL, MonitorEnumProc, (LPARAM)&vecRect );
@@ -395,9 +391,11 @@ namespace GAME
 		return POINT { rect.left + wPos_x, rect.top + wPos_y };
 	}
 
-	int Application::m_count;
 
+	//static実体
+	int Application::m_monitor_count = 1;
 
+	//モニタ列挙プロシージャ
 	BOOL CALLBACK Application::MonitorEnumProc ( HMONITOR hMnt, HDC hdc, LPRECT lpRect, LPARAM dwParam )
 	{
 		V_RECT* pr = (V_RECT*)dwParam;
@@ -406,8 +404,8 @@ namespace GAME
 		mntInfo.cbSize = sizeof ( mntInfo );
 		GetMonitorInfo ( hMnt, & mntInfo );
 
-		::CopyRect ( &(*pr)[ m_count ], & mntInfo.rcMonitor );
-		++ m_count;
+		::CopyRect ( &(*pr)[ m_monitor_count ], & mntInfo.rcMonitor );
+		++ m_monitor_count;
 
 		return TRUE;
 	}

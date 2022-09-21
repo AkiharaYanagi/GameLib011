@@ -97,7 +97,7 @@ namespace GAME
 
 	public:
 
-		//文字列フォーマットを表示(Unicode)
+		//文字列フォーマットを表示(TCHAR)
 		static void DebugOutf ( LPCTSTR format, ... );
 
 		//文字列フォーマットを表示(char*)

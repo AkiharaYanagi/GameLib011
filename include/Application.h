@@ -108,7 +108,7 @@ namespace GAME
 
 		//モニタ列挙プロシージャ
 		static BOOL CALLBACK MonitorEnumProc ( HMONITOR hMnt, HDC hdc, LPRECT lpRect, LPARAM dwParam );
-		static int m_count;
+		static int m_monitor_count;
 
 	private:
 		POINT GetWindowInitPos ();

@@ -21,12 +21,11 @@
 //-------------------------------------------------------------------------------------------------
 namespace GAME 
 {
-
 	//========================================================
-	//	◆アーカイブデータ　ヘッダフォーマット
-	//	DWORD			fileNum		//ファイルの個数
-	//	ARCHIVE_HEADER	...			//fileNum分だけ列挙
-	//	BYTE			...			//バイナリデータ
+	//	◆アーカイブバイナリファイル　ヘッダフォーマット
+	//	DWORD				fileNum		//ファイルの個数
+	//	ARCHIVE_HEADER[]	...			//fileNum分だけ列挙
+	//	BYTE				...			//バイナリデータ
 	//========================================================
 
 	//ファイル内配置
@@ -36,19 +35,21 @@ namespace GAME
 		DWORD		fileSize;		//ファイルサイズ
 	};
 
-	//書込用
+	//書込用(大きさが定数のTCHAR[]を用いる)
 	struct ARCHIVE_HEADER
 	{
 		TCHAR			fileName[ MAX_PATH ];	//ファイル名
 		ARCHIVE_ALIGN	align;					//配置
 	};
+	using ACV_H = ARCHIVE_HEADER;
 
-	//検索用
+	//検索用(文字列操作がしやすいtstringを用いる)
 	struct ARCHIVE_HEADER_SEARCH
 	{
 		tstring			fileName;		//ファイル名
 		ARCHIVE_ALIGN	align;			//配置
 	};
+	using ACV_H_SRC = ARCHIVE_HEADER_SEARCH;
 
 	//戻値用
 	struct ARCHIVE_FILE_USE
@@ -56,6 +57,7 @@ namespace GAME
 		LPCVOID		filePointer;		//ファイルポインタ
 		DWORD		fileSize;			//ファイルサイズ
 	};
+	using ACV_FL_USE = ARCHIVE_FILE_USE;
 
 	//map型宣言
 	using ARCHIVE_MAP = std::map < tstring, ARCHIVE_ALIGN* >;
@@ -78,18 +80,19 @@ namespace GAME
 	//--------------------------------------------------
 
 	private:
-		HANDLE						m_hFile;
-		HANDLE						m_hMap;		//ファイルマッピング
+//		HANDLE					m_hFile;
+		HANDLE					m_hMap;		//ファイルマッピング
 
-		DWORD						m_fileNum;
-		ARCHIVE_HEADER_SEARCH*		m_archiveHeader;
-		ARCHIVE_MAP					m_map;
-		LPVOID						m_pFile;
+		DWORD					m_fileNum;
+		ARCHIVE_MAP				m_map;
+		LPVOID					m_pFile;
+
+		vector < ACV_H_SRC >	m_vFilename;
 		
-		static const TCHAR			m_archiveFileName[];
-		static const TCHAR			m_archiveDirName[];
-		static const TCHAR			m_searchCondition[];
-		static const TCHAR			m_mapName[];
+		static const TCHAR		ARCHIVE_FILE_NAME[];
+		static const TCHAR		ARCHIVE_DIR_NAME[];
+		static const TCHAR		SEARCH_CONDITION[];
+		static const TCHAR		MAP_NAME[];
 
 	public:
 		//アーカイブファイル作成
@@ -102,7 +105,11 @@ namespace GAME
 		void Close ();
 
 		//元のファイル名からアーカイブ内のファイルポインタを得る
-		ARCHIVE_FILE_USE GetFilePointer ( LPCTSTR fileName );
+		ACV_FL_USE GetFilePointer ( LPCTSTR fileName );
+
+	private:
+		//ファイル検索の再帰
+		void Find ( LPCTSTR path );
 	};
 
 
