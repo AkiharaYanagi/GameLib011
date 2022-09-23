@@ -56,13 +56,6 @@ namespace GAME
 	}
 
 
-
-
-	//@todo 再起によるサブディレクトリの検索を追加する
-
-
-
-
 	//アーカイブファイル作成
 	void Archiver::Make ()
 	{
@@ -89,67 +82,6 @@ namespace GAME
 		//	ヘッダの作成
 		//-------------------------------------------------------------------------
 		//	ファイル名、ファイルサイズ(オフセット)を取得
-#if 0
-		WIN32_FIND_DATA findData;
-		HANDLE hFind = FindFirstFile ( SEARCH_CONDITION, & findData );
-		while ( T )
-		{
-			//次のファイルを取得
-			if ( FindNextFile ( hFind, &findData ) )
-			{
-				//ディレクトリはとばす
-				if ( findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY )
-				{
-					tstring str ( findData.cFileName );
-					tostringstream toss;
-					toss << _T("ディレクトリ: ") << str << _T(", ファイルサイズ: ") << findData.nFileSizeLow << std::endl;
-//					OutputDebugString ( toss.str().c_str () );
-					continue; 
-				}
-
-				//システムファイル(Thumbs.dbなど)はとばす
-				if ( findData.dwFileAttributes & FILE_ATTRIBUTE_SYSTEM )
-				{
-					tstring str ( findData.cFileName );
-					tostringstream toss;
-					toss << _T("システムファイル: ") << str << _T(", ファイルサイズ: ") << findData.nFileSizeLow << std::endl;
-//					OutputDebugString ( toss.str().c_str () );
-					continue; 
-				}
-
-				TCHAR fileName[MAX_PATH];		//ファイル名
-				_tcscpy_s ( fileName, _T("archive/") );
-				_tcscat_s ( fileName, findData.cFileName );
-				fileSize = findData.nFileSizeLow;	//4Gbyteサイズ以上は扱わない
-				
-#if	1
-				tostringstream toss;
-				toss << fileName << _T(", オフセット: ") << fileTotalSize << _T(", ファイルサイズ: ") << fileSize << std::endl;
-//				OutputDebugString ( toss.str().c_str () );
-#endif	//0
-
-				DWORD numberOfBytesWritten = 0;
-				WriteFile ( hWriteFile, fileName, sizeof(fileName), &numberOfBytesWritten, nullptr );
-				WriteFile ( hWriteFile, &fileTotalSize, sizeof(DWORD), &numberOfBytesWritten, nullptr );
-				WriteFile ( hWriteFile, &fileSize, sizeof(DWORD), &numberOfBytesWritten, nullptr );
-
-				//次のオフセット位置
-				fileTotalSize += fileSize;
-			}
-			else	//次のファイルが取得できなかったとき
-			{
-				if ( GetLastError () == ERROR_NO_MORE_FILES ) {}	//列挙終了
-				else {}		//エラー終了
-				break;
-			}
-		}
-		FindClose ( hFind );
-#endif // 0
-
-
-		//@todo ヘッダの書き込みと読込の型の違いを修正
-
-
 
 		//対象ファイルすべてに対してループ
 		for ( ACV_H_SRC acvSrc : m_vFilename )
@@ -163,64 +95,9 @@ namespace GAME
 			::WriteFile ( hWriteFile, & acvSrc.align.fileSize, sizeof ( DWORD ), &nWrtn, nullptr );
 		}
 
-
-
 		//-------------------------------------------------------------------------
 		//ファイル実データ書出
 		//-------------------------------------------------------------------------
-#if 0
-		hFind = FindFirstFile ( SEARCH_CONDITION, &findData );
-		while ( T )
-		{
-			//次のファイルを取得
-			if ( FindNextFile ( hFind, &findData ) )
-			{
-				//ディレクトリはとばす
-				if ( findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY ) { continue; }
-				//システムファイル(Thumbs.dbなど)はとばす
-				if ( findData.dwFileAttributes & FILE_ATTRIBUTE_SYSTEM ) { continue; }
-
-				fileSize = findData.nFileSizeLow;	//4Gbyteサイズ以上は扱わない
-
-				//ファイル読込
-#if	0
-				TCHAR fileName[MAX_PATH];		//ファイル名
-				_tcscpy_s ( fileName, _T("archive/") );
-				_tcscat_s ( fileName, fileData.cFileName );
-				HANDLE hReadFile = CreateFile ( fileName, GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr );
-#endif	//0
-				tstring fileName ( ARCHIVE_DIR_NAME );
-				fileName.append ( findData.cFileName );
-				HANDLE hReadFile = ::CreateFile ( fileName.c_str(), GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr );
-
-				//ファイルハンドルからサイズ分読込
-//				BYTE* buf = new BYTE [ fileSize ];
-				unique_ptr < BYTE[] > buf = make_unique < BYTE[] > ( fileSize );
-				DWORD numberOfBytesRead = 0;
-				ReadFile ( hReadFile, buf.get (), fileSize, &numberOfBytesRead, nullptr );
-
-				//ファイルにサイズ分書出
-				DWORD numberOfBytesWritten = 0;
-				WriteFile ( hWriteFile, buf.get (), fileSize, &numberOfBytesWritten, nullptr );
-//				delete[] buf;
-
-				CloseHandle ( hReadFile );
-
-#if	0
-				tostringstream toss0;
-				toss0 << "read = " << numberOfBytesRead << ", write = " << numberOfBytesWritten << std::endl;
-				OutputDebugString ( toss0.str().c_str () );
-#endif	//0
-			}
-			else	//次のファイルが取得できなかったとき
-			{
-				if ( GetLastError () == ERROR_NO_MORE_FILES ) {}	//列挙終了
-				else {}		//エラー終了
-				break;
-			}
-		}
-		FindClose ( hFind );
-#endif // 0
 
 		//対象ファイルすべてに対してループ
 		for ( ACV_H_SRC acvSrc : m_vFilename )
@@ -243,9 +120,6 @@ namespace GAME
 	//アーカイブファイル読込
 	void Archiver::Open ()
 	{
-//		TCHAR path [ MAX_PATH ];
-//		::GetCurrentDirectory ( MAX_PATH, path );
-
 		HANDLE hFile = ::CreateFile ( ARCHIVE_FILE_NAME, GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr );
 		DWORD error = ::GetLastError();
 		if ( ERROR_SUCCESS != error )
@@ -275,6 +149,7 @@ namespace GAME
 
 		//ファイルマッピング
 		//@info 名前を付けると複数起動時に同名のマッピングでアクセス違反になるので無名にする
+		//	ファイルマッピングは別プロセスで共通メモリにアクセスする手法
 //		m_hMap = CreateFileMapping ( m_hFile, nullptr, PAGE_READONLY, 0, 0, m_mapName );
 		m_hMap = CreateFileMapping ( hFile, nullptr, PAGE_READONLY, 0, 0, nullptr );
 		if ( m_hMap == nullptr )
@@ -284,8 +159,6 @@ namespace GAME
 		}
 		m_pFile = ::MapViewOfFile ( m_hMap, FILE_MAP_READ, 0, 0, 0 );
 	}
-
-
 
 
 	//元のファイル名からアーカイブ内のファイルポインタを得る
@@ -313,20 +186,7 @@ namespace GAME
 		ret.fileSize = align.fileSize;
 
 		return ret;
-
-#if	0
-		m_fileBuf = new BYTE [ align->fileSize ];
-
-		SetFilePointer ( m_hFile, startData + align->offset, nullptr, FILE_BEGIN );
-		DWORD numberOfBytesRead = 0;
-		ReadFile ( m_hFile, m_fileBuf, align->fileSize, &numberOfBytesRead, nullptr );
-
-		ret.filePointer = m_fileBuf;
-		ret.fileSize = align->fileSize;
-		return ret;
-#endif	//0
 	}
-
 
 
 	void Archiver::Find ( LPCTSTR path )
