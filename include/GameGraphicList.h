@@ -1,10 +1,11 @@
 //=================================================================================================
 //
 // ◆GameGraphicList
-//		表示の前後を全体で統一する
+//		グラフィック表示の前後を全体で統一する
 //		Z値を用いてソートするGameGpraphicのリストのポインタを保持する
 //		オブジェクトの所有を超えて登録するグラフィックのリスト
 //		【シングルトン】を用いてグローバルからアクセスする
+//		GameSystemが実体を持ち、各位ゲームタスクを登録する
 //
 //=================================================================================================
 #pragma once
@@ -36,7 +37,7 @@ namespace GAME
 	//---------------------------------------------------------------------
 	
 	private:
-		P_TASK_LST		m_pTaskList;		//大元となるタスクリスト
+		P_TASK_LST		m_pGrpTaskList;		//大元となるタスクリスト
 
 	public:
 		//@info 利用前にNewTaskList()を手動で呼ぶ
@@ -44,17 +45,17 @@ namespace GAME
 		P_TASK_LST NewTaskList ();
 
 		//対象タスクリストを設定
-		void SetpTaskList ( P_TASK_LST p ) { m_pTaskList = p; }
+//		void SetpTaskList ( P_TASK_LST p ) { m_pGrpTaskList = p; }
 
 		//対象タスクリストを取得
-		P_TASK_LST GetpTaskList () { return m_pTaskList; }
+		P_TASK_LST GetpTaskList () { return m_pGrpTaskList; }
 
 		//Z値で降順ソートされた位置に挿入
 		//描画Z位置(後:1.f ～ 0.0f:前) "GameGraphicConst.h"に Z_BG などで定数が宣言してある
 		void InsertByZ ( P_GrpCr pTask );
 
 		//対象タスクを取外
-		void Erase ( P_Task pTask ) { m_pTaskList->EraseTask ( pTask ); }
+		void Erase ( P_Task pTask ) { m_pGrpTaskList->EraseTask ( pTask ); }
 
 		//再設定
 		void Reset ();

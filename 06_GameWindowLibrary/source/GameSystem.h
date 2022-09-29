@@ -30,6 +30,9 @@ namespace GAME
 	{
 		UP_GameMainBase		m_pGameMain;	//ゲームのメインオブジェクトポインタ
 
+		//@info グラフィックは特にMove()をゲームメインの後で行うため、個別で保持する
+		P_Task	m_grpList;	//共通グラフィックリストのタスクポインタ
+
 	public:
 		GameSystem () : m_pGameMain ( nullptr ) {}
 		GameSystem ( const GameSystem& rhs ) = delete;

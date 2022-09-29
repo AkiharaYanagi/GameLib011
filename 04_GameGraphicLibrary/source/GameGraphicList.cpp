@@ -22,28 +22,28 @@ namespace GAME
 
 	//コンストラクタ
 	GameGraphicList::GameGraphicList ()
-		: m_pTaskList ( nullptr )
+		: m_pGrpTaskList ( nullptr )
 	{
 	}
 
 	//新規リストを作成
 	P_TASK_LST GameGraphicList::NewTaskList ()
 	{
-		m_pTaskList = make_shared < GameTaskList > ();
-		return m_pTaskList;
+		m_pGrpTaskList = make_shared < GameTaskList > ();
+		return m_pGrpTaskList;
 	}
 
 	//Z値で降順ソートされた位置に挿入
 	void GameGraphicList::InsertByZ ( P_GrpCr pTask )
 	{
 		//一つも無いとき通常の追加
-		if ( 0 == m_pTaskList->GetSize () ) { m_pTaskList->AddpTask ( pTask ); return; }
+		if ( 0 == m_pGrpTaskList->GetSize () ) { m_pGrpTaskList->AddpTask ( pTask ); return; }
 
 		//Z値をチェックして指定位置に挿入
 		float z = pTask->GetZ ();
 
 		//リストのループ
-		PLP_Task plpTask = m_pTaskList->GetplpTask ();
+		PLP_Task plpTask = m_pGrpTaskList->GetplpTask ();
 		LP_Task::iterator it = begin ( * plpTask );
 		for ( ; end ( * plpTask ) != it; ++ it )
 		{
@@ -56,20 +56,20 @@ namespace GAME
 			//Z値が対象より大きいとき、その前に挿入して終了
 			if ( z > gz )
 			{
-				m_pTaskList->InsertTask ( it, pTask );
+				m_pGrpTaskList->InsertTask ( it, pTask );
 				return;
 			}
 		}
 
 		//すべての値より小さい場合、末尾に追加
-		m_pTaskList->AddpTask ( pTask );
+		m_pGrpTaskList->AddpTask ( pTask );
 	}
 
 	void GameGraphicList::Reset ()
 	{
-		if ( nullptr == m_pTaskList ) { return; }
+		if ( nullptr == m_pGrpTaskList ) { return; }
 
-		for ( auto p : *(m_pTaskList->GetplpTask ()) )
+		for ( auto p : *(m_pGrpTaskList->GetplpTask ()) )
 		{
 			p->Reset ();
 		}
@@ -77,9 +77,9 @@ namespace GAME
 
 	void GameGraphicList::Clear ()
 	{
-		m_pTaskList->Clear ();
+		m_pGrpTaskList->Clear ();
 		//明示的解放
-		m_pTaskList.reset ();
+//		m_pGrpTaskList.reset ();
 	}
 
 

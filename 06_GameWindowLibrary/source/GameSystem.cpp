@@ -79,6 +79,9 @@ namespace GAME
 		SoundArchiver::instance()->Make ();		//デバッグ時のみアーカイブファイルを生成する
 #endif	//_DEBUG
 		SoundArchiver::instance()->Open ();		//アーカイブファイルの読込
+
+		//共通グラフィックリスト
+		m_grpList = GRPLST_MAKE ();
 	}
 
 
@@ -88,6 +91,7 @@ namespace GAME
 		//ゲームメインの読込
 		assert ( m_pGameMain );
 		m_pGameMain->Load ();
+		m_grpList->Load ();
 	}
 
 
@@ -116,6 +120,7 @@ namespace GAME
 		GRPLST_RESET ();
 
 		if ( m_pGameMain ) { m_pGameMain->Reset(); }
+		if ( m_grpList ) { m_grpList->Reset (); }
 	}
 
 
@@ -125,6 +130,7 @@ namespace GAME
 		//ゲームメインの初期化
 		assert ( m_pGameMain );
 		m_pGameMain->Init ();
+		m_grpList->Init ();
 	}
 
 	
@@ -172,6 +178,9 @@ namespace GAME
 		}
 		//----------------------------------------------
 
+		//グラフィックは常に表示
+		m_grpList->Move ();
+
 		//ゲーム画面におけるデバッグ表示の動作
 		DebugOutGameWindow::Inst()->Move ();
 #if	0
@@ -191,11 +200,13 @@ namespace GAME
 			Dx3D::instance()->BeginSprite ();	//スプライト描画開始
 			{
 				m_pGameMain->Draw ();	//ゲームメイン描画
+				m_grpList->Draw ();
 			}
 			Dx3D::instance()->EndSprite ();		//スプライト描画終了
 
 			//頂点描画
 			m_pGameMain->DrawVertex ();			//ゲームメイン以下のタスクによる頂点描画
+			m_grpList->DrawVertex ();
 
 			DebugOutGameWindow::Inst()->DrawVertex ();	//ゲーム画面上のデバッグ表示
 		}
