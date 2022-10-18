@@ -22,7 +22,8 @@
 #include "Rect.h"
 #include "GameMainBase.h"
 #include "Application.h"
-#include "KeyInput.h"
 #include "DebugOutGameWindow.h"
 #include "AppSettingFile.h"
 
+#include "KeyConfig.h"
+#include "KeyInput.h"

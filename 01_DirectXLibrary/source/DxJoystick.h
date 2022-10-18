@@ -51,22 +51,29 @@ namespace GAME
 
 	public:
 		DxJoystick();
-		DxJoystick( const DxJoystick& rhs );
+		DxJoystick( const DxJoystick& rhs ) = delete;
 		~DxJoystick();
 
 		void Init( LPDIRECTINPUT8 lpDI );		//初期化
 		void Rele();	//解放
 
-		//指定したキーが押されている状態か
-		bool IsJoyKey( int nDevice, int nKey );
-		//指定したキーが押された瞬間か
-		bool PushJoyKey( int nDevice, int nKey );
-		//指定したキーが離された瞬間か
-		bool ReleaseJoyKey( int nDevice, int nKey );
+		//指定したボタンが押されている状態か
+		bool IsButton( int nDevice, int nButton );
+		//指定したボタンが押された瞬間か
+		bool PushButton( int nDevice, int nButton );
+		//指定したボタンが離された瞬間か
+		bool ReleaseButton( int nDevice, int nButton );
 
 		//軸の状態を返す
 		LONG GetJoyAxisX( int nDevice ) { return m_dijs[nDevice].lX; }
 		LONG GetJoyAxisY( int nDevice ) { return m_dijs[nDevice].lY; }
+
+		//POVの状態を返す( 上から 0, 9000, 18000, 27000 )
+		DWORD GetPov ( int nDevice ) { return m_dijs [ nDevice ].rgdwPOV [ 0 ]; }
+		bool IsPovUp	( int nDevice ) { return 0		== m_dijs [ nDevice ].rgdwPOV [ 0 ]; }
+		bool IsPovRight	( int nDevice ) { return 9000	== m_dijs [ nDevice ].rgdwPOV [ 0 ]; }
+		bool IsPovDown	( int nDevice ) { return 18000	== m_dijs [ nDevice ].rgdwPOV [ 0 ]; }
+		bool IsPovLeft	( int nDevice ) { return 27000	== m_dijs [ nDevice ].rgdwPOV [ 0 ]; }
 
 		//押した状態の判定
 		bool IsJoyUp	( int nDevice ) { return ( m_dijs[nDevice].lY <= -500 ) ? true: false; }

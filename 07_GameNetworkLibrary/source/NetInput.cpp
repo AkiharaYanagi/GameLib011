@@ -82,10 +82,10 @@ namespace GAME
 		_SetInput ( PLAYER_ID_1, P1_DOWN, 0x02 );
 		_SetInput ( PLAYER_ID_1, P1_LEFT, 0x04 );
 		_SetInput ( PLAYER_ID_1, P1_RIGHT, 0x08 );
-		_SetInput ( PLAYER_ID_1, P1_BUTTON1, 0x10 );
-		_SetInput ( PLAYER_ID_1, P1_BUTTON2, 0x20 );
-		_SetInput ( PLAYER_ID_1, P1_BUTTON3, 0x40 );
-		_SetInput ( PLAYER_ID_1, P1_BUTTON4, 0x80 );
+		_SetInput ( PLAYER_ID_1, P1_BTN0, 0x10 );
+		_SetInput ( PLAYER_ID_1, P1_BTN1, 0x20 );
+		_SetInput ( PLAYER_ID_1, P1_BTN2, 0x40 );
+		_SetInput ( PLAYER_ID_1, P1_BTN3, 0x80 );
 	}
 
 	void NetInput::_SetP2Input ()
@@ -94,10 +94,10 @@ namespace GAME
 		_SetInput ( PLAYER_ID_2, P2_DOWN, 0x02 );
 		_SetInput ( PLAYER_ID_2, P2_LEFT, 0x04 );
 		_SetInput ( PLAYER_ID_2, P2_RIGHT, 0x08 );
-		_SetInput ( PLAYER_ID_2, P2_BUTTON1, 0x10 );
-		_SetInput ( PLAYER_ID_2, P2_BUTTON2, 0x20 );
-		_SetInput ( PLAYER_ID_2, P2_BUTTON3, 0x40 );
-		_SetInput ( PLAYER_ID_2, P2_BUTTON4, 0x80 );
+		_SetInput ( PLAYER_ID_2, P2_BTN0, 0x10 );
+		_SetInput ( PLAYER_ID_2, P2_BTN1, 0x20 );
+		_SetInput ( PLAYER_ID_2, P2_BTN2, 0x40 );
+		_SetInput ( PLAYER_ID_2, P2_BTN3, 0x80 );
 	}
 
 
@@ -107,10 +107,10 @@ namespace GAME
 		_SetInputCPU ( 30, PLAYER_ID_1, P1_DOWN, 0x02 );
 		_SetInputCPU ( 60, PLAYER_ID_1, P1_LEFT, 0x04 );
 		_SetInputCPU ( 60, PLAYER_ID_1, P1_RIGHT, 0x08 );
-		_SetInputCPU ( 30, PLAYER_ID_1, P1_BUTTON1, 0x10 );
-		_SetInputCPU ( 30, PLAYER_ID_1, P1_BUTTON2, 0x20 );
-		_SetInputCPU ( 30, PLAYER_ID_1, P1_BUTTON3, 0x40 );
-		_SetInputCPU ( 30, PLAYER_ID_1, P1_BUTTON4, 0x80 );
+		_SetInputCPU ( 30, PLAYER_ID_1, P1_BTN0, 0x10 );
+		_SetInputCPU ( 30, PLAYER_ID_1, P1_BTN1, 0x20 );
+		_SetInputCPU ( 30, PLAYER_ID_1, P1_BTN2, 0x40 );
+		_SetInputCPU ( 30, PLAYER_ID_1, P1_BTN3, 0x80 );
 	}
 
 	void NetInput::_SetP2InputCPU ()
@@ -119,10 +119,10 @@ namespace GAME
 		_SetInputCPU ( 30, PLAYER_ID_2, P2_DOWN, 0x02 );
 		_SetInputCPU ( 60, PLAYER_ID_2, P2_LEFT, 0x04 );
 		_SetInputCPU ( 60, PLAYER_ID_2, P2_RIGHT, 0x08 );
-		_SetInputCPU ( 30, PLAYER_ID_2, P2_BUTTON1, 0x10 );
-		_SetInputCPU ( 30, PLAYER_ID_2, P2_BUTTON2, 0x20 );
-		_SetInputCPU ( 30, PLAYER_ID_2, P2_BUTTON3, 0x40 );
-		_SetInputCPU ( 30, PLAYER_ID_2, P2_BUTTON4, 0x80 );
+		_SetInputCPU ( 30, PLAYER_ID_2, P2_BTN0, 0x10 );
+		_SetInputCPU ( 30, PLAYER_ID_2, P2_BTN1, 0x20 );
+		_SetInputCPU ( 30, PLAYER_ID_2, P2_BTN2, 0x40 );
+		_SetInputCPU ( 30, PLAYER_ID_2, P2_BTN3, 0x80 );
 	}
 
 	//------------------------------------------------------------------
@@ -262,23 +262,23 @@ namespace GAME
 		bool bRet = false;
 		switch ( keyName )
 		{
-		case P1_UP:		 bRet = IsKey ( PLAYER_ID_1, 0x01 ); break;
-		case P1_DOWN:	 bRet = IsKey ( PLAYER_ID_1, 0x02 ); break;
-		case P1_LEFT:	 bRet = IsKey ( PLAYER_ID_1, 0x04 ); break;
-		case P1_RIGHT:	 bRet = IsKey ( PLAYER_ID_1, 0x08 ); break;
-		case P1_BUTTON1: bRet = IsKey ( PLAYER_ID_1, 0x10 ); break;
-		case P1_BUTTON2: bRet = IsKey ( PLAYER_ID_1, 0x20 ); break;
-		case P1_BUTTON3: bRet = IsKey ( PLAYER_ID_1, 0x40 ); break;
-		case P1_BUTTON4: bRet = IsKey ( PLAYER_ID_1, 0x80 ); break;
+		case P1_UP:		bRet = IsKey ( PLAYER_ID_1, 0x01 ); break;
+		case P1_DOWN:	bRet = IsKey ( PLAYER_ID_1, 0x02 ); break;
+		case P1_LEFT:	bRet = IsKey ( PLAYER_ID_1, 0x04 ); break;
+		case P1_RIGHT:	bRet = IsKey ( PLAYER_ID_1, 0x08 ); break;
+		case P1_BTN0:	bRet = IsKey ( PLAYER_ID_1, 0x10 ); break;
+		case P1_BTN1:	bRet = IsKey ( PLAYER_ID_1, 0x20 ); break;
+		case P1_BTN2:	bRet = IsKey ( PLAYER_ID_1, 0x40 ); break;
+		case P1_BTN3:	bRet = IsKey ( PLAYER_ID_1, 0x80 ); break;
 
-		case P2_UP:		 bRet = IsKey ( PLAYER_ID_2, 0x01 ); break;
-		case P2_DOWN:	 bRet = IsKey ( PLAYER_ID_2, 0x02 ); break;
-		case P2_LEFT:	 bRet = IsKey ( PLAYER_ID_2, 0x04 ); break;
-		case P2_RIGHT:	 bRet = IsKey ( PLAYER_ID_2, 0x08 ); break;
-		case P2_BUTTON1: bRet = IsKey ( PLAYER_ID_2, 0x10 ); break;
-		case P2_BUTTON2: bRet = IsKey ( PLAYER_ID_2, 0x20 ); break;
-		case P2_BUTTON3: bRet = IsKey ( PLAYER_ID_2, 0x40 ); break;
-		case P2_BUTTON4: bRet = IsKey ( PLAYER_ID_2, 0x80 ); break;
+		case P2_UP:		bRet = IsKey ( PLAYER_ID_2, 0x01 ); break;
+		case P2_DOWN:	bRet = IsKey ( PLAYER_ID_2, 0x02 ); break;
+		case P2_LEFT:	bRet = IsKey ( PLAYER_ID_2, 0x04 ); break;
+		case P2_RIGHT:	bRet = IsKey ( PLAYER_ID_2, 0x08 ); break;
+		case P2_BTN0:	bRet = IsKey ( PLAYER_ID_2, 0x10 ); break;
+		case P2_BTN1:	bRet = IsKey ( PLAYER_ID_2, 0x20 ); break;
+		case P2_BTN2:	bRet = IsKey ( PLAYER_ID_2, 0x40 ); break;
+		case P2_BTN3:	bRet = IsKey ( PLAYER_ID_2, 0x80 ); break;
 
 		default: break;
 		}
@@ -299,19 +299,19 @@ namespace GAME
 		case P1_DOWN:	 bRet = PushKey ( PLAYER_ID_1, 0x02 ); break;
 		case P1_LEFT:	 bRet = PushKey ( PLAYER_ID_1, 0x04 ); break;
 		case P1_RIGHT:	 bRet = PushKey ( PLAYER_ID_1, 0x08 ); break;
-		case P1_BUTTON1: bRet = PushKey ( PLAYER_ID_1, 0x10 ); break;
-		case P1_BUTTON2: bRet = PushKey ( PLAYER_ID_1, 0x20 ); break;
-		case P1_BUTTON3: bRet = PushKey ( PLAYER_ID_1, 0x40 ); break;
-		case P1_BUTTON4: bRet = PushKey ( PLAYER_ID_1, 0x80 ); break;
+		case P1_BTN0:	 bRet = PushKey ( PLAYER_ID_1, 0x10 ); break;
+		case P1_BTN1:	 bRet = PushKey ( PLAYER_ID_1, 0x20 ); break;
+		case P1_BTN2:	 bRet = PushKey ( PLAYER_ID_1, 0x40 ); break;
+		case P1_BTN3:	 bRet = PushKey ( PLAYER_ID_1, 0x80 ); break;
 
 		case P2_UP:		 bRet = PushKey ( PLAYER_ID_2, 0x01 ); break;
 		case P2_DOWN:	 bRet = PushKey ( PLAYER_ID_2, 0x02 ); break;
 		case P2_LEFT:	 bRet = PushKey ( PLAYER_ID_2, 0x04 ); break;
 		case P2_RIGHT:	 bRet = PushKey ( PLAYER_ID_2, 0x08 ); break;
-		case P2_BUTTON1: bRet = PushKey ( PLAYER_ID_2, 0x10 ); break;
-		case P2_BUTTON2: bRet = PushKey ( PLAYER_ID_2, 0x20 ); break;
-		case P2_BUTTON3: bRet = PushKey ( PLAYER_ID_2, 0x40 ); break;
-		case P2_BUTTON4: bRet = PushKey ( PLAYER_ID_2, 0x80 ); break;
+		case P2_BTN0:	 bRet = PushKey ( PLAYER_ID_2, 0x10 ); break;
+		case P2_BTN1:	 bRet = PushKey ( PLAYER_ID_2, 0x20 ); break;
+		case P2_BTN2:	 bRet = PushKey ( PLAYER_ID_2, 0x40 ); break;
+		case P2_BTN3:	 bRet = PushKey ( PLAYER_ID_2, 0x80 ); break;
 
 		default: break;
 		}

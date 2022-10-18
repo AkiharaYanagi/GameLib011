@@ -18,10 +18,11 @@ namespace GAME
 	//	定数
 	//-------------------------------------------------------------------------------------------------
 
+	//static : ファイル内のみ使用
 	//キーコンフィグ 設定ファイルにおけるデフォルトのバイナリデータ
 	//[1P] : Pad0_UP, Pad0_DOWN, Pad0_LEFT, Pad0_RIGHT, Pad0_key3, Pad0_key4, Pad0_key1, Pad0_key0, 
 	//[2P] : Home, End, Delete, PageDown, A, S, D, F,
-	const unsigned char data[] =
+	static const unsigned char data[] =
 	{
 		0x01, 0x00, 0x81, 0x01, 0x00, 0x82, 0x01, 0x00, 0x83, 0x01, 0x00, 0x84, 0x01, 0x00, 0x03, 0x01,
 		0x00, 0x04, 0x01, 0x00, 0x01, 0x01, 0x00, 0x00, 0x00, 0xC7, 0x00, 0xCF, 0x00, 0xD3, 0x00, 0xD1,
@@ -39,24 +40,12 @@ namespace GAME
 	//コンストラクタ
 	KeyInput::KeyInput()
 	{
-		//DirectInput(キーボード、ジョイスティックの利用)
-		DxInput::Create();
 		Load();
 	}
 	
 	//デストラクタ
 	KeyInput::~KeyInput()
 	{
-//		DxInput::instance()->Rele();
-	}
-
-	//再設定
-	void KeyInput::Reset()
-	{
-		if ( DxInput::instance() )
-		{
-			DxInput::instance()->Reset();
-		}
 	}
 
 	//ファイル読込

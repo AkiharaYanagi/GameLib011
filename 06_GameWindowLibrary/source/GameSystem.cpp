@@ -64,7 +64,9 @@ namespace GAME
 		DxSound::instance()->Load();
 
 		//キー入力の初期化
+		DxInput::Create ();		//DirectInput(キーボード、ジョイスティックの利用)
 		KeyInput::Create();
+		KeyConfig::Create ();
 
 		//アーカイバの初期化
 		Archiver::Create ();
@@ -92,6 +94,7 @@ namespace GAME
 		assert ( m_pGameMain );
 		m_pGameMain->Load ();
 		m_grpList->Load ();
+		KeyConfig::instance ()->Load ();
 	}
 
 
@@ -116,7 +119,7 @@ namespace GAME
 		GameText::Inst()->Reset ( dev );
 		OutlineFont::Inst ()->Reset ( dev );
 		DebugOutGameWindow::Inst()->Reset( dev );
-		KeyInput::instance()->Reset ();
+		DxInput::instance ()->Reset ();
 		GRPLST_RESET ();
 
 		if ( m_pGameMain ) { m_pGameMain->Reset(); }
@@ -138,7 +141,8 @@ namespace GAME
 	void GameSystem::Move ()
 	{
 		DxSound::instance ()->Move ();	//サウンドの更新
-		KeyInput::instance()->Update ();	//入力の更新
+//		KeyInput::instance()->Update ();	//入力の更新
+		DxInput::instance ()->Update ();	//入力の更新
 
 #ifdef	_DEBUG
 #endif	// _DEBUG

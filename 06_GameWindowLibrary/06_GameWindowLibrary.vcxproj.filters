@@ -8,6 +8,8 @@
     <ClCompile Include="source\Application.cpp" />
     <ClCompile Include="source\AppSettingFile.cpp" />
     <ClCompile Include="source\Rect.cpp" />
+    <ClCompile Include="source\KeyConfig.cpp" />
+    <ClCompile Include="source\DeviceInput.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\FrameControl.h" />
@@ -19,5 +21,8 @@
     <ClInclude Include="..\include\DebugOutGameWindow.h" />
     <ClInclude Include="..\include\AppSettingFile.h" />
     <ClInclude Include="..\include\Rect.h" />
+    <ClInclude Include="..\include\KeyConfig.h" />
+    <ClInclude Include="..\include\DeviceInput.h" />
+    <ClInclude Include="..\include\KeyDefine.h" />
   </ItemGroup>
 </Project>

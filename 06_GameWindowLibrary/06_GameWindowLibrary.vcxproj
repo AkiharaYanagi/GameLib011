@@ -21,8 +21,10 @@
   <ItemGroup>
     <ClCompile Include="source\Application.cpp" />
     <ClCompile Include="source\DebugOutGameWindow.cpp" />
+    <ClCompile Include="source\DeviceInput.cpp" />
     <ClCompile Include="source\FrameControl.cpp" />
     <ClCompile Include="source\GameSystem.cpp" />
+    <ClCompile Include="source\KeyConfig.cpp" />
     <ClCompile Include="source\KeyInput.cpp" />
     <ClCompile Include="source\AppSettingFile.cpp" />
     <ClCompile Include="source\Rect.cpp" />
@@ -30,8 +32,11 @@
   <ItemGroup>
     <ClInclude Include="..\include\Application.h" />
     <ClInclude Include="..\include\DebugOutGameWindow.h" />
+    <ClInclude Include="..\include\DeviceInput.h" />
     <ClInclude Include="..\include\GameMainBase.h" />
     <ClInclude Include="..\include\GameWindowLibrary.h" />
+    <ClInclude Include="..\include\KeyConfig.h" />
+    <ClInclude Include="..\include\KeyDefine.h" />
     <ClInclude Include="..\include\KeyInput.h" />
     <ClInclude Include="..\include\AppSettingFile.h" />
     <ClInclude Include="..\include\Rect.h" />

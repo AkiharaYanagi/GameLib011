@@ -15,17 +15,21 @@
 //-------------------------------------------------------------------------------------------------
 namespace GAME
 {
-	//プレイヤごとの使用キー
-	enum INPUT
+	//プレイヤごとの入力
+	enum PLAYER_INPUT
 	{
 		UP, 
 		DOWN, 
 		LEFT, 
 		RIGHT, 
-		BUTTON1, 
-		BUTTON2, 
-		BUTTON3, 
-		BUTTON4,
+		BTN0,
+		BTN1,
+		BTN2,
+		BTN3,
+		BTN4,
+		BTN5,
+		BTN6,
+		BTN7,
 		INPUT_NUM
 	};
 
@@ -36,29 +40,39 @@ namespace GAME
 		P1_DOWN, 
 		P1_LEFT, 
 		P1_RIGHT, 
-		P1_BUTTON1, 
-		P1_BUTTON2, 
-		P1_BUTTON3, 
-		P1_BUTTON4, 
+		P1_BTN0,
+		P1_BTN1,
+		P1_BTN2,
+		P1_BTN3,
+		P1_BTN4,
+		P1_BTN5,
+		P1_BTN6,
+		P1_BTN7,
 
 		P2_UP, 
 		P2_DOWN, 
 		P2_LEFT, 
 		P2_RIGHT, 
-		P2_BUTTON1, 
-		P2_BUTTON2, 
-		P2_BUTTON3, 
-		P2_BUTTON4, 
+		P2_BTN0,
+		P2_BTN1,
+		P2_BTN2,
+		P2_BTN3,
+		P2_BTN4,
+		P2_BTN5,
+		P2_BTN6,
+		P2_BTN7,
 
 		KEY_NAME_NUM,	//ゲーム使用キーの数
 	};
 
+#if 0
 	//プレイヤと入力
-	static const KEY_NAME	PL_IP_KEY [ _PLAYER_NUM ][ INPUT_NUM ] = 
+	const KEY_NAME	PL_IP_KEY [ _PLAYER_NUM ][ INPUT_NUM ] = 
 	{
-		  { P1_UP, P1_DOWN, P1_LEFT, P1_RIGHT, P1_BUTTON1, P1_BUTTON2, P1_BUTTON3, P1_BUTTON4, }
+		  { P1_UP, P1_DOWN, P1_LEFT, P1_RIGHT, P1_BTN0, P1_BTN2, P1_BTN3, P1_BTN4, }
 		, { P2_UP, P2_DOWN, P2_LEFT, P2_RIGHT, P2_BUTTON1, P2_BUTTON2, P2_BUTTON3, P2_BUTTON4, }
 	};
+#endif // 0
 
 	//デバイスキー
 	enum GAME_DEVICE_TYPE
@@ -75,6 +89,7 @@ namespace GAME
 		int					m_num;		//デバイス番号
 		int					m_key;		//キー番号
 	};
+
 
 	enum JOYSTICK_KEY
 	{
@@ -105,10 +120,9 @@ namespace GAME
 
 	private:
 		//キーコンフィグデータ
-		struct KEY_CONFIG		m_keyconfig[KEY_NAME_NUM];
+		struct KEY_CONFIG		m_keyconfig[ KEY_NAME_NUM ];
 
 	public:
-		void Reset();	//再設定
 		void Load();	//データの読込
 		void Update();	//更新
 

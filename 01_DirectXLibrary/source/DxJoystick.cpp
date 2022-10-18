@@ -4,12 +4,10 @@
 //
 //=================================================================================================
 
-
 //-------------------------------------------------------------------------------------------------
 // ヘッダファイルのインクルード
 //-------------------------------------------------------------------------------------------------
 #include "DxJoystick.h"
-
 
 //-------------------------------------------------------------------------------------------------
 // 定義
@@ -195,36 +193,36 @@ namespace GAME
 		}
 	}
 
-	//指定したキーが押されているか
-	//引数： nDevice デバイス番号, nKey キー番号
-	bool DxJoystick::IsJoyKey( int nDevice, int nKey )
+	//指定したボタンが押されているか
+	//引数： nDevice デバイス番号, nButton ボタン番号
+	bool DxJoystick::IsButton( int nDevice, int nButton )
 	{
 		//指定デバイスが存在しないときfalseを返す
 		if ( ! m_lpDIDevice[nDevice] ) return false;
 
-		return ( m_dijs[nDevice].rgbButtons[nKey] & 0x80 ) ? true: false;
+		return ( m_dijs[nDevice].rgbButtons[ nButton ] & 0x80 ) ? true: false;
 	}
 
-	//指定したキーが押された瞬間か
-	//引数： nDevice デバイス番号, nKey キー番号
-	bool DxJoystick::PushJoyKey( int nDevice, int nKey )
+	//指定したボタンが押された瞬間か
+	//引数： nDevice デバイス番号, nButton ボタン番号
+	bool DxJoystick::PushButton( int nDevice, int nButton )
 	{
 		//指定デバイスが存在しないときfalseを返す
 		if ( ! m_lpDIDevice[nDevice] ) return false;
 
 		//現在の状態が押されている　かつ　前の状態が押されていない
-		return ( (m_dijs[nDevice].rgbButtons[nKey] & 0x80) && ! (m_preDijs[nDevice].rgbButtons[nKey] & 0x80) ) ? true: false;
+		return ( (m_dijs[nDevice].rgbButtons[ nButton ] & 0x80) && ! (m_preDijs[nDevice].rgbButtons[ nButton ] & 0x80) ) ? true: false;
 	}
 
-	//指定したキーが離された瞬間か
-	//引数： nDevice デバイス番号, nKey キー番号
-	bool DxJoystick::ReleaseJoyKey( int nDevice, int nKey )
+	//指定したボタンが離された瞬間か
+	//引数： nDevice デバイス番号, nButton ボタン番号
+	bool DxJoystick::ReleaseButton( int nDevice, int nButton )
 	{
 		//指定デバイスが存在しないときfalseを返す
 		if ( ! m_lpDIDevice[nDevice] ) return false;
 
 		//現在の状態が押されていない　かつ　前の状態が押されている
-		return ( ! (m_dijs[nDevice].rgbButtons[nKey] & 0x80) && (m_preDijs[nDevice].rgbButtons[nKey] & 0x80) ) ? true: false;
+		return ( ! (m_dijs[nDevice].rgbButtons[ nButton ] & 0x80) && (m_preDijs[nDevice].rgbButtons[ nButton ] & 0x80) ) ? true: false;
 	}
 
 

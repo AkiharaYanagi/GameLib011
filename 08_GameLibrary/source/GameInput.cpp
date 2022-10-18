@@ -87,17 +87,17 @@ namespace GAME
 		bool bButton3 = false;
 		if ( PLAYER_ID_1 == player_id )
 		{
-			bButton0 = IS_KEY ( P1_BUTTON1 );
-			bButton1 = IS_KEY ( P1_BUTTON2 );
-			bButton2 = IS_KEY ( P1_BUTTON3 );
-			bButton3 = IS_KEY ( P1_BUTTON4 );
+			bButton0 = IS_KEY ( P1_BTN0 );
+			bButton1 = IS_KEY ( P1_BTN1 );
+			bButton2 = IS_KEY ( P1_BTN2 );
+			bButton3 = IS_KEY ( P1_BTN3 );
 		}
 		else if ( PLAYER_ID_2 == player_id )
 		{
-			bButton0 = IS_KEY ( P2_BUTTON1 );
-			bButton1 = IS_KEY ( P2_BUTTON2 );
-			bButton2 = IS_KEY ( P2_BUTTON3 );
-			bButton3 = IS_KEY ( P2_BUTTON4 );
+			bButton0 = IS_KEY ( P2_BTN0 );
+			bButton1 = IS_KEY ( P2_BTN1 );
+			bButton2 = IS_KEY ( P2_BTN2 );
+			bButton3 = IS_KEY ( P2_BTN3 );
 		}
 
 #if 0

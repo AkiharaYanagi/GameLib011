@@ -16,6 +16,7 @@
 #include "Archiver.h"
 #include "SoundArchiver.h"
 #include "GameMainBase.h"
+#include "KeyConfig.h"
 
 //-------------------------------------------------------------------------------------------------
 // êÈåæ

@@ -97,7 +97,7 @@ namespace GAME
 		bool PushJoyLeft( int nDevice ) const;
 		bool PushJoyRight( int nDevice ) const;
 
-		//	ジョイスティックで押された瞬間かどうかを取得する
+		//	ジョイスティックで離された瞬間かどうかを取得する
 		//	引数：num デバイス番号, key キー番号
 		bool ReleaseOneJoystick ( int num, int key ) const;
 		bool ReleaseJoyUp( int nDevice ) const;
@@ -108,6 +108,12 @@ namespace GAME
 		//軸の状態を返す
 		LONG GetJoyAxisX( int nDevice ) const;
 		LONG GetJoyAxisY( int nDevice ) const;
+
+		//POVの状態を返す
+		bool IsPovUp ( int nDevice ) const;
+		bool IsPovRight ( int nDevice ) const;
+		bool IsPovDown ( int nDevice ) const;
+		bool IsPovLeft ( int nDevice ) const;
 
 		//---------------------------------------------------------------------------
 		//	マウス
