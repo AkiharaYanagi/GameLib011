@@ -253,6 +253,38 @@ namespace GAME
 		}
 	}
 
+	//POV‚Ìó‘Ô‚ğ•Ô‚·( ã‚©‚ç 0, 9000, 18000, 27000 )
+	//¦Î‚ß‚à’Pˆê‚Ì’l‚ğ‚Â‚Ì‚Å”ÍˆÍ‚Åw’è‚·‚é(0,4500,9000,13500,18000,22500,27000,31500)
+	DWORD DxJoystick::GetPov ( int id )
+	{ 
+		return m_dijs [ id ].rgdwPOV [ 0 ]; 
+	}
+
+	bool DxJoystick::IsPovUp ( int id )
+	{
+		DWORD th = m_dijs [ id ].rgdwPOV [ 0 ];
+		bool ret = ( 0 <= th && th <= 4500 ) || ( 31500 <= th && th <= 35999);
+		return ret;
+	}
+
+	bool DxJoystick::IsPovRight ( int id )
+	{ 
+		DWORD th = m_dijs [ id ].rgdwPOV [ 0 ];
+		return ( 4500 <= th && th <= 13500 );
+	}
+
+	bool DxJoystick::IsPovDown ( int id )
+	{ 
+		DWORD th = m_dijs [ id ].rgdwPOV [ 0 ];
+		return ( 13500 <= th && th <= 22500 );
+	}
+
+	bool DxJoystick::IsPovLeft ( int id ) 
+	{ 
+		DWORD th = m_dijs [ id ].rgdwPOV [ 0 ];
+		return ( 22500 <= th && th <= 31500 );
+	}
+
 }	//namespace GAME
 
 

@@ -69,12 +69,12 @@ namespace GAME
 		LONG GetJoyAxisY( int id ) { return m_dijs[id].lY; }
 
 		//POV‚Ìó‘Ô‚ğ•Ô‚·( ã‚©‚ç 0, 9000, 18000, 27000 )
-		DWORD GetPov ( int id ) { return m_dijs [ id ].rgdwPOV [ 0 ]; }
-		bool IsPovUp	( int id )
-		{ return 0		== m_dijs [ id ].rgdwPOV [ 0 ]; }
-		bool IsPovRight	( int id ) { return 9000	== m_dijs [ id ].rgdwPOV [ 0 ]; }
-		bool IsPovDown	( int id ) { return 18000	== m_dijs [ id ].rgdwPOV [ 0 ]; }
-		bool IsPovLeft	( int id ) { return 27000	== m_dijs [ id ].rgdwPOV [ 0 ]; }
+		//¦Î‚ß‚à’Pˆê‚Ì’l‚ğ‚Â‚Ì‚Å”ÍˆÍ‚Åw’è‚·‚é
+		DWORD GetPov ( int id );
+		bool IsPovUp	( int id );
+		bool IsPovRight	( int id );
+		bool IsPovDown	( int id );
+		bool IsPovLeft	( int id );
 
 		//Axis:‰Ÿ‚µ‚½ó‘Ô‚Ì”»’è
 		bool IsAxisUp	( int id ) 

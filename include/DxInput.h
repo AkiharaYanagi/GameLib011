@@ -110,6 +110,7 @@ namespace GAME
 		LONG GetJoyAxisY( int nDevice ) const;
 
 		//POVの状態を返す
+		DWORD GetPov ( int id );
 		bool IsPovUp ( int nDevice ) const;
 		bool IsPovRight ( int nDevice ) const;
 		bool IsPovDown ( int nDevice ) const;

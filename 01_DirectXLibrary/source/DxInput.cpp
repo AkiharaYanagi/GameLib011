@@ -206,6 +206,7 @@ namespace GAME
 
 
 	//POV‚Ìó‘Ô‚ð•Ô‚·
+	DWORD DxInput::GetPov ( int id ) { return m_joystick->GetPov ( id ); }
 	bool DxInput::IsPovUp ( int nDevice ) const { return m_joystick->IsPovUp ( nDevice ); }
 	bool DxInput::IsPovRight ( int nDevice ) const { return m_joystick->IsPovRight ( nDevice ); }
 	bool DxInput::IsPovDown ( int nDevice ) const { return m_joystick->IsPovDown ( nDevice ); }
