@@ -82,28 +82,28 @@ namespace GAME
 		//	ジョイスティック
 		//---------------------------------------------------------------------------
 		//	ジョイスティックで押されている状態かどうかを取得する
-		//	引数：num デバイス番号, key キー番号
-		bool IsOneJoystick ( int num, int key ) const;
-		bool IsJoyUp( int nDevice ) const;
-		bool IsJoyDown( int nDevice ) const; 
-		bool IsJoyLeft( int nDevice ) const;
-		bool IsJoyRight( int nDevice ) const;
+		//	引数：num デバイス番号, btn キー番号
+		bool IsJoyButton ( int num, int btn ) const;
+		bool IsAxisUp( int nDevice ) const;
+		bool IsAxisDown( int nDevice ) const; 
+		bool IsAxisLeft( int nDevice ) const;
+		bool IsAxisRight( int nDevice ) const;
 
 		//	ジョイスティックで押された瞬間かどうかを取得する
-		//	引数：num デバイス番号, key キー番号
-		bool PushOneJoystick ( int num, int key ) const;
-		bool PushJoyUp( int nDevice ) const;
-		bool PushJoyDown( int nDevice ) const;
-		bool PushJoyLeft( int nDevice ) const;
-		bool PushJoyRight( int nDevice ) const;
+		//	引数：num デバイス番号, btn キー番号
+		bool PushJoyButton ( int num, int btn ) const;
+		bool PushAxisUp( int nDevice ) const;
+		bool PushAxisDown( int nDevice ) const;
+		bool PushAxisLeft( int nDevice ) const;
+		bool PushAxisRight( int nDevice ) const;
 
 		//	ジョイスティックで離された瞬間かどうかを取得する
-		//	引数：num デバイス番号, key キー番号
-		bool ReleaseOneJoystick ( int num, int key ) const;
-		bool ReleaseJoyUp( int nDevice ) const;
-		bool ReleaseJoyDown( int nDevice ) const;
-		bool ReleaseJoyLeft( int nDevice ) const;
-		bool ReleaseJoyRight( int nDevice ) const;
+		//	引数：num デバイス番号, btn キー番号
+		bool ReleaseJoyButton ( int num, int btn ) const;
+		bool ReleaseAxisUp( int nDevice ) const;
+		bool ReleaseAxisDown( int nDevice ) const;
+		bool ReleaseAxisLeft( int nDevice ) const;
+		bool ReleaseAxisRight( int nDevice ) const;
 
 		//軸の状態を返す
 		LONG GetJoyAxisX( int nDevice ) const;

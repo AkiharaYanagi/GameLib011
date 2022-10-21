@@ -159,45 +159,45 @@ namespace GAME
 	//	ジョイスティック(キー)で押されている状態かどうかを取得する
 	//	引数：num デバイス番号, key キー番号
 	//-------------------------------------------------------------------------------------------------
-	bool DxInput::IsOneJoystick( int num, int key ) const
+	bool DxInput::IsJoyButton( int num, int btn ) const
 	{
-		return m_joystick->IsButton( num, key );
+		return m_joystick->IsButton( num, btn );
 	}
 	//	ジョイスティック(XY)で押されている状態かどうかを取得する
-	bool DxInput::IsJoyUp( int nDevice ) const { return m_joystick->IsJoyUp(nDevice); }
-	bool DxInput::IsJoyDown( int nDevice ) const { return m_joystick->IsJoyDown(nDevice); }
-	bool DxInput::IsJoyLeft( int nDevice ) const { return m_joystick->IsJoyLeft(nDevice); }
-	bool DxInput::IsJoyRight( int nDevice ) const { return m_joystick->IsJoyRight(nDevice); }
+	bool DxInput::IsAxisUp( int nDevice ) const { return m_joystick->IsAxisUp(nDevice); }
+	bool DxInput::IsAxisDown( int nDevice ) const { return m_joystick->IsAxisDown(nDevice); }
+	bool DxInput::IsAxisLeft( int nDevice ) const { return m_joystick->IsAxisLeft(nDevice); }
+	bool DxInput::IsAxisRight( int nDevice ) const { return m_joystick->IsAxisRight(nDevice); }
 
 
 	//-------------------------------------------------------------------------------------------------
 	//	ジョイスティック(キー)で押された瞬間かどうかを取得する
 	//	引数：num デバイス番号, key キー番号
 	//-------------------------------------------------------------------------------------------------
-	bool DxInput::PushOneJoystick( int num, int key ) const
+	bool DxInput::PushJoyButton( int num, int btn ) const
 	{
-		return m_joystick->PushButton( num, key );
+		return m_joystick->PushButton( num, btn );
 	}
 	//	ジョイスティック(XY)で押された瞬間かどうかを取得する
-	bool DxInput::PushJoyUp( int nDevice ) const { return m_joystick->PushJoyUp(nDevice); }
-	bool DxInput::PushJoyDown( int nDevice ) const { return m_joystick->PushJoyDown(nDevice); }
-	bool DxInput::PushJoyLeft( int nDevice ) const { return m_joystick->PushJoyLeft(nDevice); }
-	bool DxInput::PushJoyRight( int nDevice ) const { return m_joystick->PushJoyRight(nDevice); }
+	bool DxInput::PushAxisUp( int nDevice ) const { return m_joystick->PushAxisUp(nDevice); }
+	bool DxInput::PushAxisDown( int nDevice ) const { return m_joystick->PushAxisDown(nDevice); }
+	bool DxInput::PushAxisLeft( int nDevice ) const { return m_joystick->PushAxisLeft(nDevice); }
+	bool DxInput::PushAxisRight( int nDevice ) const { return m_joystick->PushAxisRight(nDevice); }
 
 
 	//-------------------------------------------------------------------------------------------------
 	//	ジョイスティック(キー)で離された瞬間かどうかを取得する
 	//	引数：num デバイス番号, key キー番号
 	//-------------------------------------------------------------------------------------------------
-	bool DxInput::ReleaseOneJoystick( int num, int key ) const
+	bool DxInput::ReleaseJoyButton( int num, int btn ) const
 	{
-		return m_joystick->ReleaseButton( num, key );
+		return m_joystick->ReleaseButton( num, btn );
 	}
 	//	ジョイスティック(XY)で離された瞬間かどうかを取得する
-	bool DxInput::ReleaseJoyUp( int nDevice ) const { return m_joystick->ReleaseJoyUp(nDevice); }
-	bool DxInput::ReleaseJoyDown( int nDevice ) const { return m_joystick->ReleaseJoyDown(nDevice); }
-	bool DxInput::ReleaseJoyLeft( int nDevice ) const { return m_joystick->ReleaseJoyLeft(nDevice); }
-	bool DxInput::ReleaseJoyRight( int nDevice ) const { return m_joystick->ReleaseJoyRight(nDevice); }
+	bool DxInput::ReleaseAxisUp( int nDevice ) const { return m_joystick->ReleAxisUp(nDevice); }
+	bool DxInput::ReleaseAxisDown( int nDevice ) const { return m_joystick->ReleAxisDown(nDevice); }
+	bool DxInput::ReleaseAxisLeft( int nDevice ) const { return m_joystick->ReleAxisLeft(nDevice); }
+	bool DxInput::ReleaseAxisRight( int nDevice ) const { return m_joystick->ReleAxisRight(nDevice); }
 
 
 	//軸の状態を返す

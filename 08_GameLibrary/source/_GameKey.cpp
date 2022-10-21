@@ -16,7 +16,7 @@ namespace GAME
 {
 	_GameKey::_GameKey ()
 	{
-		for ( UINT i = 0; i < _LVR_NUM; ++ i )
+		for ( UINT i = 0; i < LVR_NUM; ++ i )
 		{
 			Lvr[i] = false;
 			PreLvr[i] = false;
@@ -30,7 +30,7 @@ namespace GAME
 
 	_GameKey::_GameKey ( const _GameKey & rhs )
 	{
-		for ( UINT i = 0; i < _LVR_NUM; ++ i )
+		for ( UINT i = 0; i < LVR_NUM; ++ i )
 		{
 			Lvr[i] = rhs.Lvr[i];
 			PreLvr[i] = rhs.PreLvr[i];
@@ -64,11 +64,11 @@ namespace GAME
 
 	void _GameKey::ReservePrevious ( const _GameKey gkPrev )
 	{
-		for ( UINT i = 0; i < _LVR_NUM; ++ i )
+		for ( UINT i = 0; i < LVR_NUM; ++ i )
 		{
 			PreLvr[i] = gkPrev.Lvr[i];
 		}
-		for ( UINT i = 0; i < _BTN_NUM; ++ i )
+		for ( UINT i = 0; i < BTN_NUM; ++ i )
 		{
 			PreBtn[i] = gkPrev.Btn[i];
 		}
@@ -76,7 +76,7 @@ namespace GAME
 
 	void _GameKey::SetLvrOff ()
 	{
-		for ( UINT i = 0; i < _LVR_NUM; ++ i )
+		for ( UINT i = 0; i < LVR_NUM; ++ i )
 		{
 			Lvr[i] = false;
 		}

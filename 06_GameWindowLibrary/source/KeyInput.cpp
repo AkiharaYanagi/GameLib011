@@ -122,15 +122,15 @@ namespace GAME
 			switch ( m_keyconfig[key].m_key )
 			{
 			case JOYSTICK_UP:       //レバー上
-				return DxInput::instance()->IsJoyUp( m_keyconfig[key].m_num );
+				return DxInput::instance()->IsAxisUp( m_keyconfig[key].m_num );
 			case JOYSTICK_DOWN:     //レバー下
-				return DxInput::instance()->IsJoyDown( m_keyconfig[key].m_num );
+				return DxInput::instance()->IsAxisDown( m_keyconfig[key].m_num );
 			case JOYSTICK_LEFT:     //レバー左
-				return DxInput::instance()->IsJoyLeft( m_keyconfig[key].m_num );
+				return DxInput::instance()->IsAxisLeft( m_keyconfig[key].m_num );
 			case JOYSTICK_RIGHT:    //レバー右
-				return DxInput::instance()->IsJoyRight( m_keyconfig[key].m_num );
+				return DxInput::instance()->IsAxisRight( m_keyconfig[key].m_num );
 			default:				//その他ボタン
-				return DxInput::instance()->IsOneJoystick( m_keyconfig[key].m_num, m_keyconfig[key].m_key );
+				return DxInput::instance()->IsJoyButton( m_keyconfig[key].m_num, m_keyconfig[key].m_key );
 			}
 		}
 		else if ( m_keyconfig[key].m_type == KEYBOARD )
@@ -149,15 +149,15 @@ namespace GAME
 			switch ( m_keyconfig[key].m_key )
 			{
 			case JOYSTICK_UP:       //レバー上
-				return ( DxInput::instance()->PushJoyUp( m_keyconfig[key].m_num ) ) ? true: false;
+				return ( DxInput::instance()->PushAxisUp( m_keyconfig[key].m_num ) ) ? true: false;
 			case JOYSTICK_DOWN:     //レバー下
-				return ( DxInput::instance()->PushJoyDown( m_keyconfig[key].m_num ) ) ? true: false;
+				return ( DxInput::instance()->PushAxisDown( m_keyconfig[key].m_num ) ) ? true: false;
 			case JOYSTICK_LEFT:     //レバー左
-				return ( DxInput::instance()->PushJoyLeft( m_keyconfig[key].m_num ) ) ? true: false;
+				return ( DxInput::instance()->PushAxisLeft( m_keyconfig[key].m_num ) ) ? true: false;
 			case JOYSTICK_RIGHT:    //レバー右
-				return ( DxInput::instance()->PushJoyRight( m_keyconfig[key].m_num ) ) ? true: false;
+				return ( DxInput::instance()->PushAxisRight( m_keyconfig[key].m_num ) ) ? true: false;
 			default:				//その他ボタン
-				return DxInput::instance()->PushOneJoystick( m_keyconfig[key].m_num, m_keyconfig[key].m_key );
+				return DxInput::instance()->PushJoyButton( m_keyconfig[key].m_num, m_keyconfig[key].m_key );
 			}
 		}
 		else if ( m_keyconfig[key].m_type == KEYBOARD )
@@ -177,15 +177,15 @@ namespace GAME
 			switch ( m_keyconfig[key].m_key )
 			{
 			case JOYSTICK_UP:       //レバー上
-				return ( DxInput::instance()->ReleaseJoyUp( m_keyconfig[key].m_num ) ) ? true: false;
+				return ( DxInput::instance()->ReleaseAxisUp( m_keyconfig[key].m_num ) ) ? true: false;
 			case JOYSTICK_DOWN:     //レバー下
-				return ( DxInput::instance()->ReleaseJoyDown( m_keyconfig[key].m_num ) ) ? true: false;
+				return ( DxInput::instance()->ReleaseAxisDown( m_keyconfig[key].m_num ) ) ? true: false;
 			case JOYSTICK_LEFT:     //レバー左
-				return ( DxInput::instance()->ReleaseJoyLeft( m_keyconfig[key].m_num ) ) ? true: false;
+				return ( DxInput::instance()->ReleaseAxisLeft( m_keyconfig[key].m_num ) ) ? true: false;
 			case JOYSTICK_RIGHT:    //レバー右
-				return ( DxInput::instance()->ReleaseJoyRight( m_keyconfig[key].m_num ) ) ? true: false;
+				return ( DxInput::instance()->ReleaseAxisRight( m_keyconfig[key].m_num ) ) ? true: false;
 			default:				//その他ボタン
-				return DxInput::instance()->ReleaseOneJoystick( m_keyconfig[key].m_num, m_keyconfig[key].m_key );
+				return DxInput::instance()->ReleaseJoyButton( m_keyconfig[key].m_num, m_keyconfig[key].m_key );
 			}
 		}
 		else if ( m_keyconfig[key].m_type == KEYBOARD )

@@ -56,8 +56,7 @@ namespace GAME
 			LVR_7 = 6,
 			LVR_4 = 7,
 		};
-		static const int LVR_NUM;
-		enum _tagLvr { _LVR_NUM = 8 };
+		static const int LVR_NUM = 8;
 
 		//ボタン
 		enum GAME_KEY_BUTTON
@@ -66,15 +65,18 @@ namespace GAME
 			BTN_1 = 1,
 			BTN_2 = 2,
 			BTN_3 = 3,
+			BTN_4 = 4,
+			BTN_5 = 5,
+			BTN_6 = 6,
+			BTN_7 = 7,
 		};
-		static const int BTN_NUM = 4;
-		enum _tagBtn { _BTN_NUM = 4 };
+		static const int BTN_NUM = 8;
 
 	private:
-		bool Lvr [ _LVR_NUM ]	 = { false };	//レバー状態
-		bool PreLvr [ _LVR_NUM ] = { false };	//前レバー状態
-		bool Btn [ _BTN_NUM ]	 = { false };	//ボタン状態
-		bool PreBtn [ _BTN_NUM ] = { false };	//前ボタン状態
+		bool Lvr [ LVR_NUM ]	 = { false };	//レバー状態
+		bool PreLvr [ LVR_NUM ] = { false };	//前レバー状態
+		bool Btn [ BTN_NUM ]	 = { false };	//ボタン状態
+		bool PreBtn [ BTN_NUM ] = { false };	//前ボタン状態
 
 	public:
 		_GameKey ();

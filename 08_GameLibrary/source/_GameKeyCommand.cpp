@@ -16,11 +16,11 @@ namespace GAME
 {
 	_GameKeyCommand::_GameKeyCommand ()
 	{
-		for ( UINT i = 0; i < _GameKey::_LVR_NUM; ++ i )
+		for ( UINT i = 0; i < _GameKey::LVR_NUM; ++ i )
 		{
 			m_Lvr[i] = GAME_KEY_WILD;
 		}
-		for ( UINT i = 0; i < _GameKey::_BTN_NUM; ++ i )
+		for ( UINT i = 0; i < _GameKey::BTN_NUM; ++ i )
 		{
 			m_Btn[i] = GAME_KEY_WILD;
 		}
@@ -28,11 +28,11 @@ namespace GAME
 
 	_GameKeyCommand::_GameKeyCommand ( const _GameKeyCommand & rhs )
 	{
-		for ( UINT i = 0; i < _GameKey::_LVR_NUM; ++ i )
+		for ( UINT i = 0; i < _GameKey::LVR_NUM; ++ i )
 		{
 			m_Lvr[i] = rhs.m_Lvr[i];
 		}
-		for ( UINT i = 0; i < _GameKey::_BTN_NUM; ++ i )
+		for ( UINT i = 0; i < _GameKey::BTN_NUM; ++ i )
 		{
 			m_Btn[i] = rhs.m_Btn[i];
 		}
@@ -47,15 +47,15 @@ namespace GAME
 	bool _GameKeyCommand::CompareTarget ( _GameKey gameKeyData ) const
 	{
 		//ðŒ‚ªƒƒCƒ‹ƒh‚Ì‚Æ‚«‚Í”äŠr‚µ‚È‚¢
-		bool bWildLvr[_GameKey::_LVR_NUM] = { false };
-		bool bWildBtn[_GameKey::_BTN_NUM] = { false };
+		bool bWildLvr[_GameKey::LVR_NUM] = { false };
+		bool bWildBtn[_GameKey::BTN_NUM] = { false };
 
 		//”äŠrŒ‹‰Ê
-		bool bLvr[_GameKey::_LVR_NUM] = { false };
-		bool bBtn[_GameKey::_BTN_NUM] = { false };
+		bool bLvr[_GameKey::LVR_NUM] = { false };
+		bool bBtn[_GameKey::BTN_NUM] = { false };
 
 		//ƒŒƒo[”äŠr
-		for ( UINT i = 0; i < _GameKey::_LVR_NUM; ++ i )
+		for ( UINT i = 0; i < _GameKey::LVR_NUM; ++ i )
 		{
 			bool b = gameKeyData.GetLvr ( i );
 			bool pb = gameKeyData.GetPreLvr ( i );
@@ -73,7 +73,7 @@ namespace GAME
 		}
 
 		//ƒ{ƒ^ƒ“”äŠr
-		for ( UINT i = 0; i < _GameKey::_BTN_NUM; ++ i )
+		for ( UINT i = 0; i < _GameKey::BTN_NUM; ++ i )
 		{
 			bool b = gameKeyData.GetBtn ( i );
 			bool pb = gameKeyData.GetPreBtn ( i );
@@ -91,11 +91,11 @@ namespace GAME
 		}
 
 		//‚·‚×‚Ä‚ð‘–¸‚µ‚P‚Â‚Å‚à ƒƒCƒ‹ƒh‚Å‚È‚¢ ‚©‚Â ŠY“–‚µ‚È‚¢ ê‡false‚ð•Ô‚·
-		for ( UINT i = 0; i < _GameKey::_LVR_NUM; ++ i )
+		for ( UINT i = 0; i < _GameKey::LVR_NUM; ++ i )
 		{
 			if ( ! bWildLvr[i] && ! bLvr[i] ) { return false; }
 		}
-		for ( UINT i = 0; i < _GameKey::_BTN_NUM; ++ i )
+		for ( UINT i = 0; i < _GameKey::BTN_NUM; ++ i )
 		{
 			if ( ! bWildBtn[i] && ! bBtn[i] ) { return false; }
 		}
@@ -109,12 +109,12 @@ namespace GAME
 	bool _GameKeyCommand::CompareTarget ( _GameKey gameKeyData, bool dirRight ) const
 	{
 		//”äŠr‚·‚é‚©‚Ç‚¤‚© ( ðŒ‚ªƒƒCƒ‹ƒh‚Ì‚Æ‚«‚Í”äŠr‚µ‚È‚¢ )
-		bool bWildLvr[_GameKey::_LVR_NUM] = { false };
-		bool bWildBtn[_GameKey::_BTN_NUM] = { false };
+		bool bWildLvr[_GameKey::LVR_NUM] = { false };
+		bool bWildBtn[_GameKey::BTN_NUM] = { false };
 
 		//”äŠrŒ‹‰Ê
-		bool bLvr[_GameKey::_LVR_NUM] = { false };
-		bool bBtn[_GameKey::_BTN_NUM] = { false };
+		bool bLvr[_GameKey::LVR_NUM] = { false };
+		bool bBtn[_GameKey::BTN_NUM] = { false };
 
 		//¶‰E‚É‚æ‚éƒŒƒo[ƒCƒ“ƒfƒbƒNƒX
 		//	6 5 4				//	4 5 6
@@ -125,7 +125,7 @@ namespace GAME
 
 
 		//ƒŒƒo[”äŠr
-		for ( UINT i = 0; i < _GameKey::_LVR_NUM; ++ i )
+		for ( UINT i = 0; i < _GameKey::LVR_NUM; ++ i )
 		{
 			int lr_index = dirRight ? lever_dir_R[i] : lever_dir_R[i];
 			bool b =  gameKeyData.GetLvr ( lr_index );
@@ -144,7 +144,7 @@ namespace GAME
 		}
 
 		//ƒ{ƒ^ƒ“”äŠr
-		for ( UINT i = 0; i < _GameKey::_BTN_NUM; ++ i )
+		for ( UINT i = 0; i < _GameKey::BTN_NUM; ++ i )
 		{
 			bool b = gameKeyData.GetBtn ( i );
 			bool pb = gameKeyData.GetPreBtn ( i );
@@ -162,11 +162,11 @@ namespace GAME
 		}
 
 		//‚·‚×‚Ä‚ð‘–¸‚µ‚P‚Â‚Å‚à ƒƒCƒ‹ƒh‚Å‚È‚¢ ‚©‚Â ŠY“–‚µ‚È‚¢ ê‡false‚ð•Ô‚·
-		for ( UINT i = 0; i < _GameKey::_LVR_NUM; ++ i )
+		for ( UINT i = 0; i < _GameKey::LVR_NUM; ++ i )
 		{
 			if ( ! bWildLvr[i] && ! bLvr[i] ) { return false; }
 		}
-		for ( UINT i = 0; i < _GameKey::_BTN_NUM; ++ i )
+		for ( UINT i = 0; i < _GameKey::BTN_NUM; ++ i )
 		{
 			if ( ! bWildBtn[i] && ! bBtn[i] ) { return false; }
 		}
@@ -209,7 +209,7 @@ namespace GAME
 	bool _GameKeyCommand::IsNeutral () const
 	{
 		//‚·‚×‚Ä‚ÌƒŒƒo[‚ð‘–¸‚µ‚ÄA‚P‚Â‚Å‚àOFF‚©RELE‚Å‚È‚©‚Á‚½‚çfalse
-		for ( UINT i = 0; i < _GameKey::_LVR_NUM; ++ i )
+		for ( UINT i = 0; i < _GameKey::LVR_NUM; ++ i )
 		{
 			if ( GAME_KEY_OFF != m_Lvr [ i ] || GAME_KEY_RELE != m_Lvr [ i ] ) { return false; }
 		}

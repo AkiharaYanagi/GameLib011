@@ -76,13 +76,13 @@ namespace GAME
 
 	private:
 		//レバー状態
-		GAME_KEY_STATE m_Lvr [ _GameKey::_LVR_NUM ];
+		GAME_KEY_STATE m_Lvr [ _GameKey::LVR_NUM ];
 
 		//現在レバーインデックス
 		int IdLvr = 0;
 
 		//ボタン状態
-		GAME_KEY_STATE m_Btn [ _GameKey::_BTN_NUM ];
+		GAME_KEY_STATE m_Btn [ _GameKey::BTN_NUM ];
 
 		//否定
 		bool	m_bNot;

@@ -58,46 +58,48 @@ namespace GAME
 		void Rele();	//解放
 
 		//指定したボタンが押されている状態か
-		bool IsButton( int nDevice, int nButton );
+		bool IsButton( int id, int nButton );
 		//指定したボタンが押された瞬間か
-		bool PushButton( int nDevice, int nButton );
+		bool PushButton( int id, int nButton );
 		//指定したボタンが離された瞬間か
-		bool ReleaseButton( int nDevice, int nButton );
+		bool ReleaseButton( int id, int nButton );
 
 		//軸の状態を返す
-		LONG GetJoyAxisX( int nDevice ) { return m_dijs[nDevice].lX; }
-		LONG GetJoyAxisY( int nDevice ) { return m_dijs[nDevice].lY; }
+		LONG GetJoyAxisX( int id ) { return m_dijs[id].lX; }
+		LONG GetJoyAxisY( int id ) { return m_dijs[id].lY; }
 
 		//POVの状態を返す( 上から 0, 9000, 18000, 27000 )
-		DWORD GetPov ( int nDevice ) { return m_dijs [ nDevice ].rgdwPOV [ 0 ]; }
-		bool IsPovUp	( int nDevice ) { return 0		== m_dijs [ nDevice ].rgdwPOV [ 0 ]; }
-		bool IsPovRight	( int nDevice ) { return 9000	== m_dijs [ nDevice ].rgdwPOV [ 0 ]; }
-		bool IsPovDown	( int nDevice ) { return 18000	== m_dijs [ nDevice ].rgdwPOV [ 0 ]; }
-		bool IsPovLeft	( int nDevice ) { return 27000	== m_dijs [ nDevice ].rgdwPOV [ 0 ]; }
+		DWORD GetPov ( int id ) { return m_dijs [ id ].rgdwPOV [ 0 ]; }
+		bool IsPovUp	( int id )
+		{ return 0		== m_dijs [ id ].rgdwPOV [ 0 ]; }
+		bool IsPovRight	( int id ) { return 9000	== m_dijs [ id ].rgdwPOV [ 0 ]; }
+		bool IsPovDown	( int id ) { return 18000	== m_dijs [ id ].rgdwPOV [ 0 ]; }
+		bool IsPovLeft	( int id ) { return 27000	== m_dijs [ id ].rgdwPOV [ 0 ]; }
 
-		//押した状態の判定
-		bool IsJoyUp	( int nDevice ) { return ( m_dijs[nDevice].lY <= -500 ) ? true: false; }
-		bool IsJoyDown	( int nDevice ) { return ( m_dijs[nDevice].lY >=  500 ) ? true: false; }
-		bool IsJoyLeft	( int nDevice ) { return ( m_dijs[nDevice].lX <= -500 ) ? true: false; }
-		bool IsJoyRight ( int nDevice ) { return ( m_dijs[nDevice].lX >=  500 ) ? true: false; }
+		//Axis:押した状態の判定
+		bool IsAxisUp	( int id ) 
+		{ return ( m_dijs[id].lY <= -500 ) ? true: false; }
+		bool IsAxisDown	( int id ) { return ( m_dijs[id].lY >=  500 ) ? true: false; }
+		bool IsAxisLeft	( int id ) { return ( m_dijs[id].lX <= -500 ) ? true: false; }
+		bool IsAxisRight ( int id ) { return ( m_dijs[id].lX >=  500 ) ? true: false; }
 
 		//前フレームの状態
-		bool IsPreJoyUp		( int nDevice ) { return ( m_preDijs[nDevice].lY <= -500 ) ? true: false; }
-		bool IsPreJoyDown	( int nDevice ) { return ( m_preDijs[nDevice].lY >=  500 ) ? true: false; }
-		bool IsPreJoyLeft	( int nDevice ) { return ( m_preDijs[nDevice].lX <= -500 ) ? true: false; }
-		bool IsPreJoyRight	( int nDevice ) { return ( m_preDijs[nDevice].lX >=  500 ) ? true: false; }
+		bool IsPreAxisUp	( int id ) { return ( m_preDijs[id].lY <= -500 ) ? true: false; }
+		bool IsPreAxisDown	( int id ) { return ( m_preDijs[id].lY >=  500 ) ? true: false; }
+		bool IsPreAxisLeft	( int id ) { return ( m_preDijs[id].lX <= -500 ) ? true: false; }
+		bool IsPreAxisRight	( int id ) { return ( m_preDijs[id].lX >=  500 ) ? true: false; }
 
 		//押した瞬間の判定(前回off 今回on)
-		bool PushJoyUp	 ( int nDevice ) { return ( ! IsPreJoyUp(nDevice)    && IsJoyUp(nDevice)    ) ? true: false; }
-		bool PushJoyDown ( int nDevice ) { return ( ! IsPreJoyDown(nDevice)  && IsJoyDown(nDevice)  ) ? true: false; }
-		bool PushJoyLeft ( int nDevice ) { return ( ! IsPreJoyLeft(nDevice)  && IsJoyLeft(nDevice)  ) ? true: false; }
-		bool PushJoyRight( int nDevice ) { return ( ! IsPreJoyRight(nDevice) && IsJoyRight(nDevice) ) ? true: false; }
+		bool PushAxisUp		( int id ) { return ( ! IsPreAxisUp(id)    && IsAxisUp(id)    ) ? true: false; }
+		bool PushAxisDown	( int id ) { return ( ! IsPreAxisDown(id)  && IsAxisDown(id)  ) ? true: false; }
+		bool PushAxisLeft	( int id ) { return ( ! IsPreAxisLeft(id)  && IsAxisLeft(id)  ) ? true: false; }
+		bool PushAxisRight	( int id ) { return ( ! IsPreAxisRight(id) && IsAxisRight(id) ) ? true: false; }
 
 		//離した瞬間の判定(前回on 今回off)
-		bool ReleaseJoyUp   ( int nDevice ) { return ( IsPreJoyUp(nDevice)    && ! IsJoyUp(nDevice)    ) ? true: false; }
-		bool ReleaseJoyDown ( int nDevice ) { return ( IsPreJoyDown(nDevice)  && ! IsJoyDown(nDevice)  ) ? true: false; }
-		bool ReleaseJoyLeft ( int nDevice ) { return ( IsPreJoyLeft(nDevice)  && ! IsJoyLeft(nDevice)  ) ? true: false; }
-		bool ReleaseJoyRight( int nDevice ) { return ( IsPreJoyRight(nDevice) && ! IsJoyRight(nDevice) ) ? true: false; }
+		bool ReleAxisUp   ( int id ) { return ( IsPreAxisUp(id)    && ! IsAxisUp(id)    ) ? true: false; }
+		bool ReleAxisDown ( int id ) { return ( IsPreAxisDown(id)  && ! IsAxisDown(id)  ) ? true: false; }
+		bool ReleAxisLeft ( int id ) { return ( IsPreAxisLeft(id)  && ! IsAxisLeft(id)  ) ? true: false; }
+		bool ReleAxisRight( int id ) { return ( IsPreAxisRight(id) && ! IsAxisRight(id) ) ? true: false; }
 
 		//	現在ジョイスティック数を返す関数
 		DWORD GetJoyCount(void){ return m_dwJoyCount; }
