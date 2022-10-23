@@ -75,12 +75,18 @@ namespace GAME
 		static bool m_bDispFPS;
 
 	public:
+		//-----------------------------
+		//	static 環境設定
+		//-----------------------------
+
 		//デバッグ表示をすべてON
 		static void FullDebugMode ();
 
 		//デバッグ表示をすべてON
 		static void NoDebugMode ();
 
+		//アーカイブ作成
+		static void SetFlag_MakeArchive ( bool b );
 	};
 
 

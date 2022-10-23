@@ -21,6 +21,7 @@ namespace GAME
 {
 	//static実体
 	bool GameSystem::m_bDispTimer = false;
+	bool GameSystem::m_bMakeArchive = true;
 
 
 	//各種シングルトンのクリエイトなど1回のみの初期化
@@ -68,17 +69,26 @@ namespace GAME
 		KeyInput::Create();
 		KeyConfig::Create ();
 
-		//アーカイバの初期化
+		//グラフィックファイルアーカイバの初期化
 		Archiver::Create ();
 #if	_DEBUG
-		Archiver::instance()->Make ();		//デバッグ時のみアーカイブファイルを生成する
+		//デバッグ時 かつ フラグON のみアーカイブファイルを生成する
+		if ( m_bMakeArchive )
+		{
+			Archiver::instance()->Make ();
+		}
 #endif	//_DEBUG
 		Archiver::instance()->Open ();		//アーカイブファイルの読込
+
 
 		//サウンドアーカイバの初期化
 		SoundArchiver::Create ();
 #if	_DEBUG
-		SoundArchiver::instance()->Make ();		//デバッグ時のみアーカイブファイルを生成する
+		//デバッグ時 かつ フラグON のみアーカイブファイルを生成する
+		if ( m_bMakeArchive )
+		{
+			SoundArchiver::instance ()->Make ();
+		}
 #endif	//_DEBUG
 		SoundArchiver::instance()->Open ();		//アーカイブファイルの読込
 
@@ -140,13 +150,16 @@ namespace GAME
 	//フレーム毎動作
 	void GameSystem::Move ()
 	{
+		//test
+		static DWORD count = 0;
+		DWORD startTime = ::timeGetTime ();
+
+
 		DxSound::instance ()->Move ();	//サウンドの更新
 //		KeyInput::instance()->Update ();	//入力の更新
 		DxInput::instance ()->Update ();	//入力の更新
 
 #ifdef	_DEBUG
-#endif	// _DEBUG
-
 		//----------------------------------------------
 		// 'T'キーでタイマー表示切替
 		static int time = 0;
@@ -181,6 +194,14 @@ namespace GAME
 			++ time;
 		}
 		//----------------------------------------------
+#endif	// _DEBUG
+
+
+
+		//test
+		DWORD moveTime = ::timeGetTime ();
+
+
 
 		//グラフィックは常に表示
 		m_grpList->Move ();
@@ -190,6 +211,16 @@ namespace GAME
 #if	0
 		TextFile::instance()->Move ();
 #endif	//0
+
+
+		//test
+		DWORD GrpTime = ::timeGetTime ();
+
+		//60[F]の平均
+		if ( ++ count > 60 )
+		{
+			DBGOUT_WND_F ( 4, _T ( "MoveTime = %d, GrpTime = %d" ), moveTime - startTime, GrpTime - startTime );
+		}
 	}
 
 
@@ -222,23 +253,6 @@ namespace GAME
 	void GameSystem::SetGameMain ( UP_GameMainBase pGameMain )
 	{
 		m_pGameMain = ::move ( pGameMain ); 
-
-#if 0
-		//Graphic配列をゲームメインに設定
-		P_TASK_VEC pGrpAry = GrpAry::instance()->GetpInstance ();
-		m_pGameMain->AddpTask ( pGrpAry );
-//		TRACE_F(_T("GameSystem::SetGameMain\n"));
-#endif // 0
-	}
-
-	void GameSystem::FullDebugMode ()
-	{
-		m_bDispTimer = T;
-	}
-
-	void GameSystem::NoDebugMode ()
-	{
-		m_bDispTimer = F;
 	}
 
 

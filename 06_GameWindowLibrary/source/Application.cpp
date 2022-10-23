@@ -19,6 +19,7 @@
 
 // ライブラリ内部のみで参照するヘッダファイル
 #include "FrameControl.h"		//フレーム制御とゲームメイン
+#include "HWnd.h"				//ウィンドウハンドルオブジェクトの利用
 
 //-------------------------------------------------------------------------------------------------
 // 定義
@@ -93,7 +94,7 @@ namespace GAME
 	// 引数：hInst		インスタンスハンドル
 	// 戻値：成功 = true, 失敗 = false
 	//-------------------------------------------------------------------------------------------------
-	bool Application::AppInit ( HINSTANCE hInst )
+	bool Application::AppLoad ( HINSTANCE hInst )
 	{
 		//----------------------------------
 		//thisポインタの保存	
@@ -435,15 +436,20 @@ namespace GAME
 		return size;
 	}
 
-	void Application::FullDebugMode ()
-	{
-		FrameControl::FullDebugMode ();
-	}
 
-	void Application::NoDebugMode ()
-	{
-		FrameControl::NoDebugMode ();
-	}
+	//-----------------------------
+	//	static 環境設定
+	//-----------------------------
+
+	//デバッグ表示をすべてON
+	void Application::FullDebugMode () { FrameControl::FullDebugMode (); }
+
+	//デバッグ表示をすべてOFF
+	void Application::NoDebugMode () { FrameControl::NoDebugMode (); }
+
+	//アーカイブ作成
+	void Application::SetFlag_MakeArchive ( bool b ) { FrameControl::SetFlag_MakeArchive ( b ); }
+
 
 }	//namespace GAME
 

@@ -238,8 +238,9 @@ namespace GAME
 		//バックバッファをクリア
 //		DWORD FLAG = D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL;
 		DWORD FLAG = D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER;
-		//		m_lpD3DDevice->Clear ( 0, nullptr, D3DCLEAR_TARGET, D3DCOLOR_XRGB ( 210, 250, 250 ), 0, 0 );
-		m_lpD3DDevice->Clear ( 0, nullptr, FLAG, D3DCOLOR_XRGB ( 210, 250, 250 ), 1.f, 0 );
+//		m_lpD3DDevice->Clear ( 0, nullptr, D3DCLEAR_TARGET, D3DCOLOR_XRGB ( 210, 250, 250 ), 0, 0 );
+//		m_lpD3DDevice->Clear ( 0, nullptr, FLAG, D3DCOLOR_XRGB ( 210, 250, 250 ), 1.f, 0 );
+		m_lpD3DDevice->Clear ( 0, nullptr, FLAG, D3DCOLOR_XRGB ( 80, 80, 80 ), 1.f, 0 );
 
 		//バックバッファ,zバッファをクリア
 		/* zバッファをクリアするときは引数float zの値を1.0fにする */

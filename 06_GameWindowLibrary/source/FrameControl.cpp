@@ -212,6 +212,11 @@ namespace GAME
 		GameSystem::NoDebugMode ();
 	}
 
+	//アーカイブ作成
+	void FrameControl::SetFlag_MakeArchive ( bool b ) 
+	{
+		GameSystem::SetFlag_MakeArchive ( b ); 
+	}
 
 }	//namespace GAME
 

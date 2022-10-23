@@ -14,7 +14,6 @@
 #include "DebugManager.h"		//デバッグ表示
 #include "Rect.h"				//Rectユーザ定義利用
 #include "DirectX_Library.h"	//DirectX利用
-#include "HWnd.h"				//ウィンドウハンドルオブジェクトの利用
 #include "GameMainBase.h"		//ゲームメイン基底
 #include "AppSettingFile.h"		//設定ファイル
 
@@ -79,7 +78,7 @@ namespace GAME
 		~Application ();
 
 		//Windowsアプリケーションの初期化
-		bool AppInit ( HINSTANCE hInst );
+		bool AppLoad ( HINSTANCE hInst );
 
 		//タスクの一括操作
 		void Load ();		//読込
@@ -100,15 +99,22 @@ namespace GAME
 		//スレッド稼動フラグ取得
 //		bool IsActive() { return m_bActive; }
 
+		//モニタ列挙プロシージャ
+		static BOOL CALLBACK MonitorEnumProc ( HMONITOR hMnt, HDC hdc, LPRECT lpRect, LPARAM dwParam );
+		static int m_monitor_count;
+
+		//-----------------------------
+		//	static 環境設定
+		//-----------------------------
+
 		//デバッグ表示をすべてON
 		static void FullDebugMode ();
 
 		//デバッグ表示をすべてOFF
 		static void NoDebugMode ();
 
-		//モニタ列挙プロシージャ
-		static BOOL CALLBACK MonitorEnumProc ( HMONITOR hMnt, HDC hdc, LPRECT lpRect, LPARAM dwParam );
-		static int m_monitor_count;
+		//アーカイブ作成
+		static void SetFlag_MakeArchive ( bool b );
 
 	private:
 		POINT GetWindowInitPos ();
