@@ -51,11 +51,9 @@ namespace GAME
 			GAME_KEY_NIS,		// 現在のみ離した状態
 		};
 
-		//レバーを１つにまとめる
+		//レバー方向(10キー)をenumに置換
 		enum GAME_KEY_LVR_CMD
 		{
-//			LVR_CMD_N = 0,	//入力なし
-
 			LVR_CMD_1 = 0,
 			LVR_CMD_2 = 1,
 			LVR_CMD_3 = 2,
@@ -64,32 +62,16 @@ namespace GAME
 			LVR_CMD_8 = 5,
 			LVR_CMD_7 = 6,
 			LVR_CMD_4 = 7,
-#if 0
-
-			LVR_CMD_2E = 9,		//下要素
-			LVR_CMD_6E = 10,	//右要素
-			LVR_CMD_8E = 11,	//上要素
-			LVR_CMD_4E = 12,	//左要素
-
-#endif // 0
 		};
 
 	private:
-		//レバー状態
-		GAME_KEY_STATE m_Lvr [ _GameKey::LVR_NUM ];
-
-		//現在レバーインデックス
-		int IdLvr = 0;
-
-		//ボタン状態
-		GAME_KEY_STATE m_Btn [ _GameKey::BTN_NUM ];
-
-		//否定
-		bool	m_bNot;
+		GAME_KEY_STATE m_Lvr [ _GameKey::LVR_NUM ];		//レバー状態
+		GAME_KEY_STATE m_Btn [ _GameKey::BTN_NUM ];		//ボタン状態
+		bool	m_bNot;		//否定
 
 	public:
 		_GameKeyCommand ();
-		_GameKeyCommand ( const _GameKeyCommand & rhs );
+		_GameKeyCommand ( const _GameKeyCommand & rhs );	//コピー可能
 		~_GameKeyCommand ();
 
 		//比較
@@ -101,26 +83,31 @@ namespace GAME
 		//戻値：適合したらtrue、それ以外はfalse
 		bool CompareTarget ( _GameKey gameKeyData, bool dirRight ) const;
 
-
-
+		//-----------------------------------------------------------------
 		//レバー(方向指定)
 		void SetLvr ( UINT index, GAME_KEY_STATE state ) { m_Lvr[index] = state; }
+		void SetaLvr ( GAME_KEY_STATE state_ary [] );
 		GAME_KEY_STATE GetLvr ( UINT index ) const { return m_Lvr[index]; }
 
+#if 0
+//		int IdLvr = 0;		//現在レバーインデックス
 		//レバー(1方向)
 //		GAME_KEY_LVR_CMD GetKeyLvrCmd () const;
 		bool IsKeyLvrCmd ( GAME_KEY_LVR_CMD lvr_cmd ) const;
 		bool PushKeyLvrCmd ( GAME_KEY_LVR_CMD lvr_cmd ) const;
-
+#endif // 0
 
 		//ボタン
 		void SetBtn ( UINT index, GAME_KEY_STATE state ) { m_Btn[index] = state; }
+		void SetaBtn ( GAME_KEY_STATE state_ary [] );
 		GAME_KEY_STATE GetButton ( UINT index ) const { return m_Btn[index]; }
 
 		//否定のフラグ
 		void SetNot ( bool b ) { m_bNot = b; }
 		bool GetNot () const { return m_bNot; }
+		//-----------------------------------------------------------------
 
+#if 0
 	private:
 		//内部利用関数
 		//Is == ( 現在押されている状態 ( ON || PUSH ) )
@@ -130,9 +117,12 @@ namespace GAME
 		bool Is6E () const;
 		bool Is8E () const;
 		bool Is4E () const;
+#endif // 0
 	};
 
+
 	using V_GAME_KEY_CMD = vector < _GameKeyCommand >;
+	using KEY_ST = _GameKeyCommand::GAME_KEY_STATE;
 
 
 }	//namespace GAME

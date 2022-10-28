@@ -174,8 +174,27 @@ namespace GAME
 		//‚·‚×‚Ä“K‡‚¾‚Á‚½‚çtrue
 		return true;
 	}
-	
-	
+
+
+	void _GameKeyCommand::SetaLvr ( GAME_KEY_STATE state_ary [] )
+	{
+		for ( UINT i = 0; i < _GameKey::BTN_NUM; ++ i )
+		{
+			m_Lvr [ i ] = state_ary [ i ];
+		}
+	}
+
+	void _GameKeyCommand::SetaBtn ( GAME_KEY_STATE state_ary [] )
+	{
+		for ( UINT i = 0; i < _GameKey::BTN_NUM; ++ i )
+		{
+			m_Btn [ i ] = state_ary [ i ];
+		}
+	}
+
+
+#if 0
+
 	bool _GameKeyCommand::IsKeyLvrCmd ( GAME_KEY_LVR_CMD lvr_cmd ) const
 	{
 		switch ( lvr_cmd )
@@ -232,6 +251,7 @@ namespace GAME
 	{
 		return Is ( _GameKey::LVR_1 ) || Is ( _GameKey::LVR_4 ) || Is ( _GameKey::LVR_7 );
 	}
+#endif // 0
 
 
 }	//namespace GAME
