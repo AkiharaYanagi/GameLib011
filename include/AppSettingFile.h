@@ -2,6 +2,11 @@
 //
 // アプリケーション設定ファイル
 //
+//		・フルスクリーン / ウィンドウ
+//		・画面サイズ
+//		・画面開始位置
+//		・ディスプレイ番号指定
+//
 //=================================================================================================
 #pragma once
 
@@ -46,7 +51,7 @@ namespace GAME
 		static void Create () { if ( ! m_inst ) { m_inst = _UP_StgFl ( new _StgFl () ); } }
 		static _UP_StgFl & Inst () { return m_inst; }	//インスタンス取得
 	//---------------------------------------------------------------------
-	//@info GameSystem でDx３Dにパラメータを渡すためシングルトンで定義する
+	//@info GameSystem でDx3Dにパラメータを渡すためシングルトンで定義する
 
 
 	private:
@@ -58,11 +63,6 @@ namespace GAME
 
 		WINDOW_START_POS	m_startPos;		//ウィンドウ開始位置
 		int		m_displayNum;	//出力ディスプレイ番号
-
-#if 0
-		bool	m_input1pPlayer;
-		bool	m_input2pPlayer;
-#endif // 0
 		//------------------------------------------------
 
 		//基本値

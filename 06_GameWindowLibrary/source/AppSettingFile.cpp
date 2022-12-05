@@ -57,11 +57,6 @@ namespace GAME
 			m_startPos = ( WINDOW_START_POS )temp;
 			ifstrm.read ( (char*)& m_displayNum, sizeof ( int ) );
 
-#if 0
-			ifstrm.read ( (char*)& m_input1pPlayer, sizeof(bool) );
-			ifstrm.read ( (char*)& m_input2pPlayer, sizeof(bool) );
-#endif // 0
-
 			//èIóπ
 			ifstrm.close ();
 		}
@@ -79,10 +74,6 @@ namespace GAME
 		m_window_h = DFL_WND_H;
 		m_startPos = START_POS_CURSOR;
 		m_displayNum = 0;
-#if 0
-		m_input1pPlayer = true;
-		m_input2pPlayer = true;
-#endif // 0
 	}
 
 
