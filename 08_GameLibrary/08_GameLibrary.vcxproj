@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\ClrUtl.h" />
     <ClInclude Include="..\include\CursorUtl.h" />
     <ClInclude Include="..\include\FadeRect.h" />
     <ClInclude Include="..\include\GameInput.h" />
@@ -31,6 +32,7 @@
     <ClInclude Include="..\include\_GameKeyCommand.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\ClrUtl.cpp" />
     <ClCompile Include="source\CursorUtl.cpp" />
     <ClCompile Include="source\FadeRect.cpp" />
     <ClCompile Include="source\GameInput.cpp" />
