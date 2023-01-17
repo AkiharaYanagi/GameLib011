@@ -22,6 +22,7 @@ namespace GAME
 		m_mag ( VEC2 ( 0.f, 0.f ) ), 
 		m_vel ( VEC2 ( 0.f, 0.f ) ), m_acc ( VEC2 ( -0.01f, -0.01f ) ), 
 		m_secondVel ( VEC2 ( 0.f, 0.f ) )
+		, m_end ( false )
 	{
 	}
 
@@ -38,6 +39,16 @@ namespace GAME
 
 	void GrpDemo::Move ()
 	{
+		if ( m_timer == m_endTime )
+		{
+			m_end = true;
+			SetValid ( false );
+		}
+		else
+		{
+			++ m_timer;
+		}
+
 		//目標値に達したら終了
 		if ( m_mag.x > m_targetScaling.x || m_mag.y > m_targetScaling.y )
 		{

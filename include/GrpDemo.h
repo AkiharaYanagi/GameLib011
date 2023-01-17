@@ -19,7 +19,7 @@ namespace GAME
 
 	class GrpDemo : public GrpAcv
 	{
-		UINT		m_timer;
+		UINT		m_timer;	//内部タイマ
 		VEC2		m_startScaling;		//開始
 		VEC2		m_targetScaling;	//目標
 		VEC2		m_mag;		//倍率
@@ -27,6 +27,9 @@ namespace GAME
 		VEC2		m_acc;		//倍率変化加速度
 
 		VEC2		m_secondVel;	//第2速度
+
+		bool		m_end;	//終了フラグ
+		UINT		m_endTime;
 
 	public:
 		GrpDemo ();
@@ -43,6 +46,9 @@ namespace GAME
 		void SetVel ( VEC2 vec ) { m_vel = vec; }
 		void SetAcc ( VEC2 vec ) { m_acc = vec; }
 		void SetSecondVel ( VEC2 vec ) { m_secondVel = vec; }
+
+		void SetEnd ( UINT n ) { m_end = false; m_endTime = n; }
+		void ResetEnd () { m_end = false; }
 	};
 
 	using P_GrpDemo = shared_ptr < GrpDemo >;
