@@ -34,12 +34,19 @@ namespace GAME
 	{
 		m_vel = VEC2 ( 0, 0 );
 		m_mag = m_startScaling;
+		m_timer = 1;
 		GrpAcv::Init ();
 	}
 
 	void GrpDemo::Move ()
-	{
-		if ( m_timer == m_endTime )
+	{	
+		if ( m_timer == 0 )
+		{
+			GrpAcv::Move ();
+			return;
+		}
+
+		if ( m_timer >= m_endTime )
 		{
 			m_end = true;
 			SetValid ( false );
