@@ -15,7 +15,12 @@
 namespace GAME
 {
 	Timer::Timer ()
-	: m_active ( false ), m_time ( 0 ), m_targetTime ( 0 )
+		: m_active ( false ), m_time ( 0 ), m_targetTime ( 0 )
+	{
+	}
+
+	Timer::Timer ( UINT targetTime )
+		: m_active ( false ), m_time ( 0 ), m_targetTime ( targetTime )
 	{
 	}
 

@@ -24,9 +24,11 @@ namespace GAME
 
 	public:
 		Timer ();
+		Timer ( UINT targetTime );	//目標時間
 		Timer ( const Timer & rhs ) = delete;
 		~Timer ();
 
+		//@info Task型だが、手動でMove()のみを毎フレーム行えばAddpTask()の必要はない
 		void Move ();
 
 		//可動状態

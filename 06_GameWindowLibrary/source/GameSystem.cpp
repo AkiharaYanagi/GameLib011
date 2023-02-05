@@ -202,6 +202,8 @@ namespace GAME
 		DWORD moveTime = ::timeGetTime ();
 
 
+		//@todo デバッグ用'W'ストップがグラフィックリストのMove()を止めていない
+		//グラフィックMove()でタイマー動作している
 
 		//グラフィックは常に表示
 		m_grpList->Move ();
