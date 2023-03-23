@@ -221,7 +221,7 @@ namespace GAME
 		//60[F]‚Ì•½‹Ï
 		if ( ++ count > 60 )
 		{
-			DBGOUT_WND_F ( 4, _T ( "MoveTime = %d, GrpTime = %d" ), moveTime - startTime, GrpTime - startTime );
+			DBGOUT_WND_F ( 2, _T ( "MoveTime = %d, GrpTime = %d" ), moveTime - startTime, GrpTime - startTime );
 		}
 	}
 
