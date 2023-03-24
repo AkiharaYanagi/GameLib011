@@ -26,9 +26,7 @@ namespace GAME
 		GameMatrix		m_matrix;			//座標
 		bool			m_valid;			//表示 ON/OFF
 		UINT			m_indexTexture;		//テクスチャ指定添字
-		D3DXCOLOR		m_color;			//色
-
-		Fade			m_fade;				//フェード
+		Fade			m_fade;				//フェード (単色指定もフェードに統合)
 
 	public:
 		GameObject ();
@@ -72,8 +70,8 @@ namespace GAME
 		UINT GetIndexTexture () const { return m_indexTexture; }
 
 		//色
-		void SetColor ( _CLR c ) { m_color = c; }
-		_CLR GetColor () const { return m_color; }
+		void SetColor ( _CLR c ) { m_fade.SetColor ( c ); }
+		_CLR GetColor () const { return m_fade.GetColor (); }
 
 		//フェード
 		void SetFade ( UINT time, _CLR clr_start, _CLR clr_end )

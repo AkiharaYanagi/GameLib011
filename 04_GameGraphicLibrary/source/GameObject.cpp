@@ -16,7 +16,7 @@ namespace GAME
 {
 
 	GameObject::GameObject ()
-		: m_valid ( true ), m_indexTexture ( 0 ), m_color ( 0xffffffff )
+		: m_valid ( true ), m_indexTexture ( 0 )
 	{
 	}
 
@@ -25,7 +25,7 @@ namespace GAME
 		m_matrix = rhs.m_matrix;
 		m_valid = rhs.m_valid;
 		m_indexTexture = rhs.m_indexTexture;
-		m_color = rhs.m_color;
+		m_fade = rhs.m_fade;
 	}
 
 	GameObject::~GameObject ()
@@ -35,7 +35,6 @@ namespace GAME
 	void GameObject::PreMove ()
 	{
 		m_fade.PreMove ();
-		m_color = m_fade.GetColor ();
 	}
 
 	void GameObject::Move ()

@@ -33,6 +33,7 @@ namespace GAME
 	//			GameGraphicFromArchive
 	//			GameGraphicApprovedTexture
 	//		　のいずれかを用いる
+	//		・オブジェクトは自動で１つ生成する。複数追加する場合はクリアしてから追加する
 	//■=======================================================================
 	class GameGraphicBase	: public GameGraphicCore
 	{

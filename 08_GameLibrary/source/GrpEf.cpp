@@ -45,9 +45,6 @@ namespace GAME
 	{
 		//-----------------------------------------------
 		//ˆÊ’u
-//		GetpMatrix()->SetPos ( m_pos + m_base );
-//		SetAllPos ( m_pos + m_base + *m_pDispGameBase );
-
 		PVP_Object pvpObj = GrpAcv::GetpvpObject ();
 		UINT size = pvpObj->size ();
 		for ( UINT i = 0; i < size; ++ i )

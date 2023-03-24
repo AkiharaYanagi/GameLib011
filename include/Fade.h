@@ -35,7 +35,7 @@ namespace GAME
 
 	public:
 		Fade ();
-		Fade ( const Fade & rhs ) = delete;
+		Fade ( const Fade & rhs );	//コピー可能
 		~Fade ();
 
 		//毎フレーム動作(Move()内先頭で呼ぶ)

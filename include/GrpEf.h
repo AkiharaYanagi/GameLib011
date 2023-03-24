@@ -19,16 +19,18 @@ namespace GAME
 {
 	class GrpEf : public GrpAcv
 	{
+		VEC2	m_base;				//基準位置
+		VEC2	m_pos;				//補正位置
+		V_VEC2	m_vPosMatrix;		//複数マトリックス使用時の補正位置
+		VEC2	m_dispBase;			//外部補正位置
+
 		UINT	m_timer;
-		VEC2	m_base;
-		VEC2	m_pos;
 		VEC2	m_startScaling;		//開始
 		VEC2	m_targetScaling;	//目標
 		VEC2	m_vec;
 		VEC2	m_vel;
 		VEC2	m_acc;
-		V_VEC2	m_vPosMatrix;		//複数マトリックス使用時の補正位置
-		VEC2	m_dispBase;
+
 
 	public:
 		//引数：外部からの画面補正量
@@ -42,7 +44,7 @@ namespace GAME
 		void On ();
 
 		//キャラ位置による画面補正
-		void SetpDispBase ( VEC2 v ) { m_dispBase = v; }
+		void SetDispBase ( VEC2 v ) { m_dispBase = v; }
 
 		void SetBase ( VEC2 vec ) { m_base = vec; }
 		void SetPos ( VEC2 vec ) { m_pos = vec; }
