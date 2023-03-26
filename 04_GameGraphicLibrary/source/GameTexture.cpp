@@ -21,7 +21,6 @@ namespace GAME
 	//	GameTextureBase
 	//-------------------------------------------------------------------------------------------------
 	GameTextureBase::GameTextureBase () : 
-//		m_lpTexture ( nullptr ), m_color ( 0xffffffff ), m_textureIndex ( 0 )
 		m_lpTexture ( nullptr ), m_textureIndex ( 0 )
 	{
 	}
@@ -48,11 +47,6 @@ namespace GAME
 	{
 		//ファイル名の指定が無いときは何もしない
 		if ( m_strFilename.compare ( _T("") ) == 0 ) { return; }
-
-		TCHAR curDir [ MAX_PATH ];
-		::GetCurrentDirectory( MAX_PATH, curDir );
-		////TRACE_F ( curDir );
-		////TRACE_F ( _T(": %s : ") , m_strFilename.c_str() );
 
 		//ファイル読込
 		HRESULT hr = D3DXCreateTextureFromFile ( Dx3D::instance ()->GetDevice(), m_strFilename.c_str(), &m_lpTexture );
@@ -101,20 +95,6 @@ namespace GAME
 			return;
 		}
 
-#if 0
-		TCHAR curDir [ MAX_PATH ];
-		::GetCurrentDirectory( MAX_PATH, curDir );
-//		TRACE->DebugOutf ( curDir );
-		////TRACE_F ( _T(": %s : ") , m_strFileName.c_str() );
-
-		//メモリからテクスチャの作成
-		HRESULT hr = D3DXCreateTextureFromFileInMemory ( Dx3D::instance ()->GetDevice(), file.filePointer, file.fileSize, & m_lpTexture );
-		if ( FAILED ( hr ) )
-		{ 
-			DXTRACE ( hr, TEXT("アーカイバ利用：テクスチャ読込の失敗") ); 
-			return;
-		}
-#endif // 0
 		DX3D->CreateTextureFromMem ( file.filePointer, file.fileSize, & m_lpTexture );
 
 		TRACE_F ( _T("%s : テクスチャ作成　成功\n") , m_strFileName.c_str());

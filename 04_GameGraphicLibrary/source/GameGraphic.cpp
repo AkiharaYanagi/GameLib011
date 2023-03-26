@@ -253,7 +253,7 @@ namespace GAME
 
 	void GameGraphicFromFile::AddTexture ( tstring fileName )
 	{
-		shared_ptr < GameTextureFromFile > pTexture = make_shared < GameTextureFromFile > ();
+		P_TxFl pTexture = make_shared < TxFl > ();
 		pTexture->SetFileName ( fileName );
 		m_vpTexture.push_back ( pTexture );
 		GameGraphicBase::AddpTexture ( pTexture );

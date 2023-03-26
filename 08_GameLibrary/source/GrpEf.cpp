@@ -16,9 +16,10 @@
 namespace GAME
 {
 	GrpEf::GrpEf () :
-		m_timer ( 0 ), 
 		m_base ( VEC2 ( 0.f, 0.f ) ), 
-		m_pos ( VEC2 ( 0.f, 0.f ) ), 
+		m_revised ( VEC2 ( 0.f, 0.f ) ), 
+		m_dispBase ( VEC2 ( 0.f, 0.f ) ), 
+		m_timer ( 0 ), 
 		m_startScaling ( VEC2 ( 1.8f, 1.8f ) ), 
 		m_targetScaling ( VEC2 ( 1.2f, 1.2f ) ),
 		m_vec ( VEC2 ( 0.f, 0.f ) ), 
@@ -50,7 +51,7 @@ namespace GAME
 		for ( UINT i = 0; i < size; ++ i )
 		{
 			//基準位置 + 補正位置 + 外部補正位置 + 個別位置
-			(*pvpObj)[i]->SetPos (  m_base + m_pos + m_dispBase + m_vPosMatrix[i] );
+			(*pvpObj)[i]->SetPos (  m_base + m_revised + m_dispBase + m_vPosMatrix[i] );
 		}
 		
 		//-----------------------------------------------
