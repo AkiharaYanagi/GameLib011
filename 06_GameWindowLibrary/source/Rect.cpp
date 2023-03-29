@@ -56,6 +56,19 @@ namespace GAME
 
 	//-------------------------------------
 	//重なり判定
+	//点と矩形の重なり判定
+	bool OverlapPoint ( const VEC2 & pt, const RECT & rect )
+	{
+		if ( rect.left <= pt.x && pt.x <= rect.right )
+		{
+			if ( rect.top <= pt.y && pt.y <= rect.bottom )
+			{
+				return T;
+			}
+		}
+		return F;
+	}
+
 
 	//矩形２つで重なり判定
 	bool OverlapRect ( const RECT & rect1, const RECT & rect2 )
