@@ -150,13 +150,13 @@ namespace GAME
 	//フレーム毎動作
 	void GameSystem::Move ()
 	{
-		//test
+		//test		Move()とDraw()の時間計測
 		static DWORD count = 0;
 		DWORD startTime = ::timeGetTime ();
+		DWORD moveTime = 0;
 
 
 		DxSound::instance ()->Move ();	//サウンドの更新
-//		KeyInput::instance()->Update ();	//入力の更新
 		DxInput::instance ()->Update ();	//入力の更新
 
 #ifdef	_DEBUG
@@ -170,7 +170,8 @@ namespace GAME
 		}
 		if( m_bDispTimer )
 		{
-			DBGOUT_WND->DebugOutWnd_Time ( _T ( "time = %d" ), time );
+			//ゲーム画面固定表示
+			DBGOUT_WND->DebugOutWnd_Time ( _T ( "Frame:%d" ), time );
 		}
 		else
 		{
@@ -190,16 +191,12 @@ namespace GAME
 		if( ! bStop || ::GetAsyncKeyState('Q') & 0x0001 )
 		{
 			assert ( m_pGameMain );
-			m_pGameMain->Move ();		//フレーム毎の動作
-			++ time;
-		}
-		//----------------------------------------------
-#endif	// _DEBUG
-
-
+			
+			//フレーム毎の動作	
+			m_pGameMain->Move ();
 
 		//test
-		DWORD moveTime = ::timeGetTime ();
+		moveTime = ::timeGetTime ();
 
 
 		//@todo デバッグ用'W'ストップがグラフィックリストのMove()を止めていない
@@ -214,14 +211,22 @@ namespace GAME
 		TextFile::instance()->Move ();
 #endif	//0
 
+			
+			++ time;
+		}
+		//----------------------------------------------
+#endif	// _DEBUG
+
+
+
 
 		//test
-		DWORD GrpTime = ::timeGetTime ();
+		DWORD DrawTime = ::timeGetTime ();
 
 		//60[F]の平均
 		if ( ++ count > 60 )
 		{
-			DBGOUT_WND_F ( 2, _T ( "MoveTime = %d, GrpTime = %d" ), moveTime - startTime, GrpTime - startTime );
+			DBGOUT_WND_F ( 2, _T ( "MoveTime = %d, DrawTime = %d" ), moveTime - startTime, DrawTime - startTime );
 		}
 	}
 

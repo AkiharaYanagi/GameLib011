@@ -56,7 +56,7 @@ namespace GAME
 		void SetVel ( VEC2 vec ) { m_vel = vec; }
 		void SetAcc ( VEC2 vec ) { m_acc = vec; }
 
-		//複数オブジェクト
+		//複数オブジェクトの初期設定
 		void ResetObjectNUm ( UINT n ) {}
 
 		void AddObject () 
