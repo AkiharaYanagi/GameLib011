@@ -16,11 +16,19 @@
 //-------------------------------------------------------------------------------------------------
 namespace GAME
 {
+	//============================
+	//	t = 0 から開始
+	//	active時に++;
+	//	targetTime時に終了してt = 0に戻り、deactive
+	//
+	//============================
+
 	class Timer : public GameTask
 	{
 		bool	m_active;
 		UINT	m_time;
 		UINT	m_targetTime;
+		UINT	m_wait;
 
 	public:
 		Timer ();
@@ -46,11 +54,14 @@ namespace GAME
 
 		//0からスタート
 		void Start () { m_time = 0; m_active = true; }
+
+		//wait分だけ待機してからスタート
+		void WaitStart ( UINT wait );
 		
 		//前回の続きからスタート
 		void ReStart () { m_active = true; }
 
-		//ストップ
+		//ストップ(一時停止(カウントは保存))
 		void Stop () { m_active = false; }
 
 		//クリア
@@ -58,6 +69,8 @@ namespace GAME
 	};
 
 	using P_Timer = shared_ptr < Timer >;
+	using VP_Timer = vector < P_Timer >;
+	using PVP_Timer = shared_ptr < VP_Timer >;
 
 
 }	//namespace GAME

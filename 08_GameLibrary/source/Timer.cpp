@@ -15,12 +15,12 @@
 namespace GAME
 {
 	Timer::Timer ()
-		: m_active ( false ), m_time ( 0 ), m_targetTime ( 0 )
+		: m_active ( false ), m_time ( 0 ), m_targetTime ( 0 ), m_wait ( 0 )
 	{
 	}
 
 	Timer::Timer ( UINT targetTime )
-		: m_active ( false ), m_time ( 0 ), m_targetTime ( targetTime )
+		: m_active ( false ), m_time ( 0 ), m_targetTime ( targetTime ), m_wait ( 0 )
 	{
 	}
 
@@ -30,8 +30,21 @@ namespace GAME
 
 	void Timer::Move ()
 	{
+		//WaitStart
+		if ( m_wait != 0 )
+		{
+			if ( -- m_wait == 0 )
+			{
+				Start ();
+			}
+		}
+
+
+		//稼働状態
 		if ( ! m_active ) { return; }
 
+
+		//カウントアップ
 		if ( ++ m_time == m_targetTime )
 		{
 			m_time = 0;
@@ -39,6 +52,12 @@ namespace GAME
 		}
 
 		GameTask::Move ();
+	}
+
+
+	void Timer::WaitStart ( UINT wait )
+	{
+		m_wait = wait;
 	}
 
 
