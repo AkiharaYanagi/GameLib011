@@ -15,7 +15,7 @@
 namespace GAME
 {
 
-	DxJoystick::DxJoystick() : m_lpDI(nullptr)
+	DxJoystick::DxJoystick() : m_lpDI ( nullptr )
 	{
 	}
 
@@ -193,39 +193,6 @@ namespace GAME
 		}
 	}
 
-	//指定したボタンが押されているか
-	//引数： nDevice デバイス番号, nButton ボタン番号
-	bool DxJoystick::IsButton( int nDevice, int nButton )
-	{
-		//指定デバイスが存在しないときfalseを返す
-		if ( ! m_lpDIDevice[nDevice] ) return false;
-
-		return ( m_dijs[nDevice].rgbButtons[ nButton ] & 0x80 ) ? true: false;
-	}
-
-	//指定したボタンが押された瞬間か
-	//引数： nDevice デバイス番号, nButton ボタン番号
-	bool DxJoystick::PushButton( int nDevice, int nButton )
-	{
-		//指定デバイスが存在しないときfalseを返す
-		if ( ! m_lpDIDevice[nDevice] ) return false;
-
-		//現在の状態が押されている　かつ　前の状態が押されていない
-		return ( (m_dijs[nDevice].rgbButtons[ nButton ] & 0x80) && ! (m_preDijs[nDevice].rgbButtons[ nButton ] & 0x80) ) ? true: false;
-	}
-
-	//指定したボタンが離された瞬間か
-	//引数： nDevice デバイス番号, nButton ボタン番号
-	bool DxJoystick::ReleaseButton( int nDevice, int nButton )
-	{
-		//指定デバイスが存在しないときfalseを返す
-		if ( ! m_lpDIDevice[nDevice] ) return false;
-
-		//現在の状態が押されていない　かつ　前の状態が押されている
-		return ( ! (m_dijs[nDevice].rgbButtons[ nButton ] & 0x80) && (m_preDijs[nDevice].rgbButtons[ nButton ] & 0x80) ) ? true: false;
-	}
-
-
 	//--------------------------------------------------------------------------
 	//ゲーム利用
 	//--------------------------------------------------------------------------
@@ -253,37 +220,105 @@ namespace GAME
 		}
 	}
 
+	//--------------------------------------------------------------------------
+	//	ボタン
+	//--------------------------------------------------------------------------
+	//指定したボタンが押されているか
+	//引数： nDevice デバイス番号, nButton ボタン番号
+	bool DxJoystick::IsButton( int nDevice, int nButton ) const
+	{
+		//指定デバイスが存在しないときfalseを返す
+		if ( ! m_lpDIDevice[nDevice] ) return false;
+
+		return ( m_dijs[nDevice].rgbButtons[ nButton ] & 0x80 ) ? true: false;
+	}
+
+	//指定したボタンが押された瞬間か
+	//引数： nDevice デバイス番号, nButton ボタン番号
+	bool DxJoystick::PushButton( int nDevice, int nButton ) const
+	{
+		//指定デバイスが存在しないときfalseを返す
+		if ( ! m_lpDIDevice[nDevice] ) return false;
+
+		//現在の状態が押されている　かつ　前の状態が押されていない
+		return ( (m_dijs[nDevice].rgbButtons[ nButton ] & 0x80) && ! (m_preDijs[nDevice].rgbButtons[ nButton ] & 0x80) ) ? true: false;
+	}
+
+	//指定したボタンが離された瞬間か
+	//引数： nDevice デバイス番号, nButton ボタン番号
+	bool DxJoystick::ReleaseButton( int nDevice, int nButton ) const
+	{
+		//指定デバイスが存在しないときfalseを返す
+		if ( ! m_lpDIDevice[nDevice] ) return false;
+
+		//現在の状態が押されていない　かつ　前の状態が押されている
+		return ( ! (m_dijs[nDevice].rgbButtons[ nButton ] & 0x80) && (m_preDijs[nDevice].rgbButtons[ nButton ] & 0x80) ) ? true: false;
+	}
+
+
+	//--------------------------------------------------------------------------
+	//POV
+	//--------------------------------------------------------------------------
+	
 	//POVの状態を返す( 上から 0, 9000, 18000, 27000 )
 	//※斜めも単一の値を持つので範囲で指定する(0,4500,9000,13500,18000,22500,27000,31500)
-	DWORD DxJoystick::GetPov ( int id )
+	DWORD DxJoystick::GetPov ( int id ) const
 	{ 
 		return m_dijs [ id ].rgdwPOV [ 0 ]; 
 	}
 
-	bool DxJoystick::IsPovUp ( int id )
+	//-----------------------------------------------
+	bool DxJoystick::IsPovUp ( int id ) const
 	{
 		DWORD th = m_dijs [ id ].rgdwPOV [ 0 ];
-		bool ret = ( 0 <= th && th <= 4500 ) || ( 31500 <= th && th <= 35999);
+		bool ret = ( 0 <= th && th <= 4500 ) || ( 31500 <= th && th <= 35999 );
 		return ret;
 	}
 
-	bool DxJoystick::IsPovRight ( int id )
-	{ 
+	bool DxJoystick::IsPovRight ( int id ) const
+	{
 		DWORD th = m_dijs [ id ].rgdwPOV [ 0 ];
 		return ( 4500 <= th && th <= 13500 );
 	}
 
-	bool DxJoystick::IsPovDown ( int id )
-	{ 
+	bool DxJoystick::IsPovDown ( int id ) const
+	{
 		DWORD th = m_dijs [ id ].rgdwPOV [ 0 ];
 		return ( 13500 <= th && th <= 22500 );
 	}
 
-	bool DxJoystick::IsPovLeft ( int id ) 
-	{ 
+	bool DxJoystick::IsPovLeft ( int id )  const
+	{
 		DWORD th = m_dijs [ id ].rgdwPOV [ 0 ];
 		return ( 22500 <= th && th <= 31500 );
 	}
+
+	//-----------------------------------------------
+	bool DxJoystick::IsPrePovUp ( int id ) const
+	{
+		DWORD th = m_preDijs [ id ].rgdwPOV [ 0 ];
+		bool ret = ( 0 <= th && th <= 4500 ) || ( 31500 <= th && th <= 35999 );
+		return ret;
+	}
+
+	bool DxJoystick::IsPrePovRight ( int id ) const
+	{
+		DWORD th = m_preDijs [ id ].rgdwPOV [ 0 ];
+		return ( 4500 <= th && th <= 13500 );
+	}
+
+	bool DxJoystick::IsPrePovDown ( int id ) const
+	{
+		DWORD th = m_preDijs [ id ].rgdwPOV [ 0 ];
+		return ( 13500 <= th && th <= 22500 );
+	}
+
+	bool DxJoystick::IsPrePovLeft ( int id )  const
+	{
+		DWORD th = m_preDijs [ id ].rgdwPOV [ 0 ];
+		return ( 22500 <= th && th <= 31500 );
+	}
+
 
 }	//namespace GAME
 

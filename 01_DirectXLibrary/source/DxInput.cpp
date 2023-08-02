@@ -163,11 +163,18 @@ namespace GAME
 	{
 		return m_joystick->IsButton( num, btn );
 	}
-	//	ジョイスティック(XY)で押されている状態かどうかを取得する
+	//ジョイスティック(Axis)で押されている状態かどうかを取得する
 	bool DxInput::IsAxisUp( int nDevice ) const { return m_joystick->IsAxisUp(nDevice); }
 	bool DxInput::IsAxisDown( int nDevice ) const { return m_joystick->IsAxisDown(nDevice); }
 	bool DxInput::IsAxisLeft( int nDevice ) const { return m_joystick->IsAxisLeft(nDevice); }
 	bool DxInput::IsAxisRight( int nDevice ) const { return m_joystick->IsAxisRight(nDevice); }
+
+	//ジョイスティック(POV)の状態を返す
+	DWORD DxInput::GetPov ( int id ) const { return m_joystick->GetPov ( id ); }
+	bool DxInput::IsPovUp ( int nDevice ) const { return m_joystick->IsPovUp ( nDevice ); }
+	bool DxInput::IsPovRight ( int nDevice ) const { return m_joystick->IsPovRight ( nDevice ); }
+	bool DxInput::IsPovDown ( int nDevice ) const { return m_joystick->IsPovDown ( nDevice ); }
+	bool DxInput::IsPovLeft ( int nDevice ) const { return m_joystick->IsPovLeft ( nDevice ); }
 
 
 	//-------------------------------------------------------------------------------------------------
@@ -178,11 +185,17 @@ namespace GAME
 	{
 		return m_joystick->PushButton( num, btn );
 	}
-	//	ジョイスティック(XY)で押された瞬間かどうかを取得する
+	//ジョイスティック(Axis)で押された瞬間かどうかを取得する
 	bool DxInput::PushAxisUp( int nDevice ) const { return m_joystick->PushAxisUp(nDevice); }
 	bool DxInput::PushAxisDown( int nDevice ) const { return m_joystick->PushAxisDown(nDevice); }
 	bool DxInput::PushAxisLeft( int nDevice ) const { return m_joystick->PushAxisLeft(nDevice); }
 	bool DxInput::PushAxisRight( int nDevice ) const { return m_joystick->PushAxisRight(nDevice); }
+
+	//ジョイスティック(POV)で押された瞬間かどうかを取得する
+	bool DxInput::PushPovUp ( int nDevice ) const { return m_joystick->PushPovUp ( nDevice ); }
+	bool DxInput::PushPovRight ( int nDevice ) const { return m_joystick->PushPovRight ( nDevice ); }
+	bool DxInput::PushPovDown ( int nDevice ) const { return m_joystick->PushPovDown ( nDevice ); }
+	bool DxInput::PushPovLeft ( int nDevice ) const { return m_joystick->PushPovLeft ( nDevice ); }
 
 
 	//-------------------------------------------------------------------------------------------------
@@ -193,24 +206,23 @@ namespace GAME
 	{
 		return m_joystick->ReleaseButton( num, btn );
 	}
-	//	ジョイスティック(XY)で離された瞬間かどうかを取得する
+	//	ジョイスティック(Axis)で離された瞬間かどうかを取得する
 	bool DxInput::ReleaseAxisUp( int nDevice ) const { return m_joystick->ReleAxisUp(nDevice); }
 	bool DxInput::ReleaseAxisDown( int nDevice ) const { return m_joystick->ReleAxisDown(nDevice); }
 	bool DxInput::ReleaseAxisLeft( int nDevice ) const { return m_joystick->ReleAxisLeft(nDevice); }
 	bool DxInput::ReleaseAxisRight( int nDevice ) const { return m_joystick->ReleAxisRight(nDevice); }
+
+	//ジョイスティック(POV)で離された瞬間かどうかを取得する
+	bool DxInput::RelePovUp ( int nDevice ) const { return m_joystick->RelePovUp ( nDevice ); }
+	bool DxInput::RelePovRight ( int nDevice ) const { return m_joystick->RelePovRight ( nDevice ); }
+	bool DxInput::RelePovDown ( int nDevice ) const { return m_joystick->RelePovDown ( nDevice ); }
+	bool DxInput::RelePovLeft ( int nDevice ) const { return m_joystick->RelePovLeft ( nDevice ); }
 
 
 	//軸の状態を返す
 	LONG DxInput::GetJoyAxisX( int nDevice ) const { return m_joystick->GetJoyAxisX( nDevice ); }
 	LONG DxInput::GetJoyAxisY( int nDevice ) const { return m_joystick->GetJoyAxisY( nDevice ); }
 
-
-	//POVの状態を返す
-	DWORD DxInput::GetPov ( int id ) { return m_joystick->GetPov ( id ); }
-	bool DxInput::IsPovUp ( int nDevice ) const { return m_joystick->IsPovUp ( nDevice ); }
-	bool DxInput::IsPovRight ( int nDevice ) const { return m_joystick->IsPovRight ( nDevice ); }
-	bool DxInput::IsPovDown ( int nDevice ) const { return m_joystick->IsPovDown ( nDevice ); }
-	bool DxInput::IsPovLeft ( int nDevice ) const { return m_joystick->IsPovLeft ( nDevice ); }
 
 	//---------------------------------------------------------------------------
 	//	マウス

@@ -84,37 +84,51 @@ namespace GAME
 		//	ジョイスティックで押されている状態かどうかを取得する
 		//	引数：num デバイス番号, btn キー番号
 		bool IsJoyButton ( int num, int btn ) const;
+
 		bool IsAxisUp( int nDevice ) const;
 		bool IsAxisDown( int nDevice ) const; 
 		bool IsAxisLeft( int nDevice ) const;
 		bool IsAxisRight( int nDevice ) const;
 
+		bool IsPovUp ( int nDevice ) const;
+		bool IsPovRight ( int nDevice ) const;
+		bool IsPovDown ( int nDevice ) const;
+		bool IsPovLeft ( int nDevice ) const;
+
 		//	ジョイスティックで押された瞬間かどうかを取得する
 		//	引数：num デバイス番号, btn キー番号
 		bool PushJoyButton ( int num, int btn ) const;
+
 		bool PushAxisUp( int nDevice ) const;
 		bool PushAxisDown( int nDevice ) const;
 		bool PushAxisLeft( int nDevice ) const;
 		bool PushAxisRight( int nDevice ) const;
 
+		bool PushPovUp ( int nDevice ) const;
+		bool PushPovRight ( int nDevice ) const;
+		bool PushPovDown ( int nDevice ) const;
+		bool PushPovLeft ( int nDevice ) const;
+
 		//	ジョイスティックで離された瞬間かどうかを取得する
 		//	引数：num デバイス番号, btn キー番号
 		bool ReleaseJoyButton ( int num, int btn ) const;
+
 		bool ReleaseAxisUp( int nDevice ) const;
 		bool ReleaseAxisDown( int nDevice ) const;
 		bool ReleaseAxisLeft( int nDevice ) const;
 		bool ReleaseAxisRight( int nDevice ) const;
+
+		bool RelePovUp ( int nDevice ) const;
+		bool RelePovRight ( int nDevice ) const;
+		bool RelePovDown ( int nDevice ) const;
+		bool RelePovLeft ( int nDevice ) const;
 
 		//軸の状態を返す
 		LONG GetJoyAxisX( int nDevice ) const;
 		LONG GetJoyAxisY( int nDevice ) const;
 
 		//POVの状態を返す
-		DWORD GetPov ( int id );
-		bool IsPovUp ( int nDevice ) const;
-		bool IsPovRight ( int nDevice ) const;
-		bool IsPovDown ( int nDevice ) const;
-		bool IsPovLeft ( int nDevice ) const;
+		DWORD GetPov ( int id ) const;
 
 		//---------------------------------------------------------------------------
 		//	マウス

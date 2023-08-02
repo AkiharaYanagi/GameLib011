@@ -50,63 +50,93 @@ namespace GAME
 		static BOOL CALLBACK EnumAxisCallback ( LPCDIDEVICEOBJECTINSTANCE lpddi, LPVOID lpvRef );
 
 	public:
-		DxJoystick();
-		DxJoystick( const DxJoystick& rhs ) = delete;
-		~DxJoystick();
+		DxJoystick ();
+		DxJoystick ( const DxJoystick& rhs ) = delete;
+		~DxJoystick ();
 
 		void Init( LPDIRECTINPUT8 lpDI );		//初期化
 		void Rele();	//解放
 
-		//指定したボタンが押されている状態か
-		bool IsButton( int id, int nButton );
-		//指定したボタンが押された瞬間か
-		bool PushButton( int id, int nButton );
-		//指定したボタンが離された瞬間か
-		bool ReleaseButton( int id, int nButton );
 
-		//軸の状態を返す
-		LONG GetJoyAxisX( int id ) { return m_dijs[id].lX; }
-		LONG GetJoyAxisY( int id ) { return m_dijs[id].lY; }
-
-		//POVの状態を返す( 上から 0, 9000, 18000, 27000 )
-		//※斜めも単一の値を持つので範囲で指定する
-		DWORD GetPov ( int id );
-		bool IsPovUp	( int id );
-		bool IsPovRight	( int id );
-		bool IsPovDown	( int id );
-		bool IsPovLeft	( int id );
-
-		//Axis:押した状態の判定
-		bool IsAxisUp	( int id ) 
-		{ return ( m_dijs[id].lY <= -500 ) ? true: false; }
-		bool IsAxisDown	( int id ) { return ( m_dijs[id].lY >=  500 ) ? true: false; }
-		bool IsAxisLeft	( int id ) { return ( m_dijs[id].lX <= -500 ) ? true: false; }
-		bool IsAxisRight ( int id ) { return ( m_dijs[id].lX >=  500 ) ? true: false; }
-
-		//前フレームの状態
-		bool IsPreAxisUp	( int id ) { return ( m_preDijs[id].lY <= -500 ) ? true: false; }
-		bool IsPreAxisDown	( int id ) { return ( m_preDijs[id].lY >=  500 ) ? true: false; }
-		bool IsPreAxisLeft	( int id ) { return ( m_preDijs[id].lX <= -500 ) ? true: false; }
-		bool IsPreAxisRight	( int id ) { return ( m_preDijs[id].lX >=  500 ) ? true: false; }
-
-		//押した瞬間の判定(前回off 今回on)
-		bool PushAxisUp		( int id ) { return ( ! IsPreAxisUp(id)    && IsAxisUp(id)    ) ? true: false; }
-		bool PushAxisDown	( int id ) { return ( ! IsPreAxisDown(id)  && IsAxisDown(id)  ) ? true: false; }
-		bool PushAxisLeft	( int id ) { return ( ! IsPreAxisLeft(id)  && IsAxisLeft(id)  ) ? true: false; }
-		bool PushAxisRight	( int id ) { return ( ! IsPreAxisRight(id) && IsAxisRight(id) ) ? true: false; }
-
-		//離した瞬間の判定(前回on 今回off)
-		bool ReleAxisUp   ( int id ) { return ( IsPreAxisUp(id)    && ! IsAxisUp(id)    ) ? true: false; }
-		bool ReleAxisDown ( int id ) { return ( IsPreAxisDown(id)  && ! IsAxisDown(id)  ) ? true: false; }
-		bool ReleAxisLeft ( int id ) { return ( IsPreAxisLeft(id)  && ! IsAxisLeft(id)  ) ? true: false; }
-		bool ReleAxisRight( int id ) { return ( IsPreAxisRight(id) && ! IsAxisRight(id) ) ? true: false; }
-
+		//--------------------------------------------------------------
 		//	現在ジョイスティック数を返す関数
-		DWORD GetJoyCount(void){ return m_dwJoyCount; }
+		DWORD GetJoyCount () const { return m_dwJoyCount; }
 
 		//ゲーム利用
 		//状態の更新
-		void Update();
+		void Update ();
+
+
+		//--------------------------------------------------------------
+		//ボタン
+
+		//指定したボタンが押されている状態か
+		bool IsButton( int id, int nButton ) const;
+		//指定したボタンが押された瞬間か
+		bool PushButton( int id, int nButton ) const;
+		//指定したボタンが離された瞬間か
+		bool ReleaseButton( int id, int nButton ) const;
+
+
+		//--------------------------------------------------------------
+		//軸の状態を返す
+		LONG GetJoyAxisX( int id ) const { return m_dijs[id].lX; }
+		LONG GetJoyAxisY( int id ) const { return m_dijs[id].lY; }
+
+		//Axis:押した状態の判定
+		bool IsAxisUp	( int id ) const { return ( m_dijs[id].lY <= -500 ); }
+		bool IsAxisDown	( int id ) const { return ( m_dijs[id].lY >=  500 ); }
+		bool IsAxisLeft	( int id ) const { return ( m_dijs[id].lX <= -500 ); }
+		bool IsAxisRight( int id ) const { return ( m_dijs[id].lX >=  500 ); }
+
+		//前フレームの状態
+		bool IsPreAxisUp	( int id ) const { return ( m_preDijs [ id ].lY <= -500 ); }
+		bool IsPreAxisDown	( int id ) const { return ( m_preDijs [ id ].lY >=  500 ); }
+		bool IsPreAxisLeft	( int id ) const { return ( m_preDijs [ id ].lX <= -500 ); }
+		bool IsPreAxisRight	( int id ) const { return ( m_preDijs [ id ].lX >=  500 ); }
+
+		//押した瞬間の判定(前回off 今回on)
+		bool PushAxisUp		( int id ) const { return ( ! IsPreAxisUp(id)    && IsAxisUp(id)    ); }
+		bool PushAxisDown	( int id ) const { return ( ! IsPreAxisDown(id)  && IsAxisDown(id)  ); }
+		bool PushAxisLeft	( int id ) const { return ( ! IsPreAxisLeft(id)  && IsAxisLeft(id)  ); }
+		bool PushAxisRight	( int id ) const { return ( ! IsPreAxisRight(id) && IsAxisRight(id) ); }
+
+		//離した瞬間の判定(前回on 今回off)
+		bool ReleAxisUp   ( int id ) const { return ( IsPreAxisUp(id)    && ! IsAxisUp(id)    ); }
+		bool ReleAxisDown ( int id ) const { return ( IsPreAxisDown(id)  && ! IsAxisDown(id)  ); }
+		bool ReleAxisLeft ( int id ) const { return ( IsPreAxisLeft(id)  && ! IsAxisLeft(id)  ); }
+		bool ReleAxisRight( int id ) const { return ( IsPreAxisRight(id) && ! IsAxisRight(id) ); }
+
+		//--------------------------------------------------------------
+		//POVの状態を返す( 上から 0, 9000, 18000, 27000 )
+		//※斜めも単一の値を持つので範囲で指定する
+
+		DWORD GetPov		( int id ) const;
+
+		//押した状態
+		bool IsPovUp		( int id ) const;
+		bool IsPovRight		( int id ) const;
+		bool IsPovDown		( int id ) const;
+		bool IsPovLeft		( int id ) const;
+
+		//前フレームの状態
+		bool IsPrePovUp		( int id ) const;
+		bool IsPrePovRight	( int id ) const;
+		bool IsPrePovDown	( int id ) const;
+		bool IsPrePovLeft	( int id ) const;
+
+		//押した瞬間の判定(前回off 今回on)
+		bool PushPovUp		( int id ) const { return ( ! IsPrePovUp ( id )		&& IsPovUp ( id ) ); }
+		bool PushPovRight	( int id ) const { return ( ! IsPrePovRight ( id )	&& IsPovRight ( id ) ); }
+		bool PushPovDown	( int id ) const { return ( ! IsPrePovDown ( id )	&& IsPovDown ( id ) ); }
+		bool PushPovLeft	( int id ) const { return ( ! IsPrePovLeft ( id )	&& IsPovLeft ( id ) ); }
+
+		//離した瞬間の判定(前回on 今回off)
+		bool RelePovUp		( int id ) const { return ( IsPrePovUp ( id ) && ! IsPovUp ( id ) ); }
+		bool RelePovRight	( int id ) const { return ( IsPrePovRight ( id ) && ! IsPovRight ( id ) ); }
+		bool RelePovDown	( int id ) const { return ( IsPrePovDown ( id ) && ! IsPovDown ( id ) ); }
+		bool RelePovLeft	( int id ) const { return ( IsPrePovLeft ( id )	&& ! IsPovLeft ( id ) ); }
+
 	};
 
 
