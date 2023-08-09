@@ -41,7 +41,8 @@ namespace GAME
 		Dx3D::instance()->Load ();
 
 		//Graphic配列の初期化
-		GameGraphicList::Create ();
+		GRPLST_CREATE ();
+		m_grpList = GRPLST_MAKE ();		//共通グラフィックリスト
 
 		//ゲームテキスト初期化
 		GameText::Create();
@@ -91,9 +92,6 @@ namespace GAME
 		}
 #endif	//_DEBUG
 		SoundArchiver::instance()->Open ();		//アーカイブファイルの読込
-
-		//共通グラフィックリスト
-		m_grpList = GRPLST_MAKE ();
 	}
 
 
