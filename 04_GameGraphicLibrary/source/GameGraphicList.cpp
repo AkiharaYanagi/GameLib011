@@ -82,6 +82,16 @@ namespace GAME
 //		m_pGrpTaskList.reset ();
 	}
 
+	void GameGraphicList::Load ()
+	{
+		m_pGrpTaskList->Load ();
+	}
+
+	void GameGraphicList::Init ()
+	{
+		m_pGrpTaskList->Init ();
+	}
+
 
 }	//namespace GAME
 

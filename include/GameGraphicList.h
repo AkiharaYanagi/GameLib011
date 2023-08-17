@@ -50,6 +50,10 @@ namespace GAME
 		//対象タスクリストを取得
 		P_TASK_LST GetpTaskList () { return m_pGrpTaskList; }
 
+		//再設定後に手動で初期化
+		void Load ();
+		void Init ();
+
 		//Z値で降順ソートされた位置に挿入
 		//描画Z位置(後:1.f ～ 0.0f:前) "GameGraphicConst.h"に Z_BG などで定数が宣言してある
 		void InsertByZ ( P_GrpCr pTask );
@@ -73,6 +77,8 @@ namespace GAME
 #define		GRPLST_ERASE	GrpLst::Inst()->Erase
 #define		GRPLST_RESET	GrpLst::Inst()->Reset
 #define		GRPLST_CLEAR	GrpLst::Inst()->Clear
+#define		GRPLST_LOAD		GrpLst::Inst()->Load
+#define		GRPLST_INIT		GrpLst::Inst()->Init
 
 }	//namespace GAME
 
