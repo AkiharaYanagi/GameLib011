@@ -72,6 +72,7 @@ namespace GAME
 
 		//ƒV[ƒ“‚Ìİ’è
 		void SetScene ( P_GameScene p ) { m_pScene = p; AddpTask ( m_pScene ); }
+		P_GameScene GetpScene () { return m_pScene; }
 
 		//‘JˆÚ
 		virtual void Transit ();

@@ -54,10 +54,10 @@ namespace GAME
 		void SetWhiteOut ( UINT time ) { SetColor ( 0x00ffffff, 0xffffffff ); Start ( time ); }
 
 		//ブラックイン ( 0xff000000 → 0x00000000 )
-		void SetDarkIn ( UINT time ) { SetColor ( 0xff000000, 0x00000000UL ); Start ( time ); }
+		void SetBlackIn ( UINT time ) { SetColor ( 0xff000000, 0x00000000UL ); Start ( time ); }
 
 		//ブラックアウト( 0x00000000 → 0xff000000 )
-		void SetDarkOut ( UINT time ) { SetColor ( 0x00000000UL, 0xff000000 ); Start ( time ); }
+		void SetBlackOut ( UINT time ) { SetColor ( 0x00000000UL, 0xff000000 ); Start ( time ); }
 
 #if 0
 //		bool IsActive () { return m_timer->IsActive (); }
@@ -87,7 +87,7 @@ namespace GAME
 #endif // 0
 	};
 
-	using P_Fade = shared_ptr < FadeRect >;
+	using P_FadeRect = shared_ptr < FadeRect >;
 
 
 }	//namespace GAME
