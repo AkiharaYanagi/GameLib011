@@ -27,6 +27,7 @@
 #include "GrpEf.h"
 #include "GrpDemo.h"
 #include "GrpBlink.h"
+#include "GrpStr.h"
 #include "Timer.h"
 #include "CursorUtl.h"
 #include "ClrUtl.h"
