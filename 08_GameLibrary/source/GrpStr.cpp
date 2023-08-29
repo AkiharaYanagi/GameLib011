@@ -25,7 +25,7 @@ namespace GAME
 	void TxStr::Load ()
 	{
 		//文字列からテクスチャを作成
-		TX tx = OutlineFont::Inst ()->Make ( m_str.c_str (), 0x00ffffff, 0xffffffff );
+		TX tx = OutlineFont::Inst ()->Make ( m_str.c_str (), 0xffff00ff, 0xffffffff );
 		TxBs::SetTexture ( tx );
 	}
 
