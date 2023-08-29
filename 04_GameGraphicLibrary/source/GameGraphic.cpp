@@ -339,7 +339,6 @@ namespace GAME
 
 	void GameGraphicApprovedTexture::Reset ()
 	{
-		Rele ();
 	}
 
 

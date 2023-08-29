@@ -25,12 +25,13 @@ namespace GAME
 	void TxStr::Load ()
 	{
 		//文字列からテクスチャを作成
-		TX tx = OutlineFont::Inst ()->Make ( m_str.c_str (), 0x00ffffff, 0xffffffff );
+		TX tx = OutlineFont::Inst ()->Make ( m_str.c_str (), 0xffffffff, 0xffffffff );
 		TxBs::SetTexture ( tx );
 	}
 
 	void TxStr::Rele ()
 	{
+		RELEASE ( GetTexture () );
 	}
 
 	void TxStr::Reset ()
@@ -42,13 +43,13 @@ namespace GAME
 	void TxStr::SetStr ( LPCTSTR str )
 	{
 		m_str.assign ( str );
-		Load ();
 	}
 
 
 	//-------------------------------------
 	GrpStr::GrpStr ()
 	{
+		m_tx = make_shared < TxStr > ();
 	}
 
 	GrpStr::~GrpStr ()
@@ -58,12 +59,28 @@ namespace GAME
 	void GrpStr::SetStr ( LPCTSTR str )
 	{
 		//文字列からテクスチャを作成
-		P_TxStr txstr = make_shared < TxStr > ();
-		txstr->SetStr ( str );
+		m_tx->SetStr ( str );
 
 		//グラフィックに指定
-		GrpApTx::SetpTexture ( txstr );
+		GrpApTx::SetpTexture ( m_tx );
 	}
+
+	void GrpStr::Load ()
+	{
+		m_tx->Load ();
+	}
+
+	void GrpStr::Rele ()
+	{
+		m_tx->Rele ();
+	}
+
+	void GrpStr::Reset ()
+	{
+		m_tx->Reset ();
+	}
+
+
 
 }	//namespace GAME
 

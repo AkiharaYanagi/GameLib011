@@ -40,11 +40,16 @@ namespace GAME
 	//-------------------------------------
 	class GrpStr : public GrpApTx
 	{
+		P_TxStr		m_tx;
 
 	public:
 		GrpStr ();
 		GrpStr ( const GrpStr & rhs ) = delete;
 		~GrpStr ();
+
+		void Load ();
+		void Rele ();
+		void Reset ();
 
 		void SetStr ( LPCTSTR str );
 	};
