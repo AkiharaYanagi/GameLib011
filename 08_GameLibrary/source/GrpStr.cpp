@@ -25,11 +25,8 @@ namespace GAME
 	void TxStr::Load ()
 	{
 		//文字列からテクスチャを作成
-<<<<<<< HEAD
-		TX tx = OutlineFont::Inst ()->Make ( m_str.c_str (), 0xffff00ff, 0xffffffff );
-=======
-		TX tx = OutlineFont::Inst ()->Make ( m_str.c_str (), 0xffffffff, 0xffffffff );
->>>>>>> 9055e97d753accf94c9306509c4a7498d6643307
+//		TX tx = OutlineFont::Inst ()->Make ( m_str.c_str (), 0xffff00ff, 0xffffffff );
+		TX tx = OutlineFont::Inst ()->MakeStrTx ( m_str.c_str (), 0xffff00ff, 0xffffffff );
 		TxBs::SetTexture ( tx );
 	}
 
