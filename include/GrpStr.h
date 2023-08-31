@@ -24,8 +24,8 @@ namespace GAME
 		int			m_fontSize;
 		int			m_penSize;
 		int			m_quality;
-		_CLR		m_fillColor;
-		_CLR		m_edgeColor;
+		DWORD		m_fillColor;
+		DWORD		m_edgeColor;
 		TCHAR		m_fontName [ LF_FACESIZE ];	//ƒtƒHƒ“ƒg–¼(FaceName)
 
 	public:
