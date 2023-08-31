@@ -20,6 +20,13 @@ namespace GAME
 	class GameTextureFromString : public TxBs
 	{
 		tstring		m_str;
+		
+		int			m_fontSize;
+		int			m_penSize;
+		int			m_quality;
+		_CLR		m_fillColor;
+		_CLR		m_edgeColor;
+		TCHAR		m_fontName [ LF_FACESIZE ];	//ƒtƒHƒ“ƒg–¼(FaceName)
 
 	public:
 		GameTextureFromString ();
@@ -31,6 +38,10 @@ namespace GAME
 		void Reset ();
 
 		void SetStr ( LPCTSTR str );
+
+		void SetParam ( int fontSize, int penSize, int quolity );
+		void SetFontFace ( LPCTSTR fontname );
+		void SetColor ( DWORD fill, DWORD edge );
 	};
 
 	using TxStr = GameTextureFromString;
@@ -52,6 +63,10 @@ namespace GAME
 		void Reset ();
 
 		void SetStr ( LPCTSTR str );
+
+		void SetFontParam ( int fontSize, int penSize, int quolity );
+		void SetFontFace ( LPCTSTR fontname );
+		void SetFontColor ( DWORD fill, DWORD edge );
 	};
 
 	using P_GrpStr = shared_ptr < GrpStr >;

@@ -17,14 +17,18 @@ namespace GAME
 {
 	//--------------------------------------
 	//描画Z位置(後:1.f ～ 0.0f:前)
-	//@info 小さい方が手前
+
+	//@info 大きい方が奥
 	constexpr float Z_BG = 0.9f;		//背景
 	constexpr float Z_SHADOW = 0.8f;	//影
 	constexpr float Z_EFB = 0.7f;		//背面エフェクト
 	constexpr float Z_CH = 0.5f;		//キャラクタ(グラフィックのデフォルト位置)
 	constexpr float Z_EFF = 0.4f;		//前面エフェクト
-	constexpr float Z_SYS = 0.3f;		//システム表示
+	constexpr float Z_SYS = 0.3f;		//バトルシステム表示
+	constexpr float Z_MENU = 0.2f;		//メニュ
 	constexpr float Z_FADE = 0.1f;		//フェード
+	//@info 小さい方が手前
+
 	//--------------------------------------
 
 
