@@ -17,7 +17,7 @@ namespace GAME
 	TxStr::GameTextureFromString ()
 		: m_fontSize ( 40 ), m_penSize ( 1 )
 		, m_quality ( 2 )
-		, m_fillColor ( 0xff8080ff ), m_edgeColor ( 0x80ffffffff )
+		, m_fillColor ( 0xff8080fful ), m_edgeColor ( 0x80fffffful )
 		, m_fontName ( _T ( "MSÉSÉVÉbÉN" ) )
 	{
 	}

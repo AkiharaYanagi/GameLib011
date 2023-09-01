@@ -26,7 +26,8 @@ namespace GAME
 	//		※thisの取得のため、enable_shared_from_this < GameScene >を多重継承
 	//		shared_from_thisを用いるのでunique_ptrにはしない
 	//------------------------------------------------------------------
-	class GameScene : public GameTaskVector, public enable_shared_from_this < GameScene >
+//	class GameScene : public GameTaskVector, public enable_shared_from_this < GameScene >
+	class GameScene : public GameTaskVector
 	{
 		//シーン共通パラメータ
 		P_GameParam		m_pParam;
