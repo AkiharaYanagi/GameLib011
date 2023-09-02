@@ -39,18 +39,20 @@ namespace GAME
 
 		//パラメータを用いた初期化インターフェース
 		//パラメータの取得のあとの呼出1回保証 ( ParamInit(), Load(), Init() の順番 )
-		//Load()とは異なりデバイスリセットでも呼ばれない
+		//ParamInit()とは異なりデバイスリセットでも呼ばれない
+		//Load()はデバイスリセットの度に呼ばれる
 		//Init()は複数回呼ばれる可能性がある
 		virtual void ParamInit () = 0;
 
 		//遷移条件
-		//基本の戻値はreturn this;
+		//基本の戻値は return shared_from_this();
 		//内部で条件を確認し、遷移時は遷移先のオブジェクトを
 		//	make_shared < GameScene > () して返す
 		virtual shared_ptr < GameScene > Transit () = 0;
 
 		//シーン共通パラメータ
-		void SetpParam ( P_GameParam && pParam ) { m_pParam = pParam; }
+//		void SetpParam ( P_GameParam && pParam ) { m_pParam = pParam; }
+		void SetpParam ( P_GameParam pParam ) { m_pParam = pParam; }
 		P_GameParam GetpParam () { return m_pParam; }
 	};
 
