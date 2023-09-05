@@ -106,6 +106,11 @@ namespace GAME
 		m_pGrpTaskList->Init ();
 	}
 
+	void GameGraphicList::Move ()
+	{
+		m_pGrpTaskList->Move ();
+	}
+
 
 }	//namespace GAME
 

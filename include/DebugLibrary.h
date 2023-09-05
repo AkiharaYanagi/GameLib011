@@ -24,4 +24,5 @@
 #include "GameLibConst.h"
 #include "DebugManager.h"
 #include "Format.h"
+#include "STR_UTL.h"
 

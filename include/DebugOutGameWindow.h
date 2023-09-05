@@ -21,10 +21,36 @@
 //-------------------------------------------------------------------------------------------------
 namespace GAME 
 {
-
 	using UP_CTSTR = unique_ptr < TCHAR >;
 
+	//=====================================================
+	//固定表示
+	class ConstDebugOut
+	{
+		bool		m_valid;
+		TX			m_tx;		//テクスチャ
+		Vx_Rect		m_vx;		//頂点集合(矩形)
 
+	public:
+		ConstDebugOut ();
+		ConstDebugOut ( const ConstDebugOut & rhs ) = delete;
+		~ConstDebugOut ();
+
+		void Load ();
+		void Rele ();
+		void Reset ();
+		void Move ();
+		void Draw ();
+
+		void SetPos ( VEC2 v );
+		void SetStr ( UP_TSTR upctstr );
+		void SetValid ( bool b ) { m_valid = b; }
+	};
+	//=====================================================
+
+
+
+	// ゲーム画面へのデバッグテキスト表示
 	class DebugOutGameWindow
 	{
 	//--------------------------------------------------
@@ -43,36 +69,34 @@ namespace GAME
 	private:
 
 	public:
+		//定数
 		enum Const_DebugOutGameWindow
 		{
 			DebugTextNum = 15,
 			DebugVertexNum = 32,
 		};
 	private:
+		//デバッグ表示配列
 		TX			m_texture[DebugTextNum];	//テクスチャ
 		Vx_Rect		m_vertex[DebugTextNum];		//頂点処理オブジェクト
 		tstring		m_tstr[DebugTextNum];		//文字列
 
 		//デバッグ用固定表示
-		//TIme
-		bool		m_bTime;
-		VP_VxRct	m_vpVxTime;
-
-		//FPS
-		bool		m_bFPS;
-		VP_VxRct 	m_vpVxFPS;
-
+		ConstDebugOut		m_frame;
+		ConstDebugOut		m_FPS;
+		ConstDebugOut		m_time;
 
 	public:
 		void Load ();
 		void Rele ();
 		void Reset ( D3DDEV d3dDevice );	//再設定
 		void Move ();
+		void DrawVertex ();		//頂点による描画
 
-		//頂点による描画
-		void DrawVertex ();
 
-		//文字列指定
+		//-----------------------------------------------------
+
+		//表示文字列指定
 		void SetStr ( UINT index, LPCTSTR lpctstr );
 		void SetStr ( UINT index, tstring& tstr );
 		void SetStr ( UINT index, UP_TSTR pstr );
@@ -83,20 +107,24 @@ namespace GAME
 		//画面にテキスト描画する文字列フォーマットを設定
 		void DebugOutf ( UINT index, LPCTSTR format, ... );
 
+
+		//-----------------------------------------------------
 		//固定表示 : 稼働時間[F]
 		void DebugOutWnd_Time ( LPCTSTR format, ... );
-		void SetbDispTime ( bool b ) { m_bTime = b; }
-
+		void SetbDisp_Time ( bool b ) { m_frame.SetValid ( b ); }
 		//固定表示 : FPS
 		void DebugOutWnd_FPS ( LPCTSTR format, ... );
-		void SetbDispFPS ( bool b ) { m_bFPS = b; }
+		void SetbDisp_FPS ( bool b ) { m_FPS.SetValid ( b ); }
+		//固定表示 : 動作時間[ms], 描画時間[ms]
+		void DebugOutWnd_Move_Draw ( LPCTSTR format, ... );
+		void SetbDisp_Move_Draw ( bool b ) { m_time.SetValid ( b ); }
 
+
+		//-----------------------------------------------------
 		//非表示
 		void Off ();
 
 	private:
-		UINT Size ( LPCTSTR lpctstr ) const;
-		void LoadVVx ( VP_VxRct& vpVxRct, VEC2 pos );
 		void DebugOutWnd ( UP_TSTR up_tstr, VP_VxRct& vpVpRct );
 
 	};
@@ -107,6 +135,7 @@ namespace GAME
 //シングルトンアクセス用
 #define DBGOUT_WND		DBGO_WND::Inst()
 #define DBGOUT_WND_F	DBGO_WND::Inst()->DebugOutf
+
 
 
 }	//namespace GAME

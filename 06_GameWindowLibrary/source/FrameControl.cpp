@@ -25,7 +25,7 @@ namespace GAME
 	const DWORD FrameControl::dwFps = 60;	//FPS
 	const DWORD FrameControl::waitOneFrameTime = 1000 * 0x10000 / dwFps;	//1フレームに待つミリ秒。上位16ビットに整数部、下位16ビットに小数部を保存
 
-	bool FrameControl::m_bDispFPS = false;
+	bool FrameControl::m_bDispFPS = true;
 
 	//------------------------------------------
 	//	コンストラクタ
@@ -149,19 +149,19 @@ namespace GAME
 
 
 			// フレーム計算は常に行い、表示だけ切り替える
-			if ( ::GetAsyncKeyState ( 'F' ) & 0x0001 )
+			//F6で切り替え
+			if ( ::GetAsyncKeyState ( VK_F6 ) & 0x0001 )
 			{
 				m_bDispFPS ^= true;
-				DBGOUT_WND->SetbDispFPS( m_bDispFPS );
+				DBGOUT_WND->SetbDisp_FPS( m_bDispFPS );
 			}
-			DBGOUT_WND->SetPos ( 10, 400, 000 );
 			if ( m_bDispFPS )
 			{
 				DBGOUT_WND->DebugOutWnd_FPS ( _T("FPS:%02u, sleep:%05.2f"), dwDispFps, avrgSleep );
 			}
 			else
 			{
-				DBGOUT_WND->SetbDispFPS ( false );
+				DBGOUT_WND->SetbDisp_FPS ( false );
 				DBGOUT_WND->DebugOutWnd_FPS ( _T ( "") );
 			}
 

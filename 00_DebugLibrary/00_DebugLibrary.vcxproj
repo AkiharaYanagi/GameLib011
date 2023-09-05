@@ -22,11 +22,14 @@
     <ClInclude Include="..\include\DebugLibrary.h" />
     <ClInclude Include="..\include\DebugManager.h" />
     <ClInclude Include="..\include\Define.h" />
+    <ClInclude Include="..\include\Format.h" />
     <ClInclude Include="..\include\GameLibConst.h" />
+    <ClInclude Include="..\include\STR_UTL.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DebugManager.cpp" />
     <ClCompile Include="Format.cpp" />
+    <ClCompile Include="STR_UTL.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

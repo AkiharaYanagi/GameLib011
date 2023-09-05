@@ -51,8 +51,8 @@ namespace GAME
 		virtual shared_ptr < GameScene > Transit () = 0;
 
 		//シーン共通パラメータ
-//		void SetpParam ( P_GameParam && pParam ) { m_pParam = pParam; }
-		void SetpParam ( P_GameParam pParam ) { m_pParam = pParam; }
+		void SetpParam ( P_GameParam && pParam ) { m_pParam = pParam; }
+//		void SetpParam ( P_GameParam pParam ) { m_pParam = pParam; }
 		P_GameParam GetpParam () { return m_pParam; }
 	};
 

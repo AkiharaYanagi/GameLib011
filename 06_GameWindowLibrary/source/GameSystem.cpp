@@ -20,7 +20,7 @@
 namespace GAME
 {
 	//static実体
-	bool GameSystem::m_bDispTimer = false;
+	bool GameSystem::m_bDispTimer = true;
 	bool GameSystem::m_bMakeArchive = true;
 
 
@@ -159,12 +159,12 @@ namespace GAME
 
 #ifdef	_DEBUG
 		//----------------------------------------------
-		// 'T'キーでタイマー表示切替
+		// 'F5'キーで稼働フレーム数表示切替
 		static int time = 0;
-		if( ::GetAsyncKeyState('T') & 0x0001 )
+		if( ::GetAsyncKeyState( VK_F5 ) & 0x0001 )
 		{
 			m_bDispTimer ^= true;
-			DBGOUT_WND->SetbDispTime ( m_bDispTimer );
+			DBGOUT_WND->SetbDisp_Time ( m_bDispTimer );
 		}
 		if( m_bDispTimer )
 		{
@@ -173,7 +173,7 @@ namespace GAME
 		}
 		else
 		{
-			DBGOUT_WND->SetbDispTime ( false );
+			DBGOUT_WND->SetbDisp_Time ( false );
 			DBGOUT_WND->DebugOutWnd_Time ( _T ( "" ) );
 		}
 
@@ -193,20 +193,15 @@ namespace GAME
 			//フレーム毎の動作	
 			m_pGameMain->Move ();
 
-		//test
-		moveTime = ::timeGetTime ();
+			//@info デバッグ用'W'ストップでグラフィックリストのMove()も止める
+			//グラフィックリスト
+			m_grpList->Move ();
 
 
-		//@todo デバッグ用'W'ストップがグラフィックリストのMove()を止めていない
-		//グラフィックMove()でタイマー動作している
-
-		//グラフィックは常に表示
-		m_grpList->Move ();
-
-		//ゲーム画面におけるデバッグ表示の動作
-		DebugOutGameWindow::Inst()->Move ();
+			//ゲーム画面におけるデバッグ表示の動作
+			DebugOutGameWindow::Inst()->Move ();
 #if	0
-		TextFile::instance()->Move ();
+			TextFile::instance()->Move ();
 #endif	//0
 
 			
@@ -215,16 +210,37 @@ namespace GAME
 		//----------------------------------------------
 #endif	// _DEBUG
 
-
+		//test: 動作時間の計測
+		moveTime = ::timeGetTime ();
 
 
 		//test
 		DWORD DrawTime = ::timeGetTime ();
 
-		//60[F]の平均
-		if ( ++ count > 60 )
+
+		// 'F7'キーでMove, Draw 処理時間 表示切替
+		static bool bMoveDrawTimer = true;
+		if ( ::GetAsyncKeyState ( VK_F7 ) & 0x0001 )
 		{
-			DBGOUT_WND_F ( 2, _T ( "MoveTime = %d, DrawTime = %d" ), moveTime - startTime, DrawTime - startTime );
+			bMoveDrawTimer ^= true;
+			DBGOUT_WND->SetbDisp_Move_Draw ( bMoveDrawTimer );
+		}
+		if ( bMoveDrawTimer )
+		{
+			//60[F]の平均
+			if ( ++ count > 60 )
+			{
+				DBGOUT_WND->DebugOutWnd_Move_Draw ( _T ( "MoveTime = %d, DrawTime = %d" ), moveTime - startTime, DrawTime - startTime );
+			}
+			else
+			{
+				DBGOUT_WND->DebugOutWnd_Move_Draw ( _T ( "MoveTime = -, DrawTime = -" ) );
+			}
+		}
+		else
+		{
+			DBGOUT_WND->SetbDisp_Move_Draw ( false );
+			DBGOUT_WND->DebugOutWnd_Move_Draw ( _T ( "" ) );
 		}
 	}
 

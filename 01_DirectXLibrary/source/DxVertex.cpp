@@ -49,7 +49,7 @@ namespace GAME
 	void DxVertex::ResetVertexNum ( UINT vertexNum )
 	{
 		Clear ();
-		this->SetVertexNum ( vertexNum );
+		SetVertexNum ( vertexNum );
 	}
 
 	//頂点を初期化
@@ -60,7 +60,7 @@ namespace GAME
 
 	void DxVertex::Load ()
 	{
-		this->CreateVertexBuffer ();
+		CreateVertexBuffer ();
 	}
 
 	void DxVertex::Rele ()
@@ -79,8 +79,8 @@ namespace GAME
 		//位置の更新
 		if ( m_update ) 
 		{
-			this->ApplyPos (); 
-			this->SetVertexBuffer ();
+			ApplyPos (); 
+			SetVertexBuffer ();
 		}
 	}
 

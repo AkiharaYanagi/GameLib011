@@ -24,10 +24,13 @@ namespace GAME
 	using UP_TSTR = unique_ptr < TCHAR[] >;
 
 
-	class Format
+	class Format final
 	{
+	public:
 		Format () = delete;	//staticクラスとして実体化禁止
+		~Format () = delete;
 
+	private:
 		static TOSS		m_toss;
 
 		//再帰末端

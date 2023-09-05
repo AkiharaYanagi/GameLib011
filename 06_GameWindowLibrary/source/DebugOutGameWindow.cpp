@@ -23,7 +23,6 @@ namespace GAME
 
 	//コンストラクタ
 	DebugOutGameWindow::DebugOutGameWindow ()
-		: m_bTime ( true ), m_bFPS ( true )
 	{
 		for ( UINT i = 0; i < DebugTextNum; ++i )
 		{
@@ -31,14 +30,9 @@ namespace GAME
 			m_tstr[i] = _T("");
 		}
 
-		for ( UINT i = 0; i < DebugVertexNum; ++ i )
-		{
-			m_vpVxTime.push_back ( make_shared < Vx_Rect > () );
-		}
-		for ( UINT i = 0; i < DebugVertexNum; ++ i )
-		{
-			m_vpVxFPS.push_back ( make_shared < Vx_Rect > () );
-		}
+		m_frame.SetPos ( VEC2 ( 0, 0 ) );
+		m_FPS.SetPos ( VEC2 ( 200, 0 ) );
+		m_time.SetPos ( VEC2 ( 500, 0 ) );
 	}
  
 	//デストラクタ
@@ -68,19 +62,9 @@ namespace GAME
 			GameText::Inst()->MakeStrTexture ( m_tstr[i], m_texture[i], m_vertex[i] );
 		}
 
-		LoadVVx ( m_vpVxTime, VEC2 ( 0, 0 ) );
-		LoadVVx ( m_vpVxFPS, VEC2 ( 300, 0 ) );
-	}
-
-	void DebugOutGameWindow::LoadVVx ( VP_VxRct& vpVxRct, VEC2 pos )
-	{
-		for ( P_VxRct pVx : vpVxRct )
-		{
-			pVx->Load ();
-			pVx->SetPos ( pos.x, 0 );
-			pos.x += 12;
-			pVx->SetAllColor ( 0xffffffffL );
-		}
+		m_frame.Load ();
+		m_FPS.Load ();
+		m_time.Load ();
 	}
 
 	void DebugOutGameWindow::Rele ()
@@ -90,9 +74,9 @@ namespace GAME
 			RELEASE ( m_texture[i] );
 			m_vertex[i].Rele ();
 		}
-
-		for ( P_VxRct pVx : m_vpVxTime ) { pVx->Rele (); }
-		for ( P_VxRct pVx : m_vpVxFPS ) { pVx->Rele (); }
+		m_frame.Rele ();
+		m_FPS.Rele ();
+		m_time.Rele ();
 	}
 
 	void DebugOutGameWindow::Reset ( D3DDEV d3dDevice )
@@ -103,14 +87,10 @@ namespace GAME
 
 	void DebugOutGameWindow::Move ()
 	{
-		for ( UINT i = 0; i < DebugTextNum; ++i )
-		{
-			m_vertex[i].ApplyPos ();
-			m_vertex[i].SetVertexBuffer ();
-		}
-
-		for ( P_VxRct pVx : m_vpVxTime ) { pVx->Move (); }
-		for ( P_VxRct pVx : m_vpVxFPS ) { pVx->Move (); }
+		for ( UINT i = 0; i < DebugTextNum; ++i ) { m_vertex [ i ].Move (); }
+		m_frame.Move ();
+		m_FPS.Move ();
+		m_time.Move ();
 	}
 
 	void DebugOutGameWindow::DrawVertex ()
@@ -124,23 +104,9 @@ namespace GAME
 			m_vertex[i].DrawVertex ( m_texture[i] );
 		}
 
-
-		//固定表示 : 稼働時間[F]
-		if ( m_bTime )
-		{
-			for ( P_VxRct pVx : m_vpVxTime )
-			{
-				pVx->DrawVertex ( GameText::Inst ()->GetAsciiTx () );
-			}
-		}
-		//固定表示 : FPS
-		if ( m_bFPS )
-		{
-			for ( P_VxRct pVx : m_vpVxFPS )
-			{
-				pVx->DrawVertex ( GameText::Inst ()->GetAsciiTx () );
-			}
-		}
+		m_frame.Draw ();
+		m_FPS.Draw ();
+		m_time.Draw ();
 	}
 
 
@@ -197,7 +163,7 @@ namespace GAME
 		UP_TSTR p = Format::Printf_Args ( format, args );
 		va_end ( args );
 
-		DebugOutWnd ( std::move ( p ), m_vpVxTime );
+		m_frame.SetStr ( std::move ( p ) );
 	}
 
 	//固定表示 : FPS
@@ -208,9 +174,22 @@ namespace GAME
 		UP_TSTR p = Format::Printf_Args ( format, args );
 		va_end ( args );
 
-		DebugOutWnd ( std::move ( p ), m_vpVxFPS );
+		m_FPS.SetStr ( std::move ( p ) );
 	}
 
+	//固定表示 : MoveTime[ms], DrawTime[ms]
+	void DebugOutGameWindow::DebugOutWnd_Move_Draw ( LPCTSTR format, ... )
+	{
+		//可変長引数による文字列フォーマット
+		va_list args;
+		va_start ( args, format );	//文字列の先頭ポインタをセット
+		UP_TSTR p = Format::Printf_Args ( format, args );
+		va_end ( args );
+
+		m_time.SetStr ( std::move ( p ) );
+	}
+
+	//-------------------------------------------------------------------------
 	void DebugOutGameWindow::Off ()
 	{
 		for ( UINT i = 0; i < DebugTextNum; ++i )
@@ -220,28 +199,6 @@ namespace GAME
 		}
 	}
 
-	//文字列サイズの取得
-	UINT DebugOutGameWindow::Size ( LPCTSTR lpctstr ) const
-	{
-		UINT ret = 0;
-		TCHAR t = *lpctstr;
-
-		try
-		{
-			while ( t != '\0' )
-			{
-				t = *( lpctstr + ( ret ++ ) );
-			}
-		}
-		catch ( ... )
-		{
-			return 0;
-		}
-
-		return ret;
-	}
-
-
 	void DebugOutGameWindow::DebugOutWnd ( UP_TSTR up_tstr, VP_VxRct& vpVpRct )
 	{
 		//先頭が空の文字列のとき何もしない
@@ -250,7 +207,7 @@ namespace GAME
 
 		//文字列サイズの取得
 		UINT old_size = vpVpRct.size ();
-		UINT size = Size ( up_tstr.get () );
+		UINT size = STR_UTL::Size ( up_tstr.get () );
 		if ( size < old_size )
 		{
 			vpVpRct.resize ( size );
@@ -290,6 +247,63 @@ namespace GAME
 			pVx->SetTxUVWH ( x, y, u, v );
 			pVx->SetSize ( 1.f * ch.w, 1.f * ch.h );
 		}
+	}
+
+
+
+	//=====================================================
+	//固定表示
+	ConstDebugOut::ConstDebugOut ()
+		: m_valid ( T )
+	{
+		m_vx.SetAllZ ( 0 );
+		m_vx.SetPos ( 600, 0 );
+		m_vx.SetSize ( 200, 16 );
+		m_vx.SetAllColor ( 0xff00ffffL );
+	}
+
+	ConstDebugOut::~ConstDebugOut ()
+	{
+		Rele ();
+	}
+
+	void ConstDebugOut::Load ()
+	{
+		m_vx.Load ();
+	}
+
+	void ConstDebugOut::Rele ()
+	{
+		m_vx.Rele ();
+	}
+
+	void ConstDebugOut::Reset ()
+	{
+		Rele ();
+		Load ();
+	}
+
+	void ConstDebugOut::Move ()
+	{
+		m_vx.Move ();
+	}
+
+	void ConstDebugOut::Draw ()
+	{
+		if ( ! m_valid ) { return; }
+
+		m_vx.DrawVertex ( m_tx );
+	}
+
+	void ConstDebugOut::SetStr ( UP_TSTR upctstr )
+	{
+		tstring str ( upctstr.get () );
+		GameText::Inst ()->MakeStrTexture ( str, m_tx, m_vx );
+	}
+
+	void ConstDebugOut::SetPos ( VEC2 v )
+	{
+		m_vx.SetPos ( v );
 	}
 
 

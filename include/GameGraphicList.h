@@ -38,6 +38,7 @@ namespace GAME
 	
 	private:
 		P_TASK_LST		m_pGrpTaskList;		//大元となるタスクリスト
+		bool			m_pause;			//一時停止
 
 	public:
 		//@info 利用前にNewTaskList()を手動で呼ぶ
@@ -54,6 +55,8 @@ namespace GAME
 		void Load ();
 		void Init ();
 
+		void Move ();
+
 		//Z値で降順ソートされた位置に挿入
 		//描画Z位置(後:1.f ～ 0.0f:前) "GameGraphicConst.h"に Z_BG などで定数が宣言してある
 		void InsertByZ ( P_GrpCr pTask );
@@ -66,6 +69,9 @@ namespace GAME
 
 		//全消去
 		void Clear ();
+
+		//一時停止 (Move()は行わないが、Draw()は行う)
+		void Pause ( bool b );
 	};
 
 	using GrpLst = GameGraphicList;
