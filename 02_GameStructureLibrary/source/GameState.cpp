@@ -65,6 +65,7 @@ namespace GAME
 		GameTaskVector::Move ();
 	}
 
+#if 0
 	void GameStateManager::Draw()
 	{
 		if ( m_state ) m_state->Draw();
@@ -76,6 +77,7 @@ namespace GAME
 		if ( m_state ) { m_state->DrawVertex(); }
 		GameTaskVector::DrawVertex ();
 	}
+#endif // 0
 
 	void GameStateManager::Transit()
 	{

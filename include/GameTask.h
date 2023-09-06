@@ -57,6 +57,7 @@ namespace GAME
 		virtual void Init () {}		//初期化(繰り返してもよい)
 		virtual void Move () {}		//フレーム毎動作
 
+		//->描画はGraphicListに移項
 #if 0
 		virtual void Draw () {}		//フレーム毎描画(スプライト)
 		virtual void DrawVertex () {}	//フレーム毎描画(頂点)
@@ -90,8 +91,11 @@ namespace GAME
 
 		virtual void Init();		//初期化(繰り返してもよい)※再設定時(フォーカスの変更など)に毎回行う
 		virtual void Move();		//フレーム毎動作
+
+#if 0
 		virtual void Draw();		//フレーム毎描画(スプライト)
 		virtual void DrawVertex ();		//フレーム毎描画(頂点)
+#endif // 0
 
 		//初期化
 		void Clear();
@@ -152,8 +156,10 @@ namespace GAME
 
 		virtual void Init ();		//初期化(繰り返してもよい)※再設定時(フォーカスの変更など)に毎回行う
 		virtual void Move ();		//フレーム毎動作
+#if 0
 		virtual void Draw ();		//フレーム毎描画(スプライト)
 		virtual void DrawVertex ();		//フレーム毎描画(頂点)
+#endif // 0
 
 		//初期化
 		void Clear ();

@@ -251,17 +251,17 @@ namespace GAME
 
 		Dx3D::instance()->BeginScene ();	//描画開始
 		{
+			//頂点描画
+//			m_pGameMain->DrawVertex ();			//ゲームメイン以下のタスクによる頂点描画
+			GRPLST_DRAW_VERTEX ();
+
 			//スプライト描画
 			Dx3D::instance()->BeginSprite ();	//スプライト描画開始
 			{
-				m_pGameMain->Draw ();	//ゲームメイン描画
+//				m_pGameMain->Draw ();	//ゲームメイン描画
 				GRPLST_DRAW ();
 			}
 			Dx3D::instance()->EndSprite ();		//スプライト描画終了
-
-			//頂点描画
-			m_pGameMain->DrawVertex ();			//ゲームメイン以下のタスクによる頂点描画
-			GRPLST_DRAW_VERTEX ();
 
 			DebugOutGameWindow::Inst()->DrawVertex ();	//ゲーム画面上のデバッグ表示
 		}

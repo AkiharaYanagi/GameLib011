@@ -37,8 +37,13 @@ namespace GAME
 	//---------------------------------------------------------------------
 	
 	private:
-		P_TASK_LST		m_pGrpTaskList;		//大元となるタスクリスト
+
+//		P_TASK_LST		m_pGrpTaskList;		//大元となるタスクリスト
+
+		list < P_GrpCr >	m_GrpLst;		//グラフィック リスト
+
 		bool			m_pause;			//一時停止
+
 
 	public:
 		//@info 利用前にNewTaskList()を手動で呼ぶ
@@ -49,7 +54,7 @@ namespace GAME
 //		void SetpTaskList ( P_TASK_LST p ) { m_pGrpTaskList = p; }
 
 		//対象タスクリストを取得
-		P_TASK_LST GetpTaskList () { return m_pGrpTaskList; }
+//		P_TASK_LST GetpTaskList () { return m_pGrpTaskList; }
 
 		void MakeList ();
 
@@ -67,7 +72,7 @@ namespace GAME
 		void InsertByZ ( P_GrpCr pTask );
 
 		//対象タスクを取外
-		void Erase ( P_Task pTask ) { m_pGrpTaskList->EraseTask ( pTask ); }
+//		void Erase ( P_Task pTask ) { m_pGrpTaskList->EraseTask ( pTask ); }
 
 		//再設定
 		void Reset ();

@@ -72,8 +72,10 @@ namespace GAME
 		void Load ();
 		void Reset ();
 		void Move ();
+#if 0
 		void Draw ();
 		void DrawVertex ();
+#endif // 0
 
 		void SetState ( GameState* p ) { m_state = p; }
 		GameState* GetState () { return m_state; }

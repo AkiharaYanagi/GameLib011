@@ -114,7 +114,7 @@ namespace GAME
 		}
 	}
 
-	//指定オブジェクトを最背列描画(先頭)にする
+	//指定オブジェクトを先頭にする
 	//	指定したオブジェクトが無い場合なにもしない
 	void GameTaskVector::End ( P_Task pTask )
 	{
