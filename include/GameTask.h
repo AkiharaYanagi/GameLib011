@@ -56,8 +56,11 @@ namespace GAME
 
 		virtual void Init () {}		//初期化(繰り返してもよい)
 		virtual void Move () {}		//フレーム毎動作
+
+#if 0
 		virtual void Draw () {}		//フレーム毎描画(スプライト)
 		virtual void DrawVertex () {}	//フレーム毎描画(頂点)
+#endif // 0
 	};
 
 	//型定義

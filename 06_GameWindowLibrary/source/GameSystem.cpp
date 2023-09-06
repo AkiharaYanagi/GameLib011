@@ -42,7 +42,7 @@ namespace GAME
 
 		//Graphic配列の初期化
 		GRPLST_CREATE ();
-		m_grpList = GRPLST_MAKE ();		//共通グラフィックリスト
+		GRPLST_MAKE ();		//共通グラフィックリスト
 
 		//ゲームテキスト初期化
 		GameText::Create();
@@ -101,7 +101,7 @@ namespace GAME
 		//ゲームメインの読込
 		assert ( m_pGameMain );
 		m_pGameMain->Load ();
-		m_grpList->Load ();
+		GRPLST_LOAD ();
 		KeyConfig::instance ()->Load ();
 	}
 
@@ -131,7 +131,6 @@ namespace GAME
 		GRPLST_RESET ();
 
 		if ( m_pGameMain ) { m_pGameMain->Reset(); }
-		if ( m_grpList ) { m_grpList->Reset (); }
 	}
 
 
@@ -141,7 +140,7 @@ namespace GAME
 		//ゲームメインの初期化
 		assert ( m_pGameMain );
 		m_pGameMain->Init ();
-		m_grpList->Init ();
+		GRPLST_INIT ();
 	}
 
 	
@@ -195,7 +194,7 @@ namespace GAME
 
 			//@info デバッグ用'W'ストップでグラフィックリストのMove()も止める
 			//グラフィックリスト
-			m_grpList->Move ();
+			GRPLST_MOVE ();
 
 
 			//ゲーム画面におけるデバッグ表示の動作
@@ -256,13 +255,13 @@ namespace GAME
 			Dx3D::instance()->BeginSprite ();	//スプライト描画開始
 			{
 				m_pGameMain->Draw ();	//ゲームメイン描画
-				m_grpList->Draw ();
+				GRPLST_DRAW ();
 			}
 			Dx3D::instance()->EndSprite ();		//スプライト描画終了
 
 			//頂点描画
 			m_pGameMain->DrawVertex ();			//ゲームメイン以下のタスクによる頂点描画
-			m_grpList->DrawVertex ();
+			GRPLST_DRAW_VERTEX ();
 
 			DebugOutGameWindow::Inst()->DrawVertex ();	//ゲーム画面上のデバッグ表示
 		}

@@ -35,15 +35,21 @@ namespace GAME
 
 	//コンストラクタ
 	GameGraphicList::GameGraphicList ()
-		: m_pGrpTaskList ( nullptr )
+		: m_pGrpTaskList ( nullptr ), m_pause ( F )
 	{
 	}
 
-	//新規リストを作成
+	//新規リストを作成して取得
 	P_TASK_LST GameGraphicList::NewTaskList ()
 	{
 		m_pGrpTaskList = make_shared < GameTaskList > ();
 		return m_pGrpTaskList;
+	}
+
+	//新規リストを作成
+	void GameGraphicList::MakeList ()
+	{
+		m_pGrpTaskList = make_shared < GameTaskList > ();
 	}
 
 	//Z値で降順ソートされた位置に挿入
@@ -108,7 +114,20 @@ namespace GAME
 
 	void GameGraphicList::Move ()
 	{
+		//一時停止中はMove処理を飛ばす
+		if ( m_pause ) { return; }
+
 		m_pGrpTaskList->Move ();
+	}
+
+	void GameGraphicList::Draw ()
+	{
+		m_pGrpTaskList->Draw ();
+	}
+
+	void GameGraphicList::DrawVertex ()
+	{
+		m_pGrpTaskList->DrawVertex ();
 	}
 
 
