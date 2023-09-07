@@ -37,8 +37,11 @@ namespace GAME
 	GameGraphicList::GameGraphicList ()
 //		: m_pGrpTaskList ( nullptr ), m_pause ( F )
 	{
+		ml_GrpMain = make_shared < LP_GrpCr > ();
+		ml_GrpSys = make_shared < LP_GrpCr > ();
 	}
 
+#if 0
 	//新規リストを作成して取得
 	P_TASK_LST GameGraphicList::NewTaskList ()
 	{
@@ -52,6 +55,8 @@ namespace GAME
 	{
 //		m_pGrpTaskList = make_shared < GameTaskList > ();
 	}
+#endif // 0
+
 
 	//Z値で降順ソートされた位置に挿入
 	void GameGraphicList::InsertByZ ( P_GrpCr pGrpCr )
@@ -101,6 +106,32 @@ namespace GAME
 //		m_pGrpTaskList->AddpTask ( pGrpCr );
 		m_GrpLst.push_back ( pGrpCr );
 	}
+
+	//Z値で降順ソートされた位置に挿入
+	void GameGraphicList::InsertByZ_Main ( P_GrpCr pGrpCr )
+	{
+		//既存が１つも無いとき、通常の追加
+		if ( 0 == ml_GrpMain->size () ) { ml_GrpMain->push_back ( pGrpCr ); return; }
+
+		//Z値をチェックして指定位置に挿入
+		float z = pGrpCr->GetZ ();
+
+		list < P_GrpCr > ::iterator it = ml_GrpMain->begin ();
+		for ( ; ml_GrpMain->end () != it; ++ it )
+		{
+			float pz = ( *it )->GetZ ();
+			if ( z > pz )
+			{
+				ml_GpMain-.insert ( it, pGrpCr );
+				return;
+			}
+		}
+
+		//すべての値より小さい場合、末尾に追加
+		m_GrpLst.push_back ( pGrpCr );
+	}
+
+
 
 	void GameGraphicList::Reset ()
 	{

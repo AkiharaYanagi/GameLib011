@@ -38,18 +38,18 @@ namespace GAME
 	
 	private:
 
-//		P_TASK_LST		m_pGrpTaskList;		//大元となるタスクリスト
+//		P_TASK_LST		m_pGrpTaskList;	//大元となるタスクリスト
 
-		list < P_GrpCr >	m_GrpLst;		//グラフィック メイン リスト
-		list < P_GrpCr >	m_GrpSysLst;		//グラフィック システム リスト
+		PLP_GrpCr		ml_GrpMain;		//グラフィック メイン リスト
+		PLP_GrpCr		ml_GrpSys;		//グラフィック システム リスト
 
-		bool			m_pause;			//一時停止
+		bool			m_pause;		//一時停止
 
 
 	public:
 		//@info 利用前にNewTaskList()を手動で呼ぶ
 		//対象タスクリストを新設して返す
-		P_TASK_LST NewTaskList ();
+//		P_TASK_LST NewTaskList ();
 
 		//対象タスクリストを設定
 //		void SetpTaskList ( P_TASK_LST p ) { m_pGrpTaskList = p; }
@@ -57,20 +57,24 @@ namespace GAME
 		//対象タスクリストを取得
 //		P_TASK_LST GetpTaskList () { return m_pGrpTaskList; }
 
-		void MakeList ();
+//		void MakeList ();
 
 		//再設定後に手動で初期化
 		void Load ();
 		void Init ();
 
+		//@info 動作はタスクリスト側で行う
 		void Move ();
 
+		//描画
 		void Draw ();
 		void DrawVertex ();
 
 		//Z値で降順ソートされた位置に挿入
 		//描画Z位置(後:1.f ～ 0.0f:前) "GameGraphicConst.h"に Z_BG などで定数が宣言してある
-		void InsertByZ ( P_GrpCr pTask );
+//		void InsertByZ ( P_GrpCr pTask );
+		void InsertByZ_Main ( P_GrpCr pTask );
+		void InsertByZ_Sys ( P_GrpCr pTask );
 
 		//対象タスクを取外
 		void Erase ( P_Task pTask ) { m_pGrpTaskList->EraseTask ( pTask ); }
