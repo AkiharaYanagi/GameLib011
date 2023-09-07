@@ -40,7 +40,8 @@ namespace GAME
 
 //		P_TASK_LST		m_pGrpTaskList;		//大元となるタスクリスト
 
-		list < P_GrpCr >	m_GrpLst;		//グラフィック リスト
+		list < P_GrpCr >	m_GrpLst;		//グラフィック メイン リスト
+		list < P_GrpCr >	m_GrpSysLst;		//グラフィック システム リスト
 
 		bool			m_pause;			//一時停止
 
@@ -72,7 +73,7 @@ namespace GAME
 		void InsertByZ ( P_GrpCr pTask );
 
 		//対象タスクを取外
-//		void Erase ( P_Task pTask ) { m_pGrpTaskList->EraseTask ( pTask ); }
+		void Erase ( P_Task pTask ) { m_pGrpTaskList->EraseTask ( pTask ); }
 
 		//再設定
 		void Reset ();
