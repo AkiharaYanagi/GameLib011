@@ -42,7 +42,7 @@ namespace GAME
 
 		//Graphic配列の初期化
 		GRPLST_CREATE ();
-		GRPLST_MAKE ();		//共通グラフィックリスト
+//		GRPLST_MAKE ();		//共通グラフィックリスト
 
 		//ゲームテキスト初期化
 		GameText::Create();

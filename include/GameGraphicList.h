@@ -73,11 +73,13 @@ namespace GAME
 		//Z値で降順ソートされた位置に挿入
 		//描画Z位置(後:1.f ～ 0.0f:前) "GameGraphicConst.h"に Z_BG などで定数が宣言してある
 //		void InsertByZ ( P_GrpCr pTask );
-		void InsertByZ_Main ( P_GrpCr pTask );
-		void InsertByZ_Sys ( P_GrpCr pTask );
+		void InsertByZ_Main ( P_GrpCr pGrpCr );
+		void InsertByZ_Sys ( P_GrpCr pGrpCr );
 
 		//対象タスクを取外
-		void Erase ( P_Task pTask ) { m_pGrpTaskList->EraseTask ( pTask ); }
+//		void Erase ( P_Task pTask ) { m_pGrpTaskList->EraseTask ( pTask ); }
+		void Remove_Main ( P_GrpCr p ) { ml_GrpMain->remove ( p ); }
+		void Erase_Sys ( P_GrpCr p ) { ml_GrpMain->remove ( p ); }
 
 		//再設定
 		void Reset ();
@@ -93,9 +95,15 @@ namespace GAME
 	using UP_GrpLst = unique_ptr < GrpLst >;
 
 #define		GRPLST_CREATE	GrpLst::Create
-#define		GRPLST_MAKE		GrpLst::Inst()->MakeList
-#define		GRPLST_INSERT	GrpLst::Inst()->InsertByZ
-#define		GRPLST_ERASE	GrpLst::Inst()->Erase
+
+#define		GRPLST_INSERT_MAIN	GrpLst::Inst()->InsertByZ_Main
+#define		GRPLST_INSERT_SYS	GrpLst::Inst()->InsertByZ_Sys
+
+//#define		GRPLST_MAKE		GrpLst::Inst()->MakeList
+//#define		GRPLST_ERASE	GrpLst::Inst()->Erase
+#define		GRPLST_REMOVE_MAIN	GrpLst::Inst()->Remove_Main
+#define		GRPLST_REMOVE_SYS	GrpLst::Inst()->Remove_Sys
+
 #define		GRPLST_RESET	GrpLst::Inst()->Reset
 #define		GRPLST_CLEAR	GrpLst::Inst()->Clear
 #define		GRPLST_LOAD		GrpLst::Inst()->Load

@@ -58,6 +58,7 @@ namespace GAME
 #endif // 0
 
 
+#if 0
 	//Z値で降順ソートされた位置に挿入
 	void GameGraphicList::InsertByZ ( P_GrpCr pGrpCr )
 	{
@@ -106,6 +107,8 @@ namespace GAME
 //		m_pGrpTaskList->AddpTask ( pGrpCr );
 		m_GrpLst.push_back ( pGrpCr );
 	}
+#endif // 0
+
 
 	//Z値で降順ソートされた位置に挿入
 	void GameGraphicList::InsertByZ_Main ( P_GrpCr pGrpCr )
@@ -115,20 +118,41 @@ namespace GAME
 
 		//Z値をチェックして指定位置に挿入
 		float z = pGrpCr->GetZ ();
-
-		list < P_GrpCr > ::iterator it = ml_GrpMain->begin ();
+		LP_GrpCr::iterator it = ml_GrpMain->begin ();
 		for ( ; ml_GrpMain->end () != it; ++ it )
 		{
 			float pz = ( *it )->GetZ ();
 			if ( z > pz )
 			{
-				ml_GpMain-.insert ( it, pGrpCr );
+				ml_GrpMain->insert ( it, pGrpCr );
 				return;
 			}
 		}
 
 		//すべての値より小さい場合、末尾に追加
-		m_GrpLst.push_back ( pGrpCr );
+		ml_GrpMain->push_back ( pGrpCr );
+	}
+
+	void GameGraphicList::InsertByZ_Sys ( P_GrpCr pGrpCr )
+	{
+		//既存が１つも無いとき、通常の追加
+		if ( 0 == ml_GrpSys->size () ) { ml_GrpSys->push_back ( pGrpCr ); return; }
+
+		//Z値をチェックして指定位置に挿入
+		float z = pGrpCr->GetZ ();
+		LP_GrpCr::iterator it = ml_GrpSys->begin ();
+		for ( ; ml_GrpSys->end () != it; ++ it )
+		{
+			float pz = ( *it )->GetZ ();
+			if ( z > pz )
+			{
+				ml_GrpSys->insert ( it, pGrpCr );
+				return;
+			}
+		}
+
+		//すべての値より小さい場合、末尾に追加
+		ml_GrpSys->push_back ( pGrpCr );
 	}
 
 
@@ -156,13 +180,15 @@ namespace GAME
 	void GameGraphicList::Load ()
 	{
 //		m_pGrpTaskList->Load ();
-		for ( P_GrpCr p_GrpBs : m_GrpLst ) { p_GrpBs->Load (); }
+		for ( P_GrpCr p : *ml_GrpMain ) { p->Load (); }
+		for ( P_GrpCr p : *ml_GrpSys ) { p->Load (); }
 	}
 
 	void GameGraphicList::Init ()
 	{
 //		m_pGrpTaskList->Init ();
-		for ( P_GrpCr p_GrpBs : m_GrpLst ) { p_GrpBs->Init (); }
+		for ( P_GrpCr p : *ml_GrpMain ) { p->Init (); }
+		for ( P_GrpCr p : *ml_GrpSys ) { p->Init (); }
 	}
 
 	void GameGraphicList::Move ()
@@ -171,19 +197,22 @@ namespace GAME
 		if ( m_pause ) { return; }
 
 //		m_pGrpTaskList->Move ();
-		for ( P_GrpCr p_GrpBs : m_GrpLst ) { p_GrpBs->Move (); }
+		for ( P_GrpCr p : *ml_GrpMain ) { p->Move (); }
+		for ( P_GrpCr p : *ml_GrpSys ) { p->Move (); }
 	}
 
 	void GameGraphicList::Draw ()
 	{
 //		m_pGrpTaskList->Draw ();
-		for ( P_GrpCr p_GrpBs : m_GrpLst ) { p_GrpBs->Draw (); }
+		for ( P_GrpCr p : *ml_GrpMain ) { p->Draw (); }
+		for ( P_GrpCr p : *ml_GrpSys ) { p->Draw (); }
 	}
 
 	void GameGraphicList::DrawVertex ()
 	{
 //		m_pGrpTaskList->DrawVertex ();
-		for ( P_GrpCr p_GrpBs : m_GrpLst ) { p_GrpBs->DrawVertex (); }
+		for ( P_GrpCr p : *ml_GrpMain ) { p->DrawVertex (); }
+		for ( P_GrpCr p : *ml_GrpSys ) { p->DrawVertex (); }
 	}
 
 
