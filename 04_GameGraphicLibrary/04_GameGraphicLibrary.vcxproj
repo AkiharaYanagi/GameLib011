@@ -21,19 +21,18 @@
   <ItemGroup>
     <ClCompile Include="source\Fade.cpp" />
     <ClCompile Include="source\GameGraphic.cpp" />
-    <ClCompile Include="source\GameGraphicArray.cpp" />
     <ClCompile Include="source\GameGraphicCore.cpp" />
     <ClCompile Include="source\GameGraphicList.cpp" />
     <ClCompile Include="source\GameMatrix.cpp" />
     <ClCompile Include="source\GameObject.cpp" />
     <ClCompile Include="source\GamePrimitive.cpp" />
     <ClCompile Include="source\GameTexture.cpp" />
+    <ClCompile Include="source\OutlineFont.cpp" />
     <ClCompile Include="source\PrimitiveTexture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Fade.h" />
     <ClInclude Include="..\include\GameGraphic.h" />
-    <ClInclude Include="..\include\GameGraphicArray.h" />
     <ClInclude Include="..\include\GameGraphicConst.h" />
     <ClInclude Include="..\include\GameGraphicCore.h" />
     <ClInclude Include="..\include\GameGraphicLibrary.h" />
@@ -42,6 +41,7 @@
     <ClInclude Include="..\include\GameObject.h" />
     <ClInclude Include="..\include\GamePrimitive.h" />
     <ClInclude Include="..\include\GameTexture.h" />
+    <ClInclude Include="..\include\OutlineFont.h" />
     <ClInclude Include="..\include\PrimitiveTexture.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

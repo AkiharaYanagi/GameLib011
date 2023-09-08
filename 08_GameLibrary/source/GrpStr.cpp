@@ -14,62 +14,6 @@
 //-------------------------------------------------------------------------------------------------
 namespace GAME
 {
-	TxStr::GameTextureFromString ()
-		: m_fontSize ( 40 ), m_penSize ( 1 )
-		, m_quality ( 2 )
-		, m_fillColor ( 0xff8080fful ), m_edgeColor ( 0x80fffffful )
-		, m_fontName ( _T ( "MSゴシック" ) )
-	{
-	}
-
-	TxStr::~GameTextureFromString ()
-	{
-	}
-
-	void TxStr::Load ()
-	{
-		//文字列からテクスチャを作成
-		OLF->SetParam ( m_fontSize, m_penSize, m_quality );
-		OLF->SetFontFace ( m_fontName );
-		TX tx = OLF_MAKE_STRTX ( m_str.c_str (), m_fillColor, m_edgeColor );
-		TxBs::SetTexture ( tx );
-	}
-
-	void TxStr::Rele ()
-	{
-		RELEASE ( GetTexture () );
-	}
-
-	void TxStr::Reset ()
-	{
-		Rele ();
-		Load ();
-	}
-
-	void TxStr::SetStr ( LPCTSTR str )
-	{
-		m_str.assign ( str );
-	}
-
-	void TxStr::SetParam ( int fontSize, int penSize, int quolity )
-	{
-		m_fontSize = fontSize;
-		m_penSize = penSize;
-		m_quality = quolity;
-	}
-
-	void TxStr::SetFontFace ( LPCTSTR fontname )
-	{
-		_tcscpy_s ( m_fontName, fontname );
-	}
-
-	void TxStr::SetColor ( DWORD fill, DWORD edge )
-	{
-		m_fillColor = fill;
-		m_edgeColor = edge;
-	}
-
-
 	//-------------------------------------
 	GrpStr::GrpStr ()
 	{

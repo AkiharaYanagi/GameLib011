@@ -11,7 +11,9 @@
 #include "DebugManager.h"
 #include "Dx3D.h"
 #include "Archiver.h"
-#include "GameTask.h"
+//#include "GameTask.h"
+#include "OutlineFont.h"
+
 
 //-------------------------------------------------------------------------------------------------
 // 宣言
@@ -139,6 +141,41 @@ namespace GAME
 	using P_TxMem = shared_ptr < TxMem >;
 	using VP_TxMem = vector < P_TxMem >;
 	using PVP_TxMem = shared_ptr < VP_TxMem >;
+
+
+	//--------------------------------------------------------
+	//ゲームテクスチャ　フロムストリング
+	//		文字列から生成されるゲームテクスチャ
+	//--------------------------------------------------------
+	class GameTextureFromString : public TxBs
+	{
+		tstring		m_str;
+
+		int			m_fontSize;
+		int			m_penSize;
+		int			m_quality;
+		DWORD		m_fillColor;
+		DWORD		m_edgeColor;
+		TCHAR		m_fontName [ LF_FACESIZE ];	//フォント名(FaceName)
+
+	public:
+		GameTextureFromString ();
+		GameTextureFromString ( const GameTextureFromString& rhs ) = delete;
+		~GameTextureFromString ();
+
+		void Load ();
+		void Rele ();
+		void Reset ();
+
+		void SetStr ( LPCTSTR str );
+
+		void SetParam ( int fontSize, int penSize, int quolity );
+		void SetFontFace ( LPCTSTR fontname );
+		void SetColor ( DWORD fill, DWORD edge );
+	};
+
+	using TxStr = GameTextureFromString;
+	using P_TxStr = shared_ptr < TxStr >;
 
 
 }	//namespace GAME

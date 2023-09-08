@@ -15,7 +15,6 @@
 #include "GameGraphic.h"
 #include "Fade.h"
 #include "GamePrimitive.h"
-#include "GameGraphicArray.h"
 #include "GameGraphicList.h"
 #include "PrimitiveTexture.h"
 

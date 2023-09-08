@@ -275,6 +275,7 @@ namespace GAME
 	void ConstDebugOut::Rele ()
 	{
 		m_vx.Rele ();
+		m_tx->Release ();
 	}
 
 	void ConstDebugOut::Reset ()

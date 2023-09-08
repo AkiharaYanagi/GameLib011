@@ -10,10 +10,10 @@
 // ヘッダファイル　インクルード
 //-------------------------------------------------------------------------------------------------
 #include "DebugLibrary.h"
-#include "GameTask.h"
+#include "DxDefine.h"
+//#include "GameTask.h"
 #include "GameTexture.h"
 #include "GameObject.h"
-#include <vector>
 #include "GameGraphicCore.h"
 
 //-------------------------------------------------------------------------------------------------

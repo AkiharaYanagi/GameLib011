@@ -42,7 +42,6 @@ namespace GAME
 
 		//Graphic配列の初期化
 		GRPLST_CREATE ();
-//		GRPLST_MAKE ();		//共通グラフィックリスト
 
 		//ゲームテキスト初期化
 		GameText::Create();
@@ -115,6 +114,7 @@ namespace GAME
 //ex.		if ( m_pGameMain ) m_pGameMain->Rele ();		//ゲームオブジェクトの解放
 //		→　持っているポインタの仮想関数を呼ぶのではなく、
 //			自分のデストラクタで自分の終了処理関数を呼ぶ
+		GRPLST_RELE ();
 	}
 
 
