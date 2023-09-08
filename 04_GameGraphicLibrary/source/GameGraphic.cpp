@@ -97,7 +97,6 @@ namespace GAME
 		if ( ! m_valid ) { return; }
 
 		//オブジェクトの数だけ描画
-//		for ( UINT i = 0; i < m_pvpObject->size (); ++i )
 		for ( P_Object pob : * m_pvpObject )
 		{
 			//有効フラグ

@@ -26,21 +26,21 @@ namespace GAME
 	{
 		for ( UINT i = 0; i < DebugTextNum; ++i )
 		{
-			m_texture[i] = nullptr;
-			m_tstr[i] = _T("");
+			m_texture [ i ] = nullptr;
+			m_tstr [ i ] = _T ( "" );
 		}
 
 		m_frame.SetPos ( VEC2 ( 0, 0 ) );
 		m_FPS.SetPos ( VEC2 ( 200, 0 ) );
 		m_time.SetPos ( VEC2 ( 500, 0 ) );
 	}
- 
+
 	//デストラクタ
 	DebugOutGameWindow::~DebugOutGameWindow ()
 	{
 		Rele ();
 	}
-	
+
 	//インスタンス生成
 	void DebugOutGameWindow::Create ()
 	{
@@ -54,12 +54,12 @@ namespace GAME
 	{
 		for ( UINT i = 0; i < DebugTextNum; ++i )
 		{
-			m_vertex[i].Load ();		//頂点バッファの作成
-			m_vertex[i].SetPos ( 0, 20.f * i );
+			m_vertex [ i ].Load ();		//頂点バッファの作成
+			m_vertex [ i ].SetPos ( 0, 20.f * i );
 		}
 		for ( UINT i = 0; i < DebugTextNum; ++i )
 		{
-			GameText::Inst()->MakeStrTexture ( m_tstr[i], m_texture[i], m_vertex[i] );
+			GameText::Inst ()->MakeStrTexture ( m_tstr [ i ], m_texture [ i ], m_vertex [ i ] );
 		}
 
 		m_frame.Load ();
@@ -71,8 +71,8 @@ namespace GAME
 	{
 		for ( UINT i = 0; i < DebugTextNum; ++i )
 		{
-			RELEASE ( m_texture[i] );
-			m_vertex[i].Rele ();
+			RELEASE ( m_texture [ i ] );
+			m_vertex [ i ].Rele ();
 		}
 		m_frame.Rele ();
 		m_FPS.Rele ();
@@ -98,10 +98,10 @@ namespace GAME
 		for ( UINT i = 0; i < DebugTextNum; ++i )
 		{
 			//文字列が空なら何もしないで返す
-			if ( ! m_tstr[i].compare ( _T("") ) ) { continue; }
+			if ( ! m_tstr [ i ].compare ( _T ( "" ) ) ) { continue; }
 
 			//４頂点にテクスチャ描画
-			m_vertex[i].DrawVertex ( m_texture[i] );
+			m_vertex [ i ].DrawVertex ( m_texture [ i ] );
 		}
 
 		m_frame.Draw ();
@@ -117,14 +117,14 @@ namespace GAME
 		if ( ! m_tstr [ index ].compare ( lpctstr ) ) { return; }
 
 		//新たにテクスチャを作成
-		m_tstr[index].assign ( lpctstr );
-		GameText::Inst()->MakeStrTexture ( m_tstr[index], m_texture[index], m_vertex[index] );
+		m_tstr [ index ].assign ( lpctstr );
+		GameText::Inst ()->MakeStrTexture ( m_tstr [ index ], m_texture [ index ], m_vertex [ index ] );
 
 #if 0
 		OutlineFont::Inst ()->SetParam ( 40, 1, 1 );
-//			OutlineFont::Inst ()->SetFontFace ( _T ( "メイリオ" ) );
+		//			OutlineFont::Inst ()->SetFontFace ( _T ( "メイリオ" ) );
 
-		m_texture[index] = OutlineFont::Inst ()->Make ( m_tstr [ index ].c_str (), 0xffffffff, 0xffffffff );
+		m_texture [ index ] = OutlineFont::Inst ()->Make ( m_tstr [ index ].c_str (), 0xffffffff, 0xffffffff );
 		POINT size = OutlineFont::Inst ()->GetSize ();
 
 		m_vertex [ index ].SetSize ( 1.f * size.x, 1.f * size.y );
@@ -194,8 +194,8 @@ namespace GAME
 	{
 		for ( UINT i = 0; i < DebugTextNum; ++i )
 		{
-			RELEASE ( m_texture[i] );
-			m_vertex[i].Rele ();
+			RELEASE ( m_texture [ i ] );
+			m_vertex [ i ].Rele ();
 		}
 	}
 
@@ -260,6 +260,8 @@ namespace GAME
 		m_vx.SetPos ( 600, 0 );
 		m_vx.SetSize ( 200, 16 );
 		m_vx.SetAllColor ( 0xff00ffffL );
+
+		m_tx.SetStr ( _T ( "GameTextureFromString" ) );
 	}
 
 	ConstDebugOut::~ConstDebugOut ()
@@ -270,12 +272,13 @@ namespace GAME
 	void ConstDebugOut::Load ()
 	{
 		m_vx.Load ();
+		m_tx.Load ();
 	}
 
 	void ConstDebugOut::Rele ()
 	{
 		m_vx.Rele ();
-		m_tx->Release ();
+		m_tx.Rele ();
 	}
 
 	void ConstDebugOut::Reset ()
@@ -293,13 +296,13 @@ namespace GAME
 	{
 		if ( ! m_valid ) { return; }
 
-		m_vx.DrawVertex ( m_tx );
+		m_vx.DrawVertex ( m_tx.GetTexture () );
 	}
 
 	void ConstDebugOut::SetStr ( UP_TSTR upctstr )
 	{
-		tstring str ( upctstr.get () );
-		GameText::Inst ()->MakeStrTexture ( str, m_tx, m_vx );
+		m_tx.SetStr ( upctstr.get () );
+		m_tx.Load ();
 	}
 
 	void ConstDebugOut::SetPos ( VEC2 v )

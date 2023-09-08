@@ -11,7 +11,6 @@
 #include "DebugManager.h"
 #include "Dx3D.h"
 #include "Archiver.h"
-//#include "GameTask.h"
 #include "OutlineFont.h"
 
 

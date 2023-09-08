@@ -31,7 +31,7 @@ namespace GAME
 		static _P_GrpLst	m_inst;		//シングルトンインスタンス
 		GameGraphicList ();		//private コンストラクタで通常の実体化は禁止
 	public:
-		~GameGraphicList () = default;	//デストラクタはunique_ptrのためpublic
+		~GameGraphicList ();	//デストラクタはunique_ptrのためpublic
 		static void Create() { if ( ! m_inst ) { m_inst = _P_GrpLst ( new _GrpLst () ); } }
 		static _P_GrpLst & Inst () { return m_inst; }	//インスタンス取得
 	//---------------------------------------------------------------------
@@ -71,6 +71,8 @@ namespace GAME
 
 		//全消去
 		void Clear ();
+		void Clear_Main ();
+		void Clear_Sub ();
 
 		//一時停止 (Move()は行わないが、Draw()は行う)
 		void Pause ( bool b ) { m_pause = b; }
@@ -101,6 +103,9 @@ namespace GAME
 #define		GRPLST_REMOVE_SYS	GrpLst::Inst()->Remove_Sys
 
 #define		GRPLST_CLEAR	GrpLst::Inst()->Clear
+#define		GRPLST_CLEAR_MAIN	GrpLst::Inst()->Clear
+#define		GRPLST_CLEAR_SUB	GrpLst::Inst()->Clear
+
 #define		GRPLST_PAUSE	GrpLst::Inst()->Pause
 
 }	//namespace GAME

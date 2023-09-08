@@ -13,6 +13,7 @@
 #include "DebugLibrary.h"
 #include "Dx3D.h"
 #include "DxVertex.h"
+#include "GameTexture.h"
 #include "GameTextLibrary.h"
 
 
@@ -28,7 +29,7 @@ namespace GAME
 	class ConstDebugOut
 	{
 		bool		m_valid;
-		TX			m_tx;		//テクスチャ
+		TxStr		m_tx;		//文字列テクスチャ
 		Vx_Rect		m_vx;		//頂点集合(矩形)
 
 	public:

@@ -40,6 +40,13 @@ namespace GAME
 		ml_GrpSys = make_shared < LP_GrpCr > ();
 	}
 
+	GameGraphicList::~GameGraphicList ()
+	{
+		Rele ();
+		ml_GrpMain.reset ();
+		ml_GrpSys.reset ();
+	}
+
 	//Z値で降順ソートされた位置に挿入
 	void GameGraphicList::InsertByZ_Main ( P_GrpCr pGrpCr )
 	{
@@ -124,6 +131,16 @@ namespace GAME
 	void GameGraphicList::Clear ()
 	{
 		ml_GrpMain->clear ();
+		ml_GrpSys->clear ();
+	}
+
+	void GameGraphicList::Clear_Main ()
+	{
+		ml_GrpMain->clear ();
+	}
+
+	void GameGraphicList::Clear_Sub ()
+	{
 		ml_GrpSys->clear ();
 	}
 
