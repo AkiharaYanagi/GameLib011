@@ -32,7 +32,8 @@ namespace GAME
 
 		m_frame.SetPos ( VEC2 ( 0, 0 ) );
 		m_FPS.SetPos ( VEC2 ( 200, 0 ) );
-		m_time.SetPos ( VEC2 ( 500, 0 ) );
+		m_drawTime.SetPos ( VEC2 ( 500, 0 ) );
+		m_moveTime.SetPos ( VEC2 ( 500, 20 ) );
 	}
 
 	//デストラクタ
@@ -64,7 +65,8 @@ namespace GAME
 
 		m_frame.Load ();
 		m_FPS.Load ();
-		m_time.Load ();
+		m_moveTime.Load ();
+		m_drawTime.Load ();
 	}
 
 	void DebugOutGameWindow::Rele ()
@@ -76,7 +78,8 @@ namespace GAME
 		}
 		m_frame.Rele ();
 		m_FPS.Rele ();
-		m_time.Rele ();
+		m_moveTime.Rele ();
+		m_drawTime.Rele ();
 	}
 
 	void DebugOutGameWindow::Reset ( D3DDEV d3dDevice )
@@ -90,7 +93,8 @@ namespace GAME
 		for ( UINT i = 0; i < DebugTextNum; ++i ) { m_vertex [ i ].Move (); }
 		m_frame.Move ();
 		m_FPS.Move ();
-		m_time.Move ();
+		m_moveTime.Move ();
+		m_drawTime.Move ();
 	}
 
 	void DebugOutGameWindow::DrawVertex ()
@@ -106,7 +110,8 @@ namespace GAME
 
 		m_frame.Draw ();
 		m_FPS.Draw ();
-		m_time.Draw ();
+		m_moveTime.Draw ();
+		m_drawTime.Draw ();
 	}
 
 
@@ -177,8 +182,8 @@ namespace GAME
 		m_FPS.SetStr ( std::move ( p ) );
 	}
 
-	//固定表示 : MoveTime[ms], DrawTime[ms]
-	void DebugOutGameWindow::DebugOutWnd_Move_Draw ( LPCTSTR format, ... )
+	//固定表示 : MoveTime[ms]
+	void DebugOutGameWindow::DebugOutWnd_MoveTime ( LPCTSTR format, ... )
 	{
 		//可変長引数による文字列フォーマット
 		va_list args;
@@ -186,7 +191,19 @@ namespace GAME
 		UP_TSTR p = Format::Printf_Args ( format, args );
 		va_end ( args );
 
-		m_time.SetStr ( std::move ( p ) );
+		m_moveTime.SetStr ( std::move ( p ) );
+	}
+
+	//固定表示 : DrawTime[ms]
+	void DebugOutGameWindow::DebugOutWnd_DrawTime ( LPCTSTR format, ... )
+	{
+		//可変長引数による文字列フォーマット
+		va_list args;
+		va_start ( args, format );	//文字列の先頭ポインタをセット
+		UP_TSTR p = Format::Printf_Args ( format, args );
+		va_end ( args );
+
+		m_drawTime.SetStr ( std::move ( p ) );
 	}
 
 	//-------------------------------------------------------------------------
@@ -262,6 +279,7 @@ namespace GAME
 		m_vx.SetAllColor ( 0xff00ffffL );
 
 		m_tx.SetStr ( _T ( "GameTextureFromString" ) );
+		m_tx.SetParam ( 20, 1, 2 );
 	}
 
 	ConstDebugOut::~ConstDebugOut ()
@@ -295,14 +313,19 @@ namespace GAME
 	void ConstDebugOut::Draw ()
 	{
 		if ( ! m_valid ) { return; }
-
 		m_vx.DrawVertex ( m_tx.GetTexture () );
 	}
 
 	void ConstDebugOut::SetStr ( UP_TSTR upctstr )
 	{
 		m_tx.SetStr ( upctstr.get () );
+		if ( 0 == _tcscmp ( upctstr.get(), _T("") ) ) { return; }
+
 		m_tx.Load ();
+
+		D3DSURFACE_DESC dc;
+		m_tx.GetTexture ()->GetLevelDesc ( 0, & dc );
+		m_vx.SetSize ( 1.f * dc.Width, 1.f * dc.Height );
 	}
 
 	void ConstDebugOut::SetPos ( VEC2 v )

@@ -40,7 +40,7 @@ namespace GAME
 		PLP_GrpCr		ml_GrpMain;		//グラフィック メイン リスト
 		PLP_GrpCr		ml_GrpSys;		//グラフィック システム リスト
 
-		bool			m_pause;		//一時停止
+//		bool			m_pause;		//一時停止
 
 	public:
 
@@ -75,7 +75,7 @@ namespace GAME
 		void Clear_Sub ();
 
 		//一時停止 (Move()は行わないが、Draw()は行う)
-		void Pause ( bool b ) { m_pause = b; }
+//		void Pause ( bool b ) { m_pause = b; }
 
 	private:
 		//挿入

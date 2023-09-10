@@ -22,8 +22,14 @@ namespace GAME
 		STR_UTL () = delete;	//staticクラスとして実体化禁止
 		~STR_UTL () = delete;
 
-		static UINT Size ( LPCTSTR lpctstr );
 
+		//文字列定数のサイズを返す
+		static UINT Size ( LPCTSTR lpctstr );
+		
+		//テクスチャ用
+		//2のべき乗補完 ( 1 ～ 65536 )
+		//範囲外は１
+		static LONG Power ( LONG ln );
 	};
 
 

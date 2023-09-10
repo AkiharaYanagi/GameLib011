@@ -51,6 +51,9 @@ namespace GAME
 	void FrameControl::SystemLoad ()
 	{
 		m_gameSystem->SystemLoad ();
+
+		DBGOUT_WND->DebugOutWnd_MoveTime ( _T ( "MoveTime = -" ) );
+		DBGOUT_WND->DebugOutWnd_DrawTime ( _T ( "DrawTime = -" ) );
 	}
 
 	//------------------------------------------
@@ -95,7 +98,7 @@ namespace GAME
 	//------------------------------------------
 	void FrameControl::Frame()
 	{
-		static float avrgSleep = 16.6f;
+		static float averageSleep = 16.6f;
 		static DWORD dwDispFps = 60;
 		
 
@@ -157,7 +160,7 @@ namespace GAME
 			}
 			if ( m_bDispFPS )
 			{
-				DBGOUT_WND->DebugOutWnd_FPS ( _T("FPS:%02u, sleep:%05.2f"), dwDispFps, avrgSleep );
+				DBGOUT_WND->DebugOutWnd_FPS ( _T("FPS:%02u, sleep:%05.2f"), dwDispFps, averageSleep );
 			}
 			else
 			{
@@ -165,17 +168,53 @@ namespace GAME
 				DBGOUT_WND->DebugOutWnd_FPS ( _T ( "") );
 			}
 
+			// 'F7'キーでMove, Draw 処理時間 表示切替
+			static bool bMoveDrawTimer = true;
+			if ( ::GetAsyncKeyState ( VK_F7 ) & 0x0001 )
+			{
+				bMoveDrawTimer ^= true;
+				DBGOUT_WND->SetbDisp_MoveTime ( bMoveDrawTimer );
+				DBGOUT_WND->SetbDisp_DrawTime ( bMoveDrawTimer );
+				if ( bMoveDrawTimer )
+				{
+					//60[F]の平均
+					DBGOUT_WND->DebugOutWnd_MoveTime ( _T ( "MoveTime = %05.2f" ), averageMove / 1000.f );
+					DBGOUT_WND->DebugOutWnd_DrawTime ( _T ( "DrawTime = %05.2f" ), averageDraw / 1000.f );
+				}
+				else
+				{
+					DBGOUT_WND->SetbDisp_MoveTime ( false );
+					DBGOUT_WND->SetbDisp_DrawTime ( false );
+					DBGOUT_WND->DebugOutWnd_MoveTime ( _T ( "" ) );
+					DBGOUT_WND->DebugOutWnd_DrawTime ( _T ( "" ) );
+				}
+			}
+
+
 
 			//1000ms毎に現在フレーム数(FPS)の更新
 			if ( progressTime >= 1000 )
 			{
+				if ( bMoveDrawTimer )
+				{
+					//60[F]の平均
+					DBGOUT_WND->DebugOutWnd_MoveTime ( _T ( "MoveTime = %05.2f" ), averageMove / 1000.f );
+					DBGOUT_WND->DebugOutWnd_DrawTime ( _T ( "DrawTime = %05.2f" ), averageDraw / 1000.f );
+				}
+				else
+				{
+					DBGOUT_WND->DebugOutWnd_MoveTime ( _T ( "" ) );
+					DBGOUT_WND->DebugOutWnd_DrawTime ( _T ( "" ) );
+				}
+
+
 				averageMove = 0;
 				averageDraw = 0;
 
 				if ( 0 != m_frames )
 				{
 					dwDispFps = m_frames;
-					avrgSleep = (float)m_averageSleep / m_frames; 
+					averageSleep = (float)m_averageSleep / m_frames; 
 				}
 
 				m_beforeTime = nowTime;

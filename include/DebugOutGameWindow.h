@@ -85,7 +85,8 @@ namespace GAME
 		//デバッグ用固定表示
 		ConstDebugOut		m_frame;
 		ConstDebugOut		m_FPS;
-		ConstDebugOut		m_time;
+		ConstDebugOut		m_moveTime;
+		ConstDebugOut		m_drawTime;
 
 	public:
 		void Load ();
@@ -116,9 +117,12 @@ namespace GAME
 		//固定表示 : FPS
 		void DebugOutWnd_FPS ( LPCTSTR format, ... );
 		void SetbDisp_FPS ( bool b ) { m_FPS.SetValid ( b ); }
-		//固定表示 : 動作時間[ms], 描画時間[ms]
-		void DebugOutWnd_Move_Draw ( LPCTSTR format, ... );
-		void SetbDisp_Move_Draw ( bool b ) { m_time.SetValid ( b ); }
+		//固定表示 : 動作時間[ms]
+		void DebugOutWnd_MoveTime ( LPCTSTR format, ... );
+		void SetbDisp_MoveTime ( bool b ) { m_moveTime.SetValid ( b ); }
+		//固定表示 : 描画時間[ms]
+		void DebugOutWnd_DrawTime ( LPCTSTR format, ... );
+		void SetbDisp_DrawTime ( bool b ) { m_moveTime.SetValid ( b ); }
 
 
 		//-----------------------------------------------------

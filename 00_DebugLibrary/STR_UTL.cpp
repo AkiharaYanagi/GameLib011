@@ -35,6 +35,19 @@ namespace GAME
 		return ret;
 	}
 
+	//テクスチャ用
+	//2のべき乗補完 ( 1 ～ 65536 )
+	LONG STR_UTL::Power ( LONG ln )
+	{
+		const long LMT = 65536;
+		long pw = 2;
+		while ( pw <= LMT )
+		{
+			if ( ln <= pw ) { return pw; }
+			pw *= 2;
+		}
+		return 1;	//範囲外は１
+	}
 
 
 }	//namespace GAME

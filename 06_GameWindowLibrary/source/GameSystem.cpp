@@ -147,12 +147,6 @@ namespace GAME
 	//フレーム毎動作
 	void GameSystem::Move ()
 	{
-		//test		Move()とDraw()の時間計測
-		static DWORD count = 0;
-		DWORD startTime = ::timeGetTime ();
-		DWORD moveTime = 0;
-
-
 		DxSound::instance ()->Move ();	//サウンドの更新
 		DxInput::instance ()->Update ();	//入力の更新
 
@@ -194,7 +188,7 @@ namespace GAME
 
 			//@info デバッグ用'W'ストップでグラフィックリストのMove()も止める
 			//グラフィックリスト
-			GRPLST_MOVE ();
+//			GRPLST_MOVE ();
 
 
 			//ゲーム画面におけるデバッグ表示の動作
@@ -209,38 +203,6 @@ namespace GAME
 		//----------------------------------------------
 #endif	// _DEBUG
 
-		//test: 動作時間の計測
-		moveTime = ::timeGetTime ();
-
-
-		//test
-		DWORD DrawTime = ::timeGetTime ();
-
-
-		// 'F7'キーでMove, Draw 処理時間 表示切替
-		static bool bMoveDrawTimer = true;
-		if ( ::GetAsyncKeyState ( VK_F7 ) & 0x0001 )
-		{
-			bMoveDrawTimer ^= true;
-			DBGOUT_WND->SetbDisp_Move_Draw ( bMoveDrawTimer );
-		}
-		if ( bMoveDrawTimer )
-		{
-			//60[F]の平均
-			if ( ++ count > 60 )
-			{
-				DBGOUT_WND->DebugOutWnd_Move_Draw ( _T ( "MoveTime = %d, DrawTime = %d" ), moveTime - startTime, DrawTime - startTime );
-			}
-			else
-			{
-				DBGOUT_WND->DebugOutWnd_Move_Draw ( _T ( "MoveTime = -, DrawTime = -" ) );
-			}
-		}
-		else
-		{
-			DBGOUT_WND->SetbDisp_Move_Draw ( false );
-			DBGOUT_WND->DebugOutWnd_Move_Draw ( _T ( "" ) );
-		}
 	}
 
 
