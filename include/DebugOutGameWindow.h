@@ -14,7 +14,6 @@
 #include "Dx3D.h"
 #include "DxVertex.h"
 #include "GameTexture.h"
-#include "GameTextLibrary.h"
 
 
 //-------------------------------------------------------------------------------------------------
@@ -22,7 +21,6 @@
 //-------------------------------------------------------------------------------------------------
 namespace GAME 
 {
-	using UP_CTSTR = unique_ptr < TCHAR >;
 
 	//=====================================================
 	//固定表示
@@ -46,6 +44,35 @@ namespace GAME
 		void SetPos ( VEC2 v );
 		void SetStr ( UP_TSTR upctstr );
 		void SetValid ( bool b ) { m_valid = b; }
+	};
+	//=====================================================
+
+	//=====================================================
+	//固定表示 ASCII文字別テクスチャ
+	class ConstDebugOut_ASCII
+	{
+		bool		m_valid;
+		VP_VxRct	mvp_vx;		//頂点集合(矩形)
+		static const UINT	SIZE;
+		tstring		m_tstr;
+
+	public:
+		ConstDebugOut_ASCII ();
+		ConstDebugOut_ASCII ( const ConstDebugOut_ASCII & rhs ) = delete;
+		~ConstDebugOut_ASCII ();
+
+		void Load ();
+		void Rele ();
+		void Reset ();
+		void Move ();
+		void Draw ();
+
+		void SetPos ( VEC2 v );
+		void SetStr ( UP_TSTR upctstr );
+		void SetStr ( LPCTSTR lpctstr );
+		void SetValid ( bool b ) { m_valid = b; }
+
+		void ToggleValid () { m_valid = ! m_valid; }
 	};
 	//=====================================================
 
@@ -88,6 +115,9 @@ namespace GAME
 		ConstDebugOut		m_moveTime;
 		ConstDebugOut		m_drawTime;
 
+		ConstDebugOut_ASCII		m_test;
+		ConstDebugOut_ASCII		m_frame_asc;
+
 	public:
 		void Load ();
 		void Rele ();
@@ -124,6 +154,10 @@ namespace GAME
 		void DebugOutWnd_DrawTime ( LPCTSTR format, ... );
 		void SetbDisp_DrawTime ( bool b ) { m_moveTime.SetValid ( b ); }
 
+
+		//-----------------------------------------------------
+		//固定表示 : 稼働時間[F]
+		void DebugOutWnd_Frame ( UINT frame );
 
 		//-----------------------------------------------------
 		//非表示

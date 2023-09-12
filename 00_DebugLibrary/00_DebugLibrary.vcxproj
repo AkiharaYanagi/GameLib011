@@ -25,11 +25,13 @@
     <ClInclude Include="..\include\Format.h" />
     <ClInclude Include="..\include\GameLibConst.h" />
     <ClInclude Include="..\include\STR_UTL.h" />
+    <ClInclude Include="..\include\WND_UTL.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DebugManager.cpp" />
     <ClCompile Include="Format.cpp" />
     <ClCompile Include="STR_UTL.cpp" />
+    <ClCompile Include="WND_UTL.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

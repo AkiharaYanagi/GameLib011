@@ -59,6 +59,15 @@ namespace GAME
 	using VP_STR = vector < P_STR >;
 	using PVP_STR = shared_ptr < tstring >;
 
+
+	typedef tostringstream TOSS;
+	typedef shared_ptr < TOSS > P_TOSS;
+
+
+	using UP_CTSTR = unique_ptr < TCHAR >;
+	using UP_TSTR = unique_ptr < TCHAR[] >;	//îzóÒÇ∆ÇµÇƒ < TCHAR[] > Ç≈êÈåæÇ∑ÇÈ
+
+
 	//-------------------------------------------------------------------------------------------------
 	// TRUE, FALSE
 	//-------------------------------------------------------------------------------------------------

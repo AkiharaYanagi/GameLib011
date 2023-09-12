@@ -21,8 +21,6 @@ namespace GAME
 {
 	//--------------------------------------------------------
 	//ゲームテクスチャ　ベース
-	//		テクスチャの基本
-	//		・純粋仮想関数を持つので実体化は不可
 	//--------------------------------------------------------
 	class GameTextureBase
 	{
@@ -34,9 +32,9 @@ namespace GAME
 		GameTextureBase ( const GameTextureBase& obj ) = delete;		//コピー禁止
 		virtual ~GameTextureBase ();
 
-		virtual void Load () = 0;		//テクスチャ読み込み
-		virtual void Rele () = 0;		//解放
-		virtual void Reset () = 0;		//再設定
+		virtual void Load () {};		//テクスチャ読み込み
+		virtual void Rele () {};		//解放
+		virtual void Reset () {};		//再設定
 
 		//インデックスを指定
 		void SetTextureIndex( UINT i )	{ m_textureIndex = i; }

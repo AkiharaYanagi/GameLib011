@@ -13,10 +13,11 @@
 #include "GameGraphicConst.h"
 #include "GameTexture.h"
 #include "GameGraphic.h"
-#include "Fade.h"
 #include "GamePrimitive.h"
 #include "GameGraphicList.h"
 #include "PrimitiveTexture.h"
+#include "OutlineFont.h"
+#include "Fade.h"
 
 //-------------------------------------------------------------------------------------------------
 //	ƒ‰ƒCƒuƒ‰ƒŠ‚ÌƒŠƒ“ƒN

@@ -114,7 +114,11 @@ namespace GAME
 //ex.		if ( m_pGameMain ) m_pGameMain->Rele ();		//ゲームオブジェクトの解放
 //		→　持っているポインタの仮想関数を呼ぶのではなく、
 //			自分のデストラクタで自分の終了処理関数を呼ぶ
+
+		//共通グラフィックリスト
 		GRPLST_RELE ();
+
+		m_pGameMain->Rele ();
 	}
 
 
@@ -170,6 +174,9 @@ namespace GAME
 			DBGOUT_WND->DebugOutWnd_Time ( _T ( "" ) );
 		}
 
+		static UINT frame_time = 0;
+		DBGOUT_WND->DebugOutWnd_Frame ( frame_time );
+
 		//----------------------------------------------
 		// 'W'キーでスタート/ストップのトグル切替
 		static bool bStop = false;
@@ -192,15 +199,21 @@ namespace GAME
 
 
 			//ゲーム画面におけるデバッグ表示の動作
-			DebugOutGameWindow::Inst()->Move ();
+			DBGOUT_WND->Move ();
 #if	0
 			TextFile::instance()->Move ();
 #endif	//0
 
 			
 			++ time;
+			++ frame_time;
 		}
 		//----------------------------------------------
+#else	// _DEBUG
+		
+		//フレーム毎の動作	
+		m_pGameMain->Move ();
+
 #endif	// _DEBUG
 
 	}

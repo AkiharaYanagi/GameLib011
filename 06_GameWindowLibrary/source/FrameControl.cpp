@@ -178,8 +178,8 @@ namespace GAME
 				if ( bMoveDrawTimer )
 				{
 					//60[F]‚Ì•½‹Ï
-					DBGOUT_WND->DebugOutWnd_MoveTime ( _T ( "MoveTime = %05.2f" ), averageMove / 1000.f );
-					DBGOUT_WND->DebugOutWnd_DrawTime ( _T ( "DrawTime = %05.2f" ), averageDraw / 1000.f );
+					DBGOUT_WND->DebugOutWnd_MoveTime ( _T ( "MoveTime = %05.2f [ms/F]" ), 1.f * averageMove / m_frames );
+					DBGOUT_WND->DebugOutWnd_DrawTime ( _T ( "DrawTime = %05.2f [ms/F]" ), 1.f * averageDraw / m_frames );
 				}
 				else
 				{
@@ -198,8 +198,8 @@ namespace GAME
 				if ( bMoveDrawTimer )
 				{
 					//60[F]‚Ì•½‹Ï
-					DBGOUT_WND->DebugOutWnd_MoveTime ( _T ( "MoveTime = %05.2f" ), averageMove / 1000.f );
-					DBGOUT_WND->DebugOutWnd_DrawTime ( _T ( "DrawTime = %05.2f" ), averageDraw / 1000.f );
+					DBGOUT_WND->DebugOutWnd_MoveTime ( _T ( "MoveTime = %05.2f [ms/F]" ), 1.f * averageMove / m_frames );
+					DBGOUT_WND->DebugOutWnd_DrawTime ( _T ( "DrawTime = %05.2f [ms/F]" ), 1.f * averageDraw / m_frames );
 				}
 				else
 				{
@@ -207,9 +207,9 @@ namespace GAME
 					DBGOUT_WND->DebugOutWnd_DrawTime ( _T ( "" ) );
 				}
 
-
 				averageMove = 0;
 				averageDraw = 0;
+
 
 				if ( 0 != m_frames )
 				{

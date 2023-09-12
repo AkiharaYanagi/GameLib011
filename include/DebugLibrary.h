@@ -25,4 +25,5 @@
 #include "DebugManager.h"
 #include "Format.h"
 #include "STR_UTL.h"
+#include "WND_UTL.h"
 

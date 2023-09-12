@@ -8,6 +8,7 @@
 // ヘッダファイルのインクルード
 //-------------------------------------------------------------------------------------------------
 #include "DebugOutGameWindow.h"
+#include "GameText.h"
 
 
 //-------------------------------------------------------------------------------------------------
@@ -34,6 +35,12 @@ namespace GAME
 		m_FPS.SetPos ( VEC2 ( 200, 0 ) );
 		m_drawTime.SetPos ( VEC2 ( 500, 0 ) );
 		m_moveTime.SetPos ( VEC2 ( 500, 20 ) );
+
+		m_test.SetPos ( VEC2 ( 0, 300 ) );
+		m_test.SetStr ( _T ( "ConstDebugOut_ASCII" ) );
+
+		m_frame_asc.SetPos ( VEC2 ( 0, 50 ) );
+		m_frame_asc.SetStr ( _T ( "m_frame_asc" ) );
 	}
 
 	//デストラクタ
@@ -67,6 +74,9 @@ namespace GAME
 		m_FPS.Load ();
 		m_moveTime.Load ();
 		m_drawTime.Load ();
+
+		m_test.Load ();
+		m_frame_asc.Load ();
 	}
 
 	void DebugOutGameWindow::Rele ()
@@ -80,6 +90,9 @@ namespace GAME
 		m_FPS.Rele ();
 		m_moveTime.Rele ();
 		m_drawTime.Rele ();
+
+		m_test.Rele ();
+		m_frame_asc.Rele ();
 	}
 
 	void DebugOutGameWindow::Reset ( D3DDEV d3dDevice )
@@ -95,6 +108,15 @@ namespace GAME
 		m_FPS.Move ();
 		m_moveTime.Move ();
 		m_drawTime.Move ();
+
+
+		if ( WND_UTL::AscKey ( VK_F9 ) )
+		{
+			m_frame_asc.ToggleValid ();
+		}
+
+		m_test.Move ();
+		m_frame_asc.Move ();
 	}
 
 	void DebugOutGameWindow::DrawVertex ()
@@ -112,6 +134,9 @@ namespace GAME
 		m_FPS.Draw ();
 		m_moveTime.Draw ();
 		m_drawTime.Draw ();
+
+		m_test.Draw ();
+		m_frame_asc.Draw ();
 	}
 
 
@@ -204,6 +229,14 @@ namespace GAME
 		va_end ( args );
 
 		m_drawTime.SetStr ( std::move ( p ) );
+	}
+
+
+	//固定表示 : DrawTime[ms]
+	void DebugOutGameWindow::DebugOutWnd_Frame ( UINT frame )
+	{
+		UP_TSTR p = Format::GetFormatStr ( _T ( "Frame:%d" ), frame );
+		m_frame_asc.SetStr ( std::move ( p ) );
 	}
 
 	//-------------------------------------------------------------------------
@@ -319,7 +352,7 @@ namespace GAME
 	void ConstDebugOut::SetStr ( UP_TSTR upctstr )
 	{
 		m_tx.SetStr ( upctstr.get () );
-		if ( 0 == _tcscmp ( upctstr.get(), _T("") ) ) { return; }
+		if ( 0 == _tcscmp ( upctstr.get (), _T ( "" ) ) ) { return; }
 
 		m_tx.Load ();
 
@@ -331,6 +364,91 @@ namespace GAME
 	void ConstDebugOut::SetPos ( VEC2 v )
 	{
 		m_vx.SetPos ( v );
+	}
+
+
+	//=====================================================
+	//固定表示 ASCII文字別テクスチャ
+
+	const UINT ConstDebugOut_ASCII::SIZE = 255;
+
+	ConstDebugOut_ASCII::ConstDebugOut_ASCII ()
+		: m_valid ( T )
+	{
+		mvp_vx.resize ( SIZE );	
+		for ( UINT i = 0; i < SIZE; ++ i )
+		{
+			mvp_vx [ i ] = make_shared < Vx_Rect > ();
+			mvp_vx [ i ]->SetAllZ ( 0 );
+			mvp_vx [ i ]->SetPos ( 20 + 20.f * i, 400 );
+			mvp_vx [ i ]->SetSize ( 20, 16 );
+			mvp_vx [ i ]->SetAllColor ( 0xff00ffffL );
+		}
+	}
+
+	ConstDebugOut_ASCII::~ConstDebugOut_ASCII ()
+	{
+		Rele ();
+	}
+
+	void ConstDebugOut_ASCII::Load ()
+	{
+		for ( P_VxRct p : mvp_vx ) { p->Load (); }
+	}
+
+	void ConstDebugOut_ASCII::Rele ()
+	{
+		for ( P_VxRct p : mvp_vx ) { p->Rele (); }
+	}
+
+	void ConstDebugOut_ASCII::Reset ()
+	{
+		for ( P_VxRct p : mvp_vx ) { p->Reset (); }
+	}
+
+	void ConstDebugOut_ASCII::Move ()
+	{
+		for ( P_VxRct p : mvp_vx ) { p->Move (); }
+	}
+
+	void ConstDebugOut_ASCII::Draw ()
+	{
+		if ( ! m_valid ) { return; }
+
+		//文字列変換
+		size_t str_size = m_tstr.size ();
+		int converted = 0;
+		vector < char > v_ch;
+		v_ch.resize ( str_size );
+
+		UINT i = 0;
+		for ( TCHAR tch : m_tstr )
+		{
+			wctomb_s ( & converted, & v_ch [ i ], 1, m_tstr [ i ] );
+			++ i;
+		}
+
+		UINT i_c = 0;
+		for ( char c : v_ch )
+		{
+			mvp_vx [ i_c ++ ]->DrawVertex ( GameText::Inst()->GetAsciiTx ( c ) );
+		}
+	}
+
+	void ConstDebugOut_ASCII::SetStr ( UP_TSTR upctstr )
+	{
+		m_tstr.assign ( upctstr.get () );
+	}
+
+	void ConstDebugOut_ASCII::SetStr ( LPCTSTR lpctstr )
+	{
+		m_tstr.assign ( lpctstr );
+	}
+
+	void ConstDebugOut_ASCII::SetPos ( VEC2 v )
+	{
+		UINT i = 0;
+		for ( P_VxRct p : mvp_vx ) { p->SetPos ( v.x + i++ * 20.f, v.y ); }
 	}
 
 

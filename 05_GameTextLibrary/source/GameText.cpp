@@ -26,6 +26,7 @@ namespace GAME
 
 	HDC_Font::~HDC_Font ()
 	{
+		Rele ();
 	}
 
 	void HDC_Font::MakeFont ( UINT fontSize )
@@ -80,9 +81,14 @@ namespace GAME
 
 	//コンストラクタ
 	GameText::GameText ()
-		: m_D3DDev (nullptr), m_fontSizeIndex ( HDC_Font::FONT_SIZE_8 )
+		: m_D3DDev ( nullptr ), m_fontSizeIndex ( HDC_Font::FONT_SIZE_8 )
 		, m_sizeTxAscii ( { 0, 0 } )
 	{
+	}
+
+	GameText::~GameText ()
+	{
+		Rele ();
 	}
 
 	//-------------------------------------------------------------------------------
@@ -102,6 +108,7 @@ namespace GAME
 #endif	//0
 
 		MakeAsciiTexture ();
+		m_ascii_tx.Load ();
 	}
 
 	void GameText::Rele ()
@@ -115,6 +122,7 @@ namespace GAME
 #endif	//0
 
 		RELEASE ( m_txAscii );
+		m_ascii_tx.Rele ();
 	}
 
 	void GameText::Reset ( D3DDEV d3dDevice )
@@ -126,10 +134,10 @@ namespace GAME
 	//------------------------------------------
 	//	文字列からテクスチャを作成
 	//------------------------------------------
-	void GameText::MakeStrTexture ( tstring& tstr, TX& texture, DxVertexRect& vertex )
+	void GameText::MakeStrTexture ( tstring& tstr, TX& texture )
 	{
 		HRESULT hr;
-		UINT size = tstr.size();	//文字数
+		UINT size = tstr.size ();	//文字数
 		UINT textureWidth = 0;		//文字幅の和によるテクスチャの総幅
 
 		if ( size == 0 ) { return; }	//サイズが０のときは何もしない
@@ -137,27 +145,23 @@ namespace GAME
 		BYTE** pBmpArray = nullptr;
 		GLYPHMETRICS* gmArray = nullptr;
 
-		try 
+		try
 		{
-			pBmpArray = new BYTE* [size];
-			gmArray = new GLYPHMETRICS [size];
+			pBmpArray = new BYTE* [ size ];
+			gmArray = new GLYPHMETRICS [ size ];
 
 			//一文字につき、ビットマップ(new)とGLYPHMETRICSを取得
 			for ( UINT i = 0; i < size; i++ )
 			{
-				GetGlyph ( &tstr.at(i), &pBmpArray[i], &gmArray[i] );
-				textureWidth += gmArray[i].gmCellIncX;		//総幅
+				GetGlyph ( &tstr.at ( i ), &pBmpArray [ i ], &gmArray [ i ] );
+				textureWidth += gmArray [ i ].gmCellIncX;		//総幅
 			}
 
 			//デバイスコンテキストに基づくテキストメトリクスを取得
 			TEXTMETRIC tm;
-			GetTextMetrics ( m_hdcFont.GetHDC(), &tm );
-//			GetTextMetrics ( m_hdcFont[ m_fontSizeIndex ].GetHDC(), &tm );
+			GetTextMetrics ( m_hdcFont.GetHDC (), &tm );
+			//			GetTextMetrics ( m_hdcFont[ m_fontSizeIndex ].GetHDC(), &tm );
 
-			//頂点位置の更新
-			vertex.SetWidth ( textureWidth * 1.f );
-			vertex.SetHeight ( tm.tmHeight * 1.f );
-			vertex.ApplyPos ();
 
 			//テクスチャ確保
 			//今までのテクスチャを破棄
@@ -166,9 +170,9 @@ namespace GAME
 			hr = m_D3DDev->CreateTexture ( textureWidth, tm.tmHeight, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &texture, nullptr );
 			if ( FAILED ( hr ) )
 			{
-				DXTRACE ( hr, TEXT("D3DPOOL_DEFAULT テクスチャの作成失敗") );
+				DXTRACE ( hr, TEXT ( "D3DPOOL_DEFAULT テクスチャの作成失敗" ) );
 				hr = m_D3DDev->CreateTexture ( textureWidth, tm.tmHeight, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &texture, nullptr );
-				FAILED_DXTRACE_THROW( hr, TEXT("D3DPOOL_MANAGED テクスチャ作成に失敗\n") );
+				FAILED_DXTRACE_THROW ( hr, TEXT ( "D3DPOOL_MANAGED テクスチャ作成に失敗\n" ) );
 			}
 
 			//書込
@@ -177,9 +181,9 @@ namespace GAME
 			hr = texture->LockRect ( 0, &lockedRect, nullptr, D3DLOCK_DISCARD );
 			if ( FAILED ( hr ) )
 			{
-				DXTRACE ( hr, TEXT("D3DLOCK_DISCARD ロックレクト失敗") );
+				DXTRACE ( hr, TEXT ( "D3DLOCK_DISCARD ロックレクト失敗" ) );
 				hr = texture->LockRect ( 0, &lockedRect, nullptr, 0 );
-				FAILED_DXTRACE_THROW( hr, TEXT("ロックレクト失敗") );
+				FAILED_DXTRACE_THROW ( hr, TEXT ( "ロックレクト失敗" ) );
 			}
 
 			//フォント情報の書込
@@ -193,21 +197,120 @@ namespace GAME
 			UINT posBaseX = 0;
 			for ( UINT i = 0; i < size; i++ )
 			{
-				int bmp_w = gmArray[i].gmBlackBoxX + ( 4 - ( gmArray[i].gmBlackBoxX % 4 ) ) % 4;
-				int bmp_h = gmArray[i].gmBlackBoxY;
+				int bmp_w = gmArray [ i ].gmBlackBoxX + ( 4 - ( gmArray [ i ].gmBlackBoxX % 4 ) ) % 4;
+				int bmp_h = gmArray [ i ].gmBlackBoxY;
 				for ( int y = 0; y < bmp_h; y++ )
 				{
 					for ( int x = 0; x < bmp_w; x++ )
 					{
-						DWORD alpha = 255 * pBmpArray[i][x + (bmp_w * y)] / ( level - 1 );
-						DWORD color = 0x00ffffff | (alpha << 24);
-						memcpy ( (BYTE*)lockedRect.pBits + ( 4 * ( x + gmArray[i].gmptGlyphOrigin.x + posBaseX ) )
-									+ ( lockedRect.Pitch * ( y + ( tm.tmAscent - gmArray[i].gmptGlyphOrigin.y ) ) ), 
-								&color, 
-								sizeof ( DWORD ) );
+						DWORD alpha = 255 * pBmpArray [ i ] [ x + ( bmp_w * y ) ] / ( level - 1 );
+						DWORD color = 0x00ffffff | ( alpha << 24 );
+						memcpy ( (BYTE*)lockedRect.pBits + ( 4 * ( x + gmArray [ i ].gmptGlyphOrigin.x + posBaseX ) )
+							+ ( lockedRect.Pitch * ( y + ( tm.tmAscent - gmArray [ i ].gmptGlyphOrigin.y ) ) ),
+							&color,
+							sizeof ( DWORD ) );
 					}
 				}
-				posBaseX += gmArray[i].gmCellIncX;
+				posBaseX += gmArray [ i ].gmCellIncX;
+			}
+
+			//アンロック
+			texture->UnlockRect ( 0 );
+
+			//一時データの解放処理
+			DeleteGlyph ( size, pBmpArray, gmArray );
+		}
+		catch ( LPCTSTR str )
+		{
+			OutputDebugString ( str );
+			////TRACE_F ( str );
+			DeleteGlyph ( size, pBmpArray, gmArray );
+			//PostQuitMessage ( 0 );
+		}
+	}
+
+	void GameText::MakeStrTexture ( tstring& tstr, TX& texture, DxVertexRect& vertex )
+	{
+		HRESULT hr;
+		UINT size = tstr.size ();	//文字数
+		UINT textureWidth = 0;		//文字幅の和によるテクスチャの総幅
+
+		if ( size == 0 ) { return; }	//サイズが０のときは何もしない
+
+		BYTE** pBmpArray = nullptr;
+		GLYPHMETRICS* gmArray = nullptr;
+
+		try
+		{
+			pBmpArray = new BYTE* [ size ];
+			gmArray = new GLYPHMETRICS [ size ];
+
+			//一文字につき、ビットマップ(new)とGLYPHMETRICSを取得
+			for ( UINT i = 0; i < size; i++ )
+			{
+				GetGlyph ( &tstr.at ( i ), &pBmpArray [ i ], &gmArray [ i ] );
+				textureWidth += gmArray [ i ].gmCellIncX;		//総幅
+			}
+
+			//デバイスコンテキストに基づくテキストメトリクスを取得
+			TEXTMETRIC tm;
+			GetTextMetrics ( m_hdcFont.GetHDC (), &tm );
+			//			GetTextMetrics ( m_hdcFont[ m_fontSizeIndex ].GetHDC(), &tm );
+
+			//頂点位置の更新
+			vertex.SetWidth ( textureWidth * 1.f );
+			vertex.SetHeight ( tm.tmHeight * 1.f );
+			vertex.ApplyPos ();
+
+			//テクスチャ確保
+			//今までのテクスチャを破棄
+			RELEASE ( texture );
+			//空のテクスチャ作成 (今回作成したテクスチャは呼び出し元で解放する)
+			hr = m_D3DDev->CreateTexture ( textureWidth, tm.tmHeight, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &texture, nullptr );
+			if ( FAILED ( hr ) )
+			{
+				DXTRACE ( hr, TEXT ( "D3DPOOL_DEFAULT テクスチャの作成失敗" ) );
+				hr = m_D3DDev->CreateTexture ( textureWidth, tm.tmHeight, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &texture, nullptr );
+				FAILED_DXTRACE_THROW ( hr, TEXT ( "D3DPOOL_MANAGED テクスチャ作成に失敗\n" ) );
+			}
+
+			//書込
+			//テクスチャをロックしてフォントビットマップを書込
+			D3DLOCKED_RECT lockedRect;
+			hr = texture->LockRect ( 0, &lockedRect, nullptr, D3DLOCK_DISCARD );
+			if ( FAILED ( hr ) )
+			{
+				DXTRACE ( hr, TEXT ( "D3DLOCK_DISCARD ロックレクト失敗" ) );
+				hr = texture->LockRect ( 0, &lockedRect, nullptr, 0 );
+				FAILED_DXTRACE_THROW ( hr, TEXT ( "ロックレクト失敗" ) );
+			}
+
+			//フォント情報の書込
+			// GLYPHMETRICSのOriginは左上を示している
+			int level = 17;
+
+			//テクスチャを0で埋める
+			ZeroMemory ( lockedRect.pBits, lockedRect.Pitch * tm.tmHeight );
+
+			//テキストの最小限範囲(BlackBox)の部分についてα値を取得し、テクスチャの対応する位置に書き込む
+			UINT posBaseX = 0;
+			for ( UINT i = 0; i < size; i++ )
+			{
+				int bmp_w = gmArray [ i ].gmBlackBoxX + ( 4 - ( gmArray [ i ].gmBlackBoxX % 4 ) ) % 4;
+				int bmp_h = gmArray [ i ].gmBlackBoxY;
+				for ( int y = 0; y < bmp_h; y++ )
+				{
+					for ( int x = 0; x < bmp_w; x++ )
+					{
+						DWORD alpha = 255 * pBmpArray [ i ] [ x + ( bmp_w * y ) ] / ( level - 1 );
+						DWORD color = 0x00ffffff | ( alpha << 24 );
+						memcpy ( (BYTE*)lockedRect.pBits + ( 4 * ( x + gmArray [ i ].gmptGlyphOrigin.x + posBaseX ) )
+							+ ( lockedRect.Pitch * ( y + ( tm.tmAscent - gmArray [ i ].gmptGlyphOrigin.y ) ) ),
+							&color,
+							sizeof ( DWORD ) );
+					}
+				}
+				posBaseX += gmArray [ i ].gmCellIncX;
 			}
 
 			//アンロック

@@ -19,12 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\ASCII_Textrue.cpp" />
     <ClCompile Include="source\GameString.cpp" />
     <ClCompile Include="source\GameText.cpp" />
     <ClCompile Include="source\GameTextFile.cpp" />
     <ClCompile Include="source\StringTexture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\ASCII_Texture.h" />
     <ClInclude Include="..\include\GameString.h" />
     <ClInclude Include="..\include\GameText.h" />
     <ClInclude Include="..\include\GameTextFile.h" />

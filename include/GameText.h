@@ -11,7 +11,7 @@
 //-------------------------------------------------------------------------------------------------
 #include "DebugManager.h"
 #include "DirectX_Library.h"
-#include "GameTask.h"
+#include "ASCII_Texture.h"
 
 
 //-------------------------------------------------------------------------------------------------
@@ -74,7 +74,7 @@ namespace GAME
 		GameText ();
 		GameText ( const GameText& rhs ) = delete;
 	public:
-		~GameText () {}
+		~GameText ();
 		static void Create () { if ( ! m_inst ) { m_inst = P_GAME_TXT ( new GameText () ); } }
 		static P_GAME_TXT & Inst () { return m_inst; }
 		//--------------------------------------------------
@@ -93,12 +93,15 @@ namespace GAME
 		USIZE		m_sizeTxChar;		//1文字サイズ
 		USIZE		m_sizeTxAscii;		//統合テクスチャサイズ
 
+		ASCII_Texture		m_ascii_tx;
+
 	public:
 		void Load ( D3DDEV d3dDevice );
 		void Rele ();
 		void Reset ( D3DDEV d3dDevice );
 
 		//文字列をテクスチャに書込
+		void MakeStrTexture ( tstring& tstr, TX& lpTexture );
 		void MakeStrTexture ( tstring& tstr, TX& lpTexture, DxVertexRect& vertex );
 
 		//Ascii文字列からテクスチャを作成
@@ -107,6 +110,8 @@ namespace GAME
 		USIZE GetAsciiTxSize () const { return m_sizeTxAscii; }
 		USIZE GetCharTxSize () const { return m_sizeTxChar; }
 		VEC2 GetChToPos ( char ch );
+
+		TX GetAsciiTx ( char ascii ) { return m_ascii_tx.GetTx ( ascii ); }
 
 		//文字データ取得
 		//引数 [in]	 LPTCHAR				: 1文字
