@@ -22,4 +22,5 @@
 #include "DxVertex.h"
 #include "DxInput.h"
 #include "DxSound.h"
+#include "Dx_UTL.h"
 

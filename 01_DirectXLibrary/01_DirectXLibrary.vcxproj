@@ -26,6 +26,7 @@
     <ClCompile Include="source\DxMouse.cpp" />
     <ClCompile Include="source\DxSound.cpp" />
     <ClCompile Include="source\DxVertex.cpp" />
+    <ClCompile Include="source\Dx_UTL.cpp" />
     <ClCompile Include="source\EnumDisplay.cpp" />
     <ClCompile Include="source\HWnd.cpp" />
   </ItemGroup>
@@ -37,6 +38,7 @@
     <ClInclude Include="..\include\DxInput.h" />
     <ClInclude Include="..\include\DxSound.h" />
     <ClInclude Include="..\include\DxVertex.h" />
+    <ClInclude Include="..\include\Dx_UTL.h" />
     <ClInclude Include="..\include\EnumDisplay.h" />
     <ClInclude Include="..\include\HWnd.h" />
     <ClInclude Include="source\DxJoystick.h" />

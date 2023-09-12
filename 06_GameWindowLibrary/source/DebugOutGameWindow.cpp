@@ -428,10 +428,20 @@ namespace GAME
 			++ i;
 		}
 
+		//テクスチャを指定して描画
 		UINT i_c = 0;
+		float dx = 0;	//補正位置
 		for ( char c : v_ch )
 		{
-			mvp_vx [ i_c ++ ]->DrawVertex ( GameText::Inst()->GetAsciiTx ( c ) );
+			P_VxRct p = mvp_vx [ i_c ];
+			TX tx = GameText::Inst ()->GetAsciiTx ( c );
+			USIZE us = Dx_UTL::TxSize ( tx );
+			p->SetSize ( 1.f * us.w, 1.f * us.h );
+			p->SetPos ( m_pos.x + dx, m_pos.y );
+			p->DrawVertex ( tx );
+			
+			dx += us.w;
+			++ i_c;
 		}
 	}
 
@@ -447,8 +457,7 @@ namespace GAME
 
 	void ConstDebugOut_ASCII::SetPos ( VEC2 v )
 	{
-		UINT i = 0;
-		for ( P_VxRct p : mvp_vx ) { p->SetPos ( v.x + i++ * 20.f, v.y ); }
+		m_pos = v;
 	}
 
 

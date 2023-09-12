@@ -52,9 +52,11 @@ namespace GAME
 	class ConstDebugOut_ASCII
 	{
 		bool		m_valid;
+
+		VEC2		m_pos;		//基準位置
 		VP_VxRct	mvp_vx;		//頂点集合(矩形)
 		static const UINT	SIZE;
-		tstring		m_tstr;
+		tstring		m_tstr;		//表示文字列
 
 	public:
 		ConstDebugOut_ASCII ();

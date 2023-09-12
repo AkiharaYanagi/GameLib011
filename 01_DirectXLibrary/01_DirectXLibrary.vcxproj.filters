@@ -10,6 +10,7 @@
     <ClCompile Include="source\DxVertex.cpp" />
     <ClCompile Include="source\HWnd.cpp" />
     <ClCompile Include="source\EnumDisplay.cpp" />
+    <ClCompile Include="source\Dx_UTL.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\DxJoystick.h" />
@@ -24,5 +25,6 @@
     <ClInclude Include="..\include\Dx3D.h" />
     <ClInclude Include="..\include\DxDefine.h" />
     <ClInclude Include="..\include\EnumDisplay.h" />
+    <ClInclude Include="..\include\Dx_UTL.h" />
   </ItemGroup>
 </Project>
