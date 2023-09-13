@@ -50,11 +50,11 @@ namespace GAME
 		void SetVertex ( P_Vertex vertex ) { assert ( vertex ); m_vertex = vertex; }
 		
 		//’¸“_F‚ÌÝ’è
-		void SetAllColor ( DWORD color ) { m_vertex->SetAllColor ( color ); m_vertex->SetVertexBuffer (); }
-		void SetAllColor ( _CLR color ) { m_vertex->SetAllColor ( color ); m_vertex->SetVertexBuffer (); }
+		void SetAllColor ( DWORD color ) { m_vertex->SetAllColor ( color ); m_vertex->WriteVertexBuffer (); }
+		void SetAllColor ( _CLR color ) { m_vertex->SetAllColor ( color ); m_vertex->WriteVertexBuffer (); }
 
 		//ZˆÊ’u
-		void SetAllZ ( float z ) { m_vertex->SetAllZ ( z ); m_vertex->SetVertexBuffer (); }
+		void SetAllZ ( float z ) { m_vertex->SetAllZ ( z ); m_vertex->WriteVertexBuffer (); }
 		float GetZ () const { return m_vertex->GetAllZ (); }
 
 		void SetUpdate ( bool b ) { m_vertex->SetUpdate ( b ); }

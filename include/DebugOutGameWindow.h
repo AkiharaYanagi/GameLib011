@@ -21,7 +21,7 @@
 //-------------------------------------------------------------------------------------------------
 namespace GAME 
 {
-
+#if 0
 	//=====================================================
 	//固定表示
 	class ConstDebugOut
@@ -46,6 +46,7 @@ namespace GAME
 		void SetValid ( bool b ) { m_valid = b; }
 	};
 	//=====================================================
+#endif // 0
 
 	//=====================================================
 	//固定表示 ASCII文字別テクスチャ
@@ -57,6 +58,7 @@ namespace GAME
 		VP_VxRct	mvp_vx;		//頂点集合(矩形)
 		static const UINT	SIZE;
 		tstring		m_tstr;		//表示文字列
+		string		m_str;		//char形式で保存
 
 	public:
 		ConstDebugOut_ASCII ();
@@ -112,13 +114,19 @@ namespace GAME
 		tstring		m_tstr[DebugTextNum];		//文字列
 
 		//デバッグ用固定表示
+#if 0
 		ConstDebugOut		m_frame;
 		ConstDebugOut		m_FPS;
 		ConstDebugOut		m_moveTime;
 		ConstDebugOut		m_drawTime;
 
 		ConstDebugOut_ASCII		m_test;
-		ConstDebugOut_ASCII		m_frame_asc;
+#endif // 0
+		ConstDebugOut_ASCII		m_frame;
+		ConstDebugOut_ASCII		m_FPS;
+		ConstDebugOut_ASCII		m_moveTime;
+		ConstDebugOut_ASCII		m_drawTime;
+		ConstDebugOut_ASCII		m_sleepTime;
 
 	public:
 		void Load ();
@@ -141,7 +149,7 @@ namespace GAME
 		//画面にテキスト描画する文字列フォーマットを設定
 		void DebugOutf ( UINT index, LPCTSTR format, ... );
 
-
+#if 0
 		//-----------------------------------------------------
 		//固定表示 : 稼働時間[F]
 		void DebugOutWnd_Time ( LPCTSTR format, ... );
@@ -155,11 +163,20 @@ namespace GAME
 		//固定表示 : 描画時間[ms]
 		void DebugOutWnd_DrawTime ( LPCTSTR format, ... );
 		void SetbDisp_DrawTime ( bool b ) { m_moveTime.SetValid ( b ); }
+#endif // 0
 
 
 		//-----------------------------------------------------
 		//固定表示 : 稼働時間[F]
 		void DebugOutWnd_Frame ( UINT frame );
+		//固定表示 : FPS
+		void DebugOutWnd_FPS ( UINT FPS );
+		//固定表示 : 休眠時間[ms]
+		void DebugOutWnd_SleepTime ( float sleepTile );
+		//固定表示 : 動作時間[ms]
+		void DebugOutWnd_MoveTime ( float moveTime );
+		//固定表示 : 描画時間[ms]
+		void DebugOutWnd_DrawTime ( float drawTime );
 
 		//-----------------------------------------------------
 		//非表示

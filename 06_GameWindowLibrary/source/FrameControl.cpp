@@ -52,8 +52,8 @@ namespace GAME
 	{
 		m_gameSystem->SystemLoad ();
 
-		DBGOUT_WND->DebugOutWnd_MoveTime ( _T ( "MoveTime = -" ) );
-		DBGOUT_WND->DebugOutWnd_DrawTime ( _T ( "DrawTime = -" ) );
+		DBGOUT_WND->DebugOutWnd_MoveTime ( 0 );
+		DBGOUT_WND->DebugOutWnd_DrawTime ( 0 );
 	}
 
 	//------------------------------------------
@@ -150,7 +150,7 @@ namespace GAME
 
 			averageDraw += postDrawTime - preDrawTime;
 
-
+#if 0
 			// フレーム計算は常に行い、表示だけ切り替える
 			//F6で切り替え
 			if ( ::GetAsyncKeyState ( VK_F6 ) & 0x0001 )
@@ -167,8 +167,13 @@ namespace GAME
 				DBGOUT_WND->SetbDisp_FPS ( false );
 				DBGOUT_WND->DebugOutWnd_FPS ( _T ( "") );
 			}
+#endif // 0
+			DBGOUT_WND->DebugOutWnd_FPS ( dwDispFps );
+			DBGOUT_WND->DebugOutWnd_SleepTime ( averageSleep );
+
 
 			// 'F7'キーでMove, Draw 処理時間 表示切替
+#if 0
 			static bool bMoveDrawTimer = true;
 			if ( ::GetAsyncKeyState ( VK_F7 ) & 0x0001 )
 			{
@@ -189,12 +194,13 @@ namespace GAME
 					DBGOUT_WND->DebugOutWnd_DrawTime ( _T ( "" ) );
 				}
 			}
-
+#endif // 0
 
 
 			//1000ms毎に現在フレーム数(FPS)の更新
 			if ( progressTime >= 1000 )
 			{
+#if 0
 				if ( bMoveDrawTimer )
 				{
 					//60[F]の平均
@@ -206,6 +212,10 @@ namespace GAME
 					DBGOUT_WND->DebugOutWnd_MoveTime ( _T ( "" ) );
 					DBGOUT_WND->DebugOutWnd_DrawTime ( _T ( "" ) );
 				}
+#endif // 0
+				DBGOUT_WND->DebugOutWnd_MoveTime ( 1.f * averageMove / m_frames );
+				DBGOUT_WND->DebugOutWnd_DrawTime ( 1.f * averageDraw / m_frames );
+				DBGOUT_WND->DebugOutWnd_SleepTime ( averageSleep );
 
 				averageMove = 0;
 				averageDraw = 0;
@@ -241,14 +251,14 @@ namespace GAME
 	void FrameControl::FullDebugMode ()
 	{
 		m_bDispFPS = T;
-		GameSystem::FullDebugMode ();
+//		GameSystem::FullDebugMode ();
 	}
 
 	//デバッグ表示をすべてON
 	void FrameControl::NoDebugMode ()
 	{
 		m_bDispFPS = F;
-		GameSystem::NoDebugMode ();
+///		GameSystem::NoDebugMode ();
 	}
 
 	//アーカイブ作成

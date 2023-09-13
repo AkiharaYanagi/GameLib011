@@ -61,6 +61,13 @@ namespace GAME
 	void DxVertex::Load ()
 	{
 		CreateVertexBuffer ();
+
+		//毎回の更新をしないとき、Load()後に１度だけ行う
+		if ( ! m_update )
+		{
+			ApplyPos ();
+			WriteVertexBuffer ();
+		}
 	}
 
 	void DxVertex::Rele ()
@@ -80,7 +87,7 @@ namespace GAME
 		if ( m_update ) 
 		{
 			ApplyPos (); 
-			SetVertexBuffer ();
+			WriteVertexBuffer ();
 		}
 	}
 
@@ -150,7 +157,7 @@ namespace GAME
 			if ( FAILED ( hr ) ) { throw _T("頂点バッファの作成エラー"); }
 
 			//頂点バッファに書き込み
-			SetVertexBuffer ();
+			WriteVertexBuffer ();
 		}
 		catch ( LPCTSTR str )
 		{
@@ -162,7 +169,7 @@ namespace GAME
 	}
 
 	//頂点バッファに頂点を書込
-	void DxVertex::SetVertexBuffer ()
+	void DxVertex::WriteVertexBuffer ()
 	{
 		//サイズが０のときは何もしない
 		if ( m_vVx.empty () ) { return; }
@@ -569,7 +576,7 @@ namespace GAME
 
 		//頂点バッファ作成
 //		CreateVertexBuffer ();
-		SetVertexBuffer ();
+		WriteVertexBuffer ();
 	}
 
 	void DxPoliVertex::Rele ()

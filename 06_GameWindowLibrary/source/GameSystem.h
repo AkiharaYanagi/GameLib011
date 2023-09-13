@@ -53,7 +53,7 @@ namespace GAME
 
 
 	private:
-		static bool m_bDispTimer;
+//		static bool m_bDispTimer;
 		static bool m_bMakeArchive;
 
 	public:
@@ -62,10 +62,10 @@ namespace GAME
 		//-----------------------------
 		
 		//デバッグ表示をすべてON
-		static void FullDebugMode () { m_bDispTimer = T; }
+//		static void FullDebugMode () { m_bDispTimer = T; }
 
 		//デバッグ表示をすべてON
-		static void NoDebugMode () { m_bDispTimer = F; }
+//		static void NoDebugMode () { m_bDispTimer = F; }
 		
 		//アーカイブを作成して読み込み
 		static void SetFlag_MakeArchive ( bool b ) { m_bMakeArchive = b; }

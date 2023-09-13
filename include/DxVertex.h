@@ -77,7 +77,7 @@ namespace GAME
 		VXBUF GetBuffer () { return m_lpVertexBuffer; }
 
 		//頂点バッファに頂点を書込
-		void SetVertexBuffer ();
+		void WriteVertexBuffer ();
 
 		//頂点数を設定
 		void SetVertexNum ( UINT num );

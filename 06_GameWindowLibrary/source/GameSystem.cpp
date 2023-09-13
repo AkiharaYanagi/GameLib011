@@ -20,7 +20,7 @@
 namespace GAME
 {
 	//static実体
-	bool GameSystem::m_bDispTimer = true;
+//	bool GameSystem::m_bDispTimer = true;
 	bool GameSystem::m_bMakeArchive = true;
 
 
@@ -154,8 +154,8 @@ namespace GAME
 		DxSound::instance ()->Move ();	//サウンドの更新
 		DxInput::instance ()->Update ();	//入力の更新
 
-#ifdef	_DEBUG
 		//----------------------------------------------
+#if 0
 		// 'F5'キーで稼働フレーム数表示切替
 		static int time = 0;
 		if( ::GetAsyncKeyState( VK_F5 ) & 0x0001 )
@@ -174,41 +174,38 @@ namespace GAME
 			DBGOUT_WND->DebugOutWnd_Time ( _T ( "" ) );
 		}
 
+#endif // 0
+		//稼働フレーム数
 		static UINT frame_time = 0;
 		DBGOUT_WND->DebugOutWnd_Frame ( frame_time );
 
 		//----------------------------------------------
 		// 'W'キーでスタート/ストップのトグル切替
 		static bool bStop = false;
-		if( ::GetAsyncKeyState('W') & 0x0001 )
+//		if( ::GetAsyncKeyState('W') & 0x0001 )
+		if( WND_UTL::AscKey ( 'W' ) )
 		{
 			bStop ^= true; 
 		}
 		//----------------------------------------------
 		// ストップ時、'Q'キーで 1 フレームずつ進ませる
-		if( ! bStop || ::GetAsyncKeyState('Q') & 0x0001 )
+//		if( ! bStop || ::GetAsyncKeyState('Q') & 0x0001 )
+		if( ! bStop || WND_UTL::AscKey ( 'Q' ) )
 		{
-			assert ( m_pGameMain );
-			
 			//フレーム毎の動作	
 			m_pGameMain->Move ();
-
-			//@info デバッグ用'W'ストップでグラフィックリストのMove()も止める
-			//グラフィックリスト
-//			GRPLST_MOVE ();
-
 
 			//ゲーム画面におけるデバッグ表示の動作
 			DBGOUT_WND->Move ();
 #if	0
 			TextFile::instance()->Move ();
 #endif	//0
-
 			
-			++ time;
+//			++ time;
 			++ frame_time;
 		}
 		//----------------------------------------------
+#ifdef	_DEBUG
 #else	// _DEBUG
 		
 		//フレーム毎の動作	
