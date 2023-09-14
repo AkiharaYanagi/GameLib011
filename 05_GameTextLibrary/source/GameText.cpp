@@ -15,6 +15,10 @@
 //-------------------------------------------------------------------------------------------------
 namespace GAME
 {
+	using P_BMP = shared_ptr < BYTE >;
+	using VP_BMP = unique_ptr < P_BMP [] >;
+
+
 	//======================================================================================
 	//◆フォント
 
@@ -137,41 +141,62 @@ namespace GAME
 	void GameText::MakeStrTexture ( tstring& tstr, TX& texture )
 	{
 		HRESULT hr;
+
 		UINT size = tstr.size ();	//文字数
-		UINT textureWidth = 0;		//文字幅の和によるテクスチャの総幅
-
 		if ( size == 0 ) { return; }	//サイズが０のときは何もしない
-
-		BYTE** pBmpArray = nullptr;
-		GLYPHMETRICS* gmArray = nullptr;
 
 		try
 		{
-			pBmpArray = new BYTE* [ size ];
-			gmArray = new GLYPHMETRICS [ size ];
-
-			//一文字につき、ビットマップ(new)とGLYPHMETRICSを取得
-			for ( UINT i = 0; i < size; i++ )
-			{
-				GetGlyph ( &tstr.at ( i ), &pBmpArray [ i ], &gmArray [ i ] );
-				textureWidth += gmArray [ i ].gmCellIncX;		//総幅
-			}
-
 			//デバイスコンテキストに基づくテキストメトリクスを取得
 			TEXTMETRIC tm;
-			GetTextMetrics ( m_hdcFont.GetHDC (), &tm );
-//			GetTextMetrics ( m_hdcFont[ m_fontSizeIndex ].GetHDC(), &tm );
+			GetTextMetrics ( m_hdcFont.GetHDC (), & tm );
+
+			//フォントのサイズを取得
+//			GLYPHMETRICS* gmArray = new GLYPHMETRICS [ size ];
+			GLYPHMETRICS gm;
+			CONST MAT2 mat = { {0,1},{0,0},{0,0},{0,1} };
+//			UINT textureWidth = 0;		//文字幅の和によるテクスチャの総幅
+			UINT bmpW = 0;	//幅の合計値
+			UINT bmpH = tm.tmHeight;	//テキストメトリクス共通の高さ
+			DWORD bmpSize = 0;
+//			BYTE** pBmpArray = new BYTE* [ size ];
+			VP_BMP pBmpArray = make_unique < P_BMP [] > ( size );
+
+			//一文字につき、GLYPHMETRICSとビットマップを取得
+			for ( UINT i = 0; i < size; i++ )
+			{
+//				GetGlyph ( &tstr.at ( i ), &pBmpArray [ i ], &gmArray [ i ] );
+//				textureWidth += gmArray [ i ].gmCellIncX;		//総幅
+
+//				GetGlyph ( & tstr.at ( i ), & pBmpArray [ i ], & gm );
+
+				//BMPサイズを取得
+				UINT code = STR_UTL::GetCode ( & tstr.at ( i ) );
+				bmpSize = GetGlyphOutline ( m_hdcFont.GetHDC (), code, GGO_GRAY4_BITMAP, & gm, 0, 0, & mat );
+			
+				//BMP作成
+				pBmpArray [ i ] = make_unique < P_BMP > ( bmpSize );
+				::GetGlyphOutline ( m_hdcFont.GetHDC (), code, GGO_GRAY4_BITMAP, & gm, bmpSize, pBmpArray [ i ].get (), & mat );
+				
+				bmpW += gm.gmCellIncX;		//総幅
+			}
 
 
-			//テクスチャ確保
+			//テクスチャ作成
+			//2のべき乗補完
+			UINT txW = STR_UTL::PowerNormalize ( bmpW );
+			UINT txH = STR_UTL::PowerNormalize ( bmpH );
+
 			//今までのテクスチャを破棄
 			RELEASE ( texture );
 			//空のテクスチャ作成 (今回作成したテクスチャは呼び出し元で解放する)
-			hr = m_D3DDev->CreateTexture ( textureWidth, tm.tmHeight, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &texture, nullptr );
+			hr = m_D3DDev->CreateTexture ( txW, txH, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &texture, nullptr );
+
+			//DYNAMIC + DEFAULTが失敗したときD3DPOOL_MANAGEDで作成する
 			if ( FAILED ( hr ) )
 			{
 				DXTRACE ( hr, TEXT ( "D3DPOOL_DEFAULT テクスチャの作成失敗" ) );
-				hr = m_D3DDev->CreateTexture ( textureWidth, tm.tmHeight, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &texture, nullptr );
+				hr = m_D3DDev->CreateTexture ( txW, txH, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &texture, nullptr );
 				FAILED_DXTRACE_THROW ( hr, TEXT ( "D3DPOOL_MANAGED テクスチャ作成に失敗\n" ) );
 			}
 
@@ -479,14 +504,13 @@ namespace GAME
 
 			//対象ビットマップをnullptrで呼び出し、サイズを取得する
 			DWORD bmpSize = ::GetGlyphOutline ( m_hdcFont.GetHDC(), code, GGO_GRAY4_BITMAP, lpGm, 0, nullptr, &mat );
-//			DWORD bmpSize = ::GetGlyphOutline ( m_hdcFont[ m_fontSizeIndex ].GetHDC(), code, GGO_GRAY4_BITMAP, lpGm, 0, nullptr, &mat );
+
 			//フォントがなかった場合のエラー処理
 			if ( bmpSize == GDI_ERROR ) { throw TEXT("フォントビットマップの取得に失敗しました\n"); }
 
 			//ビットマップを確保してから再取得
 			*ppBmp = new BYTE[bmpSize];		//deleteは呼出側が行う
 			::GetGlyphOutline ( m_hdcFont.GetHDC(), code, GGO_GRAY4_BITMAP, lpGm, bmpSize, *ppBmp, &mat );
-//			::GetGlyphOutline ( m_hdcFont[ m_fontSizeIndex ].GetHDC(), code, GGO_GRAY4_BITMAP, lpGm, bmpSize, *ppBmp, &mat );
 		}
 		catch ( LPCTSTR str )
 		{
