@@ -160,7 +160,7 @@ namespace GAME
 			//デバイスコンテキストに基づくテキストメトリクスを取得
 			TEXTMETRIC tm;
 			GetTextMetrics ( m_hdcFont.GetHDC (), &tm );
-			//			GetTextMetrics ( m_hdcFont[ m_fontSizeIndex ].GetHDC(), &tm );
+//			GetTextMetrics ( m_hdcFont[ m_fontSizeIndex ].GetHDC(), &tm );
 
 
 			//テクスチャ確保
@@ -475,7 +475,7 @@ namespace GAME
 		try
 		{
 			CONST MAT2 mat = {{0,1},{0,0},{0,0},{0,1}};
-			UINT code = GetCode ( ptch );
+			UINT code = STR_UTL::GetCode ( ptch );
 
 			//対象ビットマップをnullptrで呼び出し、サイズを取得する
 			DWORD bmpSize = ::GetGlyphOutline ( m_hdcFont.GetHDC(), code, GGO_GRAY4_BITMAP, lpGm, 0, nullptr, &mat );
@@ -495,27 +495,6 @@ namespace GAME
 		}
 	}
 
-
-	//文字コード取得
-	UINT GameText::GetCode ( PTCHAR ptch ) const
-	{
-#if	_UNICODE
-
-		//UNICODEの場合、文字コードは単純にワイド文字のUINT変換
-		return (UINT)*ptch;
-
-#else	//_UNICODE
-
-		UINT code;
-		//マルチバイト文字の場合、
-		//1バイト文字のコードは1バイト目のUINT変換、
-		//2バイト文字のコードは[先導コード]*256 + [文字コード]
-		if ( IsDBCSeadByte(*ptch) ) { code = (BYTE)ptch[0] << 8 | (BYTE)ptch[1]; }
-		else { code = ptch[0]; }
-		return code;
-
-#endif	//_UNICODE
-	}
 
 
 	VEC2 GameText::GetChToPos ( char ch )

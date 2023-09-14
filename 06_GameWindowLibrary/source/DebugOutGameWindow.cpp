@@ -311,7 +311,7 @@ namespace GAME
 
 		for ( UINT i = 0; i < size; ++ i )
 		{
-			UINT code = GameText::Inst ()->GetCode ( tch + i );
+			UINT code = STR_UTL::GetCode ( tch + i );
 			VEC2 pos = GameText::Inst ()->GetChToPos ( code );
 			float x = pos.x / (float)all.w;
 			float y = pos.y / (float)all.h;

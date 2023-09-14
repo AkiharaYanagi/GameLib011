@@ -26,10 +26,13 @@ namespace GAME
 		//文字列定数のサイズを返す
 		static UINT Size ( LPCTSTR lpctstr );
 		
+		//文字コード取得
+		static UINT GetCode ( PTCHAR ptch );
+			
 		//テクスチャ用
 		//2のべき乗補完 ( 1 ～ 65536 )
 		//範囲外は１
-		static LONG Power ( LONG ln );
+		static LONG PowerNormalize ( LONG ln );
 	};
 
 

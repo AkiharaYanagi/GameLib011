@@ -119,9 +119,6 @@ namespace GAME
 		//引数 [out] LPGLYPHMETRICS lpGm	: グリフメトリクス
 		void GetGlyph ( PTCHAR ptch, BYTE** ppBmp, LPGLYPHMETRICS lpGm ) const;
 
-		//コード取得
-		UINT GetCode ( PTCHAR ptch ) const;
-
 		//一時グリフデータの解放
 		void DeleteGlyph ( UINT size, BYTE** pBmpArray, GLYPHMETRICS* gmArray ) const;
 
