@@ -21,33 +21,6 @@
 //-------------------------------------------------------------------------------------------------
 namespace GAME 
 {
-#if 0
-	//=====================================================
-	//固定表示
-	class ConstDebugOut
-	{
-		bool		m_valid;
-		TxStr		m_tx;		//文字列テクスチャ
-		Vx_Rect		m_vx;		//頂点集合(矩形)
-
-	public:
-		ConstDebugOut ();
-		ConstDebugOut ( const ConstDebugOut & rhs ) = delete;
-		~ConstDebugOut ();
-
-		void Load ();
-		void Rele ();
-		void Reset ();
-		void Move ();
-		void Draw ();
-
-		void SetPos ( VEC2 v );
-		void SetStr ( UP_TSTR upctstr );
-		void SetValid ( bool b ) { m_valid = b; }
-	};
-	//=====================================================
-#endif // 0
-
 	//=====================================================
 	//固定表示 ASCII文字別テクスチャ
 	class ConstDebugOut_ASCII

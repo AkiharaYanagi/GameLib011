@@ -213,8 +213,15 @@ namespace GAME
 					DBGOUT_WND->DebugOutWnd_DrawTime ( _T ( "" ) );
 				}
 #endif // 0
-				DBGOUT_WND->DebugOutWnd_MoveTime ( 1.f * averageMove / m_frames );
-				DBGOUT_WND->DebugOutWnd_DrawTime ( 1.f * averageDraw / m_frames );
+				float moveTime = 0;
+				float drawTime = 0;
+				if ( m_frames != 0 )
+				{
+					moveTime = 1.f * averageMove / m_frames;
+					drawTime = 1.f * averageDraw / m_frames;
+				}
+				DBGOUT_WND->DebugOutWnd_MoveTime ( moveTime );
+				DBGOUT_WND->DebugOutWnd_DrawTime ( drawTime );
 				DBGOUT_WND->DebugOutWnd_SleepTime ( averageSleep );
 
 				averageMove = 0;
