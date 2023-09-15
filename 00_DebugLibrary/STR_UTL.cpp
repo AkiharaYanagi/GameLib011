@@ -57,6 +57,26 @@ namespace GAME
 #endif	//_UNICODE
 	}
 
+	UINT STR_UTL::GetCode ( LPCTCH lpctch )
+	{
+#if	_UNICODE
+
+		//UNICODEの場合、文字コードは単純にワイド文字のUINT変換
+		return (UINT)*lpctch;
+
+#else	//_UNICODE
+
+		UINT code;
+		//マルチバイト文字の場合、
+		//1バイト文字のコードは1バイト目のUINT変換、
+		//2バイト文字のコードは[先導コード]*256 + [文字コード]
+		if ( IsDBCSeadByte ( *lpctch ) ) { code = (BYTE)lpctch [ 0 ] << 8 | (BYTE)lpctch [ 1 ]; }
+		else { code = lpctch [ 0 ]; }
+		return code;
+
+#endif	//_UNICODE
+	}
+
 
 	//テクスチャ用
 	//2のべき乗補完 ( 1 ～ 65536 )

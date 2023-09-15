@@ -15,8 +15,9 @@
 //-------------------------------------------------------------------------------------------------
 namespace GAME
 {
-	using P_BMP = shared_ptr < BYTE >;
-	using VP_BMP = unique_ptr < P_BMP [] >;
+	using P_BMP = unique_ptr < BYTE >;
+	using VP_BMP = vector < P_BMP >;
+	using PVP_BMP = unique_ptr < VP_BMP >;
 
 
 	//======================================================================================
@@ -145,22 +146,24 @@ namespace GAME
 		UINT size = tstr.size ();	//文字数
 		if ( size == 0 ) { return; }	//サイズが０のときは何もしない
 
+		HDC hdc = m_hdcFont.GetHDC ();	//デバイスコンテキストハンドル
+		CONST MAT2 mat = { {0,1},{0,0},{0,0},{0,1} };
+
 		try
 		{
 			//デバイスコンテキストに基づくテキストメトリクスを取得
 			TEXTMETRIC tm;
-			GetTextMetrics ( m_hdcFont.GetHDC (), & tm );
+			GetTextMetrics ( hdc, & tm );
 
 			//フォントのサイズを取得
 //			GLYPHMETRICS* gmArray = new GLYPHMETRICS [ size ];
 			GLYPHMETRICS gm;
-			CONST MAT2 mat = { {0,1},{0,0},{0,0},{0,1} };
+
 //			UINT textureWidth = 0;		//文字幅の和によるテクスチャの総幅
 			UINT bmpW = 0;	//幅の合計値
 			UINT bmpH = tm.tmHeight;	//テキストメトリクス共通の高さ
-			DWORD bmpSize = 0;
 //			BYTE** pBmpArray = new BYTE* [ size ];
-			VP_BMP pBmpArray = make_unique < P_BMP [] > ( size );
+//			VP_BMP pBmpArray = make_unique < P_BMP [] > ( size );
 
 			//一文字につき、GLYPHMETRICSとビットマップを取得
 			for ( UINT i = 0; i < size; i++ )
@@ -170,13 +173,14 @@ namespace GAME
 
 //				GetGlyph ( & tstr.at ( i ), & pBmpArray [ i ], & gm );
 
-				//BMPサイズを取得
+				//グリフメトリクスのみを取得してBMPサイズを保存
 				UINT code = STR_UTL::GetCode ( & tstr.at ( i ) );
-				bmpSize = GetGlyphOutline ( m_hdcFont.GetHDC (), code, GGO_GRAY4_BITMAP, & gm, 0, 0, & mat );
-			
+//				bmpSize = ::GetGlyphOutline ( hdc, code, GGO_GRAY4_BITMAP, & gm, 0, 0, & mat );
+				::GetGlyphOutline ( hdc, code, GGO_METRICS, & gm, 0, 0 , & mat );
+
 				//BMP作成
-				pBmpArray [ i ] = make_unique < P_BMP > ( bmpSize );
-				::GetGlyphOutline ( m_hdcFont.GetHDC (), code, GGO_GRAY4_BITMAP, & gm, bmpSize, pBmpArray [ i ].get (), & mat );
+//				pBmpArray [ i ] = make_unique < P_BMP > ( bmpSize );
+//				::GetGlyphOutline ( hdc, code, GGO_GRAY4_BITMAP, & gm, bmpSize, pBmpArray [ i ].get (), & mat );
 				
 				bmpW += gm.gmCellIncX;		//総幅
 			}
@@ -222,35 +226,48 @@ namespace GAME
 			UINT posBaseX = 0;
 			for ( UINT i = 0; i < size; i++ )
 			{
-				int bmp_w = gmArray [ i ].gmBlackBoxX + ( 4 - ( gmArray [ i ].gmBlackBoxX % 4 ) ) % 4;
-				int bmp_h = gmArray [ i ].gmBlackBoxY;
+				//グリフメトリクス
+				UINT code = STR_UTL::GetCode ( & tstr.at ( i ) );
+				GLYPHMETRICS gm;
+//				::GetGlyphOutline ( hdc, code, GGO_METRICS, & gm, 0, 0 , & mat );
+
+				//BMP作成
+				DWORD bmpSize = ::GetGlyphOutline ( hdc, code, GGO_GRAY4_BITMAP, & gm, 0, 0, & mat );
+//				pBmpArray [ i ] = make_unique < P_BMP > ( bmpSize );
+				unique_ptr < BYTE[] > aryBmp = make_unique < BYTE[] > ( bmpSize );
+//				::GetGlyphOutline ( hdc, code, GGO_GRAY4_BITMAP, & gm, bmpSize, pBmpArray [ i ].get (), & mat );
+				::GetGlyphOutline ( hdc, code, GGO_GRAY4_BITMAP, & gm, bmpSize, aryBmp.get (), & mat );
+
+				//BMP位置
+				int bmp_w = gm.gmBlackBoxX + ( 4 - ( gm.gmBlackBoxX % 4 ) ) % 4;
+				int bmp_h = gm.gmBlackBoxY;
 				for ( int y = 0; y < bmp_h; y++ )
 				{
 					for ( int x = 0; x < bmp_w; x++ )
 					{
-						DWORD alpha = 255 * pBmpArray [ i ] [ x + ( bmp_w * y ) ] / ( level - 1 );
+						UINT index = x + ( bmp_w * y );
+//						DWORD alpha = 255 *  pBmpArray [ i ][ x + ( bmp_w * y ) ] / ( level - 1 );
+						DWORD alpha = 255 * aryBmp [ index ] / ( level - 1 );
 						DWORD color = 0x00ffffff | ( alpha << 24 );
-						memcpy ( (BYTE*)lockedRect.pBits + ( 4 * ( x + gmArray [ i ].gmptGlyphOrigin.x + posBaseX ) )
-							+ ( lockedRect.Pitch * ( y + ( tm.tmAscent - gmArray [ i ].gmptGlyphOrigin.y ) ) ),
+						memcpy ( (BYTE*)lockedRect.pBits + ( 4 * ( x + gm.gmptGlyphOrigin.x + posBaseX ) )
+							+ ( lockedRect.Pitch * ( y + ( tm.tmAscent - gm.gmptGlyphOrigin.y ) ) ),
 							&color,
 							sizeof ( DWORD ) );
 					}
 				}
-				posBaseX += gmArray [ i ].gmCellIncX;
+				posBaseX += gm.gmCellIncX;
 			}
 
 			//アンロック
 			texture->UnlockRect ( 0 );
 
 			//一時データの解放処理
-			DeleteGlyph ( size, pBmpArray, gmArray );
+//			DeleteGlyph ( size, pBmpArray, gmArray );
 		}
 		catch ( LPCTSTR str )
 		{
 			OutputDebugString ( str );
-			////TRACE_F ( str );
-			DeleteGlyph ( size, pBmpArray, gmArray );
-			//PostQuitMessage ( 0 );
+//			DeleteGlyph ( size, pBmpArray, gmArray );
 		}
 	}
 

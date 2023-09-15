@@ -28,7 +28,8 @@ namespace GAME
 		
 		//文字コード取得
 		static UINT GetCode ( PTCHAR ptch );
-			
+		static UINT GetCode ( LPCTCH lpctch );
+
 		//テクスチャ用
 		//2のべき乗補完 ( 1 ～ 65536 )
 		//範囲外は１
