@@ -42,6 +42,9 @@ namespace GAME
 		//フォントの生成
 		LOGFONT logfont = { (LONG)fontSize, 0, 0, 0, 0, 0, 0, 0, SHIFTJIS_CHARSET, OUT_TT_ONLY_PRECIS,
 			CLIP_DEFAULT_PRECIS, PROOF_QUALITY, FIXED_PITCH | FF_MODERN, _T("ＭＳ ゴシック") };
+//		const TCHAR faceName [] = _T ( "メイリオ" );
+		const TCHAR faceName [] = _T ( "ＭＳ ゴシック" );
+		_tcscpy_s ( logfont.lfFaceName, faceName );
 		if ( ! ( m_font = CreateFontIndirect ( &logfont ) ) ) { return; }
 
 		//デバイスコンテキスト取得
@@ -141,55 +144,41 @@ namespace GAME
 	//------------------------------------------
 	void GameText::MakeStrTexture ( tstring& tstr, TX& texture )
 	{
-		HRESULT hr;
-
 		UINT size = tstr.size ();	//文字数
 		if ( size == 0 ) { return; }	//サイズが０のときは何もしない
 
-		HDC hdc = m_hdcFont.GetHDC ();	//デバイスコンテキストハンドル
-		CONST MAT2 mat = { {0,1},{0,0},{0,0},{0,1} };
-
 		try
 		{
+			HDC hdc = m_hdcFont.GetHDC ();	//デバイスコンテキストハンドル
+			CONST MAT2 mat = { {0,1},{0,0},{0,0},{0,1} };
+
 			//デバイスコンテキストに基づくテキストメトリクスを取得
 			TEXTMETRIC tm;
 			GetTextMetrics ( hdc, & tm );
 
+			//----------------------------------------
 			//フォントのサイズを取得
-//			GLYPHMETRICS* gmArray = new GLYPHMETRICS [ size ];
 			GLYPHMETRICS gm;
+			UINT txW = 0;		//テクスチャの総幅
+			UINT txH = tm.tmHeight;	//テキストメトリクス共通の高さ
 
-//			UINT textureWidth = 0;		//文字幅の和によるテクスチャの総幅
-			UINT bmpW = 0;	//幅の合計値
-			UINT bmpH = tm.tmHeight;	//テキストメトリクス共通の高さ
-//			BYTE** pBmpArray = new BYTE* [ size ];
-//			VP_BMP pBmpArray = make_unique < P_BMP [] > ( size );
-
-			//一文字につき、GLYPHMETRICSとビットマップを取得
+			//一文字につき、グリフメトリクスを取得
 			for ( UINT i = 0; i < size; i++ )
 			{
-//				GetGlyph ( &tstr.at ( i ), &pBmpArray [ i ], &gmArray [ i ] );
-//				textureWidth += gmArray [ i ].gmCellIncX;		//総幅
-
-//				GetGlyph ( & tstr.at ( i ), & pBmpArray [ i ], & gm );
-
-				//グリフメトリクスのみを取得してBMPサイズを保存
+				//グリフメトリクスのみを取得
 				UINT code = STR_UTL::GetCode ( & tstr.at ( i ) );
-//				bmpSize = ::GetGlyphOutline ( hdc, code, GGO_GRAY4_BITMAP, & gm, 0, 0, & mat );
 				::GetGlyphOutline ( hdc, code, GGO_METRICS, & gm, 0, 0 , & mat );
-
-				//BMP作成
-//				pBmpArray [ i ] = make_unique < P_BMP > ( bmpSize );
-//				::GetGlyphOutline ( hdc, code, GGO_GRAY4_BITMAP, & gm, bmpSize, pBmpArray [ i ].get (), & mat );
-				
-				bmpW += gm.gmCellIncX;		//総幅
+				txW += gm.gmCellIncX;		//総幅
 			}
 
 
+			//----------------------------------------
 			//テクスチャ作成
+			HRESULT hr;
+
 			//2のべき乗補完
-			UINT txW = STR_UTL::PowerNormalize ( bmpW );
-			UINT txH = STR_UTL::PowerNormalize ( bmpH );
+			txW = STR_UTL::PowerNormalize ( txW );
+			txH = STR_UTL::PowerNormalize ( txH );
 
 			//今までのテクスチャを破棄
 			RELEASE ( texture );
@@ -199,10 +188,15 @@ namespace GAME
 			//DYNAMIC + DEFAULTが失敗したときD3DPOOL_MANAGEDで作成する
 			if ( FAILED ( hr ) )
 			{
-				DXTRACE ( hr, TEXT ( "D3DPOOL_DEFAULT テクスチャの作成失敗" ) );
+				DXTRACE ( hr, _T( "D3DPOOL_DEFAULT テクスチャの作成失敗" ) );
 				hr = m_D3DDev->CreateTexture ( txW, txH, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &texture, nullptr );
-				FAILED_DXTRACE_THROW ( hr, TEXT ( "D3DPOOL_MANAGED テクスチャ作成に失敗\n" ) );
+				FAILED_DXTRACE_THROW ( hr, _T( "D3DPOOL_MANAGED テクスチャ作成に失敗\n" ) );
 			}
+
+			//----------------------------------------
+			//フォント情報の書込
+			// GLYPHMETRICSのOriginは左上を示している
+			int level = 17;
 
 			//書込
 			//テクスチャをロックしてフォントビットマップを書込
@@ -215,27 +209,19 @@ namespace GAME
 				FAILED_DXTRACE_THROW ( hr, TEXT ( "ロックレクト失敗" ) );
 			}
 
-			//フォント情報の書込
-			// GLYPHMETRICSのOriginは左上を示している
-			int level = 17;
-
 			//テクスチャを0で埋める
-			ZeroMemory ( lockedRect.pBits, lockedRect.Pitch * tm.tmHeight );
+			ZeroMemory ( lockedRect.pBits, lockedRect.Pitch * txH );
 
 			//テキストの最小限範囲(BlackBox)の部分についてα値を取得し、テクスチャの対応する位置に書き込む
 			UINT posBaseX = 0;
 			for ( UINT i = 0; i < size; i++ )
 			{
-				//グリフメトリクス
 				UINT code = STR_UTL::GetCode ( & tstr.at ( i ) );
-				GLYPHMETRICS gm;
-//				::GetGlyphOutline ( hdc, code, GGO_METRICS, & gm, 0, 0 , & mat );
+				GLYPHMETRICS gm;	//グリフメトリクス
 
 				//BMP作成
 				DWORD bmpSize = ::GetGlyphOutline ( hdc, code, GGO_GRAY4_BITMAP, & gm, 0, 0, & mat );
-//				pBmpArray [ i ] = make_unique < P_BMP > ( bmpSize );
 				unique_ptr < BYTE[] > aryBmp = make_unique < BYTE[] > ( bmpSize );
-//				::GetGlyphOutline ( hdc, code, GGO_GRAY4_BITMAP, & gm, bmpSize, pBmpArray [ i ].get (), & mat );
 				::GetGlyphOutline ( hdc, code, GGO_GRAY4_BITMAP, & gm, bmpSize, aryBmp.get (), & mat );
 
 				//BMP位置
@@ -246,28 +232,27 @@ namespace GAME
 					for ( int x = 0; x < bmp_w; x++ )
 					{
 						UINT index = x + ( bmp_w * y );
-//						DWORD alpha = 255 *  pBmpArray [ i ][ x + ( bmp_w * y ) ] / ( level - 1 );
 						DWORD alpha = 255 * aryBmp [ index ] / ( level - 1 );
 						DWORD color = 0x00ffffff | ( alpha << 24 );
-						memcpy ( (BYTE*)lockedRect.pBits + ( 4 * ( x + gm.gmptGlyphOrigin.x + posBaseX ) )
-							+ ( lockedRect.Pitch * ( y + ( tm.tmAscent - gm.gmptGlyphOrigin.y ) ) ),
-							&color,
+						LONG tx = x + gm.gmptGlyphOrigin.x + posBaseX;
+						LONG ty = y + ( tm.tmAscent - gm.gmptGlyphOrigin.y );
+						memcpy (
+							(BYTE*)lockedRect.pBits + ( 4 * tx )
+							+ ( lockedRect.Pitch * ty ),
+							& color,
 							sizeof ( DWORD ) );
 					}
 				}
 				posBaseX += gm.gmCellIncX;
+//				posBaseX += gm.gmBlackBoxX;
 			}
 
 			//アンロック
 			texture->UnlockRect ( 0 );
-
-			//一時データの解放処理
-//			DeleteGlyph ( size, pBmpArray, gmArray );
 		}
 		catch ( LPCTSTR str )
 		{
 			OutputDebugString ( str );
-//			DeleteGlyph ( size, pBmpArray, gmArray );
 		}
 	}
 
@@ -491,6 +476,7 @@ namespace GAME
 		hr = m_txAscii->UnlockRect ( 0 );
 	}
 
+#if 0
 
 	//--------------------------------------------------
 	//一時グリフデータの解放
@@ -536,6 +522,8 @@ namespace GAME
 		}
 	}
 
+
+#endif // 0
 
 
 	VEC2 GameText::GetChToPos ( char ch )
