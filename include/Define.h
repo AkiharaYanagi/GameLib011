@@ -34,8 +34,11 @@ namespace GAME
 	using UINT = unsigned __int32;
 	using UINT64 = unsigned __int64;
 
-	typedef struct tagUSIZE
+	typedef struct USIZE
 	{
+	public:
+		USIZE () { w = 0; h = 0; }
+		USIZE ( UINT w0, UINT h0 ) { w = w0; h = h0; }
 		UINT w;
 		UINT h;
 	} USIZE;

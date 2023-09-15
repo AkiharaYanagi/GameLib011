@@ -258,6 +258,7 @@ namespace GAME
 
 	void GameText::MakeStrTexture ( tstring& tstr, TX& texture, DxVertexRect& vertex )
 	{
+#if 0
 		HRESULT hr;
 		UINT size = tstr.size ();	//文字数
 		UINT textureWidth = 0;		//文字幅の和によるテクスチャの総幅
@@ -353,6 +354,14 @@ namespace GAME
 			DeleteGlyph ( size, pBmpArray, gmArray );
 			//PostQuitMessage ( 0 );
 		}
+#endif // 0
+
+		MakeStrTexture ( tstr, texture );
+		USIZE us = Dx_UTL::TxSize ( texture );
+
+		//頂点位置の更新
+		vertex.SetSize ( 1.f * us.w, 1.f * us.h );
+		vertex.ApplyPos ();
 	}
 
 	//------------------------------------------
@@ -427,11 +436,11 @@ namespace GAME
 			::GetGlyphOutline ( hdc, t, BMP_FMT, & gm, size, ppBmp.get(), & mat );
 
 			//テクスチャ位置
-			const UINT P = sizeof ( DWORD );	//1ピクセルを表すバイト数
-			const UINT LINE = P * TX_W;	//1ラインのバイト数
+			const UINT PX = sizeof ( DWORD );	//1ピクセルを表すバイト数
+			const UINT LINE = PX * TX_W;	//1ラインのバイト数
 
 			//グリフデータの読込バイト列(4バイト境界)からxy平面に展開する
-			UINT bmp_w = gm.gmBlackBoxX + ( P - ( gm.gmBlackBoxX % P ) ) % P;
+			UINT bmp_w = gm.gmBlackBoxX + ( PX - ( gm.gmBlackBoxX % PX ) ) % PX;
 			UINT bmp_h = gm.gmBlackBoxY;
 
 			for ( UINT y = 0; y < bmp_h; ++ y )
@@ -449,17 +458,17 @@ namespace GAME
 
 					//tによる基準位置
 					UINT by = LINE * CH_H * ( t / N_ASCII_X );
-					UINT bx = P * CH_W * ( t % N_ASCII_X );
+					UINT bx = PX * CH_W * ( t % N_ASCII_X );
 					UINT base_t = bx + by;
 
 					//TextMetricsによる差分位置
 					UINT tm_y = LINE * (tm.tmAscent - gm.gmptGlyphOrigin.y);
-					UINT tm_x = P * ( gm.gmptGlyphOrigin.x );
+					UINT tm_x = PX * ( gm.gmptGlyphOrigin.x );
 					UINT tmpt = tm_x + tm_y;
 
 					//x,yによる差分位置
 					UINT oy = LINE * y;
-					UINT ox = P * x;
+					UINT ox = PX * x;
 					UINT xypt = ox + oy;
 
 					//書込位置
@@ -467,7 +476,7 @@ namespace GAME
 					LPBYTE adress = (LPBYTE)lockedRect.pBits + offset;
 
 					//コピー
-					memcpy_s ( adress, P, & color, P );
+					memcpy_s ( adress, PX, & color, PX );
 				}
 			}
 		}
@@ -526,11 +535,25 @@ namespace GAME
 #endif // 0
 
 
-	VEC2 GameText::GetChToPos ( char ch )
+	VEC2 GameText::GetChToPos ( char ch ) const 
 	{
 		float x = 1.f * m_sizeTxChar.w * (ch % N_ASCII_X);
 		float y = 1.f * m_sizeTxChar.h * (ch / N_ASCII_X);
 		return VEC2 ( x, y );
+	}
+
+	LONG GameText::_MakeAsciiWidth ( char ascii )
+	{
+		//フォントのサイズを取得
+		HDC hdc = m_hdcFont.GetHDC ();
+		const MAT2 mat = { {0,1},{0,0},{0,0},{0,1} };
+		GLYPHMETRICS gm;
+
+		//グリフメトリクスのみを取得
+		UINT code = STR_UTL::GetCode ( ascii );
+		::GetGlyphOutline ( hdc, code, GGO_METRICS, & gm, 0, 0, & mat );
+
+		return gm.gmCellIncX;		//文字幅
 	}
 
 

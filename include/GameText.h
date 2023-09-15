@@ -109,10 +109,15 @@ namespace GAME
 		TX GetAsciiTx () { return m_txAscii; }
 		USIZE GetAsciiTxSize () const { return m_sizeTxAscii; }
 		USIZE GetCharTxSize () const { return m_sizeTxChar; }
-		VEC2 GetChToPos ( char ch );
+		VEC2 GetChToPos ( char ch ) const;
+
+		LONG _MakeAsciiWidth ( char ascii );
 
 		TX GetAsciiTx ( char ascii ) { return m_ascii_tx.GetTx ( ascii ); }
+		LONG GetAsciiW ( char ascii ) { return m_ascii_tx.GetW ( ascii ); }
 
+#if 0
+	private:
 		//文字データ取得
 		//引数 [in]	 LPTCHAR				: 1文字
 		//引数 [out] BYTE** ppBmp			: 1文字のビットマップデータ
@@ -121,6 +126,7 @@ namespace GAME
 
 		//一時グリフデータの解放
 		void DeleteGlyph ( UINT size, BYTE** pBmpArray, GLYPHMETRICS* gmArray ) const;
+#endif // 0
 
 		//フォントサイズの設定
 		void SetFontSize ( HDC_Font::FONT_SIZE fontSize ) { m_fontSizeIndex = fontSize; }

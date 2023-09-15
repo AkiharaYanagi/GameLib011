@@ -516,13 +516,14 @@ namespace GAME
 			P_VxRct p = mvp_vx [ i_c ];
 			TX tx = GameText::Inst ()->GetAsciiTx ( ary_ch [ i_c ] );
 			USIZE us = Dx_UTL::TxSize ( tx );
+			LONG w = GameText::Inst ()->GetAsciiW ( ary_ch [ i_c ] );
+
 			p->SetSize ( 1.f * us.w, 1.f * us.h );
 			p->SetPos ( m_pos.x + dx, m_pos.y );
-
 			p->ApplyPos ();
 			p->WriteVertexBuffer ();
 
-			dx += us.w;
+			dx += w;	//次の頂点位置はテクスチャではなく文字から取得する
 		}
 	}
 

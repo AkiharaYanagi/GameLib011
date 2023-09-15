@@ -16,6 +16,8 @@ namespace GAME
 {
 	USIZE Dx_UTL::TxSize ( TX tx )
 	{
+		if ( nullptr == tx ) { return USIZE ( 0, 0 ); }
+
 		D3DSURFACE_DESC dc;
 		tx->GetLevelDesc ( 0, & dc );
 		USIZE usize = { dc.Width, dc.Height };
