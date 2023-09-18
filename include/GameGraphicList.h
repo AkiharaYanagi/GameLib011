@@ -72,7 +72,7 @@ namespace GAME
 		//全消去
 		void Clear ();
 		void Clear_Main ();
-		void Clear_Sub ();
+		void Clear_Sys ();
 
 		//一時停止 (Move()は行わないが、Draw()は行う)
 //		void Pause ( bool b ) { m_pause = b; }

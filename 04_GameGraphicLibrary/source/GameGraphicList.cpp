@@ -101,8 +101,10 @@ namespace GAME
 
 	void GameGraphicList::Init ()
 	{
+#if 0
 		for ( P_GrpCr p : *ml_GrpMain ) { p->Init (); }
 		for ( P_GrpCr p : *ml_GrpSys ) { p->Init (); }
+#endif // 0
 	}
 
 	void GameGraphicList::Move ()
@@ -139,7 +141,7 @@ namespace GAME
 		ml_GrpMain->clear ();
 	}
 
-	void GameGraphicList::Clear_Sub ()
+	void GameGraphicList::Clear_Sys ()
 	{
 		ml_GrpSys->clear ();
 	}
