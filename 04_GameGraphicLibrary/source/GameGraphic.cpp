@@ -216,7 +216,7 @@ namespace GAME
 		m_vpTexture.clear ();
 	}
 
-	void GameGraphicFromFile::Load ()
+	void GameGraphicFromFile::TxLoad ()
 	{
 		for ( UINT i = 0; i < m_vpTexture.size(); ++i )
 		{
@@ -224,7 +224,7 @@ namespace GAME
 		}
 	}
 
-	void GameGraphicFromFile::Rele ()
+	void GameGraphicFromFile::TxRele ()
 	{
 		//テクスチャの解放
 		for ( UINT i = 0; i < m_vpTexture.size(); ++i )
@@ -236,7 +236,7 @@ namespace GAME
 		}
 	}
 
-	void GameGraphicFromFile::Reset ()
+	void GameGraphicFromFile::TxReset ()
 	{
 		for ( UINT i = 0; i < m_vpTexture.size(); ++i )
 		{
@@ -272,7 +272,7 @@ namespace GAME
 		m_vpTexture.clear ();
 	}
 
-	void GameGraphicFromArchive::Load ()
+	void GameGraphicFromArchive::TxLoad ()
 	{
 		for ( UINT i = 0; i < m_vpTexture.size(); ++i )
 		{
@@ -280,7 +280,7 @@ namespace GAME
 		}
 	}
 
-	void GameGraphicFromArchive::Rele ()
+	void GameGraphicFromArchive::TxRele ()
 	{
 		for ( UINT i = 0; i < m_vpTexture.size(); ++i )
 		{
@@ -291,7 +291,7 @@ namespace GAME
 		}
 	}
 
-	void GameGraphicFromArchive::Reset ()
+	void GameGraphicFromArchive::TxReset ()
 	{
 		for ( UINT i = 0; i < m_vpTexture.size(); ++i )
 		{
@@ -328,15 +328,15 @@ namespace GAME
 	{
 	}
 
-	void GameGraphicApprovedTexture::Load ()
+	void GameGraphicApprovedTexture::TxLoad ()
 	{
 	}
 
-	void GameGraphicApprovedTexture::Rele ()
+	void GameGraphicApprovedTexture::TxRele ()
 	{
 	}
 
-	void GameGraphicApprovedTexture::Reset ()
+	void GameGraphicApprovedTexture::TxReset ()
 	{
 	}
 

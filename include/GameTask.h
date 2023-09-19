@@ -42,14 +42,6 @@ namespace GAME
 		virtual ~GameTask () = default;
 
 		//定義無しでも用いるため純粋仮想関数にはしない
-#if	0
-		virtual void Load () = 0;
-		virtual void Rele () = 0;
-		virtual void Init () = 0;
-		virtual void Move () = 0;
-		virtual void Draw () = 0;
-#endif	//0
-
 		virtual void Load () {}		//読込(初回、または再設定時などの解放後１回のみ)
 		virtual void Rele () {}		//動的な一時領域の解放(恒常的なメモリ確保はコンストラクタ～デストラクタで行う)
 		virtual void Reset () {}	//再設定( Rele(); Load(); Init(); )

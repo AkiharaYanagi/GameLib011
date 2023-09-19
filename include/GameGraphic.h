@@ -53,10 +53,11 @@ namespace GAME
 		GameGraphicBase ( const GameGraphicBase & rhs ) = delete;
 		virtual ~GameGraphicBase ();
 
+		//GameTaskのLoad(), Rele(), Reset()と分ける
 		//純粋仮想関数
-		virtual void Load () = 0;	//読込
-		virtual void Rele () = 0;	//解放
-		virtual void Reset () = 0;	//再設定
+		virtual void TxLoad () = 0;		//読込
+		virtual void TxRele () = 0;		//解放
+		virtual void TxReset () = 0;	//再設定
 
 		virtual void Move();	//フレーム毎動作
 		virtual void Draw();	//フレーム毎描画
@@ -161,9 +162,9 @@ namespace GAME
 		GameGraphicFromFile ( const GameGraphicFromFile& rhs ) = delete;	//コピー禁止
 		virtual ~GameGraphicFromFile ();
 
-		virtual void Load();	//読込
-		virtual void Rele();	//解放
-		virtual void Reset();	//再設定
+		virtual void TxLoad();	//読込
+		virtual void TxRele();	//解放
+		virtual void TxReset();	//再設定
 
 		//テクスチャの読込ファイル名を指定
 //		void SetFileName ( LPCTSTR fileName ) { m_pTextureFromFile->SetFileName ( fileName ); }
@@ -192,9 +193,9 @@ namespace GAME
 		GameGraphicFromArchive ( const GameGraphicFromArchive& rhs ) = delete;	//コピー禁止
 		virtual ~GameGraphicFromArchive ();
 
-		virtual void Load();	//読込
-		virtual void Rele();	//解放
-		virtual void Reset();	//再設定
+		virtual void TxLoad();	//読込
+		virtual void TxRele();	//解放
+		virtual void TxReset();	//再設定
 
 		//テクスチャを追加
 		void AddTexture ( LPCTSTR fileName );
@@ -223,9 +224,9 @@ namespace GAME
 		//テクスチャを解放しない仮想関数
 
 		//GraphicBaseのClear()のみ行う
-		virtual void Load();	//読込
-		virtual void Rele();	//解放
-		virtual void Reset();	//再設定
+		virtual void TxLoad();	//読込
+		virtual void TxRele();	//解放
+		virtual void TxReset();	//再設定
 
 		//テクスチャ
 		void SetpTexture ( P_TxBs pTexture )
