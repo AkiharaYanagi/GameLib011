@@ -54,11 +54,6 @@ namespace GAME
 		virtual ~GameGraphicBase ();
 
 		//GameTaskのLoad(), Rele(), Reset()と分ける
-		//純粋仮想関数
-		virtual void TxLoad () = 0;		//読込
-		virtual void TxRele () = 0;		//解放
-		virtual void TxReset () = 0;	//再設定
-
 		virtual void Move();	//フレーム毎動作
 		virtual void Draw();	//フレーム毎描画
 

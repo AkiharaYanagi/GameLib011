@@ -41,6 +41,7 @@ namespace GAME
 		GameTask ( const GameTask& rhs ) = delete;
 		virtual ~GameTask () = default;
 
+		//共通動作
 		//定義無しでも用いるため純粋仮想関数にはしない
 		virtual void Load () {}		//読込(初回、または再設定時などの解放後１回のみ)
 		virtual void Rele () {}		//動的な一時領域の解放(恒常的なメモリ確保はコンストラクタ～デストラクタで行う)
@@ -50,6 +51,8 @@ namespace GAME
 		virtual void Move () {}		//フレーム毎動作
 
 		//->描画はGraphicListに移項
+		//	ただし、テクスチャはグラフィックタスク以外でも読み込むため
+		//	Load(),Rele(),Reset()は定義しておく
 #if 0
 		virtual void Draw () {}		//フレーム毎描画(スプライト)
 		virtual void DrawVertex () {}	//フレーム毎描画(頂点)

@@ -37,6 +37,7 @@ namespace GAME
 		void Load ();
 		void Rele ();
 		void Reset ();
+
 		void Move ();
 
 		//引数：テクスチャなし

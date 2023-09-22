@@ -44,13 +44,13 @@ namespace GAME
 
 	public:
 
-		void Load ();
-		void Rele ();
-		void Reset ();
-		void Init ();
+		void TxLoad ();
+		void TxRele ();
+		void TxReset ();
 
 		//@info 動作はタスクリスト側で行う
-		void Move ();
+		//void Init ();
+		//void Move ();
 
 		//描画
 		void Draw ();
@@ -88,11 +88,13 @@ namespace GAME
 
 #define		GRPLST_CREATE	GrpLst::Create
 
-#define		GRPLST_RESET	GrpLst::Inst()->Reset
-#define		GRPLST_LOAD		GrpLst::Inst()->Load
-#define		GRPLST_RELE		GrpLst::Inst()->Rele
-#define		GRPLST_INIT		GrpLst::Inst()->Init
-#define		GRPLST_MOVE		GrpLst::Inst()->Move
+#define		GRPLST_LOAD		GrpLst::Inst()->TxLoad
+#define		GRPLST_RELE		GrpLst::Inst()->TxRele
+#define		GRPLST_RESET	GrpLst::Inst()->TxReset
+
+//#define		GRPLST_INIT		GrpLst::Inst()->Init
+//#define		GRPLST_MOVE		GrpLst::Inst()->Move
+
 #define		GRPLST_DRAW		GrpLst::Inst()->Draw
 #define		GRPLST_DRAW_VERTEX		GrpLst::Inst()->DrawVertex
 

@@ -42,7 +42,7 @@ namespace GAME
 
 	GameGraphicList::~GameGraphicList ()
 	{
-		Rele ();
+		TxRele ();
 		ml_GrpMain.reset ();
 		ml_GrpSys.reset ();
 	}
@@ -81,24 +81,25 @@ namespace GAME
 	}
 
 
-	void GameGraphicList::Load ()
+	void GameGraphicList::TxLoad ()
 	{
-		for ( P_GrpCr p : *ml_GrpMain ) { p->Load (); }
-		for ( P_GrpCr p : *ml_GrpSys ) { p->Load (); }
+		for ( P_GrpCr p : *ml_GrpMain ) { p->TxLoad (); }
+		for ( P_GrpCr p : *ml_GrpSys ) { p->TxLoad (); }
 	}
 
-	void GameGraphicList::Rele ()
+	void GameGraphicList::TxRele ()
 	{
-		for ( P_GrpCr p : *ml_GrpMain ) { p->Rele (); }
-		for ( P_GrpCr p : *ml_GrpSys ) { p->Rele (); }
+		for ( P_GrpCr p : *ml_GrpMain ) { p->TxRele (); }
+		for ( P_GrpCr p : *ml_GrpSys ) { p->TxRele (); }
 	}
 
-	void GameGraphicList::Reset ()
+	void GameGraphicList::TxReset ()
 	{
-		for ( P_GrpCr p : *ml_GrpMain ) { p->Reset (); }
-		for ( P_GrpCr p : *ml_GrpSys ) { p->Reset (); }
+		for ( P_GrpCr p : *ml_GrpMain ) { p->TxReset (); }
+		for ( P_GrpCr p : *ml_GrpSys ) { p->TxReset (); }
 	}
 
+#if 0
 	void GameGraphicList::Init ()
 	{
 #if 0
@@ -117,6 +118,7 @@ namespace GAME
 		for ( P_GrpCr p : *ml_GrpSys ) { p->Move (); }
 #endif // 0
 	}
+#endif // 0
 
 	void GameGraphicList::Draw ()
 	{

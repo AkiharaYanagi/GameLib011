@@ -144,7 +144,7 @@ namespace GAME
 		//ƒQ[ƒ€ƒƒCƒ“‚Ì‰Šú‰»
 		assert ( m_pGameMain );
 		m_pGameMain->Init ();
-		GRPLST_INIT ();
+//		GRPLST_INIT ();
 	}
 
 	
