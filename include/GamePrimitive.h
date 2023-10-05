@@ -39,13 +39,15 @@ namespace GAME
 		void Reset ();
 
 		void Move ();
+		void Draw ();
 
 		//引数：テクスチャなし
-		void DrawVertex ();
+//		void DrawVertex ();
 		//引数：テクスチャあり
 		void DrawVertex ( TX& texture );
 		//乗算描画 引数：テクスチャあり
 		void DrawVertexMultiple ( TX& texture );
+
 
 		//頂点監理クラスの設定
 		void SetVertex ( P_Vertex vertex ) { assert ( vertex ); m_vertex = vertex; }
@@ -220,7 +222,9 @@ namespace GAME
 		void Load ();
 		void Rele ();
 		void Reset ();
-		void DrawVertex ();
+
+		void Draw ();
+//		void DrawVertex ();
 
 		void SetStr ( tstring& tstr );
 		void SetStr ( LPCTSTR lpctstr );

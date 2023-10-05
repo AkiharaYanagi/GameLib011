@@ -37,7 +37,7 @@ namespace GAME
 		GrpEf ( const GrpEf & rhs ) = delete;
 		~GrpEf ();
 
-		void Load ();
+		void TxLoad ();
 		void Move ();
 
 		void On ();

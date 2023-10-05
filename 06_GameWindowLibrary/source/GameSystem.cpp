@@ -155,26 +155,6 @@ namespace GAME
 		DxInput::instance ()->Update ();	//入力の更新
 
 		//----------------------------------------------
-#if 0
-		// 'F5'キーで稼働フレーム数表示切替
-		static int time = 0;
-		if( ::GetAsyncKeyState( VK_F5 ) & 0x0001 )
-		{
-			m_bDispTimer ^= true;
-			DBGOUT_WND->SetbDisp_Time ( m_bDispTimer );
-		}
-		if( m_bDispTimer )
-		{
-			//ゲーム画面固定表示
-			DBGOUT_WND->DebugOutWnd_Time ( _T ( "Frame:%d" ), time );
-		}
-		else
-		{
-			DBGOUT_WND->SetbDisp_Time ( false );
-			DBGOUT_WND->DebugOutWnd_Time ( _T ( "" ) );
-		}
-
-#endif // 0
 		//稼働フレーム数
 		static UINT frame_time = 0;
 		DBGOUT_WND->DebugOutWnd_Frame ( frame_time );
@@ -182,14 +162,12 @@ namespace GAME
 		//----------------------------------------------
 		// 'W'キーでスタート/ストップのトグル切替
 		static bool bStop = false;
-//		if( ::GetAsyncKeyState('W') & 0x0001 )
 		if( WND_UTL::AscKey ( 'W' ) )
 		{
 			bStop ^= true; 
 		}
 		//----------------------------------------------
 		// ストップ時、'Q'キーで 1 フレームずつ進ませる
-//		if( ! bStop || ::GetAsyncKeyState('Q') & 0x0001 )
 		if( ! bStop || WND_UTL::AscKey ( 'Q' ) )
 		{
 			//フレーム毎の動作	
@@ -201,7 +179,6 @@ namespace GAME
 			TextFile::instance()->Move ();
 #endif	//0
 			
-//			++ time;
 			++ frame_time;
 		}
 		//----------------------------------------------
@@ -223,10 +200,10 @@ namespace GAME
 
 		Dx3D::instance()->BeginScene ();	//描画開始
 		{
-			//頂点描画
-//			m_pGameMain->DrawVertex ();			//ゲームメイン以下のタスクによる頂点描画
-			GRPLST_DRAW_VERTEX ();
 
+			//@todo スプライトと頂点を合わせて、Z大順で描画する
+
+#if 0
 			//スプライト描画
 			Dx3D::instance()->BeginSprite ();	//スプライト描画開始
 			{
@@ -235,7 +212,17 @@ namespace GAME
 			}
 			Dx3D::instance()->EndSprite ();		//スプライト描画終了
 
-			DebugOutGameWindow::Inst()->DrawVertex ();	//ゲーム画面上のデバッグ表示
+
+			//@info スプライトと頂点の描画順番に注意
+
+			//頂点描画
+//			m_pGameMain->DrawVertex ();			//ゲームメイン以下のタスクによる頂点描画
+			GRPLST_DRAW_VERTEX ();
+#endif // 0
+			GRPLST_DRAW ();
+
+
+			DBGOUT_WND->DrawVertex ();	//ゲーム画面上のデバッグ表示
 		}
 		Dx3D::instance()->EndScene ();		//描画終了
 	}

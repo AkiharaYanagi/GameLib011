@@ -115,6 +115,8 @@ namespace GAME
 				clr = pob->GetColor ();
 			}
 
+			//スプライト描画
+			Dx3D::instance ()->BeginSprite ();	//スプライト描画開始
 			Dx3D::instance()->DrawSprite
 			(
 				m_pvpTexture->at ( indexTexture )->GetTexture(),
@@ -124,6 +126,7 @@ namespace GAME
 				m_pPosition.get (), 
 				clr
 			);
+			Dx3D::instance ()->EndSprite ();		//スプライト描画終了
 #if 0
 			P_Object po = m_pvpObject->at ( i );
 			//有効フラグ

@@ -53,12 +53,19 @@ namespace GAME
 		GameGraphicCore::PreMove ();
 	}
 
+	void GamePrimitive::Draw ()
+	{
+		if ( ! GetValid () ) { return; }	//非有効時には何もしない
+		m_vertex->DrawVertex ( nullptr );
+	}
+#if 0
 	//引数：テクスチャなし
 	void GamePrimitive::DrawVertex ()
 	{
 		if ( ! GetValid() )	{ return; }	//非有効時には何もしない
 		m_vertex->DrawVertex ( nullptr );
 	}
+#endif // 0
 
 	//引数：テクスチャあり
 	void GamePrimitive::DrawVertex ( TX& texture )
@@ -164,11 +171,19 @@ namespace GAME
 		GameText::Inst()->MakeStrTexture ( m_tstr, m_texture, *GetpVertex4 () );
 	}
 
+	void GamePrimitiveText::Draw ()
+	{
+		GamePrimitiveRect::DrawVertex ( m_texture );
+		//		GamePrimitiveRect::DrawVertex ();
+	}
+
+#if 0
 	void GamePrimitiveText::DrawVertex ()
 	{
 		GamePrimitiveRect::DrawVertex ( m_texture );
-//		GamePrimitiveRect::DrawVertex ();
+		//		GamePrimitiveRect::DrawVertex ();
 	}
+#endif // 0
 
 	void GamePrimitiveText::SetStr ( tstring& tstr )
 	{

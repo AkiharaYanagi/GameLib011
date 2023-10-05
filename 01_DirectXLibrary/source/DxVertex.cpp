@@ -233,7 +233,7 @@ namespace GAME
 
 	void DxVertex::SetAllZ ( float z )
 	{
-//		for ( UINT i = 0; i < m_vertexNum; i++ ) { m_vVx[i].z = z; }
+		m_z = z;
 		UINT i = 0;
 		for ( VX vx : m_vVx ) { m_vVx[i++].z = z; }
 	}
@@ -241,7 +241,6 @@ namespace GAME
 	void DxVertex::SetAllColor ( DWORD color )
 	{
 		m_color = color;
-//		for ( UINT i = 0; i < m_vertexNum; i++ ) { m_vVx[i].color = color; }
 		UINT i = 0;
 		for ( VX vx : m_vVx ) { m_vVx[i++].color = color; }
 	}

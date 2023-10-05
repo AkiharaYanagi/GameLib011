@@ -34,9 +34,9 @@ namespace GAME
 	{
 	}
 
-	void GrpEf::Load ()
+	void GrpEf::TxLoad ()
 	{
-		GrpAcv::Load ();
+		GrpAcv::TxLoad ();
 
 		//読み込んだテクスチャのサイズによるので Load() 後
 		SetCenterOfTexture ( 0 );
@@ -51,7 +51,7 @@ namespace GAME
 		for ( UINT i = 0; i < size; ++ i )
 		{
 			//基準位置 + 補正位置 + 外部補正位置 + 個別位置
-			(*pvpObj)[i]->SetPos (  m_base + m_revised + m_dispBase + m_vPosMatrix[i] );
+			(*pvpObj)[i]->SetPos ( m_base + m_revised + m_dispBase + m_vPosMatrix[i] );
 		}
 		
 		//-----------------------------------------------

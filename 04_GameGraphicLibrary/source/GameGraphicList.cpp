@@ -123,13 +123,59 @@ namespace GAME
 	void GameGraphicList::Draw ()
 	{
 		for ( P_GrpCr p : *ml_GrpMain ) { p->Draw (); }
-		for ( P_GrpCr p : *ml_GrpSys ) { p->Draw (); }
+//		for ( P_GrpCr p : *ml_GrpSys ) { p->Draw (); }
 	}
 
 	void GameGraphicList::DrawVertex ()
 	{
-		for ( P_GrpCr p : *ml_GrpMain ) { p->DrawVertex (); }
-		for ( P_GrpCr p : *ml_GrpSys ) { p->DrawVertex (); }
+//		for ( P_GrpCr p : *ml_GrpMain ) { p->DrawVertex (); }
+		//for ( P_GrpCr p : *ml_GrpSys ) { p->DrawVertex (); }
+
+#if 0
+
+		//Main‚ÆSys‚ÅZ‚Ì‘å‚«‚¢•û(Œã‚ë‘¤)‚©‚ç•`‰æ‚·‚é
+		float z = 1.f;	//Å”w–Ê
+		UINT index_main = 0;
+		UINT index_sys = 0;
+		LP_GrpCr::iterator it_main = ml_GrpMain->begin ();
+		LP_GrpCr::iterator it_sys = ml_GrpSys->begin ();
+
+		while ( it_main != ml_GrpMain->end () || it_sys != ml_GrpSys->end () )
+		{
+			//•Ð•û‚µ‚©‚È‚¢ê‡
+			if ( it_main == ml_GrpMain->end () )
+			{
+				( *it_sys )->DrawVertex ();
+				++ it_sys;
+				continue;
+			}
+
+			if ( it_sys == ml_GrpSys->end () )
+			{
+				( *it_main )->DrawVertex ();
+				++ it_main;
+				continue;
+			}
+
+
+			//—¼•ûŽc‚Á‚Ä‚¢‚é‚Æ‚«”äŠr‚µ‚Ä‘å‚«‚¢•û‚ðæ‚Éˆ—‚µ‚Äi‚ß‚é
+			float f_main = ( *it_main )->GetZ ();
+			float f_sys = ( *it_sys )->GetZ ();
+
+			if ( f_main >= f_sys )
+			{
+				( *it_main )->DrawVertex ();
+				++ it_main;
+				continue;
+			}
+			else
+			{
+				( *it_sys )->DrawVertex ();
+				++ it_sys;
+			}
+		}
+
+#endif // 0
 	}
 
 	void GameGraphicList::Clear ()
