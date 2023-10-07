@@ -120,6 +120,7 @@ namespace GAME
 		void SetHeight ( float h ) { m_vertex->SetHeight ( h ); }
 		void SetSize ( float w, float h ) { m_vertex->SetSize ( w, h ); }
 		void SetSize ( VEC2 v ) { m_vertex->SetSize ( v.x, v.y ); }
+		VEC2 GetSize () const { return m_vertex->GetSize (); }
 		void SetZ ( float z ) { SetAllZ ( z ); }
 	};
 

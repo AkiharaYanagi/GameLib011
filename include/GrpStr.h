@@ -36,6 +36,8 @@ namespace GAME
 		void SetFontParam ( int fontSize, int penSize, int quolity );
 		void SetFontFace ( LPCTSTR fontname );
 		void SetFontColor ( DWORD fill, DWORD edge );
+
+		USIZE GetSize () const { return m_tx->GetSize (); }
 	};
 
 	using P_GrpStr = shared_ptr < GrpStr >;

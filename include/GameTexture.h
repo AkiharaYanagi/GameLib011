@@ -45,6 +45,7 @@ namespace GAME
 		
 		//取得
 		TX&	GetTexture () { return m_lpTexture; }
+		USIZE GetSize () const;	//テクスチャが存在しない場合(0,0)を返す
 	};
 
 	using TxBs = GameTextureBase;

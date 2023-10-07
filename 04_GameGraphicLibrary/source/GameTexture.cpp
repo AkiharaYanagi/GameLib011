@@ -29,6 +29,20 @@ namespace GAME
 	{
 	}
 
+	USIZE GameTextureBase::GetSize () const
+	{
+		USIZE ret = { 0, 0 };
+
+		if ( m_lpTexture )
+		{
+			D3DSURFACE_DESC dc;
+			m_lpTexture->GetLevelDesc ( 0, & dc );
+			ret.w = dc.Width;
+			ret.h = dc.Height;
+		}
+		return ret;
+	}
+
 
 	//-------------------------------------------------------------------------------------------------
 	//	GameTextureFromFile
@@ -208,7 +222,6 @@ namespace GAME
 		m_fillColor = fill;
 		m_edgeColor = edge;
 	}
-
 
 
 }	//namespace GAME
