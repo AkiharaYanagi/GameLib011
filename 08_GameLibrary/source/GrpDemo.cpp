@@ -34,8 +34,15 @@ namespace GAME
 	{
 		m_vel = VEC2 ( 0, 0 );
 		m_mag = m_startScaling;
-		m_timer = 1;
 		GrpAcv::Init ();
+	}
+
+	void GrpDemo::Start ()
+	{
+		m_vel = VEC2 ( 0, 0 );
+		m_mag = m_startScaling;
+		m_timer = 1;
+		SetValid ( T );
 	}
 
 	void GrpDemo::Move ()

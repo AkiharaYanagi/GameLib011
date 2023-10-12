@@ -39,6 +39,8 @@ namespace GAME
 		void Init ();
 		void Move ();
 
+		void Start ();
+
 		void SetTimer ( UINT n ) { m_timer = n; }
 		void SetStartScaling ( VEC2 vec ) { m_startScaling = vec; }
 		void SetTargetScaling ( VEC2 vec ) { m_targetScaling = vec; }

@@ -27,6 +27,7 @@
     <ClCompile Include="source\GameObject.cpp" />
     <ClCompile Include="source\GamePrimitive.cpp" />
     <ClCompile Include="source\GameTexture.cpp" />
+    <ClCompile Include="source\GrpStr.cpp" />
     <ClCompile Include="source\OutlineFont.cpp" />
     <ClCompile Include="source\PrimitiveTexture.cpp" />
   </ItemGroup>
@@ -41,6 +42,7 @@
     <ClInclude Include="..\include\GameObject.h" />
     <ClInclude Include="..\include\GamePrimitive.h" />
     <ClInclude Include="..\include\GameTexture.h" />
+    <ClInclude Include="..\include\GrpStr.h" />
     <ClInclude Include="..\include\OutlineFont.h" />
     <ClInclude Include="..\include\PrimitiveTexture.h" />
   </ItemGroup>

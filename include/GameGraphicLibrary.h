@@ -18,6 +18,7 @@
 #include "PrimitiveTexture.h"
 #include "OutlineFont.h"
 #include "Fade.h"
+#include "GrpStr.h"
 
 //-------------------------------------------------------------------------------------------------
 //	ƒ‰ƒCƒuƒ‰ƒŠ‚ÌƒŠƒ“ƒN

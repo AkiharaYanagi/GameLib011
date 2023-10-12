@@ -97,10 +97,22 @@ namespace GAME
 	{
 		for ( UINT i = 0; i < DebugTextNum; ++i ) { m_vertex [ i ].Move (); }
 
+#if 0
 		if ( WND_UTL::AscKey ( VK_F5 ) ) { m_frame.ToggleValid (); }
 		if ( WND_UTL::AscKey ( VK_F6 ) ) { m_FPS.ToggleValid (); }
 		if ( WND_UTL::AscKey ( VK_F7 ) )
 		{
+			m_moveTime.ToggleValid ();
+			m_drawTime.ToggleValid ();
+			m_sleepTime.ToggleValid ();
+		}
+#endif // 0
+
+		//F8キーでFPS関連デバッグ表示切替
+		if ( WND_UTL::AscKey ( VK_F8 ) )
+		{
+			m_frame.ToggleValid (); 
+			m_FPS.ToggleValid ();
 			m_moveTime.ToggleValid ();
 			m_drawTime.ToggleValid ();
 			m_sleepTime.ToggleValid ();

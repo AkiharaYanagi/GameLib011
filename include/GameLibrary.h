@@ -31,4 +31,5 @@
 #include "Timer.h"
 #include "CursorUtl.h"
 #include "ClrUtl.h"
+#include "Menu.h"
 
