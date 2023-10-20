@@ -15,12 +15,12 @@
 namespace GAME
 {
 	HoldTimer::HoldTimer ()
-		: m_bWait ( F ), m_bHold ( F )
+		: m_bStart ( F ), m_bHold ( F )
 	{
 	}
 
 	HoldTimer::HoldTimer ( UINT targetTime )
-		: Timer ( targetTime ), m_bWait ( F ), m_bHold ( F )
+		: Timer ( targetTime ), m_bStart ( F ), m_bHold ( F )
 	{
 	}
 
@@ -33,12 +33,14 @@ namespace GAME
 		//条件を満たさない瞬間終了
 		if ( ! b )
 		{
-			m_bWait = F;
+			m_bStart = F;
 			m_bHold = F;
+			Reset ();
 			return;
 		}
 
 		//以下、条件を満たす
+		m_bStart = F;	//最初の1[F]のみTrue
 
 		//押込中
 		if ( m_bHold ) { return; }	//続行
@@ -54,6 +56,7 @@ namespace GAME
 		if ( ! IsActive () )
 		{
 			Start ();
+			m_bStart = T;
 		}
 
 		//計測中は何もしない

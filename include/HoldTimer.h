@@ -25,7 +25,7 @@ namespace GAME
 
 	class HoldTimer : public Timer
 	{
-		bool	m_bWait;	//計測中
+		bool	m_bStart;	//計測開始
 		bool	m_bHold;	//押込中
 
 	public:
@@ -42,7 +42,7 @@ namespace GAME
 		//
 		//------------------------------------------------------------
 
-		bool IsHold () const { return m_bHold; }
+		bool IsHold () const { return m_bHold || m_bStart; }
 	};
 
 	using P_HoldTimer = shared_ptr < HoldTimer >;
