@@ -57,7 +57,7 @@ namespace GAME
 	};
 
 	using P_GameScene = shared_ptr < GameScene >;
-
+	using WP_GameScene = weak_ptr < GameScene >;
 
 	//------------------------------------------------------------------
 	//	ゲームシーンマネージャ
