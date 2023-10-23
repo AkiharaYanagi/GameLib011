@@ -28,10 +28,10 @@ namespace GAME
 	{
 		m_tx->Load ();
 
+#if 0
 		D3DSURFACE_DESC dc;
 		m_tx->GetTexture ()->GetLevelDesc ( 0, & dc );
 
-#if 0
 		P_PrmRect rect = make_shared < PrmRect > ();
 		rect->SetSize ( 1.f * dc.Width, 1.f * dc.Height );
 		rect->SetPos ( GetPos () );
