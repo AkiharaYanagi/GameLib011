@@ -65,10 +65,10 @@ namespace GAME
 
 		//Z値をチェックして指定位置に挿入
 		float z = pGrpCr->GetZ ();
-		LP_GrpCr::iterator it = plp_grp->begin ();
-		for ( ; plp_grp->end () != it; ++ it )
+		for ( LP_GrpCr::iterator it = plp_grp->begin (); plp_grp->end () != it; ++ it )
 		{
 			float pz = ( *it )->GetZ ();
+//			TRACE_F ( _T ( "pz = %lf, z = %lf\n" ), pz, z );
 			if ( z > pz )
 			{
 				plp_grp->insert ( it, pGrpCr );
@@ -78,6 +78,28 @@ namespace GAME
 
 		//すべての値より小さい場合、末尾に追加
 		plp_grp->push_back ( pGrpCr );
+	}
+
+
+	void GameGraphicList::TestZList ( PLP_GrpCr plp_grp )
+	{
+		float pre_z = 20;
+
+		//テスト
+		TRACE_F ( _T( "//-------------------\n" ) );
+		for ( LP_GrpCr::iterator it = plp_grp->begin (); plp_grp->end () != it; ++ it )
+		{
+			float pz = ( *it )->GetZ ();
+			TRACE_F ( _T( "%lf\n" ), pz );
+
+			if ( pre_z < pz )
+			{
+				int i = 0;
+			}
+
+			pre_z = pz;
+		}
+		TRACE_F ( _T ( "//-------------------\n\n" ) );
 	}
 
 
