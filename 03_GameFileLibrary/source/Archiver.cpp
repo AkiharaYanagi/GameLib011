@@ -198,12 +198,12 @@ namespace GAME
 		HANDLE hFind = ::FindFirstFile ( path, & findData );
 
 		//列挙後、条件("*.*")を除きディレクトリ文字列にする
-		TRACE_F ( _T ( "Find( %s )\n" ), path );
+//		TRACE_F ( _T ( "Find( %s )\n" ), path );
 		tstring tstr_path ( path );
 		tstring tstr_cond ( _T ( "*.*" ) );
 		size_t nSize = tstr_path.find_last_of ( _T ( "\\" ) ) + 1;
 		tstring tstr_dir = tstr_path.substr ( 0, tstr_path.length () - tstr_cond.length () );
-		TRACE_F ( _T ( "dir = %s \n" ), tstr_dir );
+//		TRACE_F ( _T ( "dir = %s \n" ), tstr_dir );
 
 		//以降のファイル
 		do
@@ -222,7 +222,7 @@ namespace GAME
 				size_t i_dir = a.find_last_of ( _T ( "\\" ) ) + 1;
 				tstring name = a.substr ( i_dir, a.length() - i_dir );
 				if ( _tcscmp ( name.c_str (), findData.cFileName ) == 0 ){ continue; }
-				TRACE_F ( _T ( "ディレクトリ\n" ), path );
+//				TRACE_F ( _T ( "ディレクトリ\n" ), path );
 
 				TCHAR subpath [ MAX_PATH ];
 				_stprintf_s ( subpath, MAX_PATH, _T ( "%s%s\\*.*" ), tstr_dir.c_str (), findData.cFileName );
@@ -233,7 +233,7 @@ namespace GAME
 				TCHAR filename [ MAX_PATH ];		//ファイル名
 				_stprintf_s ( filename, MAX_PATH, _T("%s%s"), tstr_dir.c_str (), findData.cFileName );
 
-				TRACE_F ( _T ( "filename = %s\n" ), filename );
+//				TRACE_F ( _T ( "filename = %s\n" ), filename );
 
 				ACV_H_SRC acv;
 				acv.fileName = filename;

@@ -45,6 +45,7 @@ namespace GAME
 		virtual void ParamInit () = 0;
 
 		//遷移条件
+		//@info	thisを自身に保存すると循環参照となるのでweak_ptrを用いる
 		//基本の戻値は return shared_from_this();
 		//内部で条件を確認し、遷移時は遷移先のオブジェクトを
 		//	make_shared < GameScene > () して返す
@@ -57,7 +58,7 @@ namespace GAME
 	};
 
 	using P_GameScene = shared_ptr < GameScene >;
-
+	using WP_GameScene = weak_ptr < GameScene >;
 
 	//------------------------------------------------------------------
 	//	ゲームシーンマネージャ

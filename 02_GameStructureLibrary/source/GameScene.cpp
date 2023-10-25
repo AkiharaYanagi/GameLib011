@@ -27,7 +27,6 @@ namespace GAME
 	//	ゲームシーンマネージャ
 	//------------------------------------------------------------------
 	GameSceneManager::GameSceneManager ()
-		: m_pScene ( nullptr )
 	{
 	}
 
@@ -44,8 +43,6 @@ namespace GAME
 
 	void GameSceneManager::Transit ()
 	{
-		assert ( m_pScene );
-
 		//Transit()内で指定した遷移先、またはthisが返る
 		P_GameScene next = m_pScene->Transit ();
 

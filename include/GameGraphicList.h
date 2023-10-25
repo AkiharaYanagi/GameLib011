@@ -80,6 +80,9 @@ namespace GAME
 	private:
 		//‘}“ü
 		void InsertByZ ( PLP_GrpCr plp_grp, P_GrpCr pGrpCr );
+
+		//test
+		void TestZList ( PLP_GrpCr plp_grp );
 	};
 
 	using GrpLst = GameGraphicList;

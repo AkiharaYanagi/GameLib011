@@ -29,6 +29,7 @@
 #include "GrpBlink.h"
 #include "GrpStr.h"
 #include "Timer.h"
+#include "HoldTimer.h"
 #include "CursorUtl.h"
 #include "ClrUtl.h"
 #include "Menu.h"

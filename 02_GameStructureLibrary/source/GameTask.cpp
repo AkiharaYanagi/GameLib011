@@ -140,7 +140,7 @@ namespace GAME
 
 	GameTaskList::~GameTaskList ()
 	{
-		TRACE_F (_T("TaskList:~\n"));
+//		TRACE_F (_T("TaskList:~\n"));
 		Clear ();
 	}
 

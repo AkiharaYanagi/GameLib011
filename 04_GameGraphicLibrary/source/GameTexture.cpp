@@ -111,7 +111,7 @@ namespace GAME
 
 		DX3D->CreateTextureFromMem ( file.filePointer, file.fileSize, & m_lpTexture );
 
-		TRACE_F ( _T("%s : テクスチャ作成　成功\n") , m_strFileName.c_str());
+//		TRACE_F ( _T("%s : テクスチャ作成　成功\n") , m_strFileName.c_str());
 
 		//テクスチャの設定
 		GameTextureBase::SetTexture ( m_lpTexture );
@@ -182,6 +182,8 @@ namespace GAME
 
 	void TxStr::Load ()
 	{
+		if ( m_str.empty () ) { return; }
+
 		//文字列からテクスチャを作成
 		OLF->SetParam ( m_fontSize, m_penSize, m_quality );
 		OLF->SetFontFace ( m_fontName );
