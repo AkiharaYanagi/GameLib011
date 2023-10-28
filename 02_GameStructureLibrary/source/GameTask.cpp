@@ -211,7 +211,7 @@ namespace GAME
 
 	//指定オブジェクトを最前列描画(末尾)にする
 	//	指定したオブジェクトが無い場合なにもしない
-	void GameTaskList::Top ( P_Task pTask )
+	void GameTaskList::TopTask ( P_Task pTask )
 	{
 		for ( auto p : (*m_plpTask) )
 		{
@@ -226,7 +226,7 @@ namespace GAME
 
 	//指定オブジェクトを最背列描画(先頭)にする
 	//	指定したオブジェクトが無い場合なにもしない
-	void GameTaskList::End ( P_Task pTask )
+	void GameTaskList::EndTask ( P_Task pTask )
 	{
 		for ( auto p : (*m_plpTask) )
 		{

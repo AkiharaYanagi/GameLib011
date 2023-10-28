@@ -177,11 +177,11 @@ namespace GAME
 
 		//指定オブジェクトを最前列描画にする
 		//	指定したオブジェクトが無い場合なにもしない
-		void Top ( P_Task pTask );
+		void TopTask ( P_Task pTask );
 
 		//指定オブジェクトを最背列描画にする
 		//	指定したオブジェクトが無い場合なにもしない
-		void End ( P_Task pTask );
+		void EndTask ( P_Task pTask );
 	};
 
 	using TASK_LST = GameTaskList;
