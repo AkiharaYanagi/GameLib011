@@ -88,10 +88,12 @@ namespace GAME
 		void SetAllColor ( D3DXCOLOR color );		//すべての色を指定
 
 		//---------------------------------------------------------------------
-		//オブジェクト直接先頭制御
+		//オブジェクト先頭の直接制御
+		//単体で用いるときは、オブジェクトを指定しなくてよい
 		void SetPos ( VEC2 v ) { m_pvpObject->at ( 0 )->SetPos ( v ); }
 		void SetPos ( float x, float y ) { m_pvpObject->at ( 0 )->SetPos ( x, y ); }
 		VEC2 GetPos () const { return m_pvpObject->at ( 0 )->GetPos (); }
+		void AddPos ( VEC2 v ) { m_pvpObject->at ( 0 )->AddPos ( v ); }
 
 		void SetScaling ( VEC2 v ) { m_pvpObject->at ( 0 )->SetScaling ( v ); }
 		void SetScaling ( float x, float y ) { m_pvpObject->at ( 0 )->SetScaling ( x, y ); }
