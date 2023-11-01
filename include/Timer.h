@@ -45,7 +45,7 @@ namespace GAME
 		//最終状態(同値になったらリセットされるので( 1 + m_time )で判定する)
 		bool IsLast () const { return (m_targetTime == 1 + m_time); }
 
-		void SetTime ( UINT i ) { m_time = 0; }
+		void SetTime ( UINT i ) { m_time = i; }
 		UINT GetTime () const { return m_time; }
 		
 		//目標時間
