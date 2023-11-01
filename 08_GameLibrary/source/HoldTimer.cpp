@@ -35,7 +35,7 @@ namespace GAME
 		{
 			m_bStart = F;
 			m_bHold = F;
-			Reset ();
+			Clear ();
 			return;
 		}
 

@@ -65,7 +65,7 @@ namespace GAME
 		void Stop () { m_active = false; }
 
 		//ÉNÉäÉA
-		void Reset () { m_time = 0; m_active = false; }
+		void Clear () { m_time = 0; m_active = false; }
 	};
 
 	using P_Timer = shared_ptr < Timer >;

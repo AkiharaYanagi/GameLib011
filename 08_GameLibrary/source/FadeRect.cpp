@@ -39,7 +39,7 @@ namespace GAME
 			//I—¹Žž
 			if ( m_timer->IsLast () )
 			{
-				m_timer->Reset ();
+				m_timer->Clear ();
 				PrmRect::SetAllColor ( m_color1 );
 				PrmRect::SetValid ( false );
 			}
