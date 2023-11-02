@@ -27,7 +27,6 @@
     <ClInclude Include="..\include\GrpBlink.h" />
     <ClInclude Include="..\include\GrpDemo.h" />
     <ClInclude Include="..\include\GrpEf.h" />
-    <ClInclude Include="..\include\GrpStr.h" />
     <ClInclude Include="..\include\HoldTimer.h" />
     <ClInclude Include="..\include\Menu.h" />
     <ClInclude Include="..\include\Timer.h" />

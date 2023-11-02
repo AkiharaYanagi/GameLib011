@@ -50,6 +50,8 @@ namespace GAME
 		void SetValid ( bool b ) { m_valid = b; }
 
 		void ToggleValid () { m_valid = ! m_valid; }
+		void Off () { m_valid = F; }
+		void On () { m_valid = T; }
 	};
 	//=====================================================
 
@@ -87,14 +89,6 @@ namespace GAME
 		tstring		m_tstr[DebugTextNum];		//文字列
 
 		//デバッグ用固定表示
-#if 0
-		ConstDebugOut		m_frame;
-		ConstDebugOut		m_FPS;
-		ConstDebugOut		m_moveTime;
-		ConstDebugOut		m_drawTime;
-
-		ConstDebugOut_ASCII		m_test;
-#endif // 0
 		ConstDebugOut_ASCII		m_frame;
 		ConstDebugOut_ASCII		m_FPS;
 		ConstDebugOut_ASCII		m_moveTime;
@@ -122,23 +116,6 @@ namespace GAME
 		//画面にテキスト描画する文字列フォーマットを設定
 		void DebugOutf ( UINT index, LPCTSTR format, ... );
 
-#if 0
-		//-----------------------------------------------------
-		//固定表示 : 稼働時間[F]
-		void DebugOutWnd_Time ( LPCTSTR format, ... );
-		void SetbDisp_Time ( bool b ) { m_frame.SetValid ( b ); }
-		//固定表示 : FPS
-		void DebugOutWnd_FPS ( LPCTSTR format, ... );
-		void SetbDisp_FPS ( bool b ) { m_FPS.SetValid ( b ); }
-		//固定表示 : 動作時間[ms]
-		void DebugOutWnd_MoveTime ( LPCTSTR format, ... );
-		void SetbDisp_MoveTime ( bool b ) { m_moveTime.SetValid ( b ); }
-		//固定表示 : 描画時間[ms]
-		void DebugOutWnd_DrawTime ( LPCTSTR format, ... );
-		void SetbDisp_DrawTime ( bool b ) { m_moveTime.SetValid ( b ); }
-#endif // 0
-
-
 		//-----------------------------------------------------
 		//固定表示 : 稼働時間[F]
 		void DebugOutWnd_Frame ( UINT frame );
@@ -153,7 +130,10 @@ namespace GAME
 
 		//-----------------------------------------------------
 		//非表示
+//		void Off ();
+
 		void Off ();
+		void On ();
 
 	private:
 		void DebugOutWnd ( UP_TSTR up_tstr, VP_VxRct& vpVpRct );
@@ -166,6 +146,8 @@ namespace GAME
 //シングルトンアクセス用
 #define DBGOUT_WND		DBGO_WND::Inst()
 #define DBGOUT_WND_F	DBGO_WND::Inst()->DebugOutf
+#define DBGOUT_WND_OFF	DBGO_WND::Inst()->Off
+#define DBGOUT_WND_ON	DBGO_WND::Inst()->On
 
 
 

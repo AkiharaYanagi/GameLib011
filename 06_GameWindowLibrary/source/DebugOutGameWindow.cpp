@@ -95,18 +95,8 @@ namespace GAME
 
 	void DebugOutGameWindow::Move ()
 	{
+		//手動 Move ()
 		for ( UINT i = 0; i < DebugTextNum; ++i ) { m_vertex [ i ].Move (); }
-
-#if 0
-		if ( WND_UTL::AscKey ( VK_F5 ) ) { m_frame.ToggleValid (); }
-		if ( WND_UTL::AscKey ( VK_F6 ) ) { m_FPS.ToggleValid (); }
-		if ( WND_UTL::AscKey ( VK_F7 ) )
-		{
-			m_moveTime.ToggleValid ();
-			m_drawTime.ToggleValid ();
-			m_sleepTime.ToggleValid ();
-		}
-#endif // 0
 
 		//F8キーでFPS関連デバッグ表示切替
 		if ( WND_UTL::AscKey ( VK_F8 ) )
@@ -141,7 +131,6 @@ namespace GAME
 		m_sleepTime.Draw ();
 		m_moveTime.Draw ();
 		m_drawTime.Draw ();
-
 	}
 
 
@@ -189,56 +178,6 @@ namespace GAME
 		SetStr ( index, p.get () );
 	}
 
-#if 0
-	//-------------------------------------------------------------------------
-	//固定表示 : 稼働時間[F]
-	void DebugOutGameWindow::DebugOutWnd_Time ( LPCTSTR format, ... )
-	{
-		va_list args;
-		va_start ( args, format );	//文字列の先頭ポインタをセット
-		UP_TSTR p = Format::Printf_Args ( format, args );
-		va_end ( args );
-
-		m_frame.SetStr ( std::move ( p ) );
-	}
-
-	//固定表示 : FPS
-	void DebugOutGameWindow::DebugOutWnd_FPS ( LPCTSTR format, ... )
-	{
-		va_list args;
-		va_start ( args, format );	//文字列の先頭ポインタをセット
-		UP_TSTR p = Format::Printf_Args ( format, args );
-		va_end ( args );
-
-		m_FPS.SetStr ( std::move ( p ) );
-	}
-
-	//固定表示 : MoveTime[ms]
-	void DebugOutGameWindow::DebugOutWnd_MoveTime ( LPCTSTR format, ... )
-	{
-		//可変長引数による文字列フォーマット
-		va_list args;
-		va_start ( args, format );	//文字列の先頭ポインタをセット
-		UP_TSTR p = Format::Printf_Args ( format, args );
-		va_end ( args );
-
-		m_moveTime.SetStr ( std::move ( p ) );
-	}
-
-	//固定表示 : DrawTime[ms]
-	void DebugOutGameWindow::DebugOutWnd_DrawTime ( LPCTSTR format, ... )
-	{
-		//可変長引数による文字列フォーマット
-		va_list args;
-		va_start ( args, format );	//文字列の先頭ポインタをセット
-		UP_TSTR p = Format::Printf_Args ( format, args );
-		va_end ( args );
-
-		m_drawTime.SetStr ( std::move ( p ) );
-	}
-#endif // 0
-
-
 	//固定表示 : DrawTime[ms]
 	void DebugOutGameWindow::DebugOutWnd_Frame ( UINT frame )
 	{
@@ -275,6 +214,7 @@ namespace GAME
 	}
 
 	//-------------------------------------------------------------------------
+#if 0
 	void DebugOutGameWindow::Off ()
 	{
 		for ( UINT i = 0; i < DebugTextNum; ++i )
@@ -282,6 +222,25 @@ namespace GAME
 			RELEASE ( m_texture [ i ] );
 			m_vertex [ i ].Rele ();
 		}
+	}
+#endif // 0
+
+	void DebugOutGameWindow::Off ()
+	{
+		m_frame.Off ();
+		m_FPS.Off ();
+		m_sleepTime.Off ();
+		m_moveTime.Off ();
+		m_drawTime.Off ();
+	}
+
+	void DebugOutGameWindow::On ()
+	{
+		m_frame.On ();
+		m_FPS.On ();
+		m_sleepTime.On ();
+		m_moveTime.On ();
+		m_drawTime.On ();
 	}
 
 	void DebugOutGameWindow::DebugOutWnd ( UP_TSTR up_tstr, VP_VxRct& vpVpRct )
@@ -335,74 +294,6 @@ namespace GAME
 	}
 
 
-#if 0
-	//=====================================================
-	//固定表示
-	ConstDebugOut::ConstDebugOut ()
-		: m_valid ( T )
-	{
-		m_vx.SetAllZ ( 0 );
-		m_vx.SetPos ( 600, 0 );
-		m_vx.SetSize ( 200, 16 );
-		m_vx.SetAllColor ( 0xff00ffffL );
-
-		m_tx.SetStr ( _T ( "GameTextureFromString" ) );
-		m_tx.SetParam ( 20, 1, 2 );
-	}
-
-	ConstDebugOut::~ConstDebugOut ()
-	{
-		Rele ();
-	}
-
-	void ConstDebugOut::Load ()
-	{
-		m_vx.Load ();
-		m_tx.Load ();
-	}
-
-	void ConstDebugOut::Rele ()
-	{
-		m_vx.Rele ();
-		m_tx.Rele ();
-	}
-
-	void ConstDebugOut::Reset ()
-	{
-		Rele ();
-		Load ();
-	}
-
-	void ConstDebugOut::Move ()
-	{
-		m_vx.Move ();
-	}
-
-	void ConstDebugOut::Draw ()
-	{
-		if ( ! m_valid ) { return; }
-		m_vx.DrawVertex ( m_tx.GetTexture () );
-	}
-
-	void ConstDebugOut::SetStr ( UP_TSTR upctstr )
-	{
-		m_tx.SetStr ( upctstr.get () );
-		if ( 0 == _tcscmp ( upctstr.get (), _T ( "" ) ) ) { return; }
-
-		m_tx.Load ();
-
-		D3DSURFACE_DESC dc;
-		m_tx.GetTexture ()->GetLevelDesc ( 0, & dc );
-		m_vx.SetSize ( 1.f * dc.Width, 1.f * dc.Height );
-	}
-
-	void ConstDebugOut::SetPos ( VEC2 v )
-	{
-		m_vx.SetPos ( v );
-	}
-
-#endif // 0
-
 	//=====================================================
 	//固定表示 ASCII文字別テクスチャ
 
@@ -453,36 +344,6 @@ namespace GAME
 	{
 		if ( ! m_valid ) { return; }
 
-#if 0
-		//文字列変換
-		size_t str_size = m_tstr.size ();
-		int converted = 0;
-		vector < char > v_ch;
-		v_ch.resize ( str_size );
-
-		UINT i = 0;
-		for ( TCHAR tch : m_tstr )
-		{
-			wctomb_s ( & converted, & v_ch [ i ], 1, m_tstr [ i ] );
-			++ i;
-		}
-
-		//テクスチャを指定して描画
-		UINT i_c = 0;
-		float dx = 0;	//補正位置
-		for ( char c : v_ch )
-		{
-			P_VxRct p = mvp_vx [ i_c ];
-			TX tx = GameText::Inst ()->GetAsciiTx ( c );
-			USIZE us = Dx_UTL::TxSize ( tx );
-			p->SetSize ( 1.f * us.w, 1.f * us.h );
-			p->SetPos ( m_pos.x + dx, m_pos.y );
-			p->DrawVertex ( tx );
-			
-			dx += us.w;
-			++ i_c;
-		}
-#endif // 0
 		//テクスチャを指定して描画
 		UINT i_c = 0;
 		for ( char c : m_str )

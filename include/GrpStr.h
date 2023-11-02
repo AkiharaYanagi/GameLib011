@@ -34,6 +34,7 @@ namespace GAME
 		void Reset ();
 
 		void SetStr ( LPCTSTR str );
+		void SetStrF ( LPCTSTR str, ... );
 
 		void SetFontParam ( int fontSize, int penSize, int quolity );
 		void SetFontFace ( LPCTSTR fontname );

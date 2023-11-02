@@ -61,6 +61,20 @@ namespace GAME
 		GrpApTx::SetpTexture ( m_tx );
 	}
 
+	void GrpStr::SetStrF ( LPCTSTR str, ... )
+	{
+		va_list args;	//可変長リスト
+		va_start ( args, str );	//文字列の先頭ポインタをセット
+		UP_TSTR buf = Format::Printf_Args ( str, args );
+		va_end ( args );	//可変長リスト終了
+
+		//文字列からテクスチャを作成
+		m_tx->SetStr ( buf.get() );
+
+		//グラフィックに指定
+		GrpApTx::SetpTexture ( m_tx );
+	}
+
 	void GrpStr::SetFontParam ( int fontSize, int penSize, int quolity )
 	{
 		m_tx->SetParam ( fontSize, penSize, quolity );

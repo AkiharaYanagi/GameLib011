@@ -33,7 +33,7 @@ namespace GAME
 	{
 		PLAYER_ID_1 = 1,
 		PLAYER_ID_2 = 2,
-		_PLAYER_NUM,	//人数+1
+		_PLAYER_NUM = 3,	//人数+1
 	};
 
 	//プレイヤ種類
