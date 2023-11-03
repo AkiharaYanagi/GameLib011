@@ -48,6 +48,9 @@ namespace GAME
 		//フェード時間設定
 		void SetTime ( UINT time );
 
+		//現在時間（稼働状態）を取得
+		UINT GetTimer () const { return m_timer; }
+
 		//色設定
 		void SetFadeColor ( _CLR clr_start, _CLR clr_end )
 		{

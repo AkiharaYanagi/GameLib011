@@ -49,6 +49,14 @@ namespace GAME
 
 	void GamePrimitive::Move ()
 	{
+		//フェードカラー優先
+		_CLR clr = GameGraphicCore::GetColor ();
+		if ( clr != _CLR ( 0xffffffff ) )
+		{
+			//フェードカラーが通常表示(0xffffffff)以外のとき反映する
+			SetAllColor ( clr );
+		}
+
 		m_vertex->Move ();
 		GameGraphicCore::PreMove ();
 	}
@@ -58,14 +66,6 @@ namespace GAME
 		if ( ! GetValid () ) { return; }	//非有効時には何もしない
 		m_vertex->DrawVertex ( nullptr );
 	}
-#if 0
-	//引数：テクスチャなし
-	void GamePrimitive::DrawVertex ()
-	{
-		if ( ! GetValid() )	{ return; }	//非有効時には何もしない
-		m_vertex->DrawVertex ( nullptr );
-	}
-#endif // 0
 
 	//引数：テクスチャあり
 	void GamePrimitive::DrawVertex ( TX& texture )
@@ -78,9 +78,6 @@ namespace GAME
 	void GamePrimitive::DrawVertexMultiple ( TX& texture )
 	{
 		if ( ! GetValid () ) { return; }	//非有効時には何もしない
-
-		SetAllColor ( GameGraphicCore::GetColor () );
-
 		m_vertex->DrawVertexMultiple ( texture );
 	}
 
