@@ -20,10 +20,10 @@ namespace GAME
 //		m_vecDisp			= VEC2 ( 0.0f, 0.0f );	//スクリーン表示位置
 		m_scalingCenter		= VEC2 ( 0.0f, 0.0f );	//回転時の中心座標
 		m_scaling			= VEC2 ( 1.0f, 1.0f );	//スケーリング
-		m_scalingRotation	= 0.0f;							//拡大回転の要素
+		m_scalingRotation	= 0.0f;					//拡大回転の要素
 		m_rotationCenter	= VEC2 ( 0.0f, 0.0f );	//回転時の中心座標
-//		m_nDegree			= 0;							//角度
-		m_radian			= 0;							//角度[rad]
+//		m_nDegree			= 0;					//角度
+		m_radian			= 0;					//角度[rad]
 	}
 
 	GameMatrix::GameMatrix ( const GameMatrix& rhs )

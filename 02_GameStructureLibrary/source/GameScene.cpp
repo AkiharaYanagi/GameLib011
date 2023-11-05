@@ -48,12 +48,13 @@ namespace GAME
 
 		if ( next != m_pScene )	//以前と異なる場合
 		{
-			TRACE_F ( _T ( "m_pScene = %x, next = %x\n" ), m_pScene, next );
+//			TRACE_F ( _T ( "m_pScene = %x, next = %x\n" ), m_pScene, next );
 
 			//パラメータの移譲
 			next->SetpParam ( m_pScene->GetpParam () );
 
 			//明示的解放
+#if 0
 			TRACE_F ( _T ( "■ GameSceneManager : next.use_count = %d\n" ), next.use_count() );
 			TRACE_F ( _T ( "■ GameSceneManager : m_pScene.use_count = %d" ), m_pScene.use_count() );
 			EraseTask ( m_pScene );
@@ -76,6 +77,17 @@ namespace GAME
 			TRACE_F ( _T ( "next.reset (); \n" ), m_pScene.use_count () );
 			TRACE_F ( _T ( "■ GameSceneManager : m_pScene.use_count = %d\n" ), m_pScene.use_count () );
 			TRACE_F ( _T ( "■ GameSceneManager : next.use_count = %d\n" ), next.use_count () );
+#endif // 0
+			//明示的解放
+			EraseTask ( m_pScene );
+			m_pScene.reset ();
+			//新規シーンを設定
+			m_pScene = next;
+			AddpTask ( m_pScene );
+			m_pScene->ParamInit ();
+			m_pScene->Load ();
+			m_pScene->Init ();
+			next.reset ();
 		}
 	}
 
