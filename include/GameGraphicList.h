@@ -37,8 +37,8 @@ namespace GAME
 	//---------------------------------------------------------------------
 	
 	private:
-		PLP_GrpCr		ml_GrpMain;		//グラフィック メイン リスト
-		PLP_GrpCr		ml_GrpSys;		//グラフィック システム リスト
+		UPLP_GrpCr		ml_GrpMain;		//グラフィック メイン リスト
+		UPLP_GrpCr		ml_GrpSys;		//グラフィック システム リスト
 
 //		bool			m_pause;		//一時停止
 
@@ -66,8 +66,8 @@ namespace GAME
 		void Erase_Sys ( P_GrpCr p ) { ml_GrpMain->remove ( p ); }
 
 		//対象タスクリストを取得
-		PLP_GrpCr GetpGrpList_Main () { return ml_GrpMain; }
-		PLP_GrpCr GetpGrpList_Sys () { return ml_GrpSys; }
+//		UPLP_GrpCr GetpGrpList_Main () { return move ( ml_GrpMain ); }
+//		UPLP_GrpCr GetpGrpList_Sys () { return move ( ml_GrpSys ); }
 
 		//全消去
 		void Clear ();
@@ -79,10 +79,10 @@ namespace GAME
 
 	private:
 		//挿入
-		void InsertByZ ( PLP_GrpCr plp_grp, P_GrpCr pGrpCr );
+		UPLP_GrpCr InsertByZ ( UPLP_GrpCr plp_grp, P_GrpCr pGrpCr );
 
 		//test
-		void TestZList ( PLP_GrpCr plp_grp );
+		UPLP_GrpCr TestZList ( UPLP_GrpCr plp_grp );
 	};
 
 	using GrpLst = GameGraphicList;

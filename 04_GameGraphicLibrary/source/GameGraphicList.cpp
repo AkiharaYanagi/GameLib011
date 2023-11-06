@@ -36,13 +36,15 @@ namespace GAME
 	//コンストラクタ
 	GameGraphicList::GameGraphicList ()
 	{
-		ml_GrpMain = make_shared < LP_GrpCr > ();
-		ml_GrpSys = make_shared < LP_GrpCr > ();
+//		ml_GrpMain = make_shared < LP_GrpCr > ();
+//		ml_GrpSys = make_shared < LP_GrpCr > ();
+		ml_GrpMain = make_unique < LP_GrpCr > ();
+		ml_GrpSys = make_unique < LP_GrpCr > ();
 	}
 
 	GameGraphicList::~GameGraphicList ()
 	{
-		TxRele ();
+//		TxRele ();
 		ml_GrpMain.reset ();
 		ml_GrpSys.reset ();
 	}
@@ -50,18 +52,18 @@ namespace GAME
 	//Z値で降順ソートされた位置に挿入
 	void GameGraphicList::InsertByZ_Main ( P_GrpCr pGrpCr )
 	{
-		InsertByZ ( ml_GrpMain, pGrpCr );
+		ml_GrpMain = InsertByZ ( ::move ( ml_GrpMain ), pGrpCr );
 	}
 
 	void GameGraphicList::InsertByZ_Sys ( P_GrpCr pGrpCr )
 	{
-		InsertByZ ( ml_GrpSys, pGrpCr );
+		ml_GrpSys = InsertByZ ( ::move ( ml_GrpSys ), pGrpCr );
 	}
 
-	void GameGraphicList::InsertByZ ( PLP_GrpCr plp_grp, P_GrpCr pGrpCr )
+	UPLP_GrpCr GameGraphicList::InsertByZ ( UPLP_GrpCr plp_grp, P_GrpCr pGrpCr )
 	{
 		//既存が１つも無いとき、通常の追加
-		if ( 0 == plp_grp->size () ) { plp_grp->push_back ( pGrpCr ); return; }
+		if ( 0 == plp_grp->size () ) { plp_grp->push_back ( pGrpCr ); return ::move ( plp_grp ); }
 
 		//Z値をチェックして指定位置に挿入
 		float z = pGrpCr->GetZ ();
@@ -72,16 +74,17 @@ namespace GAME
 			if ( z > pz )
 			{
 				plp_grp->insert ( it, pGrpCr );
-				return;
+				return ::move ( plp_grp );
 			}
 		}
 
 		//すべての値より小さい場合、末尾に追加
 		plp_grp->push_back ( pGrpCr );
+		return ::move ( plp_grp );
 	}
 
 
-	void GameGraphicList::TestZList ( PLP_GrpCr plp_grp )
+	UPLP_GrpCr GameGraphicList::TestZList ( UPLP_GrpCr plp_grp )
 	{
 		float pre_z = 20;
 
@@ -100,6 +103,8 @@ namespace GAME
 			pre_z = pz;
 		}
 		TRACE_F ( _T ( "//-------------------\n\n" ) );
+
+		return ::move ( plp_grp );
 	}
 
 

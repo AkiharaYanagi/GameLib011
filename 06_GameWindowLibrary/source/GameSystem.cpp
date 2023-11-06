@@ -116,9 +116,9 @@ namespace GAME
 //			自分のデストラクタで自分の終了処理関数を呼ぶ
 
 		//共通グラフィックリスト
-		GRPLST_RELE ();
+//		GRPLST_RELE ();
 
-		m_pGameMain->Rele ();
+		if ( m_pGameMain ) { m_pGameMain->Rele (); }
 	}
 
 
