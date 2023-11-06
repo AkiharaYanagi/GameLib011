@@ -19,7 +19,7 @@ namespace GAME
 	//	定数
 	//------------------------------------------
 	//アーカイブファイル名
-	const TCHAR SoundArchiver::m_archiveFileName[] = TEXT("sound.dat");
+	LPCTSTR SoundArchiver::m_archiveFileName = _T("sound.dat");
 
 	//アーカイブ作成のため読み込むディレクトリ名
 	const TCHAR SoundArchiver::m_archiveDirName[] = TEXT("sound/");

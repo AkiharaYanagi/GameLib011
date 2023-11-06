@@ -50,7 +50,7 @@ namespace GAME
 	//--------------------------------------------------
 
 	private:
-		static const TCHAR			m_archiveFileName[];
+		static LPCTSTR			m_archiveFileName;
 		static const TCHAR			m_archiveDirName[];
 		static const TCHAR			m_searchCondition[];
 

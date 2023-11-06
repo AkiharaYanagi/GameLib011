@@ -33,7 +33,7 @@ namespace GAME
 	//サウンドバッファポインタ
 	class LPDxSoundBuffer
 	{
-		enum { SIZE = 8 };
+		enum { SIZE = 1 };
 
 		vector < LPDIRECTSOUNDBUFFER >		m_vpSB;
 		UINT	m_count;	//内部カウント
@@ -86,7 +86,7 @@ namespace GAME
 //		IDirectSoundBuffer*		m_lpBuf;		//セカンダリバッファ
 
 		//サウンドバッファを使用する数だけ確保する
-		vector < LPDIRECTSOUNDBUFFER >		m_vecSoundBuffer;
+//		vector < LPDIRECTSOUNDBUFFER >		m_vecSoundBuffer;
 
 		//同時再生用に１種類に複数確保
 		vector < LPDxSoundBuffer * >	m_vLPDSB;
@@ -109,7 +109,7 @@ namespace GAME
 //		void Play ();		//再生
 		
 		//グローバルで事前に複数waveファイルを読込しておく
-		void LoadWaveFromFile ( LPTSTR filepath );
+//		void LoadWaveFromFile ( LPTSTR filepath );
 
 		void LoadWaveFromFile_Renew ( LPTSTR filepath );
 		void LoadWaveFromMem_Renew ( HPSTR pchBuffer, LONG memSize );
@@ -117,7 +117,7 @@ namespace GAME
 
 		//使用するときはIDを指定する
 		void PlayLoop ( UINT id );
-		void Play ( UINT id );
+//		void Play ( UINT id );
 		void Stop ( UINT id );
 	};
 

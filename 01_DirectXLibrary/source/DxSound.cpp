@@ -282,6 +282,7 @@ namespace GAME
 	}
 #endif	//0
 	
+#if 0
 	void DxSound::LoadWaveFromFile ( LPTSTR filepath )
 	{
 		//Waveファイルオープン
@@ -318,6 +319,7 @@ namespace GAME
 		//配列に追加
 		m_vecSoundBuffer.push_back ( lpDSBuffer );
 	}
+#endif // 0
 
 	void DxSound::LoadWaveFromFile_Renew ( LPTSTR filepath )
 	{
@@ -391,12 +393,14 @@ namespace GAME
 		m_vLPDSB[id]->Play ( 0, 0, DSBPLAY_LOOPING );
 	}
 
+#if 0
 	void DxSound::Play ( UINT id )
 	{
 		if ( id >= m_vecSoundBuffer.size () ) { return; }
 
 		m_vecSoundBuffer[id]->Play ( 0, 0, 0 );
 	}
+#endif // 0
 
 	void DxSound::Stop ( UINT id )
 	{

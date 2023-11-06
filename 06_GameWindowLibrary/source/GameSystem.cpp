@@ -60,10 +60,6 @@ namespace GAME
 		DebugOutGameWindow::Create ();
 		DebugOutGameWindow::Inst()->Load ();
 
-		//サウンドの生成
-		DxSound::Create ();
-		DxSound::instance()->Load();
-
 		//キー入力の初期化
 		DxInput::Create ();		//DirectInput(キーボード、ジョイスティックの利用)
 		KeyInput::Create();
@@ -80,6 +76,10 @@ namespace GAME
 #endif	//_DEBUG
 		Archiver::instance()->Open ();		//アーカイブファイルの読込
 
+
+		//サウンドの生成
+		DxSound::Create ();
+		DxSound::instance()->Load();
 
 		//サウンドアーカイバの初期化
 		SoundArchiver::Create ();
