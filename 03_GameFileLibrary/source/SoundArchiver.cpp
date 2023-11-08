@@ -14,18 +14,28 @@
 //-------------------------------------------------------------------------------------------------
 namespace GAME
 {
+	//@info 読み込むディレクトリをSEとBGMに分け、SEはバッファを複数、BGMはバッファを単一で持つ
+	//IDはSE，BGM共通で監理, 呼び出しからのID指定は別enumで行う
 
 	//------------------------------------------
 	//	定数
 	//------------------------------------------
-	//アーカイブファイル名
+	//作成するサウンドアーカイブファイル名
 	LPCTSTR SoundArchiver::m_archiveFileName = _T("sound.dat");
 
+
 	//アーカイブ作成のため読み込むディレクトリ名
-	const TCHAR SoundArchiver::m_archiveDirName[] = TEXT("sound/");
+	LPCTSTR SoundArchiver::m_archiveDirName = _T ( "sound/" );
 
 	//アーカイブ作成のため読み込むファイル名条件
-	const TCHAR SoundArchiver::m_searchCondition[] = TEXT("sound/*.*");
+	LPCTSTR SoundArchiver::m_searchCondition = _T ( "sound/*.*" );
+
+
+	//SE アーカイブ作成のため読み込むディレクトリ名
+	LPCTSTR SoundArchiver::m_archiveDirName_SE = _T ( "SE/" );
+
+	//SE アーカイブ作成のため読み込むファイル名条件
+	LPCTSTR SoundArchiver::m_searchCondition_SE = _T ( "SE/*.*" );
 
 	//------------------------------------------
 	//	Static実体
@@ -35,7 +45,9 @@ namespace GAME
 
 	//------------------------------------------
 	//コンストラクタ
-	SoundArchiver::SoundArchiver () : m_hFile ( nullptr ), m_count ( 0 )
+	SoundArchiver::SoundArchiver ()
+//		: m_hFile ( nullptr ) //, m_count ( 0 )
+		: m_nBGM ( 0 ), m_nSE ( 0 )
 	{
 	}
 
@@ -56,12 +68,24 @@ namespace GAME
 		//バイナリで書出用ファイルを開く
 		HANDLE hWriteFile = CreateFile ( m_archiveFileName, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr );
 
+
+		//ファイル個数を列挙
+		m_nBGM = CountFileNum ( m_searchCondition );
+		m_nSE = CountFileNum ( m_searchCondition_SE );
+
+		//各ファイル個数を書出
+		::WriteFile ( hWriteFile, & m_nBGM, sizeof ( DWORD ), nullptr, nullptr );
+		::WriteFile ( hWriteFile, & m_nSE, sizeof ( DWORD ), nullptr, nullptr );
+
+
+
+#if 0
 		//ファイル列挙
 		WIN32_FIND_DATA		fileData;
 		HANDLE hFileList = ::FindFirstFile ( m_searchCondition, &fileData );	//ディレクトリ指定("sound/*.*")
 
 		//個数を数え上げ
-		while ( 1 )
+		while ( T )
 		{
 			//次ファイルを取得
 			if ( ::FindNextFile ( hFileList, &fileData ) )
@@ -80,16 +104,23 @@ namespace GAME
 			}
 		}
 		FindClose ( hFileList );
+#endif // 0
+
+#if 0
+		//ファイル列挙
+//		m_count = CountFileNum ( m_searchCondition );
+		UINT count = CountFileNum ( m_searchCondition );
 
 		//ファイル個数を記録
-		::WriteFile ( hWriteFile, & m_count, sizeof ( DWORD ), nullptr, nullptr );
+		::WriteFile ( hWriteFile, & count, sizeof ( DWORD ), nullptr, nullptr );
 
 
 		//再列挙
-		hFileList = ::FindFirstFile ( m_searchCondition, &fileData );	//ディレクトリ指定("sound/*.*")
+		WIN32_FIND_DATA		fileData;
+		HANDLE hFileList = ::FindFirstFile ( m_searchCondition, &fileData );	//ディレクトリ指定("sound/*.*")
 
 		//書出
-		while ( 1 )
+		while ( T )
 		{
 			//次ファイルを取得
 			if ( ::FindNextFile ( hFileList, &fileData ) )
@@ -108,27 +139,23 @@ namespace GAME
 				::WriteFile ( hWriteFile, &fileSize, sizeof ( DWORD ), &numberOfBytesWritten, nullptr );
 
 				//ディレクトリ指定
-				LPTSTR filename = new TCHAR [ sizeof ( m_archiveDirName ) + sizeof ( fileData.cFileName ) ];
-				::lstrcpy ( filename, m_archiveDirName );
-				::lstrcat ( filename, fileData.cFileName );
+				tstring filename ( m_archiveDirName );
+				filename.append ( fileData.cFileName );
 
 				//ファイル読込
-				HANDLE hReadFile = CreateFile ( filename, GENERIC_READ, 0, nullptr, 
+				HANDLE hReadFile = CreateFile ( filename.c_str(), GENERIC_READ, 0, nullptr, 
 					OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr );
 				
-				BYTE* buf = new BYTE [ fileSize ];
+				unique_ptr < BYTE[] > buf = make_unique < BYTE[] > ( fileSize );
 				DWORD numberOfByteRead = 0;
-				::ReadFile ( hReadFile, buf, fileSize, &numberOfByteRead, nullptr );
+				::ReadFile ( hReadFile, buf.get(), fileSize, &numberOfByteRead, nullptr );
 
 				::CloseHandle ( hReadFile );
 
-				//ファイルにサイズ分書出
-				::WriteFile ( hWriteFile, buf, fileSize, &numberOfBytesWritten, nullptr );
+				//アーカイブにサイズ分書出
+				::WriteFile ( hWriteFile, buf.get(), fileSize, &numberOfBytesWritten, nullptr );
 				
-				delete[] buf;
-				delete[] filename;
-				
-				++m_count;
+//				++m_count;
 			}
 			//次ファイルが取得できなかったとき
 			else 
@@ -136,69 +163,172 @@ namespace GAME
 				break;
 			}
 		}
+#endif // 0
+
+		///BGM
+		_Make ( hWriteFile, m_archiveDirName, m_searchCondition );
+
+		//SE
+		_Make ( hWriteFile, m_archiveDirName_SE, m_searchCondition_SE );
+
 
 		//終了
-		FindClose ( hFileList );
 		CloseHandle ( hWriteFile );
 	}
+
+	void SoundArchiver::_Make ( HANDLE hWriteFile, LPCTSTR dirname, LPCTSTR condition )
+	{
+		//再列挙
+		WIN32_FIND_DATA		fileData;
+		HANDLE hFileList = ::FindFirstFile ( condition, &fileData );	//ディレクトリ指定("sound/*.*")
+
+		//書出
+		while ( T )
+		{
+			//次ファイルを取得
+			if ( ::FindNextFile ( hFileList, &fileData ) )
+			{
+				//ディレクトリは飛ばす
+				if ( FILE_ATTRIBUTE_DIRECTORY == fileData.dwFileAttributes ) { continue; }
+				//システムファイル(Thumbs.dbなど)は飛ばす
+				if ( FILE_ATTRIBUTE_SYSTEM & fileData.dwFileAttributes ) { continue; }
+
+				//DBGOUT_FL_F ( _T ( "Filename=\"%s\"\n" ), fileData.cFileName );
+
+				//ファイルサイズ書込
+				DWORD fileSize = fileData.nFileSizeLow;	//4Gbyte未満のみ
+				DWORD numberOfBytesWritten = 0;
+				::WriteFile ( hWriteFile, &fileSize, sizeof ( DWORD ), &numberOfBytesWritten, nullptr );
+
+				//バッファにファイルデータ読込
+				tstring filename ( dirname );			
+				filename.append ( fileData.cFileName );	//ファイルパス作成
+				HANDLE hReadFile = CreateFile ( filename.c_str(), GENERIC_READ, 0, nullptr, 
+					OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr );
+				
+				unique_ptr < BYTE[] > buf = make_unique < BYTE[] > ( fileSize );
+				DWORD numberOfByteRead = 0;
+				::ReadFile ( hReadFile, buf.get(), fileSize, &numberOfByteRead, nullptr );
+
+				::CloseHandle ( hReadFile );
+
+				//アーカイブにサイズ分書出
+				::WriteFile ( hWriteFile, buf.get(), fileSize, &numberOfBytesWritten, nullptr );
+			}
+			//次ファイルが取得できなかったとき
+			else 
+			{
+				break;
+			}
+		}
+		//終了
+		FindClose ( hFileList );
+	}
+
+
+	//条件のファイル数え上げ
+	UINT SoundArchiver::CountFileNum ( LPCTSTR condition )
+	{
+		UINT ret = 0;
+
+		//ファイル列挙( OpenHandle )
+		WIN32_FIND_DATA		fileData;
+		//ディレクトリ指定("sound/*.*")
+		HANDLE hFileList = ::FindFirstFile ( condition, & fileData );
+
+		//個数を数え上げ
+		while ( T )
+		{
+			//次ファイルを取得
+			if ( ::FindNextFile ( hFileList, &fileData ) )
+			{
+				//ディレクトリは飛ばす
+				if ( FILE_ATTRIBUTE_DIRECTORY == fileData.dwFileAttributes ) { continue; }
+				//システムファイル(Thumbs.dbなど)は飛ばす
+				if ( FILE_ATTRIBUTE_SYSTEM & fileData.dwFileAttributes ) { continue; }
+
+				++ ret;
+			}
+			//次ファイルが取得できなかったとき
+			else
+			{
+				break;
+			}
+		}
+		::FindClose ( hFileList );
+
+		return ret;
+	}
+
 
 	//開
 	void SoundArchiver::Open ()
 	{
 		//DBGOUT_FL_F ( _T ( "サウンドアーカイバ読込開始\n" ) );
 		//ファイル読込
-		m_hFile = CreateFile ( m_archiveFileName, GENERIC_READ, 0, nullptr, OPEN_EXISTING, 
+		HANDLE hFile = CreateFile ( m_archiveFileName, GENERIC_READ, 0, nullptr, OPEN_EXISTING,
 			FILE_ATTRIBUTE_NORMAL, nullptr );
 
-		TCHAR cur [ 255 ] = _T("filepath");
-		::GetCurrentDirectory ( 255, cur );
-		//DBGOUT_FL_F ( _T ( "currentDirectory  =\"%s\"\n m_hFile = %lx\n" ), cur, m_hFile );
-		//DBGOUT_FL_F ( _T ( "File=\"%s\"\n" ), m_archiveFileName );
+//		TCHAR cur [ 255 ] = _T("filepath");
+//		::GetCurrentDirectory ( 255, cur );
 
-		//ファイル個数を読込
-		DWORD fileNum = 0;
-		::ReadFile ( m_hFile, &fileNum, sizeof ( DWORD ), nullptr, nullptr );
-		m_count = fileNum;
+		//ファイル個数合計を読込
+		::ReadFile ( hFile, & m_nBGM, sizeof ( DWORD ), nullptr, nullptr );
+		::ReadFile ( hFile, & m_nSE, sizeof ( DWORD ), nullptr, nullptr );
+		UINT count = m_nBGM + m_nSE;
 
-		//DBGOUT_FL_F ( _T ( "m_count = %d\n" ), m_count );
-		for ( UINT i = 0; i < m_count; ++i )
+		//各ファイル読込
+		//DBGOUT_FL_F ( _T ( "count = %d\n" ), m_count );
+		for ( UINT i = 0; i < count; ++i )
 		{
 			DWORD numberOfByteRead = 0;
 			DWORD fileSize = 0;
-			::ReadFile ( m_hFile, &fileSize, sizeof ( DWORD ), &numberOfByteRead, nullptr );
-			BYTE* buf = new BYTE [ fileSize ];
-			::ReadFile ( m_hFile, buf, fileSize, &numberOfByteRead, nullptr );
-
-			//DBGOUT_FL_F ( _T ( "FileSize = %d\n" ), fileSize );
-
-			DxSound::instance ()->LoadWaveFromMem_Renew ( (HPSTR)buf, fileSize );
-
-			delete[] buf;
+			::ReadFile ( hFile, &fileSize, sizeof ( DWORD ), &numberOfByteRead, nullptr );
+			unique_ptr < BYTE [] > buf = make_unique < BYTE [] > ( fileSize );
+			::ReadFile ( hFile, buf.get(), fileSize, &numberOfByteRead, nullptr );
+			
+			//サウンドバッファを作成 (SEは複数再生のためバッファ数を指定)
+			//BGM
+			if ( i < m_nBGM )
+			{
+				DxSound::instance ()->LoadWaveFromMemEx ( 1, (HPSTR)buf.get(), fileSize );
+			}
+			//SE
+			else
+			{
+				DxSound::instance ()->LoadWaveFromMemEx ( 8, (HPSTR)buf.get(), fileSize );
+			}
 		}
+
+		//閉じる
+		CloseHandle ( hFile );
 	}
 
-	//閉
-	void SoundArchiver::Close ()
-	{
-		if ( m_hFile ) { CloseHandle ( m_hFile ); m_hFile = nullptr; }
-	}
-
+	//------------------------------------------------------------------
 	//再生
-	void SoundArchiver::Play ( UINT id )
+	void SoundArchiver::Play_BGM ( UINT BGM_ID )
 	{
-		DxSound::instance()->Play_Renew ( id );
+		DxSound::instance()->Play ( BGM_ID );
 	}
 
 	//ループ再生
-	void SoundArchiver::PlayLoop ( UINT id )
+	void SoundArchiver::Play_Loop_BGM ( UINT BGM_ID )
 	{
-		DxSound::instance()->PlayLoop ( id );
+		DxSound::instance()->PlayLoop ( BGM_ID );
 	}
 
 	//停止
-	void SoundArchiver::Stop ( UINT id )
+	void SoundArchiver::Stop_BGM ( UINT BGM_ID )
 	{
-		DxSound::instance()->Stop ( id );
+		DxSound::instance()->Stop ( BGM_ID );
+	}
+
+	//再生
+	void SoundArchiver::Play_SE ( UINT SE_ID )
+	{
+		//@info リリースモード時にMake()を通らないため、m_nBGMはファイルから読み込む
+		//BGMの数だけオフセットして指定
+		DxSound::instance()->Play ( m_nBGM + SE_ID );
 	}
 
 

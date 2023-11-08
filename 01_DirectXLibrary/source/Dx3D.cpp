@@ -451,6 +451,7 @@ namespace GAME
 	//テクスチャの作成
 	void Dx3D::CreateTextureFromMem ( LPCVOID pSrcData, UINT SrcDataSize, TX * ppTexture )
 	{
+//		TRACE_F ( _T ( "filePointer%d, fileSize = %d\n" ), pSrcData, SrcDataSize );
 		//メモリからテクスチャの作成
 		HRESULT hr = D3DXCreateTextureFromFileInMemory ( m_lpD3DDevice, pSrcData, SrcDataSize, ppTexture );
 		if ( FAILED ( hr ) )

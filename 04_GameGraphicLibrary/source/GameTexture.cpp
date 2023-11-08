@@ -103,11 +103,15 @@ namespace GAME
 
 		//アーカイブからファイルを取得
 		ARCHIVE_FILE_USE file = Archiver::instance()->GetFilePointer ( m_strFileName.c_str() );
+	
+//		TRACE_F ( _T ( "filePointer%d, fileSize = %d\n" ), file.filePointer, file.fileSize );
+
 		if ( file.filePointer == nullptr )
 		{
 			////TRACE_F ( TEXT("アーカイブにファイルが見つかりませんでした\n") );
 			return;
 		}
+//		TRACE_F ( _T ( "filePointer%d, fileSize = %d\n" ), file.filePointer, file.fileSize );
 
 		DX3D->CreateTextureFromMem ( file.filePointer, file.fileSize, & m_lpTexture );
 

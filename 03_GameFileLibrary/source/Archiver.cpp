@@ -39,7 +39,8 @@ namespace GAME
 
 	//コンストラクタ
 	Archiver::Archiver ()
-		: m_hMap ( nullptr ), m_pFile ( nullptr ), m_offset ( 0 )
+		: m_hMap ( nullptr ), m_pFile ( nullptr )
+		, m_current_offset ( 0 )
 	{
 	}
 
@@ -52,7 +53,7 @@ namespace GAME
 	//アーカイブファイル閉
 	void Archiver::Close ()
 	{
-		if ( m_hMap ) { CloseHandle ( m_hMap ); m_hMap = nullptr; }
+		if ( m_hMap ) { ::UnmapViewOfFile ( m_hMap ); m_hMap = nullptr; }
 	}
 
 
@@ -62,16 +63,18 @@ namespace GAME
 		//カレントディレクトリの取得
 		TCHAR path [ MAX_PATH ];
 		::GetCurrentDirectory ( MAX_PATH, path );
+//		TRACE_F ( _T ( "Make(): %s\n" ), path );
 
 		//バイナリで書出用ファイルを開く
-		HANDLE hWriteFile = CreateFile ( ARCHIVE_FILE_NAME, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr );
+		HANDLE hWriteFile = ::CreateFile ( ARCHIVE_FILE_NAME, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr );
 		DWORD numberOfBytesWritten = 0;
 		
 		//-------------------------------------------------------------------------
 		//	対象ファイルリストと個数
 		//-------------------------------------------------------------------------
 		//サブディレクトリを含む検索でファイルリストを作成する
-		m_offset = 0;	//実データ開始位置からのオフセット
+		//@info ! 再帰のため、現在オフセット位置は外側に置く
+		m_current_offset = 0;
 		Find ( SEARCH_CONDITION );
 
 		//ファイル個数を書出
@@ -93,6 +96,8 @@ namespace GAME
 			::WriteFile ( hWriteFile, fn, sizeof ( fn ), &nWrtn, nullptr );
 			::WriteFile ( hWriteFile, & acvSrc.align.offset, sizeof ( DWORD ), &nWrtn, nullptr );
 			::WriteFile ( hWriteFile, & acvSrc.align.fileSize, sizeof ( DWORD ), &nWrtn, nullptr );
+
+//			TRACE_F ( _T ( "%s: offset = %d, size = %d\n" ), fn, acvSrc.align.offset, acvSrc.align.fileSize );
 		}
 
 		//-------------------------------------------------------------------------
@@ -111,15 +116,22 @@ namespace GAME
 			//アーカイブファイル(.dat)に書出
 			DWORD nWrtn = 0;
 			::WriteFile ( hWriteFile, buf.get (), acvSrc.align.fileSize, & nWrtn, nullptr );
+
+			::CloseHandle ( hReadFile );
 		}
 
-		CloseHandle ( hWriteFile );
+		::CloseHandle ( hWriteFile );
 	}
 
 
 	//アーカイブファイル読込
 	void Archiver::Open ()
 	{
+		//カレントディレクトリの取得
+		TCHAR path [ MAX_PATH ];
+		::GetCurrentDirectory ( MAX_PATH, path );
+//		TRACE_F ( _T ( "Open(): %s\n" ), path );
+
 		HANDLE hFile = ::CreateFile ( ARCHIVE_FILE_NAME, GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr );
 		DWORD error = ::GetLastError();
 		if ( ERROR_SUCCESS != error )
@@ -144,6 +156,7 @@ namespace GAME
 			hAcv [i].align.offset = tempAcvHd.align.offset;
 			hAcv [i].align.fileSize = tempAcvHd.align.fileSize;
 
+//			TRACE_F ( _T ( "%s: offset = %d, size = %d\n" ), hAcv [ i ].fileName, hAcv [ i ].align.offset, hAcv[i].align.fileSize );
 			m_map.insert ( ARCHIVE_MAP::value_type ( hAcv [i].fileName, hAcv [i].align ) );
 		}
 
@@ -151,13 +164,15 @@ namespace GAME
 		//@info 名前を付けると複数起動時に同名のマッピングでアクセス違反になるので無名にする
 		//	ファイルマッピングは別プロセスで共通メモリにアクセスする手法
 //		m_hMap = CreateFileMapping ( m_hFile, nullptr, PAGE_READONLY, 0, 0, m_mapName );
-		m_hMap = CreateFileMapping ( hFile, nullptr, PAGE_READONLY, 0, 0, nullptr );
+		m_hMap = ::CreateFileMapping ( hFile, nullptr, PAGE_READONLY, 0, 0, nullptr );
 		if ( m_hMap == nullptr )
 		{
 			////TRACE_F( _T("ファイルマッピングに失敗") );
 			return;
 		}
 		m_pFile = ::MapViewOfFile ( m_hMap, FILE_MAP_READ, 0, 0, 0 );
+
+		::CloseHandle ( hFile );
 	}
 
 
@@ -178,10 +193,17 @@ namespace GAME
 		//mapからポインタ配置情報を取得
 		ARCHIVE_ALIGN align = m_map [ str ];
 
+
 		//データ開始位置
-		size_t nFile = m_vFilename.size ();
+//		size_t nFile = m_vFilename.size ();
+		//--------------------------------------------------------------------------------
+		//@info ! ReleaseモードではMake()を通らないため、m_vFileName.size()に個数が記録されない
+		//--------------------------------------------------------------------------------
+		size_t nFile = m_map.size ();
 		DWORD startData = sizeof ( DWORD ) + sizeof ( ARCHIVE_HEADER ) * nFile;
 
+		//(LPVOID)では位置計算ができないので(LPBYTE)にする
+//		ret.filePointer = (LPVOID)m_pFile + startData + align.offset;
 		ret.filePointer = (LPBYTE)m_pFile + startData + align.offset;
 		ret.fileSize = align.fileSize;
 
@@ -204,6 +226,9 @@ namespace GAME
 		size_t nSize = tstr_path.find_last_of ( _T ( "\\" ) ) + 1;
 		tstring tstr_dir = tstr_path.substr ( 0, tstr_path.length () - tstr_cond.length () );
 //		TRACE_F ( _T ( "dir = %s \n" ), tstr_dir );
+
+		//@info 現在オフセット位置は関数の外側に置く
+//		DWORD	all_offset = 0;
 
 		//以降のファイル
 		do
@@ -238,13 +263,14 @@ namespace GAME
 				ACV_H_SRC acv;
 				acv.fileName = filename;
 				acv.align.fileSize = findData.nFileSizeLow;
-				acv.align.offset = m_offset;
-				
+//				acv.align.offset = all_offset;
+				acv.align.offset = m_current_offset;
+
 				//保存
 				m_vFilename.push_back ( acv );
 
 				//ファイルのオフセット計算
-				m_offset += findData.nFileSizeLow;
+				m_current_offset += findData.nFileSizeLow;
 			}
 		} while ( FindNextFile ( hFind, & findData ) );
 

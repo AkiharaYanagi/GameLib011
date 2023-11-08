@@ -3,13 +3,13 @@
   <ItemGroup>
     <ClCompile Include="Source\WinMain.cpp" />
     <ClCompile Include="Source\StdAfx.cpp" />
-    <ClCompile Include="Source\testInput.cpp" />
+    <ClCompile Include="Source\testRelease.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\GameMain.h" />
     <ClInclude Include="Source\WinMain.h" />
     <ClInclude Include="Source\StdAfx.h" />
-    <ClInclude Include="Source\testInput.h" />
+    <ClInclude Include="Source\testRelease.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GameLib.props" />

@@ -182,14 +182,18 @@ namespace GAME
 			++ frame_time;
 		}
 		//----------------------------------------------
+#if 0
+
 #ifdef	_DEBUG
 #else	// _DEBUG
 		
 		//フレーム毎の動作	
 		m_pGameMain->Move ();
+		++ frame_time;
 
 #endif	// _DEBUG
 
+#endif // 0
 	}
 
 
@@ -201,7 +205,7 @@ namespace GAME
 		Dx3D::instance()->BeginScene ();	//描画開始
 		{
 
-			//@todo スプライトと頂点を合わせて、Z大順で描画する
+			//@info スプライトと頂点を合わせて、Z大順で描画する
 
 #if 0
 			//スプライト描画

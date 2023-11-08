@@ -85,9 +85,13 @@ namespace GAME
 		LPVOID					m_pFile;	//ファイルマッピングの開始アドレス
 
 		ARCHIVE_MAP				m_map;		//実データ検索用マップ
+
+		//Releaseモードでは記録されない
+		//アーカイブファイルのデータヘッダを参照する
 		vector < ACV_H_SRC >	m_vFilename;	//対象データファイル名リスト
 
-		DWORD					m_offset;	//総ファイルサイズ
+		//ファイル列挙のとき、Find()においてディレクトリで再帰するのでカウントは外側に記録する
+		DWORD					m_current_offset;	//現在オフセット位置
 		
 		static const TCHAR		ARCHIVE_FILE_NAME[];
 		static const TCHAR		ARCHIVE_DIR_NAME[];

@@ -33,8 +33,6 @@ namespace GAME
 	//サウンドバッファポインタ
 	class LPDxSoundBuffer
 	{
-		enum { SIZE = 1 };
-
 		vector < LPDIRECTSOUNDBUFFER >		m_vpSB;
 		UINT	m_count;	//内部カウント
 		bool	m_stop;		//停止フラグ
@@ -43,12 +41,13 @@ namespace GAME
 	public:
 		LPDxSoundBuffer () : m_count ( 0 ), m_stop ( false ), m_vol ( DSBVOLUME_MAX )
 		{
-			m_vpSB.resize ( SIZE );
+			m_vpSB.resize ( 1 );
 		}
 		LPDxSoundBuffer ( const LPDxSoundBuffer & rhs ) = delete;		//コピー禁止
 		~LPDxSoundBuffer () {}
 
 		void SetSoundBuffer ( LPDIRECTSOUND lpDxSound, DSBUFFERDESC* pDesc, char* pData );
+		void SetSoundBufferEx ( UINT nBuf, LPDIRECTSOUND lpDxSound, DSBUFFERDESC* pDesc, char* pData );
 		
 		//再生
 		//	dwReserved1		:０のみ
@@ -59,6 +58,9 @@ namespace GAME
 
 		void Move ();	//毎回の更新
 	};
+
+	using PP_DXSNDBUF = shared_ptr < LPDxSoundBuffer >;
+
 
 	//------------------------------------------
 	//	Direct Sound
@@ -89,36 +91,38 @@ namespace GAME
 //		vector < LPDIRECTSOUNDBUFFER >		m_vecSoundBuffer;
 
 		//同時再生用に１種類に複数確保
-		vector < LPDxSoundBuffer * >	m_vLPDSB;
+//		vector < LPDxSoundBuffer * >	m_vLPDSB;
+		vector < PP_DXSNDBUF >	mvpp_DXSNDBUF;
 
 	public:
 		void Load ();
 		void Move ();
-//		void Rele ();
-//		void Reset ();
-//		void Update ();		//フレーム毎の更新
 
 		//ファイルパスから
 		//Waveファイルオープン関数
-		bool OpenWave ( LPTSTR filepath, WAVEFORMATEX& waveFormatEx, char** ppData, DWORD& dataSize );
+		bool OpenWaveFromFile ( LPTSTR filepath, WAVEFORMATEX& waveFormatEx, char** ppData, DWORD& dataSize );
 
 		//メモリ上からWaveファイルをオープン
 		//	HPSTR pchBuffer : 読込バッファ
 		//	LONG memSize : 読込バッファサイズ
-		bool OpenWave ( HPSTR pchBuffer, LONG memSize, WAVEFORMATEX& waveFormatEx, char** ppData, DWORD& dataSize );
-//		void Play ();		//再生
+		bool OpenWaveFromMem ( HPSTR pchBuffer, LONG memSize, WAVEFORMATEX& waveFormatEx, char** ppData, DWORD& dataSize );
 		
 		//グローバルで事前に複数waveファイルを読込しておく
-//		void LoadWaveFromFile ( LPTSTR filepath );
+		void LoadWaveFromFile ( LPTSTR filepath );
+		void LoadWaveFromMem ( HPSTR pchBuffer, LONG memSize );
 
-		void LoadWaveFromFile_Renew ( LPTSTR filepath );
-		void LoadWaveFromMem_Renew ( HPSTR pchBuffer, LONG memSize );
-		void Play_Renew ( UINT id );
+		//同時再生バッファ数を指定
+		void LoadWaveFromMemEx ( UINT nBuf, HPSTR pchBuffer, LONG memSize );
+
 
 		//使用するときはIDを指定する
+		void Play ( UINT id );
 		void PlayLoop ( UINT id );
-//		void Play ( UINT id );
 		void Stop ( UINT id );
+
+	private:
+		bool MMIO_Open ( LPCTSTR filepath, MMIOINFO& mmioInfo, WAVEFORMATEX& waveFormatEx, char** ppData, DWORD& dataSize );
+		bool MMIOtoMem ( HMMIO hMmio, WAVEFORMATEX& waveFormatEx, char** ppData, DWORD& dataSize );
 	};
 
 

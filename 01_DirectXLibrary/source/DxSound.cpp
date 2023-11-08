@@ -19,22 +19,40 @@ namespace GAME
 	//-------------------------------------------------------------------------------------------------
 	void LPDxSoundBuffer::SetSoundBuffer ( LPDIRECTSOUND lpDxSound, DSBUFFERDESC* pDesc, char* pData )
 	{
-		for ( UINT i = 0; i < SIZE; ++i )
+		UINT i = 0;
+
+		//サウンドバッファの作成
+		HRESULT hr = lpDxSound->CreateSoundBuffer ( pDesc, &( m_vpSB [ i ] ), nullptr );
+		if ( FAILED ( hr ) ) { DXTRACE ( hr, _T ( "サウンドバッファの作成に失敗\n" ) ); return; }
+
+		//サウンドバッファにWaveデータ書き込み
+		LPVOID lpvWrite = 0;
+		DWORD dwLength = 0;
+		if ( DS_OK == m_vpSB [ i ]->Lock ( 0, 0, &lpvWrite, &dwLength, nullptr, nullptr, DSBLOCK_ENTIREBUFFER ) )
+		{
+			memcpy ( lpvWrite, pData, dwLength );
+			m_vpSB [ i ]->Unlock ( lpvWrite, dwLength, nullptr, 0 );
+		}
+	}
+
+	void LPDxSoundBuffer::SetSoundBufferEx ( UINT nBuf, LPDIRECTSOUND lpDxSound, DSBUFFERDESC* pDesc, char* pData )
+	{
+		//バッファ個数を指定
+		m_vpSB.resize ( nBuf );
+
+		for ( UINT i = 0; i < nBuf; ++i )
 		{
 			//サウンドバッファの作成
-//				HRESULT hr = lpDxSound->CreateSoundBuffer ( pDesc, &(m_p[i]), nullptr );
-			HRESULT hr = lpDxSound->CreateSoundBuffer ( pDesc, &(m_vpSB[i]), nullptr );
-			if ( FAILED ( hr ) ) { DXTRACE(hr, _T("サウンドバッファの作成に失敗\n")); return; }
-				
+			HRESULT hr = lpDxSound->CreateSoundBuffer ( pDesc, &( m_vpSB [ i ] ), nullptr );
+			if ( FAILED ( hr ) ) { DXTRACE ( hr, _T ( "サウンドバッファの作成に失敗\n" ) ); return; }
+
 			//サウンドバッファにWaveデータ書き込み
 			LPVOID lpvWrite = 0;
 			DWORD dwLength = 0;
-//				if ( DS_OK ==  m_p[i]->Lock ( 0, 0, &lpvWrite, &dwLength, nullptr, nullptr, DSBLOCK_ENTIREBUFFER ) )
-			if ( DS_OK ==  m_vpSB[i]->Lock ( 0, 0, &lpvWrite, &dwLength, nullptr, nullptr, DSBLOCK_ENTIREBUFFER ) )
+			if ( DS_OK == m_vpSB [ i ]->Lock ( 0, 0, &lpvWrite, &dwLength, nullptr, nullptr, DSBLOCK_ENTIREBUFFER ) )
 			{
 				memcpy ( lpvWrite, pData, dwLength );
-//					m_p[i]->Unlock ( lpvWrite, dwLength, nullptr, 0 );
-				m_vpSB[i]->Unlock ( lpvWrite, dwLength, nullptr, 0 );
+				m_vpSB [ i ]->Unlock ( lpvWrite, dwLength, nullptr, 0 );
 			}
 		}
 	}
@@ -51,7 +69,7 @@ namespace GAME
 
 		//カウントを１つ追加
 		//連続で呼ばれたとき次を再生
-		if ( SIZE == ++m_count ) { m_count = 0; }
+		if ( m_vpSB.size () == ++ m_count ) { m_count = 0; }
 	}
 
 	void LPDxSoundBuffer::Stop ()
@@ -67,8 +85,6 @@ namespace GAME
 	void LPDxSoundBuffer::Move ()
 	{
 #if 0
-
-
 		if ( m_stop )
 		{
 			//フェードアウト
@@ -99,7 +115,7 @@ namespace GAME
 	//-------------------------------------------------------------------------------------------------
 	//	コンストラクタ
 	//-------------------------------------------------------------------------------------------------
-	DxSound::DxSound () : m_lpDS(nullptr)	//, m_lpDSBuffer(nullptr)
+	DxSound::DxSound () //: m_lpDS(nullptr)	//, m_lpDSBuffer(nullptr)
 	{
 	}
 
@@ -108,7 +124,8 @@ namespace GAME
 	//-------------------------------------------------------------------------------------------------
 	DxSound::~DxSound ()
 	{
-//		if( m_lpDSBuffer ) { m_lpDSBuffer->Release (); m_lpDSBuffer = nullptr; }
+#if 0
+
 		if( m_lpDS ) { m_lpDS->Release (); m_lpDS = nullptr; }
 
 		UINT size = m_vLPDSB.size ();
@@ -117,6 +134,8 @@ namespace GAME
 			delete m_vLPDSB[i];
 		}
 		m_vLPDSB.clear ();
+
+#endif // 0
 	}
 	
 	//-------------------------------------------------------------------------------------------------
@@ -166,7 +185,13 @@ namespace GAME
 
 	void DxSound::Move ()
 	{
+#if 0
 		for ( auto p : m_vLPDSB )
+		{
+			p->Move ();
+		}
+#endif // 0
+		for ( PP_DXSNDBUF p : mvpp_DXSNDBUF )
 		{
 			p->Move ();
 		}
@@ -174,18 +199,22 @@ namespace GAME
 
 	//ファイルパスから
 	//Waveファイルオープン
-	bool DxSound::OpenWave ( LPTSTR filepath, WAVEFORMATEX& waveFormatEx, char** ppData, DWORD& dataSize )
+	bool DxSound::OpenWaveFromFile ( LPTSTR filepath, WAVEFORMATEX& waveFormatEx, char** ppData, DWORD& dataSize )
 	{
 		if ( nullptr == filepath ) { return false; }
 		
-		HMMIO hMmio = nullptr;		//マルチメディアI/Oハンドル
-		MMIOINFO mmioInfo;		//マルチメディアI/O情報
-
-		//Waveファイルオープン
+		//マルチメディアI/O情報	
+		MMIOINFO mmioInfo;
 		memset ( &mmioInfo, 0, sizeof ( MMIOINFO ) );
-		hMmio = mmioOpen ( filepath, &mmioInfo, MMIO_READ );
-		if ( ! hMmio ) return false;
+
+		MMIO_Open ( filepath, mmioInfo, waveFormatEx, ppData, dataSize );
+
+#if 0
+		//Waveファイルオープン
+		HMMIO hMmio = mmioOpen ( filepath, &mmioInfo, MMIO_READ );
+		if ( ! hMmio ) { return false; }
 		
+#if 0
 		//RIFFチャンク検索
 		MMRESULT mmResult;
 		MMCKINFO riffChunk;
@@ -214,9 +243,13 @@ namespace GAME
 		*ppData = new char[ dataChunk.cksize ];
 		size = mmioRead ( hMmio, (HPSTR)*ppData, dataChunk.cksize );
 		dataSize = size;
+#endif // 0
+
+		MMIOtoMem ( hMmio, waveFormatEx, ppData, dataSize );
 
 		//ハンドルクローズ
 		mmioClose ( hMmio, 0 );
+#endif // 0
 
 		return true;
 	}
@@ -225,20 +258,24 @@ namespace GAME
 	//メモリ上からWaveファイルをオープン
 	//	HPSTR pchBuffer : 読込バッファ
 	//	LONG memSize : 読込バッファサイズ
-	bool DxSound::OpenWave ( HPSTR pchBuffer, LONG memSize, WAVEFORMATEX& waveFormatEx, char** ppData, DWORD& dataSize )
+	bool DxSound::OpenWaveFromMem ( HPSTR pchBuffer, LONG memSize, WAVEFORMATEX& waveFormatEx, char** ppData, DWORD& dataSize )
 	{
 		if ( pchBuffer == nullptr ) { return false; }
-		
-		MMIOINFO mmioInfo = {0};		//マルチメディアI/O情報
+
+		MMIOINFO mmioInfo = { 0 };		//マルチメディアI/O情報
 		mmioInfo.pchBuffer = pchBuffer;		//読込バッファアドレス
 		mmioInfo.fccIOProc = FOURCC_MEM;	//4文字コード：メモリから読込
 		mmioInfo.cchBuffer = memSize;		//バッファのメモリサイズ
 
+		MMIO_Open ( nullptr, mmioInfo, waveFormatEx, ppData, dataSize );
+
+#if 0
 		//Waveファイルオープン
 		//マルチメディアI/Oハンドル
 		HMMIO hMmio = mmioOpen ( nullptr, &mmioInfo, MMIO_READ );
 		if ( ! hMmio ) { return false; }
-		
+
+#if 0
 		//RIFFチャンク検索
 		MMRESULT mmResult;
 		MMCKINFO riffChunk;
@@ -251,7 +288,7 @@ namespace GAME
 		formatChunk.ckid = mmioFOURCC ( 'f', 'm', 't', ' ' );
 		mmResult = mmioDescend ( hMmio, &formatChunk, &riffChunk, MMIO_FINDCHUNK );
 		if ( mmResult != MMSYSERR_NOERROR ) { mmioClose ( hMmio, 0 ); return false; }
-	
+
 		DWORD fmsize = formatChunk.cksize;
 		DWORD size = mmioRead ( hMmio, (HPSTR)&waveFormatEx, fmsize );
 		if ( size != fmsize ) { mmioClose ( hMmio, 0 ); return false; }
@@ -260,11 +297,67 @@ namespace GAME
 
 		//データチャンク検索
 		MMCKINFO dataChunk;
-		dataChunk.ckid = mmioFOURCC ( 'd', 'a','t','a' );
+		dataChunk.ckid = mmioFOURCC ( 'd', 'a', 't', 'a' );
 		mmResult = mmioDescend ( hMmio, &dataChunk, &riffChunk, MMIO_FINDCHUNK );
 		if ( mmResult != MMSYSERR_NOERROR ) { mmioClose ( hMmio, 0 ); return false; }
 
-		*ppData = new char[ dataChunk.cksize ];
+		*ppData = new char [ dataChunk.cksize ];
+		size = mmioRead ( hMmio, (HPSTR)*ppData, dataChunk.cksize );
+		dataSize = size;
+#endif // 0
+		MMIOtoMem ( hMmio, waveFormatEx, ppData, dataSize );
+
+		//ハンドルクローズ
+		mmioClose ( hMmio, 0 );
+#endif // 0
+
+		return true;
+	}
+
+	bool DxSound::MMIO_Open ( LPCTSTR filepath, MMIOINFO& mmioInfo, WAVEFORMATEX& waveFormatEx, char** ppData, DWORD& dataSize )
+	{
+		//Waveファイルオープン
+		//マルチメディアI/Oハンドル
+		HMMIO hMmio = mmioOpen ( nullptr, &mmioInfo, MMIO_READ );
+		if ( ! hMmio ) { return false; }
+
+		MMIOtoMem ( hMmio, waveFormatEx, ppData, dataSize );
+
+		//ハンドルクローズ
+		mmioClose ( hMmio, 0 );
+
+		return true;
+	}
+
+	bool DxSound::MMIOtoMem ( HMMIO hMmio, WAVEFORMATEX& waveFormatEx, char** ppData, DWORD& dataSize )
+	{
+		//RIFFチャンク検索
+		MMRESULT mmResult;
+		MMCKINFO riffChunk;
+		riffChunk.fccType = mmioFOURCC ( 'W', 'A', 'V', 'E' );
+		mmResult = mmioDescend ( hMmio, &riffChunk, nullptr, MMIO_FINDRIFF );
+		if ( mmResult != MMSYSERR_NOERROR ) { mmioClose ( hMmio, 0 ); return false; }
+
+		//フォーマットチャンク検索
+		MMCKINFO formatChunk;
+		formatChunk.ckid = mmioFOURCC ( 'f', 'm', 't', ' ' );
+		mmResult = mmioDescend ( hMmio, &formatChunk, &riffChunk, MMIO_FINDCHUNK );
+		if ( mmResult != MMSYSERR_NOERROR ) { mmioClose ( hMmio, 0 ); return false; }
+
+		
+		DWORD fmsize = formatChunk.cksize;
+		DWORD size = mmioRead ( hMmio, (HPSTR)&waveFormatEx, fmsize );
+		if ( size != fmsize ) { mmioClose ( hMmio, 0 ); return false; }
+
+		mmioAscend ( hMmio, &formatChunk, 0 );
+
+		//データチャンク検索
+		MMCKINFO dataChunk;
+		dataChunk.ckid = mmioFOURCC ( 'd', 'a', 't', 'a' );
+		mmResult = mmioDescend ( hMmio, &dataChunk, &riffChunk, MMIO_FINDCHUNK );
+		if ( mmResult != MMSYSERR_NOERROR ) { mmioClose ( hMmio, 0 ); return false; }
+
+		*ppData = new char [ dataChunk.cksize ];
 		size = mmioRead ( hMmio, (HPSTR)*ppData, dataChunk.cksize );
 		dataSize = size;
 
@@ -275,13 +368,6 @@ namespace GAME
 	}
 
 
-#if	0
-	void DxSound::Play ()
-	{
-//		m_lpDSBuffer->Play ( 0, 0, 0 );
-	}
-#endif	//0
-	
 #if 0
 	void DxSound::LoadWaveFromFile ( LPTSTR filepath )
 	{
@@ -321,13 +407,13 @@ namespace GAME
 	}
 #endif // 0
 
-	void DxSound::LoadWaveFromFile_Renew ( LPTSTR filepath )
+	void DxSound::LoadWaveFromFile ( LPTSTR filepath )
 	{
 		//Waveファイルオープン
 		WAVEFORMATEX waveFormatEx;
 		char* pWaveData = nullptr;
 		DWORD waveSize = 0;
-		if ( ! OpenWave ( filepath, waveFormatEx, &pWaveData, waveSize ) ) { return; }
+		if ( ! OpenWaveFromFile ( filepath, waveFormatEx, &pWaveData, waveSize ) ) { return; }
 
 		//バッファのパラメータ指定
 		DSBUFFERDESC desc;
@@ -340,23 +426,25 @@ namespace GAME
 
 		//サウンドバッファの作成
 		//サウンドバッファにWaveデータ書き込み
-		LPDxSoundBuffer* pLPDSB = new LPDxSoundBuffer;
+//		LPDxSoundBuffer* pLPDSB = new LPDxSoundBuffer;
+		PP_DXSNDBUF pLPDSB = make_shared < LPDxSoundBuffer > ();
 		pLPDSB->SetSoundBuffer ( m_lpDS, &desc, pWaveData );
 
 		delete[] pWaveData;		//元データの解放
 		pWaveData = nullptr;
 
 		//配列に追加
-		m_vLPDSB.push_back ( pLPDSB );
+//		m_vLPDSB.push_back ( pLPDSB );
+		mvpp_DXSNDBUF.push_back ( pLPDSB );
 	}
 
-	void DxSound::LoadWaveFromMem_Renew ( HPSTR pchBuffer, LONG memSize )
+	void DxSound::LoadWaveFromMem ( HPSTR pchBuffer, LONG memSize )
 	{
 		//Waveファイルオープン
 		WAVEFORMATEX waveFormatEx;
 		char* pWaveData = nullptr;
 		DWORD waveSize = 0;
-		if ( ! OpenWave ( pchBuffer, memSize, waveFormatEx, &pWaveData, waveSize ) ) { return; }
+		if ( ! OpenWaveFromMem ( pchBuffer, memSize, waveFormatEx, &pWaveData, waveSize ) ) { return; }
 
 		//バッファのパラメータ指定
 		DSBUFFERDESC desc;
@@ -369,28 +457,66 @@ namespace GAME
 
 		//サウンドバッファの作成
 		//サウンドバッファにWaveデータ書き込み
-		LPDxSoundBuffer* pLPDSB = new LPDxSoundBuffer;
+		PP_DXSNDBUF pLPDSB = make_shared < LPDxSoundBuffer > ();
 		pLPDSB->SetSoundBuffer ( m_lpDS, &desc, pWaveData );
 
-		delete[] pWaveData;		//元データの解放
+		delete [] pWaveData;		//元データの解放
 		pWaveData = nullptr;
 
 		//配列に追加
-		m_vLPDSB.push_back ( pLPDSB );
+		mvpp_DXSNDBUF.push_back ( pLPDSB );
 	}
 
-	void DxSound::Play_Renew ( UINT id )
+	void DxSound::LoadWaveFromMemEx ( UINT nBuf, HPSTR pchBuffer, LONG memSize )
 	{
-		if ( id >= m_vLPDSB.size () ) { return; }
+		//Waveファイルオープン
+		WAVEFORMATEX waveFormatEx;
+		char* pWaveData = nullptr;
+		DWORD waveSize = 0;
+		if ( ! OpenWaveFromMem ( pchBuffer, memSize, waveFormatEx, &pWaveData, waveSize ) ) { return; }
 
+		//バッファのパラメータ指定
+		DSBUFFERDESC desc;
+		desc.dwSize = sizeof ( DSBUFFERDESC );
+		desc.dwFlags = DSBCAPS_CTRLVOLUME;		//ボリューム変更
+		desc.dwBufferBytes = waveSize;
+		desc.dwReserved = 0;
+		desc.lpwfxFormat = &waveFormatEx;
+		desc.guid3DAlgorithm = GUID_NULL;
+
+		//サウンドバッファの作成
+		//サウンドバッファにWaveデータ書き込み
+		PP_DXSNDBUF pLPDSB = make_shared < LPDxSoundBuffer > ();
+		pLPDSB->SetSoundBufferEx ( nBuf, m_lpDS, &desc, pWaveData );
+
+		delete [] pWaveData;		//元データの解放
+		pWaveData = nullptr;
+
+		//配列に追加
+		mvpp_DXSNDBUF.push_back ( pLPDSB );
+	}
+
+
+
+
+	void DxSound::Play ( UINT id )
+	{
+#if 0
+		if ( id >= m_vLPDSB.size () ) { return; }
 		m_vLPDSB[id]->Play ( 0, 0, 0 );
+#endif // 0
+		if ( id >= mvpp_DXSNDBUF.size () ) { return; }
+		mvpp_DXSNDBUF [ id ]->Play ( 0, 0, 0 );
 	}
 	
 	void DxSound::PlayLoop ( UINT id )
 	{
+#if 0
 		if ( id >= m_vLPDSB.size () ) { return; }
-
 		m_vLPDSB[id]->Play ( 0, 0, DSBPLAY_LOOPING );
+#endif // 0
+		if ( id >= mvpp_DXSNDBUF.size () ) { return; }
+		mvpp_DXSNDBUF [ id ]->Play ( 0, 0, DSBPLAY_LOOPING );
 	}
 
 #if 0
@@ -404,8 +530,12 @@ namespace GAME
 
 	void DxSound::Stop ( UINT id )
 	{
+#if 0
 		if ( id >= m_vLPDSB.size () ) { return; }
 		m_vLPDSB[id]->Stop ();
+#endif // 0
+		if ( id >= mvpp_DXSNDBUF.size () ) { return; }
+		mvpp_DXSNDBUF [ id ]->Stop ();
 	}
 	
 
