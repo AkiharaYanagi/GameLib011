@@ -29,7 +29,7 @@ namespace GAME
 	{
 		//Unicode（ワイド文字）対応　_vsc w printf() / マルチバイト文字対応 _vsc printf()
 		int size = _vsctprintf ( format, args ) + 1;		//'\0'を最後につけたサイズを得る
-		UP_TSTR buf = make_unique < TCHAR[] > ( size );		//バッファを確保
+		UP_TSTR buf = std::make_unique < TCHAR[] > ( size );		//バッファを確保
 		//Unicode（ワイド文字）対応　vs w printf_s() / マルチバイト文字対応 vs printf_s()
 		_vstprintf_s ( buf.get (), size, format, args );	//バッファに書き込み
 		return std::move ( buf );

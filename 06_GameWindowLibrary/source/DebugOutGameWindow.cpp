@@ -261,7 +261,7 @@ namespace GAME
 			vpVpRct.resize ( size );
 			for ( UINT i = size - old_size; i < size; ++ i )
 			{
-				vpVpRct [ i ] = make_shared < Vx_Rect > ();
+				vpVpRct [ i ] = std::make_shared < Vx_Rect > ();
 				vpVpRct [ i ]->Load ();
 			}
 
@@ -305,7 +305,7 @@ namespace GAME
 		mvp_vx.resize ( SIZE );	
 		for ( UINT i = 0; i < SIZE; ++ i )
 		{
-			mvp_vx [ i ] = make_shared < Vx_Rect > ();
+			mvp_vx [ i ] = std::make_shared < Vx_Rect > ();
 			P_VxRct p = mvp_vx [ i ];
 			p->SetAllZ ( 0 );
 			p->SetPos ( 20 + 20.f * i, 400 );
@@ -366,7 +366,7 @@ namespace GAME
 
 		//•¶Žš—ñ•ÏŠ·
 		size_t str_size = m_tstr.size ();
-		unique_ptr < char[] > ary_ch = make_unique < char[] > ( str_size );
+		std::unique_ptr < char[] > ary_ch = std::make_unique < char[] > ( str_size );
 
 		vector < char > v_ch;
 		v_ch.resize ( str_size );

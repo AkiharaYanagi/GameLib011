@@ -17,7 +17,7 @@ namespace GAME
 	PrimitiveTexture::PrimitiveTexture ()
 		: m_multiple ( true )
 	{
-		m_tx = make_shared < TxAcv > ();
+		m_tx = std::make_shared < TxAcv > ();
 	}
 
 	PrimitiveTexture::~PrimitiveTexture ()

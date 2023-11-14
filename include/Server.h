@@ -25,7 +25,7 @@ namespace GAME
 	//--------------------------------------------------
 	//シングルトンパターン
 	private:
-		using P_Server = unique_ptr < Server >;
+		using P_Server = std::unique_ptr < Server >;
 		static P_Server m_instance;
 		Server ();
 		Server ( const Server & rhs ) = delete;

@@ -69,7 +69,7 @@ namespace GAME
 	{
 		//--------------------------------------------------
 		//シングルトンパターン
-		using P_GAME_TXT = unique_ptr < GameText >;
+		using P_GAME_TXT = std::unique_ptr < GameText >;
 		static P_GAME_TXT		m_inst;
 		GameText ();
 		GameText ( const GameText& rhs ) = delete;

@@ -26,7 +26,7 @@ namespace GAME
 	//--------------------------------------------------
 	//[シングルトンパターン]
 	private:
-		using P_NetInput = unique_ptr < NetInput >;
+		using P_NetInput = std::unique_ptr < NetInput >;
 		static P_NetInput	m_inst;
 		NetInput ();
 		NetInput ( const NetInput & rhs ) = delete;

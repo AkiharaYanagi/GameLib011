@@ -39,7 +39,7 @@ namespace GAME
 	//--------------------------------------------------
 	//シングルトンパターン
 	private:
-		using P_SoundArchiver = unique_ptr < SoundArchiver >;
+		using P_SoundArchiver = std::unique_ptr < SoundArchiver >;
 		static P_SoundArchiver		m_inst;
 		SoundArchiver ();
 		SoundArchiver ( const SoundArchiver& rhs ) = delete;

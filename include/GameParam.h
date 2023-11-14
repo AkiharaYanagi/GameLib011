@@ -31,7 +31,7 @@ namespace GAME
 		}
 	};
 
-	using P_GameParam = shared_ptr < GameParam >;
+	using P_GameParam = std::shared_ptr < GameParam >;
 
 
 }	//namespace GAME

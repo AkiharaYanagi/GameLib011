@@ -146,7 +146,7 @@ namespace GAME
 				HANDLE hReadFile = CreateFile ( filename.c_str(), GENERIC_READ, 0, nullptr, 
 					OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr );
 				
-				unique_ptr < BYTE[] > buf = make_unique < BYTE[] > ( fileSize );
+				std::unique_ptr < BYTE[] > buf = std::make_unique < BYTE[] > ( fileSize );
 				DWORD numberOfByteRead = 0;
 				::ReadFile ( hReadFile, buf.get(), fileSize, &numberOfByteRead, nullptr );
 
@@ -206,7 +206,7 @@ namespace GAME
 				HANDLE hReadFile = CreateFile ( filename.c_str(), GENERIC_READ, 0, nullptr, 
 					OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr );
 				
-				unique_ptr < BYTE[] > buf = make_unique < BYTE[] > ( fileSize );
+				std::unique_ptr < BYTE[] > buf = std::make_unique < BYTE[] > ( fileSize );
 				DWORD numberOfByteRead = 0;
 				::ReadFile ( hReadFile, buf.get(), fileSize, &numberOfByteRead, nullptr );
 
@@ -284,7 +284,7 @@ namespace GAME
 			DWORD numberOfByteRead = 0;
 			DWORD fileSize = 0;
 			::ReadFile ( hFile, &fileSize, sizeof ( DWORD ), &numberOfByteRead, nullptr );
-			unique_ptr < BYTE [] > buf = make_unique < BYTE [] > ( fileSize );
+			std::unique_ptr < BYTE [] > buf = std::make_unique < BYTE [] > ( fileSize );
 			::ReadFile ( hFile, buf.get(), fileSize, &numberOfByteRead, nullptr );
 			
 			//サウンドバッファを作成 (SEは複数再生のためバッファ数を指定)

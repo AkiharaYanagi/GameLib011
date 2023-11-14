@@ -53,7 +53,7 @@ namespace GAME
 		void ResetEnd () { m_end = false; }
 	};
 
-	using P_GrpDemo = shared_ptr < GrpDemo >;
+	using P_GrpDemo = std::shared_ptr < GrpDemo >;
 
 
 }	//namespace GAME

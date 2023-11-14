@@ -25,13 +25,13 @@ namespace GAME
 	//--------------------------------------------------
 	//シングルトンパターン
 	private:
-		using P_Client = unique_ptr < Client >;
+		using P_Client = std::unique_ptr < Client >;
 		static P_Client m_inst;
 	public:
 		Client ();
 		Client ( const Client & rhs ) = delete;
 		~Client ();
-		static void Create () { if ( ! m_inst ) { m_inst = make_unique < Client > (); } }
+		static void Create () { if ( ! m_inst ) { m_inst = std::make_unique < Client > (); } }
 		static P_Client & instance () { return m_inst; }
 	//--------------------------------------------------
 

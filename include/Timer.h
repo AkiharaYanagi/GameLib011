@@ -68,9 +68,9 @@ namespace GAME
 		void Clear () { m_time = 0; m_active = false; }
 	};
 
-	using P_Timer = shared_ptr < Timer >;
+	using P_Timer = std::shared_ptr < Timer >;
 	using VP_Timer = vector < P_Timer >;
-	using PVP_Timer = shared_ptr < VP_Timer >;
+	using PVP_Timer = std::shared_ptr < VP_Timer >;
 
 
 }	//namespace GAME

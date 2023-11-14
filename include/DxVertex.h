@@ -118,7 +118,7 @@ namespace GAME
 		bool GetValid () const { return m_valid; }
 	};
 
-	using P_Vertex = shared_ptr < DxVertex >;
+	using P_Vertex = std::shared_ptr < DxVertex >;
 
 
 
@@ -140,7 +140,7 @@ namespace GAME
 		VEC2 GetPos () const { return m_pos; }
 	};
 
-	using P_PtclVx = shared_ptr < DxParticularVertex >;
+	using P_PtclVx = std::shared_ptr < DxParticularVertex >;
 
 
 //-------------------------------------------------------------------------------------------------
@@ -168,7 +168,7 @@ namespace GAME
 	};
 
 	using Vx_Rect = DxVertexRect;
-	using P_VxRct = shared_ptr < Vx_Rect >;
+	using P_VxRct = std::shared_ptr < Vx_Rect >;
 	using VP_VxRct = vector < P_VxRct >;
 
 
@@ -190,7 +190,7 @@ namespace GAME
 		void ApplyPos ();	//位置を適用して頂点をつくる
 	};
 
-	using P_VxF4 = shared_ptr < DxVertexFree4 >;
+	using P_VxF4 = std::shared_ptr < DxVertexFree4 >;
 
 
 //-------------------------------------------------------------------------------------------------
@@ -215,7 +215,7 @@ namespace GAME
 		void ApplyPos ();	//位置を適用して頂点をつくる
 	};
 
-	using P_VxLine = shared_ptr < DxVertexLine >;
+	using P_VxLine = std::shared_ptr < DxVertexLine >;
 
 
 //-------------------------------------------------------------------------------------------------
@@ -239,7 +239,7 @@ namespace GAME
 		void ApplyPos ();	//位置を適用して頂点をつくる
 	};
 
-	using P_VxTri = shared_ptr < DxVertex3 >;
+	using P_VxTri = std::shared_ptr < DxVertex3 >;
 
 
 	//-------------------------------------------------------------------------------------------------
@@ -278,7 +278,7 @@ namespace GAME
 		void SetVec ( VEC2 vec ) { m_vec[2] = vec; ApplyPos (); }
 	};
 
-	using _P_VxPori = shared_ptr < _DxPoliVertex >;
+	using _P_VxPori = std::shared_ptr < _DxPoliVertex >;
 
 
 
@@ -340,7 +340,7 @@ namespace GAME
 		void SetWidth ( float w ) { m_w = w; }
 	};
 
-	using P_VxPori = shared_ptr < DxPoliVertex >;
+	using P_VxPori = std::shared_ptr < DxPoliVertex >;
 
 
 //-------------------------------------------------------------------------------------------------

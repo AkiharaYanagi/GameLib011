@@ -427,7 +427,7 @@ namespace GAME
 		//サウンドバッファの作成
 		//サウンドバッファにWaveデータ書き込み
 //		LPDxSoundBuffer* pLPDSB = new LPDxSoundBuffer;
-		PP_DXSNDBUF pLPDSB = make_shared < LPDxSoundBuffer > ();
+		PP_DXSNDBUF pLPDSB = std::make_shared < LPDxSoundBuffer > ();
 		pLPDSB->SetSoundBuffer ( m_lpDS, &desc, pWaveData );
 
 		delete[] pWaveData;		//元データの解放
@@ -457,7 +457,7 @@ namespace GAME
 
 		//サウンドバッファの作成
 		//サウンドバッファにWaveデータ書き込み
-		PP_DXSNDBUF pLPDSB = make_shared < LPDxSoundBuffer > ();
+		PP_DXSNDBUF pLPDSB = std::make_shared < LPDxSoundBuffer > ();
 		pLPDSB->SetSoundBuffer ( m_lpDS, &desc, pWaveData );
 
 		delete [] pWaveData;		//元データの解放
@@ -486,7 +486,7 @@ namespace GAME
 
 		//サウンドバッファの作成
 		//サウンドバッファにWaveデータ書き込み
-		PP_DXSNDBUF pLPDSB = make_shared < LPDxSoundBuffer > ();
+		PP_DXSNDBUF pLPDSB = std::make_shared < LPDxSoundBuffer > ();
 		pLPDSB->SetSoundBufferEx ( nBuf, m_lpDS, &desc, pWaveData );
 
 		delete [] pWaveData;		//元データの解放

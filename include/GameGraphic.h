@@ -79,7 +79,7 @@ namespace GAME
 		virtual void ResetObjectNum ( UINT n ) { ClearObject (); AddObject ( n ); }
 
 		//í«â¡
-		virtual void AddObject () { m_pvpObject->push_back ( make_shared < GameObject > () ); }
+		virtual void AddObject () { m_pvpObject->push_back ( std::make_shared < GameObject > () ); }
 		virtual void AddObject ( UINT n ) { for ( UINT i = 0; i < n; ++i ) { AddObject (); } }
 		virtual void AddpObject ( P_Object p ) { m_pvpObject->push_back ( p ); }
 
@@ -141,7 +141,7 @@ namespace GAME
 
 	//å^éwíË
 	typedef		GameGraphicBase			GrpBs;
-	typedef		shared_ptr < GrpBs >	P_GrpBs;
+	typedef		std::shared_ptr < GrpBs >	P_GrpBs;
 
 
 	//Å°=======================================================================
@@ -172,7 +172,7 @@ namespace GAME
 	};
 
 	typedef		GameGraphicFromFile		GrpFl;
-	typedef		shared_ptr < GrpFl >	P_GrpFl;
+	typedef		std::shared_ptr < GrpFl >	P_GrpFl;
 
 
 	//Å°=======================================================================
@@ -200,7 +200,7 @@ namespace GAME
 	};
 
 	typedef		GameGraphicFromArchive	GrpAcv;
-	typedef		shared_ptr < GrpAcv >	P_GrpAcv;
+	typedef		std::shared_ptr < GrpAcv >	P_GrpAcv;
 
 
 	//Å°=======================================================================
@@ -233,7 +233,7 @@ namespace GAME
 	};
 
 	typedef		GameGraphicApprovedTexture	GrpApTx;
-	typedef		shared_ptr < GrpApTx >	P_GrpApTx;
+	typedef		std::shared_ptr < GrpApTx >	P_GrpApTx;
 
 
 }	//namespace GAME

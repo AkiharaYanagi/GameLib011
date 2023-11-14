@@ -41,7 +41,7 @@ namespace GAME
 	
 		DWORD				m_beforeTime;	//計測開始時間
 		DWORD				m_frames;		//現在フレーム数
-		unique_ptr < GameSystem >		m_gameSystem;	//ゲームシステム
+		std::unique_ptr < GameSystem >		m_gameSystem;	//ゲームシステム
 
 		DWORD				m_averageSleep;		//差分の平均
 

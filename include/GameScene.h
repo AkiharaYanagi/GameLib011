@@ -24,7 +24,7 @@ namespace GAME
 	//		・多量のデータを持って移項する単位
 	//		・シーンの移動時にオブジェクトの全解放、全確保。ただしm_pParamは次のシーンへ移譲
 	//		※thisの取得のため、enable_shared_from_this < GameScene >を多重継承
-	//		shared_from_thisを用いるのでunique_ptrにはしない
+	//		shared_from_thisを用いるのでstd::unique_ptrにはしない
 	//------------------------------------------------------------------
 //	class GameScene : public GameTaskVector, public enable_shared_from_this < GameScene >
 	class GameScene : public GameTaskVector
@@ -48,8 +48,8 @@ namespace GAME
 		//@info	thisを自身に保存すると循環参照となるのでweak_ptrを用いる
 		//基本の戻値は return shared_from_this();
 		//内部で条件を確認し、遷移時は遷移先のオブジェクトを
-		//	make_shared < GameScene > () して返す
-		virtual shared_ptr < GameScene > Transit () = 0;
+		//	std::make_shared < GameScene > () して返す
+		virtual std::shared_ptr < GameScene > Transit () = 0;
 
 		//シーン共通パラメータ
 		void SetpParam ( P_GameParam && pParam ) { m_pParam = pParam; }
@@ -57,7 +57,7 @@ namespace GAME
 		P_GameParam GetpParam () { return m_pParam; }
 	};
 
-	using P_GameScene = shared_ptr < GameScene >;
+	using P_GameScene = std::shared_ptr < GameScene >;
 	using WP_GameScene = weak_ptr < GameScene >;
 
 	//------------------------------------------------------------------

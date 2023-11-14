@@ -87,7 +87,7 @@ namespace GAME
 #endif // 0
 	};
 
-	using P_FadeRect = shared_ptr < FadeRect >;
+	using P_FadeRect = std::shared_ptr < FadeRect >;
 
 
 }	//namespace GAME

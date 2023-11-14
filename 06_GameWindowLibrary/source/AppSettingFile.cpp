@@ -38,7 +38,7 @@ namespace GAME
 			TRACE_F ( _T("\n") );
 
 			//入力ストリームを生成
-			ifstream ifstrm( _T("AppSettings.dat"), ios::in );
+			std::ifstream ifstrm( _T("AppSettings.dat"), std::ios::in );
 			
 			//見つからないときデフォルトの値を設定して終了
 			if ( ! ifstrm )

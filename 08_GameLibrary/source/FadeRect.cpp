@@ -21,7 +21,7 @@ namespace GAME
 //		PrmRect::SetRect ( 0, 0, 1.f * 1280, 1.f * 960 );
 		PrmRect::SetRect ( 0, 0, 1.f * GAME_WINDOW_WIDTH, 1.f * GAME_WINDOW_HEIGHT );
 		PrmRect::SetAllZ ( Z_FADE );
-		m_timer = make_shared < Timer > ();
+		m_timer = std::make_shared < Timer > ();
 	}
 
 	FadeRect::~FadeRect ()

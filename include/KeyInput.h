@@ -108,7 +108,7 @@ namespace GAME
 	//--------------------------------------------------
 	//シングルトンパターン
 	private:
-		using P_KeyInput = unique_ptr < KeyInput >;
+		using P_KeyInput = std::unique_ptr < KeyInput >;
 		static P_KeyInput		m_inst;
 		KeyInput();
 		KeyInput( const KeyInput& rhs );

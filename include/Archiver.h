@@ -70,7 +70,7 @@ namespace GAME
 	//--------------------------------------------------
 	//シングルトンパターン
 	private:
-		using P_Archiver = unique_ptr < Archiver >;
+		using P_Archiver = std::unique_ptr < Archiver >;
 		static P_Archiver	m_inst;
 		Archiver ();
 		Archiver ( const Archiver & rhs ) = delete;
@@ -88,7 +88,7 @@ namespace GAME
 
 		//Releaseモードでは記録されない
 		//アーカイブファイルのデータヘッダを参照する
-		vector < ACV_H_SRC >	m_vFilename;	//対象データファイル名リスト
+		std::vector < ACV_H_SRC >	m_vFilename;	//対象データファイル名リスト
 
 		//ファイル列挙のとき、Find()においてディレクトリで再帰するのでカウントは外側に記録する
 		DWORD					m_current_offset;	//現在オフセット位置

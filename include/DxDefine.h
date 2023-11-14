@@ -39,14 +39,14 @@ using VXBUF = LPDIRECT3DVERTEXBUFFER9;
 
 //位置
 using VEC2 = D3DXVECTOR2;
-using P_VEC2 = shared_ptr < VEC2 >;
-using V_VEC2 = vector < VEC2 >;
-using L_VEC2 = list < VEC2 >;
+using P_VEC2 = std::shared_ptr < VEC2 >;
+using V_VEC2 = std:: vector < VEC2 >;
+using L_VEC2 = std:: list < VEC2 >;
 
 using VEC3 = D3DXVECTOR3;
-using P_VEC3 = shared_ptr < VEC3 >;
-using V_VEC3 =  vector < VEC3 >;
-using L_VEC3 = list < VEC3 >;
+using P_VEC3 = std::shared_ptr < VEC3 >;
+using V_VEC3 = std::vector < VEC3 >;
+using L_VEC3 = std::list < VEC3 >;
 
 //色
 using _CLR = D3DXCOLOR;

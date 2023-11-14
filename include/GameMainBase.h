@@ -55,7 +55,7 @@ namespace GAME
 	}
 
 
-	using UP_GameMainBase = unique_ptr < GameMainBase >;
+	using UP_GameMainBase = std::unique_ptr < GameMainBase >;
 
 
 	//=========================================================================
@@ -83,7 +83,7 @@ namespace GAME
 	}
 
 
-	using UP_GameMainTest = unique_ptr < GameMainTest >;
+	using UP_GameMainTest = std::unique_ptr < GameMainTest >;
 
 
 }	//namespace GAME

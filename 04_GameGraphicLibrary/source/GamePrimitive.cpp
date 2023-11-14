@@ -16,12 +16,12 @@
 namespace GAME
 {
 	GamePrimitive::GamePrimitive ()
-		: m_vertex ( make_shared < DxVertex > () )
+		: m_vertex ( std::make_shared < DxVertex > () )
 	{
 	}
 
 	GamePrimitive::GamePrimitive ( P_Vertex vertex )
-		: m_vertex ( make_shared < DxVertex > () )
+		: m_vertex ( std::make_shared < DxVertex > () )
 	{
 		assert ( vertex != nullptr );
 		m_vertex = vertex;
@@ -85,7 +85,7 @@ namespace GAME
 	//-------------------------------------------------------------------------------------------------
 	GamePrimitiveRect::GamePrimitiveRect ()
 	{
-		m_vertex = make_shared < DxVertexRect > ();
+		m_vertex = std::make_shared < DxVertexRect > ();
 		GameParticularPrimitive::SetVertex ( m_vertex );
 		m_vertex->SetRect ( 50, 50, 100, 200 );
 	}
@@ -98,7 +98,7 @@ namespace GAME
 	//-------------------------------------------------------------------------------------------------
 	GamePrimitive4::GamePrimitive4 ()
 	{
-		m_vertex = make_shared < DxVertexFree4 > ();
+		m_vertex = std::make_shared < DxVertexFree4 > ();
 		GamePrimitive::SetVertex ( m_vertex );
 		m_vertex->SetPoint ( 0, VEC2 ( 200,  50 ) );
 		m_vertex->SetPoint ( 1, VEC2 ( 220, 120 ) );
@@ -114,7 +114,7 @@ namespace GAME
 	//-------------------------------------------------------------------------------------------------
 	GamePrimitiveLine::GamePrimitiveLine ()
 	{
-		m_vertex = make_shared < DxVertexLine > ();
+		m_vertex = std::make_shared < DxVertexLine > ();
 		GamePrimitive::SetVertex ( m_vertex );
 		m_vertex->SetPoint ( VEC2 ( 100, 50 ), VEC2 ( 50, 100 ) );
 	}
@@ -127,7 +127,7 @@ namespace GAME
 	//-------------------------------------------------------------------------------------------------
 	GamePrimitiveTriangle::GamePrimitiveTriangle ()
 	{
-		m_vertex = make_shared < DxVertex3 > ();
+		m_vertex = std::make_shared < DxVertex3 > ();
 		GamePrimitive::SetVertex ( m_vertex );
 		m_vertex->SetTriangle ( 0, 0, 10, D3DX_PI );
 	}
@@ -225,7 +225,7 @@ namespace GAME
 	_GamePrimitivePoliLine::_GamePrimitivePoliLine ()
 	{
 //		GamePrimitive::SetVertex ( &m_vertex );
-		m_vertex = make_shared < _DxPoliVertex > ();
+		m_vertex = std::make_shared < _DxPoliVertex > ();
 		GamePrimitive::SetVertex ( m_vertex );
 #if	0
 		m_vertex->SetPos ( 0, 300, 250, 0 );
@@ -261,7 +261,7 @@ namespace GAME
 	GamePrimitivePoliLine::GamePrimitivePoliLine ()
 	{
 //		GamePrimitive::SetVertex ( &m_vertex );
-		m_vertex = make_shared < DxPoliVertex > ();
+		m_vertex = std::make_shared < DxPoliVertex > ();
 		GamePrimitive::SetVertex ( m_vertex );
 
 #if	0

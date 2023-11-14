@@ -125,7 +125,7 @@ namespace GAME
 	};
 
 	typedef GamePrimitiveRect		PrmRect;
-	typedef shared_ptr < PrmRect >	P_PrmRect;
+	typedef std::shared_ptr < PrmRect >	P_PrmRect;
 
 
 	//-------------------------------------------------------------------------------------------------
@@ -152,7 +152,7 @@ namespace GAME
 	};
 
 	using Prm4 = GamePrimitive4;
-	using P_Prm4 = shared_ptr < Prm4 >;
+	using P_Prm4 = std::shared_ptr < Prm4 >;
 
 
 	//-------------------------------------------------------------------------------------------------

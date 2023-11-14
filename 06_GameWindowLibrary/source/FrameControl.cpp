@@ -34,7 +34,7 @@ namespace GAME
 	{
 		::timeBeginPeriod(1);		//タイマーの分解能を1[ms]に設定
 
-		m_gameSystem = make_unique < GameSystem > ();
+		m_gameSystem = std::make_unique < GameSystem > ();
 	}
 
 	//------------------------------------------

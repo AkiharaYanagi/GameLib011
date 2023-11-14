@@ -26,7 +26,7 @@ namespace GAME
 	//=========================================================================
 	GameTaskVector::GameTaskVector ()
 	{
-		m_pvpTask = make_shared < VP_Task > ();
+		m_pvpTask = std::make_shared < VP_Task > ();
 	}
 
 	GameTaskVector::~GameTaskVector ()
@@ -135,7 +135,7 @@ namespace GAME
 	//=========================================================================
 	GameTaskList::GameTaskList ()
 	{
-		m_plpTask = make_shared < LP_Task > ();
+		m_plpTask = std::make_shared < LP_Task > ();
 	}
 
 	GameTaskList::~GameTaskList ()
@@ -270,7 +270,7 @@ namespace GAME
 		}
 	}
 
-	void GameTaskAssign::SetIndex ( shared_ptr < GameTask > p )
+	void GameTaskAssign::SetIndex ( std::shared_ptr < GameTask > p )
 	{
 		UINT index = 0;
 		UINT size = GetSize();

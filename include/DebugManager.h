@@ -54,14 +54,13 @@ namespace GAME
 	{
 	//--------------------------------------------------
 	//シングルトンパターン
-		using P_DebugOutFile = unique_ptr < DebugOutFile >;
-		static P_DebugOutFile m_inst;
+		using P_DebugOutFile = std::unique_ptr < DebugOutFile >;
+		static P_DebugOutFile m_inst;	//インスタンス
 		DebugOutFile ();
-		DebugOutFile ( const DebugOutFile & rhs ) = delete;
 	public:
 		~DebugOutFile ();
-		static P_DebugOutFile & instance () { return m_inst; }
 		static void Create () { if ( ! m_inst ) { m_inst = P_DebugOutFile ( new DebugOutFile () ); } }
+		static P_DebugOutFile & Inst () { return m_inst; }
 	//--------------------------------------------------
 
 	private:
@@ -72,8 +71,8 @@ namespace GAME
 	};
 
 //シングルトンアクセス用
-#define DBGOUT_FL	DebugOutFile::instance()
-#define DBGOUT_FL_F	DebugOutFile::instance()->DebugOutf
+#define DBGOUT_FL	DebugOutFile::Inst()
+#define DBGOUT_FL_F	DebugOutFile::Inst()->DebugOutf
 
 
 //=================================================================================================
@@ -85,11 +84,11 @@ namespace GAME
 		//シングルトンパターン
 		DebugOutTrace () = default;
 		DebugOutTrace ( const DebugOutTrace & rhs ) = delete;
-		static unique_ptr < DebugOutTrace > m_inst;
+		static std::unique_ptr < DebugOutTrace > m_inst;
 	public:
 		~DebugOutTrace() = default;
-		static unique_ptr < DebugOutTrace > & instance() { return m_inst; }
-		static void Create () { if ( ! m_inst ) m_inst = unique_ptr < DebugOutTrace > ( new DebugOutTrace () ); }
+		static std::unique_ptr < DebugOutTrace > & instance() { return m_inst; }
+		static void Create () { if ( ! m_inst ) m_inst = std::unique_ptr < DebugOutTrace > ( new DebugOutTrace () ); }
 		//--------------------------------------------------
 #endif // 0
 

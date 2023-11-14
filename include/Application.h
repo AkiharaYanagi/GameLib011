@@ -5,7 +5,7 @@
 //　windowsアプリケーションにおける初期化とメッセージの処理
 //	(描画スレッド処理)
 //	※ static なウィンドウプロシージャのため、thisポインタがstaticで保存の必要がある
-//	shared_from_this()のため shared_ptr <> で確保する
+//	shared_from_this()のため std::shared_ptr <> で確保する
 //
 //=================================================================================================
 #pragma once
@@ -48,7 +48,7 @@ namespace GAME
 		//ウィンドウ初期化
 		ResourceName		m_rcName;		//リソース名
 		HWND				m_hWnd;			//ウィンドウハンドル
-		static shared_ptr < Application >	m_pThis;		//静的thisポインタ
+		static std::shared_ptr < Application >	m_pThis;		//静的thisポインタ
 		static bool			m_init;			//初期化フラグ(HWNDとアクティブウィンドウメッセージの関係で必要)
 
 		bool _WinInit ( HINSTANCE hInst );	// ウィンドウの初期化
@@ -56,7 +56,7 @@ namespace GAME
 
 		//ライブラリ内だけで用いるクラス
 		//		ヘッダではポインタだけで宣言し、ソースファイルで対象ヘッダをインクルードする
-		unique_ptr < FrameControl > m_pFrameControl;
+		std::unique_ptr < FrameControl > m_pFrameControl;
 		
 		//多重起動防止のためのミューテックスハンドル
 		HANDLE				m_hMutex;

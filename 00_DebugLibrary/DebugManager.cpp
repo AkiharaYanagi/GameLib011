@@ -62,7 +62,7 @@ namespace GAME
 		int size = _vsctprintf_l ( format, lc, args ) + 1;		//'\0'を最後につけたサイズを得る
 
 
-		unique_ptr < TCHAR[] > tbuf = make_unique < TCHAR[] > ( size );		//バッファを確保
+		std::unique_ptr < TCHAR[] > tbuf = std::make_unique < TCHAR[] > ( size );		//バッファを確保
 	
 																			//Unicode（ワイド文字）対応　vs w printf_s() / マルチバイト文字対応 vswprintf_s()
 //		_vstprintf_s ( tbuf.get(), size, format, args );	//バッファに書き込み
@@ -93,7 +93,7 @@ namespace GAME
 	//------------------------------------------------
 	//staticの実体
 	//------------------------------------------------
-//	unique_ptr < DebugOutTrace > DebugOutTrace::m_inst = nullptr;
+//	std::unique_ptr < DebugOutTrace > DebugOutTrace::m_inst = nullptr;
 
 	//文字列フォーマットを表示
 	void DebugOutTrace::DebugOutf ( LPCTSTR format, ... )
@@ -116,13 +116,13 @@ namespace GAME
 		va_start ( args, format );	//文字列の先頭ポインタをセット
 
 		int size = _vscprintf ( format, args ) + 1;		//'\0'を最後につけたサイズを得る
-		unique_ptr < char[] > buf = make_unique < char[] > ( size );		//バッファを確保
+		std::unique_ptr < char[] > buf = std::make_unique < char[] > ( size );		//バッファを確保
 		vsprintf_s ( buf.get (), size, format, args );	//バッファに書き込み
 
 		va_end ( args );
 
 		//multibyte文字からTCHAR(WCHAR)に変換
-		unique_ptr < TCHAR[] > tbuf = make_unique < TCHAR[] > ( size );		//バッファを確保
+		std::unique_ptr < TCHAR[] > tbuf = std::make_unique < TCHAR[] > ( size );		//バッファを確保
 		size_t _PptNumOfCharConverted = 0;
 		size_t sizebuf = strlen ( buf.get() ) + 1;
 		mbstowcs_s ( &_PptNumOfCharConverted, tbuf.get(), sizebuf, buf.get(), _TRUNCATE );

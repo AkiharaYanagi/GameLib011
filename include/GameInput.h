@@ -24,7 +24,7 @@ namespace GAME
 	{
 	//--------------------------------------------------
 	//シングルトンパターン
-		using P_GameInput = unique_ptr < GameInput >;
+		using P_GameInput = std::unique_ptr < GameInput >;
 		static P_GameInput m_inst;
 		GameInput ();
 		GameInput ( const GameInput & rhs ) = delete;

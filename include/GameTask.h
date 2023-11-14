@@ -60,11 +60,11 @@ namespace GAME
 	};
 
 	//型定義
-	using P_Task = shared_ptr < GameTask >;
+	using P_Task = std::shared_ptr < GameTask >;
 	using VP_Task = vector < P_Task >;
-	using PVP_Task = shared_ptr < VP_Task >;
+	using PVP_Task = std::shared_ptr < VP_Task >;
 	using LP_Task = list < P_Task >;
-	using PLP_Task = shared_ptr < LP_Task >;
+	using PLP_Task = std::shared_ptr < LP_Task >;
 
 
 	//=========================================================================
@@ -128,7 +128,7 @@ namespace GAME
 	};
 
 	using TASK_VEC = GameTaskVector;
-	using P_TASK_VEC = shared_ptr < TASK_VEC >;
+	using P_TASK_VEC = std::shared_ptr < TASK_VEC >;
 
 
 	//=========================================================================
@@ -185,7 +185,7 @@ namespace GAME
 	};
 
 	using TASK_LST = GameTaskList;
-	using P_TASK_LST = shared_ptr < TASK_LST >;
+	using P_TASK_LST = std::shared_ptr < TASK_LST >;
 
 
 #if 0
@@ -206,7 +206,7 @@ namespace GAME
 		virtual void Draw();		//特定の一つにフレーム毎描画(スプライト)
 
 		//タスクの取得
-		shared_ptr < GameTask > GetTask() { return GameTaskVector::GetTask ( m_index ); }
+		std::shared_ptr < GameTask > GetTask() { return GameTaskVector::GetTask ( m_index ); }
 
 		//インデックスの設定
 		void SetIndex ( UINT index ) 
@@ -217,7 +217,7 @@ namespace GAME
 		UINT GetIndex () { return m_index; }
 
 		//タスクのポインタからインデックスを指定する
-		void SetIndex ( shared_ptr < GameTask > p );
+		void SetIndex ( std::shared_ptr < GameTask > p );
 
 		//次へ
 		void Next () {

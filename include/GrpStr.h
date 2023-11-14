@@ -43,7 +43,7 @@ namespace GAME
 		USIZE GetSize () const { return m_tx->GetSize (); }
 	};
 
-	using P_GrpStr = shared_ptr < GrpStr >;
+	using P_GrpStr = std::shared_ptr < GrpStr >;
 
 
 }	//namespace GAME

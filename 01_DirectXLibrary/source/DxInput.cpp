@@ -41,9 +41,9 @@ namespace GAME
 	DxInput::DxInput ()
 		: m_lpDI ( nullptr ), m_joystick ( nullptr ), m_keyboard ( nullptr ), m_mouse ( nullptr )
 	{
-		m_joystick = make_unique < DxJoystick > ();
-		m_keyboard = make_unique < DxKeyboard > ();
-		m_mouse = make_unique < DxMouse > ();
+		m_joystick = std::make_unique < DxJoystick > ();
+		m_keyboard = std::make_unique < DxKeyboard > ();
+		m_mouse = std::make_unique < DxMouse > ();
 
 		Init ();		//èâä˙âª
 	}

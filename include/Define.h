@@ -21,7 +21,16 @@
 #include <list>
 #include <memory>
 
-using namespace std;
+
+//=============================================
+//
+//@info	using namespace std; を止め、	std::宣言を付ける
+//	どうしても付けるときは ヘッダ.h ではなく ソース.cppに付ける
+//
+//=============================================
+
+//using namespace std;
+
 
 //-------------------------------------------------------------------------------------------------
 //	定義
@@ -43,7 +52,7 @@ namespace GAME
 		UINT h;
 	} USIZE;
 
-	using V_UINT = vector < UINT >;
+	using V_UINT = std::vector < UINT >;
 
 	//-------------------------------------------------------------------------------------------------
 	// TCAHR対応
@@ -57,18 +66,18 @@ namespace GAME
 	using tistringstream =	std::basic_istringstream< TCHAR >;
 	using tostringstream =	std::basic_ostringstream< TCHAR >;
 
-	using V_STR = vector < tstring >;
-	using P_STR = shared_ptr < tstring >;
-	using VP_STR = vector < P_STR >;
-	using PVP_STR = shared_ptr < tstring >;
+	using V_STR = std::vector < tstring >;
+	using P_STR = std::shared_ptr < tstring >;
+	using VP_STR = std::vector < P_STR >;
+	using PVP_STR = std::shared_ptr < tstring >;
 
 
 	typedef tostringstream TOSS;
-	typedef shared_ptr < TOSS > P_TOSS;
+	typedef std::shared_ptr < TOSS > P_TOSS;
 
 
-	using UP_CTSTR = unique_ptr < TCHAR >;
-	using UP_TSTR = unique_ptr < TCHAR[] >;	//配列として < TCHAR[] > で宣言する
+	using UP_CTSTR = std::unique_ptr < TCHAR >;
+	using UP_TSTR = std::unique_ptr < TCHAR[] >;	//配列として < TCHAR[] > で宣言する
 
 
 	//-------------------------------------------------------------------------------------------------

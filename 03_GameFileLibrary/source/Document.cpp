@@ -24,8 +24,8 @@ namespace GAME
 	//----------------------------------------------------------
 	Element::Element () : m_pParent ( nullptr )
 	{
-		m_attributes = make_shared < VP_Attribute > ();
-		m_elements = make_shared < VP_Element > ();
+		m_attributes = std::make_shared < VP_Attribute > ();
+		m_elements = std::make_shared < VP_Element > ();
 	}
 
 	void Element::Clear ()
@@ -70,7 +70,7 @@ namespace GAME
 	//ドキュメントファイル名から読込
 	Document::Document ( tstring fileName )
 	{
-		root = make_shared < Element > ();
+		root = std::make_shared < Element > ();
 		root->SetName (_T("root") );
 
 		//ファイルストリームを作成
@@ -85,7 +85,7 @@ namespace GAME
 	//テキストストリームから読込
 	Document::Document ( tistringstream& tiss )
 	{
-		root = make_shared < Element > ();
+		root = std::make_shared < Element > ();
 		root->SetName (_T("root") );
 		DocumentFromStream ( tiss );
 	}
@@ -137,7 +137,7 @@ namespace GAME
 					//終了タグの前にもう一度開始タグが始まると子エレメントとなる
 
 					//エレメント新規作成
-					nextElement = make_shared < Element > ();
+					nextElement = std::make_shared < Element > ();
 					element->AddpElement ( nextElement );
 					nextElement->SetpParent ( element );
 					element = nextElement;
@@ -201,7 +201,7 @@ namespace GAME
 				if ( c == ' ' )	//区切り(次のアトリビュートへ)
 				{
 					//アトリビュートをエレメントに加える
-					P_Attribute pAttribute = make_shared < Attribute > ( strAttributeName, strAttributeValue );
+					P_Attribute pAttribute = std::make_shared < Attribute > ( strAttributeName, strAttributeValue );
 					element->AddpAttribute ( pAttribute );
 					strAttributeName = _T("");
 					strAttributeValue = _T("");
@@ -211,7 +211,7 @@ namespace GAME
 				else if ( c == '>' )	//エレメント内で最後のアトリビュート
 				{
 					//アトリビュートをエレメントに加える
-					P_Attribute pAttribute = make_shared < Attribute > ( strAttributeName, strAttributeValue );
+					P_Attribute pAttribute = std::make_shared < Attribute > ( strAttributeName, strAttributeValue );
 					element->AddpAttribute ( pAttribute );
 					strAttributeName = _T("");
 					strAttributeValue = _T("");
@@ -249,7 +249,7 @@ namespace GAME
 	//バイナリデータから読込
 	Document::Document ( char* buf, UINT size )
 	{
-		root = make_shared < Element > ();
+		root = std::make_shared < Element > ();
 		UINT pos = 0;
 
 		tstring str = _T("");
@@ -295,7 +295,7 @@ namespace GAME
 					//終了タグの前にもう一度開始タグが始まると子エレメントとなる
 
 					//エレメント新規作成
-					nextElement = make_shared < Element > ();
+					nextElement = std::make_shared < Element > ();
 					element->AddpElement ( nextElement );
 					nextElement->SetpParent ( element );
 					element = nextElement;
@@ -359,7 +359,7 @@ namespace GAME
 				if ( c == ' ' )	//区切り(次のアトリビュートへ)
 				{
 					//アトリビュートをエレメントに加える
-					P_Attribute pAttribute = make_shared < Attribute > ( strAttributeName, strAttributeValue );
+					P_Attribute pAttribute = std::make_shared < Attribute > ( strAttributeName, strAttributeValue );
 					element->AddpAttribute ( pAttribute );
 					strAttributeName = _T("");
 					strAttributeValue = _T("");
@@ -369,7 +369,7 @@ namespace GAME
 				else if ( c == '>' )	//エレメント内で最後のアトリビュート
 				{
 					//アトリビュートをエレメントに加える
-					P_Attribute pAttribute = make_shared < Attribute > ( strAttributeName, strAttributeValue );
+					P_Attribute pAttribute = std::make_shared < Attribute > ( strAttributeName, strAttributeValue );
 					element->AddpAttribute ( pAttribute );
 					strAttributeName = _T("");
 					strAttributeValue = _T("");

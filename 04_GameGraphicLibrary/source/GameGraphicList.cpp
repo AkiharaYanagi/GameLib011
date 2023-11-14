@@ -36,10 +36,10 @@ namespace GAME
 	//コンストラクタ
 	GameGraphicList::GameGraphicList ()
 	{
-//		ml_GrpMain = make_shared < LP_GrpCr > ();
-//		ml_GrpSys = make_shared < LP_GrpCr > ();
-		ml_GrpMain = make_unique < LP_GrpCr > ();
-		ml_GrpSys = make_unique < LP_GrpCr > ();
+//		ml_GrpMain = std::make_shared < LP_GrpCr > ();
+//		ml_GrpSys = std::make_shared < LP_GrpCr > ();
+		ml_GrpMain = std::make_unique < LP_GrpCr > ();
+		ml_GrpSys = std::make_unique < LP_GrpCr > ();
 	}
 
 	GameGraphicList::~GameGraphicList ()

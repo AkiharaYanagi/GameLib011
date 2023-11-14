@@ -25,21 +25,21 @@ namespace GAME
 	{
 		//----------------------------------------------
 		//オブジェクト配列
-		m_pvpObject = make_shared < VP_Object > ();
+		m_pvpObject = std::make_shared < VP_Object > ();
 
 		//オブジェクト個数は１以上なので自動で１つ生成する
-		m_pvpObject->push_back ( make_shared < GameObject > () );
+		m_pvpObject->push_back ( std::make_shared < GameObject > () );
 
 		//----------------------------------------------
 		//テクスチャ配列
-		m_pvpTexture = make_shared < VP_TxBs > ();
+		m_pvpTexture = std::make_shared < VP_TxBs > ();
 
 		//テクスチャは０以上なので自動生成しない
 		//特にゲームグラフィック　アプロブドテクスチャはテクスチャは０のみ
 
 		//----------------------------------------------
-		m_pCenter = make_shared < VEC3 > ( 0.f, 0.f, 0.f );
-		m_pPosition = make_shared < VEC3 > ( 0.f, 0.f, Z_DEFALT );
+		m_pCenter = std::make_shared < VEC3 > ( 0.f, 0.f, 0.f );
+		m_pPosition = std::make_shared < VEC3 > ( 0.f, 0.f, Z_DEFALT );
 	}
 
 	//デストラクタ
@@ -255,7 +255,7 @@ namespace GAME
 
 	void GameGraphicFromFile::AddTexture ( tstring fileName )
 	{
-		P_TxFl pTexture = make_shared < TxFl > ();
+		P_TxFl pTexture = std::make_shared < TxFl > ();
 		pTexture->SetFileName ( fileName );
 		m_vpTexture.push_back ( pTexture );
 		GameGraphicBase::AddpTexture ( pTexture );
@@ -310,7 +310,7 @@ namespace GAME
 
 	void GameGraphicFromArchive::AddTexture ( tstring fileName )
 	{
-		P_TxAcv pTexture = make_shared < TxAcv > ();
+		P_TxAcv pTexture = std::make_shared < TxAcv > ();
 		pTexture->SetFileName ( fileName );
 		m_vpTexture.push_back ( pTexture );
 		AddpTexture ( pTexture );

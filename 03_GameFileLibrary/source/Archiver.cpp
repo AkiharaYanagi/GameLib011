@@ -109,7 +109,7 @@ namespace GAME
 		{
 			//àÍéûì«çû
 			HANDLE hReadFile = ::CreateFile ( acvSrc.fileName.c_str (), GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr );
-			unique_ptr < BYTE[] > buf = make_unique < BYTE[] > ( acvSrc.align.fileSize );
+			std::unique_ptr < BYTE[] > buf = std::make_unique < BYTE[] > ( acvSrc.align.fileSize );
 			DWORD nRead = 0;
 			::ReadFile ( hReadFile, buf.get (), acvSrc.align.fileSize, & nRead, nullptr );
 
@@ -146,7 +146,7 @@ namespace GAME
 		bool bRet = ::ReadFile ( hFile, & dwFileNum, sizeof ( DWORD ), & numberOfBytesRead, nullptr );
 
 		//ÉwÉbÉ_Çå¬êîï™ìæÇÈ
-		unique_ptr < ACV_H_SRC [] > hAcv ( new ACV_H_SRC [ dwFileNum ] );
+		std::unique_ptr < ACV_H_SRC [] > hAcv ( new ACV_H_SRC [ dwFileNum ] );
 
 		for ( DWORD i = 0; i < dwFileNum; ++ i )
 		{

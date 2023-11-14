@@ -37,7 +37,7 @@ namespace GAME
 		void Start ();
 	};
 
-	using P_GrpBlink = shared_ptr < GrpBlink >;
+	using P_GrpBlink = std::shared_ptr < GrpBlink >;
 
 
 }	//namespace GAME

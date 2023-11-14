@@ -15,9 +15,9 @@
 //-------------------------------------------------------------------------------------------------
 namespace GAME
 {
-	using P_BMP = unique_ptr < BYTE >;
+	using P_BMP = std::unique_ptr < BYTE >;
 	using VP_BMP = vector < P_BMP >;
-	using PVP_BMP = unique_ptr < VP_BMP >;
+	using PVP_BMP = std::unique_ptr < VP_BMP >;
 
 
 	//======================================================================================
@@ -79,7 +79,7 @@ namespace GAME
 
 	//-------------------------------------------------------------------------------
 	//static実体
-	unique_ptr < GameText > GameText::m_inst = nullptr;
+	std::unique_ptr < GameText > GameText::m_inst = nullptr;
 	const UINT GameText::N_ASCII = 128;
 	const UINT GameText::N_ASCII_X = 16;
 	const UINT GameText::N_ASCII_Y = 8;
@@ -221,7 +221,7 @@ namespace GAME
 
 				//BMP作成
 				DWORD bmpSize = ::GetGlyphOutline ( hdc, code, GGO_GRAY4_BITMAP, & gm, 0, 0, & mat );
-				unique_ptr < BYTE[] > aryBmp = make_unique < BYTE[] > ( bmpSize );
+				std::unique_ptr < BYTE[] > aryBmp = std::make_unique < BYTE[] > ( bmpSize );
 				::GetGlyphOutline ( hdc, code, GGO_GRAY4_BITMAP, & gm, bmpSize, aryBmp.get (), & mat );
 
 				//BMP位置
@@ -432,7 +432,7 @@ namespace GAME
 			DWORD size = bmpsize [ t ];
 			if ( 0 == size ) { continue; }
 
-			unique_ptr < BYTE[] > ppBmp = make_unique < BYTE[] > ( size );
+			std::unique_ptr < BYTE[] > ppBmp = std::make_unique < BYTE[] > ( size );
 			::GetGlyphOutline ( hdc, t, BMP_FMT, & gm, size, ppBmp.get(), & mat );
 
 			//テクスチャ位置

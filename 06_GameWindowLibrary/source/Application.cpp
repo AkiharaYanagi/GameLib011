@@ -30,7 +30,7 @@ namespace GAME
 	//静的変数
 	//------------------------------------------
 	//静的thisポインタ
-	shared_ptr < Application > Application::m_pThis = nullptr;
+	std::shared_ptr < Application > Application::m_pThis = nullptr;
 	//初期化フラグ
 	bool Application::m_init = false;
 
@@ -66,7 +66,7 @@ namespace GAME
 
 		//----------------------------------
 		//フレーム制御オブジェクトの生成
-		m_pFrameControl = make_unique < FrameControl > ();
+		m_pFrameControl = std::make_unique < FrameControl > ();
 
 		//設定ファイルの初期化と読込
 		AppSettingFile::Create ();

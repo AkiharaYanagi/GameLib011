@@ -31,7 +31,7 @@ namespace GAME
 	{
 	//--------------------------------------------------
 	//シングルトンパターン
-		using P_Network = unique_ptr < Network >;
+		using P_Network = std::unique_ptr < Network >;
 		static P_Network m_inst;
 		Network ();
 		Network ( const Network & rhs ) = delete;

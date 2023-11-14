@@ -38,12 +38,12 @@ namespace GAME
 	//---------------------------------------------------------------------
 	//シングルトンパターン
 	private:
-		using P_Dx3D = unique_ptr < Dx3D >;
+		using P_Dx3D = std::unique_ptr < Dx3D >;
 		static P_Dx3D		m_inst;		//シングルトンインスタンス(実体は.cppで定義)
 		Dx3D ();		//private コンストラクタで通常の実体化は禁止
 		Dx3D ( const Dx3D& rhs ) = delete;		//コピーコンストラクタは削除
 	public:
-		~Dx3D();		//デストラクタはunique_ptrのためpublic
+		~Dx3D();		//デストラクタはstd::unique_ptrのためpublic
 		static void Create() { if ( ! m_inst ) { m_inst = P_Dx3D ( new Dx3D () ); } }
 		static P_Dx3D& instance () { return m_inst; }	//インスタンス取得
 	//---------------------------------------------------------------------

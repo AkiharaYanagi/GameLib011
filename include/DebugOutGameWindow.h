@@ -63,7 +63,7 @@ namespace GAME
 	//--------------------------------------------------
 	//シングルトンパターン
 	private:
-		using P_DBG_WND = unique_ptr < DebugOutGameWindow >;
+		using P_DBG_WND = std::unique_ptr < DebugOutGameWindow >;
 		static P_DBG_WND	m_inst;
 		DebugOutGameWindow ();
 		DebugOutGameWindow ( const DebugOutGameWindow & rhs ) = delete;

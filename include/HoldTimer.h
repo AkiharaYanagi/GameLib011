@@ -45,7 +45,7 @@ namespace GAME
 		bool IsHold () const { return m_bHold || m_bStart; }
 	};
 
-	using P_HoldTimer = shared_ptr < HoldTimer >;
+	using P_HoldTimer = std::shared_ptr < HoldTimer >;
 
 
 }	//namespace GAME

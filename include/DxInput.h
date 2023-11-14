@@ -26,11 +26,11 @@ namespace GAME
 	//ライブラリ内クラス宣言
 	//-------------------------------------------------------------------------------------------------
 	class DxJoystick;
-	using P_DxJoystick = unique_ptr < DxJoystick >;
+	using P_DxJoystick = std::unique_ptr < DxJoystick >;
 	class DxKeyboard;
-	using P_DxKeyboard = unique_ptr < DxKeyboard >;
+	using P_DxKeyboard = std::unique_ptr < DxKeyboard >;
 	class DxMouse;
-	using P_DxMouse = unique_ptr < DxMouse >;
+	using P_DxMouse = std::unique_ptr < DxMouse >;
 
 	//------------------------------------------
 	//Direct Input の管理クラス
@@ -40,11 +40,11 @@ namespace GAME
 	//---------------------------------------------------------------------
 	//シングルトン　パターン
 	private:
-		using P_DxInput = unique_ptr < DxInput >;	//ポインタ型定義
+		using P_DxInput = std::unique_ptr < DxInput >;	//ポインタ型定義
 		static P_DxInput	m_inst;		//シングルトンインスタンス(実体は.cppで定義)
 		DxInput ();		//private コンストラクタで通常の実体化は禁止
 	public:
-		~DxInput ();		//デストラクタはunique_ptrのためpublic
+		~DxInput ();		//デストラクタはstd::unique_ptrのためpublic
 		static void Create ();
 		static P_DxInput& instance () { return m_inst; }
 	//---------------------------------------------------------------------

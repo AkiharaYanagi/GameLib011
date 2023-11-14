@@ -43,11 +43,11 @@ namespace GAME
 	//シングルトンパターン
 	private:
 		using _StgFl = AppSettingFile;
-		using _UP_StgFl = unique_ptr < _StgFl >;
+		using _UP_StgFl = std::unique_ptr < _StgFl >;
 		static _UP_StgFl	m_inst;		//シングルトンインスタンス
 		AppSettingFile ();		//private コンストラクタで通常の実体化は禁止
 	public:
-		~AppSettingFile ();	//デストラクタはunique_ptrのためpublic
+		~AppSettingFile ();	//デストラクタはstd::unique_ptrのためpublic
 		static void Create () { if ( ! m_inst ) { m_inst = _UP_StgFl ( new _StgFl () ); } }
 		static _UP_StgFl & Inst () { return m_inst; }	//インスタンス取得
 	//---------------------------------------------------------------------
@@ -86,7 +86,7 @@ namespace GAME
 #endif // 0
 	};
 
-	using P_SettingFile = unique_ptr < AppSettingFile >;
+	using P_SettingFile = std::unique_ptr < AppSettingFile >;
 
 //シングルトンアクセス用
 #define APP_STG	AppSettingFile::Inst()

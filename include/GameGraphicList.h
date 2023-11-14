@@ -27,11 +27,11 @@ namespace GAME
 	//シングルトンパターン
 	private:
 		using _GrpLst = GameGraphicList;
-		using _P_GrpLst = unique_ptr < _GrpLst >;
+		using _P_GrpLst = std::unique_ptr < _GrpLst >;
 		static _P_GrpLst	m_inst;		//シングルトンインスタンス
 		GameGraphicList ();		//private コンストラクタで通常の実体化は禁止
 	public:
-		~GameGraphicList ();	//デストラクタはunique_ptrのためpublic
+		~GameGraphicList ();	//デストラクタはstd::unique_ptrのためpublic
 		static void Create() { if ( ! m_inst ) { m_inst = _P_GrpLst ( new _GrpLst () ); } }
 		static _P_GrpLst & Inst () { return m_inst; }	//インスタンス取得
 	//---------------------------------------------------------------------
@@ -86,7 +86,7 @@ namespace GAME
 	};
 
 	using GrpLst = GameGraphicList;
-	using UP_GrpLst = unique_ptr < GrpLst >;
+	using UP_GrpLst = std::unique_ptr < GrpLst >;
 
 
 #define		GRPLST_CREATE	GrpLst::Create

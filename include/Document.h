@@ -46,9 +46,9 @@ namespace GAME
 		tstring GetValue () const { return m_value; }
 	};
 
-	typedef shared_ptr < Attribute >	P_Attribute;
+	typedef std::shared_ptr < Attribute >	P_Attribute;
 	typedef vector < P_Attribute >		VP_Attribute;
-	typedef shared_ptr < VP_Attribute >	PVP_Attribute;
+	typedef std::shared_ptr < VP_Attribute >	PVP_Attribute;
 
 
 	//----------------------------------------------------------
@@ -56,9 +56,9 @@ namespace GAME
 	//	０以上のアトリビュートと０以上のエレメントを持つ
 	//----------------------------------------------------------
 	class Element;
-	typedef shared_ptr < Element >		P_Element;
+	typedef std::shared_ptr < Element >		P_Element;
 	typedef vector < P_Element >		VP_Element;
-	typedef shared_ptr < VP_Element >	PVP_Element;
+	typedef std::shared_ptr < VP_Element >	PVP_Element;
 
 	class Element
 	{

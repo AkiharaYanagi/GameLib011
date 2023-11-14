@@ -49,9 +49,9 @@ namespace GAME
 	};
 
 	using TxBs = GameTextureBase;
-	using P_TxBs = shared_ptr < TxBs >;
+	using P_TxBs = std::shared_ptr < TxBs >;
 	using VP_TxBs = vector < P_TxBs >;
-	using PVP_TxBs = shared_ptr < VP_TxBs >;
+	using PVP_TxBs = std::shared_ptr < VP_TxBs >;
 
 
 	//--------------------------------------------------------
@@ -79,9 +79,9 @@ namespace GAME
 	};
 	
 	using TxFl = GameTextureFromFile;
-	using P_TxFl = shared_ptr < TxFl >;
+	using P_TxFl = std::shared_ptr < TxFl >;
 	using VP_TxFl = vector < P_TxFl >;
-	using PVP_TxFl = shared_ptr < VP_TxFl >;
+	using PVP_TxFl = std::shared_ptr < VP_TxFl >;
 
 
 	//--------------------------------------------------------
@@ -110,9 +110,9 @@ namespace GAME
 	};
 
 	using TxAcv= GameTextureFromArchive;
-	using P_TxAcv= shared_ptr < TxAcv >;
+	using P_TxAcv= std::shared_ptr < TxAcv >;
 	using VP_TxAcv= vector < P_TxAcv >;
-	using PVP_TxAcv= shared_ptr < VP_TxAcv >;
+	using PVP_TxAcv= std::shared_ptr < VP_TxAcv >;
 
 
 	//--------------------------------------------------------
@@ -136,9 +136,9 @@ namespace GAME
 	};
 
 	using TxMem = GameTextureFromMemory;
-	using P_TxMem = shared_ptr < TxMem >;
+	using P_TxMem = std::shared_ptr < TxMem >;
 	using VP_TxMem = vector < P_TxMem >;
-	using PVP_TxMem = shared_ptr < VP_TxMem >;
+	using PVP_TxMem = std::shared_ptr < VP_TxMem >;
 
 
 	//--------------------------------------------------------
@@ -173,7 +173,7 @@ namespace GAME
 	};
 
 	using TxStr = GameTextureFromString;
-	using P_TxStr = shared_ptr < TxStr >;
+	using P_TxStr = std::shared_ptr < TxStr >;
 
 
 }	//namespace GAME

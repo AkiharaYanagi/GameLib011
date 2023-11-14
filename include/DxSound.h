@@ -59,7 +59,7 @@ namespace GAME
 		void Move ();	//毎回の更新
 	};
 
-	using PP_DXSNDBUF = shared_ptr < LPDxSoundBuffer >;
+	using PP_DXSNDBUF = std::shared_ptr < LPDxSoundBuffer >;
 
 
 	//------------------------------------------
@@ -70,7 +70,7 @@ namespace GAME
 	//--------------------------------------------------
 	//シングルトンパターン
 	private:
-		using P_DxSound = unique_ptr < DxSound >;
+		using P_DxSound = std::unique_ptr < DxSound >;
 		static P_DxSound	m_inst;
 		DxSound ();
 		DxSound ( const DxSound & obj ) = delete;

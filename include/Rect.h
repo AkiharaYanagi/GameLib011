@@ -21,11 +21,11 @@ namespace GAME
 	// RECT型 宣言
 	//-------------------------------------------------------------------------------------------------
 	using V_RECT = vector < RECT >;
-	using PV_RECT = shared_ptr < V_RECT >;
+	using PV_RECT = std::shared_ptr < V_RECT >;
 
-	using P_RECT = shared_ptr < RECT >;
+	using P_RECT = std::shared_ptr < RECT >;
 	using VP_RECT = vector < P_RECT >;
-	using PVP_RECT = shared_ptr < VP_RECT >;
+	using PVP_RECT = std::shared_ptr < VP_RECT >;
 
 	//-------------------------------------------------------------------------------------------------
 	//	グローバル関数プロトタイプ宣言

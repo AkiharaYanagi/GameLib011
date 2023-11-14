@@ -17,7 +17,7 @@ namespace GAME
 	//-------------------------------------
 	GrpStr::GrpStr ()
 	{
-		m_tx = make_shared < TxStr > ();
+		m_tx = std::make_shared < TxStr > ();
 	}
 
 	GrpStr::~GrpStr ()
@@ -32,7 +32,7 @@ namespace GAME
 		D3DSURFACE_DESC dc;
 		m_tx->GetTexture ()->GetLevelDesc ( 0, & dc );
 
-		P_PrmRect rect = make_shared < PrmRect > ();
+		P_PrmRect rect = std::make_shared < PrmRect > ();
 		rect->SetSize ( 1.f * dc.Width, 1.f * dc.Height );
 		rect->SetPos ( GetPos () );
 		rect->SetZ ( Z_BG );

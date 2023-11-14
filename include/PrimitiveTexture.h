@@ -41,7 +41,7 @@ namespace GAME
 	};
 
 	using PrmTx = PrimitiveTexture;
-	using P_PrmTx = shared_ptr < PrmTx >;
+	using P_PrmTx = std::shared_ptr < PrmTx >;
 
 
 }	//namespace GAME
