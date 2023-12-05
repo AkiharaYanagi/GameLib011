@@ -56,7 +56,7 @@ namespace GAME
 		~NetBase ();
 
 //		static void ThreadFunc ();		//スレッド関数
-		virtual void StartThread ( function < void () > threadFunc );		//スレッドを開始
+		virtual void StartThread ( std::function < void () > threadFunc );		//スレッドを開始
 		virtual void End ();		//スレッドを終了
 
 		//許可状態の取得と変更(ロック付)
