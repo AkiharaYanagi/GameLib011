@@ -57,7 +57,7 @@ namespace GAME
 
 //		static void ThreadFunc ();		//スレッド関数
 #if 0
-		virtual void StartThread( std::function < void() > threadFunc);		//スレッドを開始
+		virtual void StartThread ( std::function < void () > threadFunc );		//スレッドを開始
 #endif // 0
 		virtual void End ();		//スレッドを終了
 
