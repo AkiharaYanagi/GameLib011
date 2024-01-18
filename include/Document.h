@@ -14,7 +14,6 @@
 #include "DebugLibrary.h"
 #include <memory>
 #include <vector>
-using namespace std;
 
 //-------------------------------------------------------------------------------------------------
 // êÈåæ
@@ -47,7 +46,7 @@ namespace GAME
 	};
 
 	typedef std::shared_ptr < Attribute >	P_Attribute;
-	typedef vector < P_Attribute >		VP_Attribute;
+	typedef std::vector < P_Attribute >		VP_Attribute;
 	typedef std::shared_ptr < VP_Attribute >	PVP_Attribute;
 
 
@@ -57,7 +56,7 @@ namespace GAME
 	//----------------------------------------------------------
 	class Element;
 	typedef std::shared_ptr < Element >		P_Element;
-	typedef vector < P_Element >		VP_Element;
+	typedef std::vector < P_Element >		VP_Element;
 	typedef std::shared_ptr < VP_Element >	PVP_Element;
 
 	class Element

@@ -20,11 +20,11 @@ namespace GAME
 	//-------------------------------------------------------------------------------------------------
 	// RECTå^ êÈåæ
 	//-------------------------------------------------------------------------------------------------
-	using V_RECT = vector < RECT >;
+	using V_RECT = std::vector < RECT >;
 	using PV_RECT = std::shared_ptr < V_RECT >;
 
 	using P_RECT = std::shared_ptr < RECT >;
-	using VP_RECT = vector < P_RECT >;
+	using VP_RECT = std::vector < P_RECT >;
 	using PVP_RECT = std::shared_ptr < VP_RECT >;
 
 	//-------------------------------------------------------------------------------------------------

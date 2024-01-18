@@ -31,7 +31,7 @@ namespace GAME
 		VP_VxRct	mvp_vx;		//頂点集合(矩形)
 		static const UINT	SIZE;
 		tstring		m_tstr;		//表示文字列
-		string		m_str;		//char形式で保存
+		std::string		m_str;		//char形式で保存
 
 	public:
 		ConstDebugOut_ASCII ();

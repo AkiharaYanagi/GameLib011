@@ -33,7 +33,6 @@
 #include "Define.h"
 #include <windows.h>
 #include <map>
-using namespace std;
 #include "DebugLibrary.h"
 
 //-------------------------------------------------------------------------------------------------
@@ -100,7 +99,7 @@ namespace GAME
 		void SetPreBtn ( UINT index, bool b ) { PreBtn[index] = b; }
 	};
 
-	using V_GAME_KEY = vector < _GameKey >;
+	using V_GAME_KEY = std::vector < _GameKey >;
 
 
 }	//namespace GAME

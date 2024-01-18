@@ -61,9 +61,9 @@ namespace GAME
 
 	//型定義
 	using P_Task = std::shared_ptr < GameTask >;
-	using VP_Task = vector < P_Task >;
+	using VP_Task = std::vector < P_Task >;
 	using PVP_Task = std::shared_ptr < VP_Task >;
-	using LP_Task = list < P_Task >;
+	using LP_Task = std::list < P_Task >;
 	using PLP_Task = std::shared_ptr < LP_Task >;
 
 

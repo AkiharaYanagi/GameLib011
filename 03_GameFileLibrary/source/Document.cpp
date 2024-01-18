@@ -9,6 +9,7 @@
 //-------------------------------------------------------------------------------------------------
 #include "Document.h"
 
+
 //-------------------------------------------------------------------------------------------------
 // 定義
 //-------------------------------------------------------------------------------------------------
@@ -74,7 +75,7 @@ namespace GAME
 		root->SetName (_T("root") );
 
 		//ファイルストリームを作成
-		tifstream ifstrm ( fileName.c_str(), ios::in );
+		tifstream ifstrm ( fileName.c_str(), std::ios::in );
 		if ( ! ifstrm ) { return; }
 
 		DocumentFromStream ( ifstrm );
@@ -105,7 +106,7 @@ namespace GAME
 
 		while ( tistrm )
 		{
-			tistrm.unsetf ( ios::skipws );			//空白の読み飛ばしをOFFにする
+			tistrm.unsetf ( std::ios::skipws );			//空白の読み飛ばしをOFFにする
 
 			//一文字ずつ解析
 			unsigned short c = tistrm.get();

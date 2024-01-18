@@ -13,7 +13,6 @@
 #include <d3d9.h>				//Direct3D
 #include <d3dx9.h>				//Direct3DX
 #include <memory>
-using namespace std;
 
 #include "DebugLibrary.h"		//デバッグの利用
 #include "HWnd.h"				//ウィンドウハンドルの取得

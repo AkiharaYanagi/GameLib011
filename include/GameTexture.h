@@ -50,7 +50,7 @@ namespace GAME
 
 	using TxBs = GameTextureBase;
 	using P_TxBs = std::shared_ptr < TxBs >;
-	using VP_TxBs = vector < P_TxBs >;
+	using VP_TxBs = std::vector < P_TxBs >;
 	using PVP_TxBs = std::shared_ptr < VP_TxBs >;
 
 
@@ -65,7 +65,7 @@ namespace GAME
 	
 	public:
 		GameTextureFromFile ();
-		GameTextureFromFile ( tstring filename ) { m_strFilename = filename; }
+		GameTextureFromFile ( tstring filename ) : m_lpTexture(nullptr) { m_strFilename = filename; }
 		GameTextureFromFile ( const GameTextureFromFile& obj ) = delete;		//ÉRÉsÅ[ã÷é~
 		virtual ~GameTextureFromFile ();
 
@@ -80,7 +80,7 @@ namespace GAME
 	
 	using TxFl = GameTextureFromFile;
 	using P_TxFl = std::shared_ptr < TxFl >;
-	using VP_TxFl = vector < P_TxFl >;
+	using VP_TxFl = std::vector < P_TxFl >;
 	using PVP_TxFl = std::shared_ptr < VP_TxFl >;
 
 
@@ -111,7 +111,7 @@ namespace GAME
 
 	using TxAcv= GameTextureFromArchive;
 	using P_TxAcv= std::shared_ptr < TxAcv >;
-	using VP_TxAcv= vector < P_TxAcv >;
+	using VP_TxAcv= std::vector < P_TxAcv >;
 	using PVP_TxAcv= std::shared_ptr < VP_TxAcv >;
 
 
@@ -137,7 +137,7 @@ namespace GAME
 
 	using TxMem = GameTextureFromMemory;
 	using P_TxMem = std::shared_ptr < TxMem >;
-	using VP_TxMem = vector < P_TxMem >;
+	using VP_TxMem = std::vector < P_TxMem >;
 	using PVP_TxMem = std::shared_ptr < VP_TxMem >;
 
 

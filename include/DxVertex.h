@@ -39,7 +39,7 @@ namespace GAME
 	using VX = CUSTOM_VERTEX;
 
 	//頂点を配列で保存
-	using V_VX = vector < VX >;
+	using V_VX = std::vector < VX >;
 
 	//-------------------------------------------------------------------------------------------------
 	// 頂点バッファと処理クラス
@@ -169,7 +169,7 @@ namespace GAME
 
 	using Vx_Rect = DxVertexRect;
 	using P_VxRct = std::shared_ptr < Vx_Rect >;
-	using VP_VxRct = vector < P_VxRct >;
+	using VP_VxRct = std::vector < P_VxRct >;
 
 
 //-------------------------------------------------------------------------------------------------

@@ -94,7 +94,7 @@ namespace GAME
 
 	//型定義
 	typedef std::shared_ptr < GameObject > P_Object;
-	typedef vector < P_Object > VP_Object;
+	typedef std::vector < P_Object > VP_Object;
 	typedef std::shared_ptr < VP_Object > PVP_Object;
 
 
