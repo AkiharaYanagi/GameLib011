@@ -261,7 +261,7 @@ namespace GAME
 //		GameSystem::FullDebugMode ();
 	}
 
-	//デバッグ表示をすべてON
+	//デバッグ表示をすべてOFF
 	void FrameControl::NoDebugMode ()
 	{
 		m_bDispFPS = F;
