@@ -165,7 +165,8 @@ namespace GAME
 		void Rele ();
 		void Reset ();
 
-		void SetStr ( LPCTSTR str );
+		void SetStr ( LPCTSTR lpctstr );
+		tstring& GetStr () { return m_str; }
 
 		void SetParam ( int fontSize, int penSize, int quolity );
 		void SetFontFace ( LPCTSTR fontname );

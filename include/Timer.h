@@ -55,6 +55,9 @@ namespace GAME
 		//0からスタート
 		void Start () { m_time = 0; m_active = true; }
 
+		//目標時間を指定してスタート
+		void Start ( UINT n ) { SetTargetTime ( n ); Start (); }
+
 		//wait分だけ待機してからスタート
 		void WaitStart ( UINT wait );
 		

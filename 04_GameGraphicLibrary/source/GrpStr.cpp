@@ -52,13 +52,18 @@ namespace GAME
 		m_tx->Reset ();
 	}
 
-	void GrpStr::SetStr ( LPCTSTR str )
+	void GrpStr::SetStr ( LPCTSTR lpctstr )
 	{
-		//文字列からテクスチャを作成
-		m_tx->SetStr ( str );
+		//指定文字列が異なるときに再設定
+		if ( 0 != m_tx->GetStr ().compare ( lpctstr ) )
+		{
+			//文字列からテクスチャを作成
+			m_tx->SetStr ( lpctstr );
+			m_tx->Load ();
 
-		//グラフィックに指定
-		GrpApTx::SetpTexture ( m_tx );
+			//グラフィックに指定
+			GrpApTx::SetpTexture ( m_tx );
+		}
 	}
 
 	void GrpStr::SetStrF ( LPCTSTR str, ... )
