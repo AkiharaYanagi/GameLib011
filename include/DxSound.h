@@ -48,6 +48,8 @@ namespace GAME
 
 		void SetSoundBuffer ( LPDIRECTSOUND lpDxSound, DSBUFFERDESC* pDesc, char* pData );
 		void SetSoundBufferEx ( UINT nBuf, LPDIRECTSOUND lpDxSound, DSBUFFERDESC* pDesc, char* pData );
+
+		void SetVolume ( LONG vol ) { m_vol = vol; }
 		
 		//再生
 		//	dwReserved1		:０のみ
@@ -112,7 +114,7 @@ namespace GAME
 		void LoadWaveFromMem ( HPSTR pchBuffer, LONG memSize );
 
 		//同時再生バッファ数を指定
-		void LoadWaveFromMemEx ( UINT nBuf, HPSTR pchBuffer, LONG memSize );
+		void LoadWaveFromMemEx ( UINT nBuf, HPSTR pchBuffer, LONG memSize, LONG vol );
 
 
 		//使用するときはIDを指定する

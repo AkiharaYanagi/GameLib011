@@ -60,8 +60,10 @@ namespace GAME
 	void LPDxSoundBuffer::Play ( DWORD dwReserved1, DWORD dwPriority, DWORD dwFlags )
 	{
 		m_vpSB[m_count]->SetCurrentPosition ( 0 );
+
 		//ボリュームを通常に設定
-		m_vol = DSBVOLUME_MAX;
+//		m_vol = DSBVOLUME_MAX;
+
 		m_vpSB[m_count]->SetVolume ( m_vol );
 
 		//再生
@@ -467,7 +469,7 @@ namespace GAME
 		mvpp_DXSNDBUF.push_back ( pLPDSB );
 	}
 
-	void DxSound::LoadWaveFromMemEx ( UINT nBuf, HPSTR pchBuffer, LONG memSize )
+	void DxSound::LoadWaveFromMemEx ( UINT nBuf, HPSTR pchBuffer, LONG memSize, LONG vol )
 	{
 		//Waveファイルオープン
 		WAVEFORMATEX waveFormatEx;
@@ -488,6 +490,7 @@ namespace GAME
 		//サウンドバッファにWaveデータ書き込み
 		PP_DXSNDBUF pLPDSB = std::make_shared < LPDxSoundBuffer > ();
 		pLPDSB->SetSoundBufferEx ( nBuf, m_lpDS, &desc, pWaveData );
+		pLPDSB->SetVolume ( vol );
 
 		delete [] pWaveData;		//元データの解放
 		pWaveData = nullptr;

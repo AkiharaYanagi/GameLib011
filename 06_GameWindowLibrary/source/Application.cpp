@@ -360,7 +360,6 @@ namespace GAME
 
 		if ( targetDisp + 1 <= n )
 		{
-			vecRect [ targetDisp ];
 			pos = CenterWndOfRect ( vecRect [ targetDisp ], window_w, window_h );
 		}
 		else

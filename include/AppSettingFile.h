@@ -63,6 +63,10 @@ namespace GAME
 
 		WINDOW_START_POS	m_startPos;		//ウィンドウ開始位置
 		int		m_displayNum;	//出力ディスプレイ番号
+
+		LONG	m_soundVolume;	//音声ボリューム 
+		//設定値(0-100) => 実効値( -10000 ~ 0 )
+
 		//------------------------------------------------
 
 		//基本値
@@ -79,6 +83,8 @@ namespace GAME
 
 		WINDOW_START_POS GetWindowStartPos () const { return m_startPos; }
 		int GetDisplayNum () const { return m_displayNum; }
+
+		LONG GetSoundVolume () const { return m_soundVolume; }
 
 #if 0
 		bool GetbInput1pPlayer () const { return m_input1pPlayer; }

@@ -69,6 +69,8 @@ namespace GAME
 //		UPLP_GrpCr GetpGrpList_Main () { return move ( ml_GrpMain ); }
 //		UPLP_GrpCr GetpGrpList_Sys () { return move ( ml_GrpSys ); }
 
+		UINT GetNumList () const { return ml_GrpMain->size (); }
+
 		//‘SÁ‹
 		void Clear ();
 		void Clear_Main ();

@@ -69,14 +69,14 @@ namespace GAME
 	//タスクの取外
 	void GameTaskVector::EraseTask ( P_Task pTask )
 	{
-		VP_Task::iterator it = begin ( *m_pvpTask );
-		for ( ; it != end ( *m_pvpTask ); ++it )
+		VP_Task::iterator it = begin ( * m_pvpTask );
+		for ( ; it != end ( * m_pvpTask ); ++ it )
 		{
 			if ( (*it) == pTask )
 			{
 				m_pvpTask->erase ( it );
+				break;
 			}
-			break;
 		}
 	}
 	void GameTaskVector::EraseTask ( const VP_Task::iterator it )

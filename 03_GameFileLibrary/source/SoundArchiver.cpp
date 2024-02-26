@@ -25,10 +25,10 @@ namespace GAME
 
 
 	//アーカイブ作成のため読み込むディレクトリ名
-	LPCTSTR SoundArchiver::m_archiveDirName = _T ( "sound/" );
+	LPCTSTR SoundArchiver::m_archiveDirName = _T ( "Sound/" );
 
 	//アーカイブ作成のため読み込むファイル名条件
-	LPCTSTR SoundArchiver::m_searchCondition = _T ( "sound/*.*" );
+	LPCTSTR SoundArchiver::m_searchCondition = _T ( "Sound/*.*" );
 
 
 	//SE アーカイブ作成のため読み込むディレクトリ名
@@ -291,12 +291,12 @@ namespace GAME
 			//BGM
 			if ( i < m_nBGM )
 			{
-				DxSound::instance ()->LoadWaveFromMemEx ( 1, (HPSTR)buf.get(), fileSize );
+				DxSound::instance ()->LoadWaveFromMemEx ( 1, (HPSTR)buf.get(), fileSize, m_volume );
 			}
 			//SE
 			else
 			{
-				DxSound::instance ()->LoadWaveFromMemEx ( 8, (HPSTR)buf.get(), fileSize );
+				DxSound::instance ()->LoadWaveFromMemEx ( 8, (HPSTR)buf.get(), fileSize, m_volume );
 			}
 		}
 

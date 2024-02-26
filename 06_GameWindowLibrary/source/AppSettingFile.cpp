@@ -22,6 +22,7 @@ namespace GAME
 
 	AppSettingFile::AppSettingFile ()
 	{
+		SetDefault ();
 	}
 
 	AppSettingFile::~AppSettingFile ()
@@ -55,7 +56,10 @@ namespace GAME
 			int temp = 0;
 			ifstrm.read ( (char*)& temp, sizeof ( int ) );
 			m_startPos = ( WINDOW_START_POS )temp;
+
 			ifstrm.read ( (char*)& m_displayNum, sizeof ( int ) );
+
+			ifstrm.read ( (char*)& m_soundVolume, sizeof ( LONG ) );
 
 			//èIóπ
 			ifstrm.close ();
@@ -74,6 +78,7 @@ namespace GAME
 		m_window_h = DFL_WND_H;
 		m_startPos = START_POS_CURSOR;
 		m_displayNum = 0;
+		m_soundVolume = 50;
 	}
 
 

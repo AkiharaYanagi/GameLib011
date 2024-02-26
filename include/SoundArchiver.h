@@ -64,6 +64,9 @@ namespace GAME
 		DWORD		m_nBGM;
 		DWORD		m_nSE;
 
+		// DSBVOLUME_MAX : 減衰無し(0), DSBVOLUME_MIN : 最小値(-10000) [1/100dB]
+		LONG		m_volume { 0 };		//全体ボリューム
+
 	public:
 		void Make ();
 		void Open ();
@@ -79,6 +82,10 @@ namespace GAME
 		void Stop_BGM ( UINT BGM_ID );
 
 		void Play_SE ( UINT SE_ID );
+
+		//音量設定
+		// DSBVOLUME_MAX : 減衰無し(0), DSBVOLUME_MIN : 最小値(-10000) [1/100dB]
+		void SetVolume ( LONG volume ) { m_volume = volume; }
 
 	private:
 
