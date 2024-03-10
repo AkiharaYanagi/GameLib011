@@ -93,7 +93,7 @@ namespace GAME
 		for ( LP_GrpCr::iterator it = plp_grp->begin (); plp_grp->end () != it; ++ it )
 		{
 			float pz = ( *it )->GetZ ();
-			TRACE_F ( _T( "%lf\n" ), pz );
+//			TRACE_F ( _T( "%lf\n" ), pz );
 
 			if ( pre_z < pz )
 			{
